@@ -1,4 +1,4 @@
-#include <QFileDialog>>
+#include <QFileDialog>
 
 #include "experimentmanager.hpp"
 #include "moduleeditor.hpp"
