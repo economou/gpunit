@@ -1,13 +1,13 @@
 #ifndef MODULESTOOLBOX_H
 #define MODULESTOOLBOX_H
 
-#include <QToolBox>
+#include <QWidget>
 
 namespace Ui {
     class ModulesToolBox;
 }
 
-class ModulesToolBox : public QToolBox
+class ModulesToolBox : public QWidget
 {
     Q_OBJECT
 

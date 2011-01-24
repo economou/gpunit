@@ -1,4 +1,4 @@
-#include "moduleeditor.h"
+#include "moduleeditor.hpp"
 #include "ui_moduleeditor.h"
 
 ModuleEditor::ModuleEditor(QWidget *parent) :

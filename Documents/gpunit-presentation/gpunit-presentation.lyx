@@ -1,0 +1,544 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{beamerthemesplit}
+\end_preamble
+\options blue
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+GPUnit
+\end_layout
+
+\begin_layout Author
+Daniel Bagnell
+\begin_inset Newline newline
+\end_inset
+
+Jason Economou
+\begin_inset Newline newline
+\end_inset
+
+Rajkumar Jayachandran
+\begin_inset Newline newline
+\end_inset
+
+Tim McJilton
+\begin_inset Newline newline
+\end_inset
+
+Gabriel Schwartz
+\begin_inset Newline newline
+\end_inset
+
+Andrew Sherman
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+AMUSE Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Astrophysical Multipurpose Software Environment (AMUSE)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename amuse-overview.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AMUSE-Architecture"
+
+\end_inset
+
+AMUSE Architecture
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+State of AMUSE
+\end_layout
+
+\begin_layout Itemize
+Currently used by researchers to run large-scale simulations.
+\end_layout
+
+\begin_layout Itemize
+Scripts, diagnostics, logging are all written by hand.
+\end_layout
+
+\begin_layout Itemize
+AMUSE API/programming knowledge is required to create experiments.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Purpose
+\end_layout
+
+\begin_layout Subsection
+Purpose of GPUnit
+\end_layout
+
+\begin_layout BeginFrame
+Purpose of GPUnit
+\end_layout
+
+\begin_layout Itemize
+Ease the use of AMUSE
+\end_layout
+
+\begin_layout Itemize
+Create/Design/Modify experiments
+\end_layout
+
+\begin_layout Itemize
+Select, configure, swap out modules and initial conditions
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Target Audiences
+\end_layout
+
+\begin_layout BeginFrame
+Target Audiences
+\end_layout
+
+\begin_layout Itemize
+Physics Students
+\end_layout
+
+\begin_layout Itemize
+Observational Astrophysicists
+\end_layout
+
+\begin_layout Itemize
+Theoretical Astrophysicists
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Components and Features
+\end_layout
+
+\begin_layout Subsection
+Experiment Management
+\end_layout
+
+\begin_layout BeginFrame
+Experiment Management
+\end_layout
+
+\begin_layout Itemize
+Experiments include a specification for:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Initial Conditions, Variables
+\end_layout
+
+\begin_layout Itemize
+Module Selection
+\end_layout
+
+\begin_layout Itemize
+Logging
+\end_layout
+
+\begin_layout Itemize
+Diagnostics
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Allows experiments to be repeated and shared.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Diagnostics
+\end_layout
+
+\begin_layout BeginFrame
+Diagnostics
+\end_layout
+
+\begin_layout Itemize
+Diagnostics read the state of the system while it is computing, and output
+ selected metrics.
+\end_layout
+
+\begin_layout Itemize
+Features include:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Configurable output data formats
+\end_layout
+
+\begin_layout Itemize
+Sensible default diagnostics provided
+\end_layout
+
+\begin_layout Itemize
+An interface to create custom diagnostics
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Diagnostics can include a visual display of the system state.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Command Line Interface
+\end_layout
+
+\begin_layout BeginFrame
+Command Line Interface
+\end_layout
+
+\begin_layout Itemize
+The command line interface gives the user ability to:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Make small changes to the experiment before running
+\end_layout
+
+\begin_layout Itemize
+Run headless experiments
+\end_layout
+
+\begin_layout Itemize
+Control experiment distribution across a cluster
+\end_layout
+
+\begin_layout Itemize
+Easily repeat experiments
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Parallelism and Distribution
+\end_layout
+
+\begin_layout BeginFrame
+Parallelism and Distribution
+\end_layout
+
+\begin_layout Itemize
+Modules are independent, can run at the same time.
+\end_layout
+
+\begin_layout Itemize
+No need to share data until the end of a time interval.
+\end_layout
+
+\begin_layout Itemize
+Some exceptions if a special event occurs
+\end_layout
+
+\begin_layout Itemize
+User interaction can be required.
+\end_layout
+
+\begin_layout Itemize
+GUI will provide a display of all nodes on the cluster.
+\end_layout
+
+\begin_layout Itemize
+Command line provides a list of free nodes if desired.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+User Interface
+\end_layout
+
+\begin_layout Subsection
+Cluster Control
+\end_layout
+
+\begin_layout BeginFrame
+Experiment Editor
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename exp-control.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Experiment Editor
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Cluster Control
+\end_layout
+
+\begin_layout BeginFrame
+Cluster Control
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename cluster-control.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Cluster View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Module Specification
+\end_layout
+
+\begin_layout BeginFrame
+Module Specification
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename module-editor.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Module Editor
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Final Goals
+\end_layout
+
+\begin_layout BeginFrame
+Final Goals
+\end_layout
+
+\begin_layout Itemize
+Integration into AMUSE
+\end_layout
+
+\begin_layout Itemize
+Users can download AMUSE and create/run experiments right away.
+\end_layout
+
+\begin_layout Itemize
+Open AMUSE up for use by a non-programmer audience.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document

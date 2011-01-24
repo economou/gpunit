@@ -1,8 +1,8 @@
-#include "modulestoolbox.h"
+#include "modulestoolbox.hpp"
 #include "ui_modulestoolbox.h"
 
 ModulesToolBox::ModulesToolBox(QWidget *parent) :
-    QToolBox(parent),
+    QWidget(parent),
     ui(new Ui::ModulesToolBox)
 {
     ui->setupUi(this);

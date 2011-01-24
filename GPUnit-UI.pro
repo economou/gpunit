@@ -4,21 +4,26 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 TARGET = GPUnit-UI
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     moduleeditor.cpp \
-    modulestoolbox.cpp
+    modulestoolbox.cpp \
+    experimentmanager.cpp \
+    clusterview.cpp
 
-HEADERS  += mainwindow.h \
-    moduleeditor.h \
-    modulestoolbox.h
+HEADERS  += \
+    moduleeditor.hpp \
+    modulestoolbox.hpp \
+    experimentmanager.hpp \
+    clusterview.hpp
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     moduleeditor.ui \
-    modulestoolbox.ui
+    modulestoolbox.ui \
+    experimentmanager.ui \
+    clusterview.ui

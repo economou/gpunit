@@ -1,9 +1,9 @@
 #include <QtGui/QApplication>
-#include "mainwindow.h"
+#include "experimentmanager.hpp"
 
 int main(int argc, char* args[]) {
     QApplication a(argc, args);
-    MainWindow w;
+    ExperimentManager w;
     w.show();
 
     return a.exec();
