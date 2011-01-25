@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -118,7 +118,74 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-AMUSE Introduction
+Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Motivation
+\end_layout
+
+\begin_layout Itemize
+Astrophysics researchers need to simulate star clusters and galaxies.
+\end_layout
+
+\begin_layout Itemize
+Every star pulls on all of the others: 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+ for the naive case.
+\end_layout
+
+\begin_layout Itemize
+Stars evolve over time, mass changes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename nbody1k.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+N-Body Simulation: 1024 Stars
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size tiny
+http://www.sns.ias.edu/~starlab/animations/
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
 \end_layout
 
 \begin_layout BeginFrame
