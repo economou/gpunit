@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 import pygame
 from pygame.locals import *
@@ -20,24 +20,30 @@ def initGL(w, h):
     gluOrtho2D(-2, 2, -2, 2)
     glMatrixMode(GL_MODELVIEW)
 
-au = 1.495978707e8 / 1e-8
+au = 1.495978707e11
+ausPerParsec = 206264.8062
 
 def main():
-    initGL(512,512)
+    initGL(900,900)
     done = False
 
-    p0 = []
-    p1 = []
     file = open("pos.txt", 'r')
-    for line in file:
+
+    stepsTaken = 0
+    while True:
+        stepsTaken += 1
+
+        line = file.readline()
+        if line == "":
+            break
+
+        if stepsTaken%1 != 0:
+            continue
+
         pts = line.split(",")
-        p0.insert(0, [float(f) for f in pts[0].split()])
-        p1.insert(0, [float(f) for f in pts[1].split()])
+        p0 = [float(f) / au for f in pts[0].split()]
+        p1 = [float(f) / au for f in pts[1].split()]
 
-    p0 = [x for x in reversed(p0)]
-    p1 = [x for x in reversed(p1)]
-
-    for i in range(0, len(p0)):
         #glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         glColor3f(0,1,0)
@@ -50,13 +56,16 @@ def main():
 
         glBegin(GL_POINTS)
         glColor3f(1,0,0)
-        glVertex3f(p0[i][0], p0[i][1], p0[i][2])
+        glVertex3f(p0[0], p0[1], p0[2])
 
-        glColor3f(0,0,1)
-        glVertex3f(p1[i][0], p1[i][1], p1[i][2])
+        glColor3f(0,1,0)
+        glVertex3f(p1[0], p1[1], p1[2])
         glEnd()
 
         pygame.display.flip()
+
+    file.close()
+    sleep(10000)
 
 if __name__ == '__main__':
     main()
