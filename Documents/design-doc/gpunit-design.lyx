@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -36,12 +36,79 @@
 \tracking_changes false
 \output_changes false
 \author "" 
+\author "" 
 \end_header
 
 \begin_body
 
-\begin_layout Standard
+\begin_layout Title
+GPUNIT Design Document
+\end_layout
 
+\begin_layout Date
+
+\series bold
+Prepared
+\series default
+ 
+\series bold
+by
+\series default
+: 
+\end_layout
+
+\begin_layout Author
+Daniel Bagnell 
+\end_layout
+
+\begin_layout Author
+Jason Economou 
+\end_layout
+
+\begin_layout Author
+Rajkumar Jayachandran
+\end_layout
+
+\begin_layout Author
+Tim McJilton 
+\end_layout
+
+\begin_layout Author
+Gabe Schwartz 
+\end_layout
+
+\begin_layout Author
+Andrew Sherman 
+\end_layout
+
+\begin_layout Author
+
+\series bold
+Advisor
+\series default
+: 
+\end_layout
+
+\begin_layout Author
+Prof.
+ Jeremy Johnson 
+\end_layout
+
+\begin_layout Author
+
+\series bold
+Stakeholders
+\series default
+: 
+\end_layout
+
+\begin_layout Author
+Prof.
+ Steve McMillan 
+\end_layout
+
+\begin_layout Author
+Alfred Whitehead
 \end_layout
 
 \end_body
