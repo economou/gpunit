@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -40,7 +40,7 @@ tabs-within-sections
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
-\secnumdepth 3
+\secnumdepth 4
 \tocdepth 3
 \paragraph_separation indent
 \defskip medskip
@@ -241,7 +241,7 @@ A computer that is a member of a cluster.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Node Health Statistics
 \end_layout
 
 \end_inset
@@ -250,7 +250,8 @@ A computer that is a member of a cluster.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Information about the current state of a node including properties such
+ as CPU usage and memory usage.
 \end_layout
 
 \end_inset
@@ -341,25 +342,23 @@ Overview
 \end_layout
 
 \begin_layout Standard
-The command line tool(CLT) is used for the running of an experiment file.
- The CLT begins with parse the experiment file.
+The command line tool (CLT) is used for the running of an experiment file.
+ The CLT begins with parsing the experiment file.
  After parsing the experiment file the CLT takes the initialization parameters
  and loads them using the AMUSE framework.
- The CLT then takes the modules specified and searches through loaded AMUSE
- modules and initializes the module.
- The CLT following links the modules together to allow interaction and updating
- of the current state of the system using the AMUSE channels.
+ The CLT then takes the modules specified, searches through loaded AMUSE
+ modules and initializes the modules.
+ The CLT links the modules together to allow interaction and updating of
+ the current state of the system using the AMUSE channels.
  The CLT then loads the Logging and Data Analysis scripts specified by the
  experiment file, linking it to the the particle array.
- The CLT then runs through the time specified in the experiment file with
- the delta time specified evolving all of the Modules loaded at each time
- step.
+ The CLT then runs through the time specified in the experiment file, evolving
+ all of the modules loaded at each time step.
  It will run the data analysis scripts as well as the logging on the <<forget
  the word, will be fixed>>(Periodically? How often it is suppose to run,
  every x time steps...) specified.
  After the model is done evolving it will output using whatever data analysis
  script listed, in the file format specified.
- 
 \end_layout
 
 \begin_layout Subsection
@@ -375,7 +374,7 @@ Reading in the Experiment file
 \end_layout
 
 \begin_layout Section
-Experimental Components
+Experiment Components
 \end_layout
 
 \begin_layout Subsection
@@ -409,15 +408,15 @@ The networking layer is responsible for communication between the interface
  will be distributed via IP multicast to any cluster nodes listening to
  a selected multicast group.
  Cluster nodes will be able to send replies to the sender containing information
- such as health stats (CPU usage, memory etc...) and the progress of any experiment
-s running on that node.
+ such as health stats and the progress of any experiments running on that
+ node.
  The UI and command line tools will use IPC (pipes etc...) to communicate with
  local instances of the control program to send network packets to the cluster
  nodes.
 \end_layout
 
 \begin_layout Subsection
-Components
+Network Software Components
 \end_layout
 
 \begin_layout Subsubsection
@@ -437,7 +436,44 @@ Node Instance
 
 \begin_layout Standard
 Node instances are processes that run on each computing node in the cluster.
- 
+ The node instance tracks health statistics and running experiments and
+ can send these pieces of information as direct (unicast) replies to queries
+ received through the multicast group.
+\end_layout
+
+\begin_layout Subsection
+Object Model
+\end_layout
+
+\begin_layout Subsubsection
+Control Instance
+\end_layout
+
+\begin_layout Paragraph
+TransmissionThread
+\end_layout
+
+\begin_layout Standard
+The transmission thread will process outgoing packets queued for transmission
+ by external sources such as the UI.
+\end_layout
+
+\begin_layout Paragraph
+ReceivingThread
+\end_layout
+
+\begin_layout Standard
+The receiving thread will read incoming packets from established connections
+ with node instances.
+\end_layout
+
+\begin_layout Paragraph
+ListeningThread
+\end_layout
+
+\begin_layout Standard
+The listening thread will listen for and accept new incoming connections
+ from node instances.
 \end_layout
 
 \begin_layout Section
