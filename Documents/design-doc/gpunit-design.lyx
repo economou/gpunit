@@ -1,9 +1,13 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
 \textclass article
 \use_default_options true
+\begin_modules
+figs-within-sections
+tabs-within-sections
+\end_modules
 \language english
 \inputencoding auto
 \font_roman default
@@ -16,6 +20,7 @@
 \font_tt_scale 100
 
 \graphics default
+\float_placement h
 \paperfontsize default
 \spacing single
 \use_hyperref true
@@ -329,6 +334,44 @@ Graphical User Interface
 
 \begin_layout Section
 Command Line Tool
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+The command line tool(CLT) is used for the running of an experiment file.
+ The CLT begins with parse the experiment file.
+ After parsing the experiment file the CLT takes the initialization parameters
+ and loads them using the AMUSE framework.
+ The CLT then takes the modules specified and searches through loaded AMUSE
+ modules and initializes the module.
+ The CLT following links the modules together to allow interaction and updating
+ of the current state of the system using the AMUSE channels.
+ The CLT then loads the Logging and Data Analysis scripts specified by the
+ experiment file, linking it to the the particle array.
+ The CLT then runs through the time specified in the experiment file with
+ the delta time specified evolving all of the Modules loaded at each time
+ step.
+ It will run the data analysis scripts as well as the logging on the <<forget
+ the word, will be fixed>>(Periodically? How often it is suppose to run,
+ every x time steps...) specified.
+ After the model is done evolving it will output using whatever data analysis
+ script listed, in the file format specified.
+ 
+\end_layout
+
+\begin_layout Subsection
+Preparing Script
+\end_layout
+
+\begin_layout Subsubsection
+Parts of an Experiment
+\end_layout
+
+\begin_layout Subsubsection
+Reading in the Experiment file
 \end_layout
 
 \begin_layout Section
