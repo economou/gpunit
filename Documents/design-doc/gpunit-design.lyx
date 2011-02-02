@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -383,6 +383,39 @@ Experiment Object Model
 
 \begin_layout Subsection
 Modules
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/module.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Module Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
