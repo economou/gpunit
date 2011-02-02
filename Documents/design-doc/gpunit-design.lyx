@@ -1,4 +1,4 @@
-#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -169,31 +169,51 @@ Overview
 \end_layout
 
 \begin_layout Section
-Graphical User Interface Design
+Graphical User Interface
 \end_layout
 
 \begin_layout Section
-Command Line Tool Design
+Command Line Tool
 \end_layout
 
 \begin_layout Section
-Built-In Management
+Experimental Components
 \end_layout
 
 \begin_layout Subsection
-Diagnostic Tools Management Design
+Experiment Object Model
 \end_layout
 
 \begin_layout Subsection
-Logging Management Design
+Modules
 \end_layout
 
 \begin_layout Subsection
-Module Management Design
+Diagnostics
+\end_layout
+
+\begin_layout Subsection
+Logging
 \end_layout
 
 \begin_layout Section
-Networking Design
+Networking
+\end_layout
+
+\begin_layout Section
+Data
+\end_layout
+
+\begin_layout Subsection
+Experiment Specification
+\end_layout
+
+\begin_layout Subsection
+Module Specification
+\end_layout
+
+\begin_layout Subsection
+Network Packets
 \end_layout
 
 \begin_layout Section
