@@ -1,4 +1,4 @@
-#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -17,7 +17,17 @@
 
 \graphics default
 \paperfontsize default
-\use_hyperref false
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -45,7 +55,7 @@
 GPUNIT Design Document
 \end_layout
 
-\begin_layout Date
+\begin_layout Author
 
 \series bold
 Prepared
@@ -55,61 +65,64 @@ Prepared
 by
 \series default
 : 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Daniel Bagnell 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Jason Economou 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Rajkumar Jayachandran
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Tim McJilton 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Gabe Schwartz 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Andrew Sherman 
-\end_layout
-
-\begin_layout Author
-
 \series bold
+
+\begin_inset Newline newline
+\end_inset
+
 Advisor
 \series default
 : 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Prof.
  Jeremy Johnson 
-\end_layout
-
-\begin_layout Author
-
 \series bold
+
+\begin_inset Newline newline
+\end_inset
+
 Stakeholders
 \series default
 : 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Author
 Prof.
  Steve McMillan 
+\begin_inset Newline newline
+\end_inset
+
+Alfred Whitehead
 \end_layout
 
-\begin_layout Author
-Alfred Whitehead
-\begin_inset Newpage pagebreak
+\begin_layout Standard
+\begin_inset Newpage newpage
 \end_inset
 
 
@@ -125,7 +138,7 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-\begin_inset Newpage pagebreak
+\begin_inset Newpage newpage
 \end_inset
 
 
