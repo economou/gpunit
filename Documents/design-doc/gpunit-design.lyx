@@ -157,7 +157,125 @@ Scope
 \end_layout
 
 \begin_layout Subsection
-Definitions, Acronyms and Abbreviations
+Glossary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features islongtable="true" headBottomDL="true">
+<column alignment="center" valignment="middle" width="30col%">
+<column alignment="center" valignment="top" width="70col%">
+<row endhead="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Term
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Definition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cluster
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A group of networked computing nodes available to perform some task.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Compute Node (Node)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A computer that is a member of a cluster.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -235,6 +353,48 @@ Logging
 
 \begin_layout Section
 Networking
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+The networking layer is responsible for communication between the interface
+ and the cluster status daemons running on the cluster nodes.
+ The user interface and console can send messages through the network which
+ will be distributed via IP multicast to any cluster nodes listening to
+ a selected multicast group.
+ Cluster nodes will be able to send replies to the sender containing information
+ such as health stats (CPU usage, memory etc...) and the progress of any experiment
+s running on that node.
+ The UI and command line tools will use IPC (pipes etc...) to communicate with
+ local instances of the control program to send network packets to the cluster
+ nodes.
+\end_layout
+
+\begin_layout Subsection
+Components
+\end_layout
+
+\begin_layout Subsubsection
+Control Instance
+\end_layout
+
+\begin_layout Standard
+A control instance is a program that will run in the background on any machine
+ wishing to control experiments on a cluster.
+ The core scripts (command line tools) and UI will both communicate with
+ this instance to perform any network access.
+\end_layout
+
+\begin_layout Subsubsection
+Node Instance
+\end_layout
+
+\begin_layout Standard
+Node instances are processes that run on each computing node in the cluster.
+ 
 \end_layout
 
 \begin_layout Section
