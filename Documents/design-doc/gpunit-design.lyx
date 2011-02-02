@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -169,31 +169,31 @@ Overview
 \end_layout
 
 \begin_layout Section
-Design Features
+Graphical User Interface Design
+\end_layout
+
+\begin_layout Section
+Command Line Tool Design
+\end_layout
+
+\begin_layout Section
+Built-In Management
 \end_layout
 
 \begin_layout Subsection
-Interface
+Diagnostic Tools Management Design
 \end_layout
 
 \begin_layout Subsection
-Command Line Tool
+Logging Management Design
 \end_layout
 
 \begin_layout Subsection
-Diagnostic Tools Management
+Module Management Design
 \end_layout
 
-\begin_layout Subsection
-Logging Management
-\end_layout
-
-\begin_layout Subsection
-Module Management
-\end_layout
-
-\begin_layout Subsection
-Networking
+\begin_layout Section
+Networking Design
 \end_layout
 
 \begin_layout Section
