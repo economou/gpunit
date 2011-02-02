@@ -109,6 +109,82 @@ Prof.
 
 \begin_layout Author
 Alfred Whitehead
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+Purpose
+\end_layout
+
+\begin_layout Subsection
+Scope
+\end_layout
+
+\begin_layout Subsection
+Definitions, Acronyms and Abbreviations
+\end_layout
+
+\begin_layout Section
+Architecture
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Section
+Design Features
+\end_layout
+
+\begin_layout Subsection
+Interface
+\end_layout
+
+\begin_layout Subsection
+Command Line Tool
+\end_layout
+
+\begin_layout Subsection
+Diagnostic Tools Management
+\end_layout
+
+\begin_layout Subsection
+Logging Management
+\end_layout
+
+\begin_layout Subsection
+Module Management
+\end_layout
+
+\begin_layout Subsection
+Networking
+\end_layout
+
+\begin_layout Section
+Summary
 \end_layout
 
 \end_body
