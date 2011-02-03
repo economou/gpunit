@@ -242,6 +242,14 @@ description "A computer that is a member of a cluster."
 \end_inset
 
 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "IPC Channel"
+description "Any object or memory space used for Inter-Process Communication (IPC). Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory (SHM)."
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -362,12 +370,13 @@ reference "fig:Module-Class-Diagram"
 placement bh
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename UML/module.eps
-	width 66page%
+	lyxscale 66
+	width 100col%
 
 \end_inset
 
@@ -460,13 +469,108 @@ Object Model
 Control Instance
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/controlinstance.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:CI-UML"
+
+\end_inset
+
+Control Instance Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
 TransmissionThread
 \end_layout
 
 \begin_layout Standard
-The transmission thread will process outgoing packets queued for transmission
- by external sources such as the UI.
+The transmission thread (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:TransmissionThread-UML"
+
+\end_inset
+
+) will process outgoing packets queued for transmission by external sources
+ such as the UI.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/transmissionthread.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:TransmissionThread-UML"
+
+\end_inset
+
+Transmission Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
@@ -474,8 +578,58 @@ ReceivingThread
 \end_layout
 
 \begin_layout Standard
-The receiving thread will read incoming packets from established connections
- with node instances.
+The receiving thread (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ReceivingThread-UML"
+
+\end_inset
+
+) will read incoming packets from established connections with node instances.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/receivingthread.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ReceivingThread-UML"
+
+\end_inset
+
+Receiving Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
@@ -483,8 +637,58 @@ ListeningThread
 \end_layout
 
 \begin_layout Standard
-The listening thread will listen for and accept new incoming connections
- from node instances.
+The listening thread (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ListeningThread-UML"
+
+\end_inset
+
+) will listen for and accept new incoming connections from node instances.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/listeningthread.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ListeningThread-UML"
+
+\end_inset
+
+Listening Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
