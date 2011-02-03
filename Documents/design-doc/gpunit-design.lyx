@@ -1,10 +1,10 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
 \textclass article
 \begin_preamble
-\renewcommand{\nomname}{Glossary}
+\renewcommand{\nomname}{}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -175,6 +175,9 @@ LatexCommand printnomenclature
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "Node Health Statistics"
@@ -194,125 +197,7 @@ description "A group of networked computing nodes available to perform some task
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 symbol "Computer Node"
-description "A computer taht is a member of a cluster"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
-<features islongtable="true" headBottomDL="true">
-<column alignment="center" valignment="middle" width="30col%">
-<column alignment="center" valignment="top" width="70col%">
-<row endhead="true">
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Term
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Definition
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Cluster
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-A group of networked computing nodes available to perform some task.
- 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Compute Node (Node)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-A computer that is a member of a cluster.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Node Health Statistics
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+description "A computer that is a member of a cluster."
 
 \end_inset
 
@@ -394,6 +279,7 @@ The command line tool (CLT) is used for the running of an experiment file.
  every x time steps...) specified.
  After the model is done evolving it will output using whatever data analysis
  script listed, in the file format specified.
+ 
 \end_layout
 
 \begin_layout Subsection
