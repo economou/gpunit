@@ -1,0 +1,750 @@
+#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\renewcommand{\nomname}{}
+\end_preamble
+\use_default_options true
+\begin_modules
+figs-within-sections
+tabs-within-sections
+\end_modules
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 4
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+GPUNIT Design Document
+\end_layout
+
+\begin_layout Author
+
+\series bold
+Prepared
+\series default
+ 
+\series bold
+by
+\series default
+: 
+\begin_inset Newline newline
+\end_inset
+
+Daniel Bagnell 
+\begin_inset Newline newline
+\end_inset
+
+Jason Economou 
+\begin_inset Newline newline
+\end_inset
+
+Rajkumar Jayachandran
+\begin_inset Newline newline
+\end_inset
+
+Tim McJilton 
+\begin_inset Newline newline
+\end_inset
+
+Gabe Schwartz 
+\begin_inset Newline newline
+\end_inset
+
+Andrew Sherman 
+\series bold
+
+\begin_inset Newline newline
+\end_inset
+
+Advisor
+\series default
+: 
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Jeremy Johnson 
+\series bold
+
+\begin_inset Newline newline
+\end_inset
+
+Stakeholders
+\series default
+: 
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Steve McMillan 
+\begin_inset Newline newline
+\end_inset
+
+Alfred Whitehead
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+Purpose
+\end_layout
+
+\begin_layout Standard
+This document serves as the system design for the GPUnit framework to control
+ AMUSE experiments as set forth in the Software Requirements Specification.
+ AMUSE (Astrophysical Multipurpose Software Environment) is a software package
+ and set of legacy codes for performing astrophysics simulations.
+ For more details on the purpose and use cases of AMUSE, please refer to
+ our SRS.
+ The goal of this document is to provide details guiding the construction
+ of the framework, as well as to provide a reference to the framework's
+ architecture.
+ It contains specifications for the objects used by the system and our initial
+ reference implementation plans.
+\end_layout
+
+\begin_layout Subsection
+Scope
+\end_layout
+
+\begin_layout Standard
+This document will describe the implementation for our framework, covering
+ the network layer, the user interface and the core python command line
+ scripts.
+ It will cover user interface support classes as they will need to be coded,
+ however the actual UI components such as windows and widgets will not be
+ described.
+ Code and objects for these items are generated as part of the Qt Creator
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+http://qt.nokia.com/products/developer-tools/
+\end_layout
+
+\end_inset
+
+ GUI development kit.
+ As such, the code is not intended to be human-readable and is subject to
+ change between Qt versions.
+ Our SRS document contains the reference prototype which will serve as the
+ design for the GUI widgets.
+ The data models including experiment file layouts and network packet details
+ will also be covered.
+\end_layout
+
+\begin_layout Subsection
+Glossary
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Node Health Statistics"
+description "Information about the current state of a node including properties such as CPU usage and memory usage."
+
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Cluster"
+description "A group of networked computing nodes available to perform some task."
+
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Computer Node"
+description "A computer that is a member of a cluster."
+
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "IPC Channel"
+description "Any object or memory space used for Inter-Process Communication (IPC). Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory (SHM)."
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Architecture
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename arch-diagram.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Architecture Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Section
+Graphical User Interface
+\end_layout
+
+\begin_layout Section
+Command Line Tool
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+The command line tool (CLT) is used for the running of an experiment file.
+ The CLT begins with parsing the experiment file.
+ After parsing the experiment file the CLT takes the initialization parameters
+ and loads them using the AMUSE framework.
+ The CLT then takes the modules specified, searches through loaded AMUSE
+ modules and initializes the modules.
+ The CLT links the modules together to allow interaction and updating of
+ the current state of the system using the AMUSE channels.
+ The CLT then loads the Logging and Data Analysis scripts specified by the
+ experiment file, linking it to the the particle array.
+ The CLT then runs through the time specified in the experiment file, evolving
+ all of the modules loaded at each time step.
+ It will run the data analysis scripts as well as the logging on the <<forget
+ the word, will be fixed>>(Periodically? How often it is suppose to run,
+ every x time steps...) specified.
+ After the model is done evolving it will output using whatever data analysis
+ script listed, in the file format specified.
+ 
+\end_layout
+
+\begin_layout Subsection
+Preparing Script
+\end_layout
+
+\begin_layout Subsubsection
+Parts of an Experiment
+\end_layout
+
+\begin_layout Subsubsection
+Reading in the Experiment file
+\end_layout
+
+\begin_layout Section
+Experiment Components
+\end_layout
+
+\begin_layout Subsection
+Experiment Object Model
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+fig:Exp-Obj-Model Experiment Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Modules
+\end_layout
+
+\begin_layout Standard
+See Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Module-Class-Diagram"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement bh
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/module.eps
+	lyxscale 66
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Module-Class-Diagram"
+
+\end_inset
+
+Module Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Diagnostics
+\end_layout
+
+\begin_layout Subsection
+Logging
+\end_layout
+
+\begin_layout Section
+Networking
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+The networking layer is responsible for communication between the interface
+ and the cluster status daemons running on the cluster nodes.
+ The user interface and console can send messages through the network which
+ will be distributed via IP multicast to any cluster nodes listening to
+ a selected multicast group.
+ Cluster nodes will be able to send replies to the sender containing information
+ such as health stats and the number of experiments running on that node.
+ The UI and command line tools will use IPC (pipes etc...) to communicate with
+ local instances of the control program to send network packets to the cluster
+ nodes.
+\end_layout
+
+\begin_layout Subsection
+Network Software Components
+\end_layout
+
+\begin_layout Subsubsection
+Control Instance
+\end_layout
+
+\begin_layout Standard
+A control instance is a program that will run in the background on any machine
+ wishing to control experiments on a cluster.
+ The core scripts (command line tools) and UI will both communicate with
+ this instance to perform any network access.
+\end_layout
+
+\begin_layout Subsubsection
+Node Instance
+\end_layout
+
+\begin_layout Standard
+Node instances are processes that run on each computing node in the cluster.
+ The node instance tracks health statistics and running experiments and
+ can send these pieces of information as direct (unicast) replies to queries
+ received through the multicast group.
+\end_layout
+
+\begin_layout Subsection
+Object Model
+\end_layout
+
+\begin_layout Subsubsection
+Control Instance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/controlinstance.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:CI-UML"
+
+\end_inset
+
+Control Instance Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+TransmissionThread
+\end_layout
+
+\begin_layout Standard
+The transmission thread (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:TransmissionThread-UML"
+
+\end_inset
+
+) will process outgoing packets queued for transmission by external sources
+ such as the UI.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/transmissionthread.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:TransmissionThread-UML"
+
+\end_inset
+
+Transmission Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+ReceivingThread
+\end_layout
+
+\begin_layout Standard
+The receiving thread (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ReceivingThread-UML"
+
+\end_inset
+
+) will read incoming packets from established connections with node instances.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/receivingthread.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ReceivingThread-UML"
+
+\end_inset
+
+Receiving Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+ListeningThread
+\end_layout
+
+\begin_layout Standard
+The listening thread (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ListeningThread-UML"
+
+\end_inset
+
+) will listen for and accept new incoming connections from node instances.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/listeningthread.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ListeningThread-UML"
+
+\end_inset
+
+Listening Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data
+\end_layout
+
+\begin_layout Subsection
+Experiment Specification
+\end_layout
+
+\begin_layout Subsection
+Module Specification
+\end_layout
+
+\begin_layout Subsection
+Network Packets
+\end_layout
+
+\begin_layout Section
+Component Interactions
+\end_layout
+
+\begin_layout Standard
+SWIM LANE DIAGRAMS GO HERE
+\end_layout
+
+\end_body
+\end_document
