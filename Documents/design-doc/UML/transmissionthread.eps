@@ -1,11 +1,11 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: C:\Users\hape\Documents\Projects\gpunit\Documents\design-doc\UML\transmissionthread.dia
 %%Creator: Dia v0.97.1
-%%CreationDate: Thu Feb 03 00:24:14 2011
+%%CreationDate: Thu Feb 03 00:56:28 2011
 %%For: hape
 %%Orientation: Portrait
 %%Magnification: 1.0000
-%%BoundingBox: 0 0 563 145
+%%BoundingBox: 0 0 563 475
 %%BeginSetup
 %%EndSetup
 %%EndComments
@@ -341,34 +341,71 @@ definefont pop
     currentdict end
 definefont pop
 28.346000 -28.346000 scale
--1.165000 -10.400000 translate
+5.035000 -21.000000 translate
 %%EndProlog
 
 
 0.100000 slw
 [] 0 sd
 1.000000 1.000000 1.000000 srgb
-n 1.215000 5.350000 m 1.215000 6.750000 l 20.965000 6.750000 l 20.965000 5.350000 l f
+n -4.985000 4.300000 m -4.985000 9.200000 l 14.765000 9.200000 l 14.765000 4.300000 l f
 0.000000 0.000000 0.000000 srgb
-n 1.215000 5.350000 m 1.215000 6.750000 l 20.965000 6.750000 l 20.965000 5.350000 l cp s
+n -4.985000 4.300000 m -4.985000 9.200000 l 14.765000 9.200000 l 14.765000 4.300000 l cp s
 /Helvetica-Bold-latin1 ff 0.700000 scf sf
-(TransmissionThread) dup sw 2 div 11.090000 ex sub 6.200000 m
+(TransmissionThread) dup sw 2 div 4.890000 ex sub 5.150000 m
+ gs 1 -1 sc sh gr
+/Helvetica-latin1 ff 0.490000 scf sf
+(The transmission thread listens to a set of IPC) dup sw 2 div 4.890000 ex sub 5.955000 m
+ gs 1 -1 sc sh gr
+(channels and gathers strings that need to be sent) dup sw 2 div 4.890000 ex sub 6.655000 m
+ gs 1 -1 sc sh gr
+(to other machines. These strings are then sent) dup sw 2 div 4.890000 ex sub 7.355000 m
+ gs 1 -1 sc sh gr
+(out over the network, establishing a connection) dup sw 2 div 4.890000 ex sub 8.055000 m
+ gs 1 -1 sc sh gr
+(if needed.) dup sw 2 div 4.890000 ex sub 8.755000 m
  gs 1 -1 sc sh gr
 1.000000 1.000000 1.000000 srgb
-n 1.215000 6.750000 m 1.215000 8.550000 l 20.965000 8.550000 l 20.965000 6.750000 l f
+n -4.985000 9.200000 m -4.985000 19.150000 l 14.765000 19.150000 l 14.765000 9.200000 l f
 0.000000 0.000000 0.000000 srgb
-n 1.215000 6.750000 m 1.215000 8.550000 l 20.965000 8.550000 l 20.965000 6.750000 l cp s
+n -4.985000 9.200000 m -4.985000 19.150000 l 14.765000 19.150000 l 14.765000 9.200000 l cp s
 /Courier-latin1 ff 0.560000 scf sf
-(-outgoingPackets: Queue) 1.365000 7.250000 m
+(-outgoingPackets: Queue<Packet>) -4.835000 9.700000 m
  gs 1 -1 sc sh gr
-(-listener: ListeningThread) 1.365000 8.050000 m
+/Helvetica-latin1 ff 0.490000 scf sf
+(Thread-local queue of Packets that other) -4.835000 10.555000 m
+ gs 1 -1 sc sh gr
+(threads/programs have queued to send.) -4.835000 11.255000 m
+ gs 1 -1 sc sh gr
+/Courier-latin1 ff 0.560000 scf sf
+(-listener: ListeningThread) -4.835000 12.250000 m
+ gs 1 -1 sc sh gr
+/Helvetica-latin1 ff 0.490000 scf sf
+(The TransmissionThread needs access to the) -4.835000 13.105000 m
+ gs 1 -1 sc sh gr
+(listener in order to access established) -4.835000 13.805000 m
+ gs 1 -1 sc sh gr
+(connections.) -4.835000 14.505000 m
+ gs 1 -1 sc sh gr
+/Courier-latin1 ff 0.560000 scf sf
+(+incomingPipes: List<pipe>) -4.835000 15.500000 m
+ gs 1 -1 sc sh gr
+/Helvetica-latin1 ff 0.490000 scf sf
+(Programs that wish to send data can place the) -4.835000 16.355000 m
+ gs 1 -1 sc sh gr
+(packet strings into one of these pipes. The) -4.835000 17.055000 m
+ gs 1 -1 sc sh gr
+(transmission thread will collect the strings and) -4.835000 17.755000 m
+ gs 1 -1 sc sh gr
+(send them to the destination.) -4.835000 18.455000 m
  gs 1 -1 sc sh gr
 1.000000 1.000000 1.000000 srgb
-n 1.215000 8.550000 m 1.215000 10.350000 l 20.965000 10.350000 l 20.965000 8.550000 l f
+n -4.985000 19.150000 m -4.985000 20.950000 l 14.765000 20.950000 l 14.765000 19.150000 l f
 0.000000 0.000000 0.000000 srgb
-n 1.215000 8.550000 m 1.215000 10.350000 l 20.965000 10.350000 l 20.965000 8.550000 l cp s
-(+queueData\(data:string,destinationIP:string\): void) 1.365000 9.050000 m
+n -4.985000 19.150000 m -4.985000 20.950000 l 14.765000 20.950000 l 14.765000 19.150000 l cp s
+/Courier-latin1 ff 0.560000 scf sf
+(+queueData\(data:Packet,destinationIP:string\): void) -4.835000 19.650000 m
  gs 1 -1 sc sh gr
-(+shutdown\(\): void) 1.365000 9.850000 m
+(+shutdown\(\): void) -4.835000 20.450000 m
  gs 1 -1 sc sh gr
 showpage
