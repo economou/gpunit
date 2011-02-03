@@ -278,6 +278,12 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Architecture-Diagram"
+
+\end_inset
+
 Architecture Diagram
 \end_layout
 
