@@ -1,4 +1,4 @@
-#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -263,9 +263,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename arch-diagram.eps
-	scale 50
+	lyxscale 50
+	width 80col%
 
 \end_inset
 
@@ -364,7 +366,13 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-fig:Exp-Obj-Model Experiment Class Diagram
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Exp-Obj-Model"
+
+\end_inset
+
+Experiment Class Diagram
 \end_layout
 
 \end_inset
@@ -404,10 +412,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/module.eps
 	lyxscale 66
-	width 100col%
+	width 90col%
 
 \end_inset
 
@@ -497,6 +506,56 @@ Object Model
 \end_layout
 
 \begin_layout Subsubsection
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/network-overview.eps
+	lyxscale 50
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:network-model-overview"
+
+\end_inset
+
+Network Object Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
 Control Instance
 \end_layout
 
@@ -505,12 +564,14 @@ Control Instance
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/controlinstance.eps
-	scale 50
+	lyxscale 50
+	width 70col%
 
 \end_inset
 
@@ -568,9 +629,11 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/transmissionthread.eps
-	scale 50
+	lyxscale 50
+	width 60col%
 
 \end_inset
 
@@ -627,9 +690,11 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/receivingthread.eps
-	scale 50
+	lyxscale 50
+	width 60col%
 
 \end_inset
 
@@ -686,9 +751,11 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/listeningthread.eps
-	scale 50
+	lyxscale 50
+	width 60col%
 
 \end_inset
 
@@ -706,6 +773,56 @@ name "fig:ListeningThread-UML"
 \end_inset
 
 Listening Thread Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Packet Objects
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/packets.eps
+	lyxscale 50
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:packet-uml"
+
+\end_inset
+
+Packet Classes
 \end_layout
 
 \end_inset
