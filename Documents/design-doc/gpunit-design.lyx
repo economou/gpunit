@@ -386,133 +386,6 @@ GUI Network Connection Class
 \end_layout
 
 \begin_layout Section
-Command Line Tool
-\end_layout
-
-\begin_layout Subsection
-Overview
-\end_layout
-
-\begin_layout Standard
-The command line tool (CLT) is used for the running of an experiment file.
- The CLT begins with parsing the experiment file.
- After parsing the experiment file the CLT takes the initialization parameters
- and loads them using the AMUSE framework.
- The CLT then takes the modules specified, searches through loaded AMUSE
- modules and initializes the modules.
- The CLT links the modules together to allow interaction and updating of
- the current state of the system using the AMUSE channels.
- The CLT then loads the Logging and Data Analysis scripts specified by the
- experiment file, linking it to the the particle array.
- The CLT then runs through the time specified in the experiment file, evolving
- all of the modules loaded at each time step.
- It will run the data analysis scripts as well as the logging on the intervals
- specified.
- After the model is done evolving it will output using whatever data analysis
- script listed, in the file format specified.
- 
-\end_layout
-
-\begin_layout Subsection
-Preparing Script
-\end_layout
-
-\begin_layout Subsubsection
-Parts of an Experiment
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Flowcharts/SimulationFlowchart.ps
-	scale 40
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Flow Chart of Typical AMUSE Simulation
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Paragraph
-Initialization
-\end_layout
-
-\begin_layout Standard
-In the initialiazation phase of the experiment it is important to select
- proper initial conditions.
- The main initial conditions to set is the mass distribution and and starting
- locations of the particles.
- There are built in AMUSE classes that are used to set these.
- The CLT while reading in the experiment file will find the initial condition
- files by name.
-\end_layout
-
-\begin_layout Paragraph
-Particles
-\end_layout
-
-\begin_layout Standard
-Particles are the elements that are being updated and the experiment is
- being run on.
- These particles can be anything as little as atoms to as large as star
- clusters.
- They are made up of mass , position, and velocity.
-\end_layout
-
-\begin_layout Paragraph
-Channels
-\end_layout
-
-\begin_layout Standard
-Channels are used to be able to communicate data to and from the modules
- that may be on a different system.
- On every time step you need to synchronize the master list of particles
- to every modules seperate list of nodes.
- Afterwards you need to re-synch the modules nodes to the master node.
- This allows the modules to have the same data to move forward in the simulation.
- These will be initialized for every module loaded and will synchronize
- after every time step in the simulation.
-\end_layout
-
-\begin_layout Paragraph
-Modules
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
-\begin_layout Paragraph
-Diagnostic Scripts
-\end_layout
-
-\begin_layout Paragraph
-Logging Scripts
-\end_layout
-
-\begin_layout Subsubsection
-Reading in the Experiment file
-\end_layout
-
-\begin_layout Section
 Experiment Components
 \end_layout
 
@@ -524,7 +397,7 @@ Experiment Object Model
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -555,13 +428,21 @@ Experiment Class Diagram
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Particles
+\end_layout
+
+\begin_layout Standard
+Particles are the elements that are being updated and the experiment is
+ being run on.
+ These particles can be anything as little as atoms to as large as star
+ clusters.
+ They are made up of mass , position, and velocity.
 \end_layout
 
 \begin_layout Subsection
@@ -2372,6 +2253,101 @@ The Condition class represents the conditions that need to be satisfied
 
 \begin_layout Subsection
 Logging
+\end_layout
+
+\begin_layout Section
+Command Line Tool
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+The command line tool (CLT) is used for the running of an experiment file.
+ The CLT begins with parsing the experiment file.
+ After parsing the experiment file the CLT takes the initialization parameters
+ and loads them using the AMUSE framework.
+ The CLT then takes the modules specified, searches through loaded AMUSE
+ modules and initializes the modules.
+ The CLT links the modules together to allow interaction and updating of
+ the current state of the system using the AMUSE channels.
+ The CLT then loads the Logging and Data Analysis scripts specified by the
+ experiment file, linking it to the the particle array.
+ The CLT then runs through the time specified in the experiment file, evolving
+ all of the modules loaded at each time step.
+ It will run the data analysis scripts as well as the logging on the intervals
+ specified.
+ After the model is done evolving it will output using whatever data analysis
+ script listed, in the file format specified.
+ 
+\end_layout
+
+\begin_layout Subsection
+Running The Experiment
+\end_layout
+
+\begin_layout Subsubsection
+Simulation Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Flowcharts/SimulationFlowchart.ps
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flow Chart of Typical AMUSE Simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Initialization
+\end_layout
+
+\begin_layout Standard
+In the initialiazation phase of the experiment it is important to select
+ proper initial conditions.
+ The main initial conditions to set is the mass distribution and and starting
+ locations of the particles.
+ There are built in AMUSE classes that are used to set these.
+ The CLT while reading in the experiment file will find the initial condition
+ files by name.
+\end_layout
+
+\begin_layout Paragraph
+Channels
+\end_layout
+
+\begin_layout Standard
+Channels are used to be able to communicate data to and from the modules
+ that may be on a different system.
+ On every time step you need to synchronize the master list of particles
+ to every modules seperate list of nodes.
+ Afterwards you need to re-synch the modules nodes to the master node.
+ This allows the modules to have the same data to move forward in the simulation.
+ These will be initialized for every module loaded and will synchronize
+ after every time step in the simulation.
 \end_layout
 
 \begin_layout Section
