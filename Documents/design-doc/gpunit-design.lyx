@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -1532,6 +1532,94 @@ With AMUSE, physical quantities may be expressed using, and converted between,
 
 \begin_layout Subsection
 Diagnostics
+\end_layout
+
+\begin_layout Standard
+Diagnostics have access to the state of the experiment at the end of each
+ time step.
+ Default diagnostics will be provided, e.g.
+ printing the state to a file at a specified time step or creating a stellar
+ mass histogram.
+ Users can create custom diagnostic plug-ins.
+\end_layout
+
+\begin_layout Subsubsection
+Object Model
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/diagnostics.eps
+	width 90page%
+	height 80pheight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Diagnostics-Object-Model"
+
+\end_inset
+
+Diagnostics Object Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Diagnostic Class
+\end_layout
+
+\begin_layout Standard
+The Diagnostic class is an abstract class that is the base of both built-in
+ and custom diagnostics tools.
+ All custom diagnostic scripts must inherit from this class.
+ Subclasses must implement the update and name operations.
+ The Diagnostic class also contains a list of conditions to check if the
+ diagnostic needs to be updated.
+\end_layout
+
+\begin_layout Subsubsection
+Experiment Manager Class
+\end_layout
+
+\begin_layout Standard
+The Experiment Manager class has the responsibility to manage as well as
+ update the active diagnostics.
+\end_layout
+
+\begin_layout Subsubsection
+Condition Class
+\end_layout
+
+\begin_layout Standard
+The Condition class represents the conditions that need to be satisfied
+ for a dignostic to be updated.
 \end_layout
 
 \begin_layout Subsection
