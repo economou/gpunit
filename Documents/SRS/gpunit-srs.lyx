@@ -1215,6 +1215,50 @@ Logs can be output to a window in the GUI.
  Priority 1.
 \end_layout
 
+\begin_layout Subsection
+Cluster Management
+\end_layout
+
+\begin_layout Standard
+The user can use the user interface to view activity on nodes in the cluster
+ as well as distribute experiments to them.
+\end_layout
+
+\begin_layout Subsubsection
+Cluster Status View
+\end_layout
+
+\begin_layout Paragraph
+The user can view the CPU usage of all nodes in the cluster.
+ Priority 1
+\end_layout
+
+\begin_layout Paragraph
+The user can view the free memory and total memory of all nodes in the cluster.
+ Priority 1
+\end_layout
+
+\begin_layout Paragraph
+The user can view the running experiments and their status for all nodes
+ in the cluster.
+ Priority 2
+\end_layout
+
+\begin_layout Subsubsection
+Experiment Distribution
+\end_layout
+
+\begin_layout Paragraph
+The user can select a node and run their experiment on it.
+ Priority 1
+\end_layout
+
+\begin_layout Paragraph
+The user can select a node and run a single module in their experiment on
+ it.
+ Priority 2
+\end_layout
+
 \begin_layout Section
 Non-Functional Requirements
 \end_layout
@@ -2352,9 +2396,39 @@ The following diagram graphically represents the actors involved in each
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename images/use-cases.png
 	scale 80
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Use Cases
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
@@ -2387,28 +2461,22 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
-	filename images/uiproto-modules.png
-	scale 80
+	filename images/uiproto-main.png
+	scale 50
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Module Linking
+Main View
 \end_layout
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -2424,9 +2492,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename images/uiproto-menus.png
-	scale 60
+	scale 40
 
 \end_inset
 
@@ -2451,49 +2520,14 @@ Menus
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Float figure
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename images/uiproto-connections.png
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Module Connection Editor
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename images/uiproto-moduleeditor.png
 	scale 60
@@ -2512,6 +2546,46 @@ Module Description Editor
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/uiproto-cluster.png
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Node View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
