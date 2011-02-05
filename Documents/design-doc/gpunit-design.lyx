@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -1568,7 +1568,7 @@ Unit Class
 placement bh
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1764,7 +1764,7 @@ CompoundUnit Class
 placement bh
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -2185,8 +2185,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename UML/diagnostics.eps
-	width 90page%
-	height 80pheight%
+	height 80theight%
 
 \end_inset
 
@@ -2326,13 +2325,58 @@ Initialization
 \end_layout
 
 \begin_layout Standard
-In the initialiazation phase of the experiment it is important to select
+Simulation Initialization is used for preparation of the particles and modules
+ to be able to model the system.
+ The following will break down the initialization into the main steps.
+ 
+\end_layout
+
+\begin_layout Subparagraph
+Instantiate Particles
+\end_layout
+
+\begin_layout Standard
+In the initialization phase of the experiment it is important to select=======In
+ the initialiazation phase of the experiment it is important to select other
  proper initial conditions.
  The main initial conditions to set is the mass distribution and and starting
  locations of the particles.
  There are built in AMUSE classes that are used to set these.
  The CLT while reading in the experiment file will find the initial condition
  files by name.
+\end_layout
+
+\begin_layout Subparagraph
+Create Conversion Object
+\end_layout
+
+\begin_layout Standard
+Most astronomical simulations use a scaling factor so you can do the numerical
+ integration quicker.
+ A conversion object is a class in AMUSE that you instantiate by passing
+ in the total mass and the average radius of the system.
+ You will then pass this conversion object into any modules you will be
+ using in the future so the module knows how to translate between this smaller
+ number format to an actual real data value.
+\end_layout
+
+\begin_layout Subparagraph
+Module Creation
+\end_layout
+
+\begin_layout Standard
+The CLT needs to instantiate the AMUSE class for the specific module it
+ is working on from the location specified in the module class.
+ It needs to instantiate the module being passed in the conversion object
+ so the module knows what units it is working in and how to convert its
+ units.
+ The module then sets its list of particles to the master list of particles.
+ After it does that it needs to run it's initial calculations needed for
+ evolving the module.
+\end_layout
+
+\begin_layout Subparagraph
+Instantiate Channels
 \end_layout
 
 \begin_layout Subsubsection
@@ -2348,6 +2392,52 @@ Channels are used to be able to communicate data to and from the modules
  This allows the modules to have the same data to move forward in the simulation.
  These will be initialized for every module loaded and will synchronize
  after every time step in the simulation.
+\end_layout
+
+\begin_layout Paragraph
+Running Simulation 
+\end_layout
+
+\begin_layout Standard
+Running the system is the area inside of the while loop.
+ This is where the modules are run, some logging is done, some diagnostics
+ and definitely some 
+\end_layout
+
+\begin_layout Subparagraph
+Evolve Modules
+\end_layout
+
+\begin_layout Subparagraph
+Synchronize Particles
+\end_layout
+
+\begin_layout Subparagraph
+Run Diagnostics
+\end_layout
+
+\begin_layout Subparagraph
+Run Logging
+\end_layout
+
+\begin_layout Subparagraph
+Increment Time
+\end_layout
+
+\begin_layout Paragraph
+Post Simulation
+\end_layout
+
+\begin_layout Subparagraph
+Run Closing Diagnostics Scripts
+\end_layout
+
+\begin_layout Subparagraph
+Run Closing Logging Scripts
+\end_layout
+
+\begin_layout Subparagraph
+Stop Modules
 \end_layout
 
 \begin_layout Section
