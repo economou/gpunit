@@ -2208,7 +2208,7 @@ Object Model
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -2281,6 +2281,77 @@ The Condition class represents the conditions that need to be satisfied
 
 \begin_layout Subsection
 Logging
+\end_layout
+
+\begin_layout Standard
+Logs are helpful when the experiment must be restarted along with its output
+ data if the experiment has an error or needs to be stopped for any other
+ reason.
+ Logging could be enabled or disabled by the user.
+ The output destination for the logs could be specified .
+ The specified destination for the output can be one among the following
+ ,the console , a file or a window in the GUI.
+\end_layout
+
+\begin_layout Subsubsection
+Object Model
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename UML/logging.eps
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Logging Object Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Experiment Handler Class
+\end_layout
+
+\begin_layout Standard
+The Experiment Manager Class is responsible for controlling the enabling
+ and disabling of the logs.
+ The Experiment Handler class has an association relation with the logging
+ class.
+\end_layout
+
+\begin_layout Subsubsection
+Logging Class
+\end_layout
+
+\begin_layout Standard
+The Logging class takes care of selecting the required output option as
+ the console, file or the GUI window.
 \end_layout
 
 \begin_layout Section
