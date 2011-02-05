@@ -258,9 +258,10 @@ Architecture
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -342,9 +343,10 @@ reference "sub:Control-Instance"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -397,13 +399,14 @@ Experiment Object Model
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/experiment.eps
 	lyxscale 50
-	scale 50
+	scale 40
 
 \end_inset
 
@@ -460,14 +463,14 @@ This section defines an object model for the representation of and interaction
 placement bh
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/module.eps
 	lyxscale 66
-	width 90col%
+	width 80col%
 
 \end_inset
 
@@ -503,17 +506,17 @@ Module Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/module_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -553,6 +556,10 @@ tion to the user in the graphical interface.
 
 \begin_layout Paragraph
 Module Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -561,7 +568,7 @@ Module Attributes
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -842,6 +849,10 @@ The module parameters.
 
 \begin_layout Paragraph
 Module Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -849,9 +860,9 @@ Module Operations
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="40col%">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -947,7 +958,7 @@ Dumps the Module to an XML element.
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -1049,7 +1060,7 @@ Parameter Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -1059,7 +1070,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/parameter_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -1102,6 +1113,10 @@ Modules have parameters that may be modified by the user via the graphical
 
 \begin_layout Paragraph
 Parameter Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1358,6 +1373,10 @@ The physical unit(s) associated with the parameter's value.
 
 \begin_layout Paragraph
 Parameter Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1365,7 +1384,7 @@ Parameter Operations
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -1463,7 +1482,7 @@ Dumps the Parameter to an XML element.
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -1565,17 +1584,17 @@ Unit Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/unit_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -1615,6 +1634,10 @@ With AMUSE, physical quantities may be expressed using, and converted between,
 
 \begin_layout Paragraph
 Unit Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1623,7 +1646,7 @@ Unit Attributes
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1761,17 +1784,17 @@ CompoundUnit Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/compoundunit_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -1810,6 +1833,10 @@ When performing physical calculations, units of measure may combined in
 
 \begin_layout Paragraph
 CompoundUnit Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1818,7 +1845,7 @@ CompoundUnit Attributes
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1956,7 +1983,7 @@ UnitType Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -1966,7 +1993,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/unittype_class.eps
 	lyxscale 66
-	width 90col%
+	width 20col%
 
 \end_inset
 
@@ -2007,7 +2034,7 @@ SIPrefix Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -2017,7 +2044,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/siprefix_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -2059,7 +2086,7 @@ AstrophysicalDomain Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -2069,7 +2096,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/astrophysicaldomain_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -2113,7 +2140,7 @@ StoppingConditions Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -2123,7 +2150,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/stoppingconditions_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -2178,14 +2205,16 @@ Object Model
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/diagnostics.eps
-	height 80theight%
+	width 60col%
 
 \end_inset
 
@@ -2292,11 +2321,13 @@ Simulation Overview
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Flowcharts/SimulationFlowchart.ps
 	scale 40
@@ -2911,6 +2942,7 @@ reference "fig:Example-XML-Experiment"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2918,6 +2950,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename XMLSpec/XMLExample.png
+	scale 50
 
 \end_inset
 
