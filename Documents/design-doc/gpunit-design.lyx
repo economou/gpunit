@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -258,9 +258,10 @@ Architecture
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -289,10 +290,6 @@ Architecture Diagram
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -342,9 +339,10 @@ reference "sub:Control-Instance"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -395,15 +393,17 @@ Experiment Object Model
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/experiment.eps
 	lyxscale 50
-	scale 50
+	scale 40
 
 \end_inset
 
@@ -442,7 +442,814 @@ Particles are the elements that are being updated and the experiment is
  being run on.
  These particles can be anything as little as atoms to as large as star
  clusters.
- They are made up of mass , position, and velocity.
+ They are made up of mass, position, and velocity.
+ (Satisfies requirements 2.3.1, 2.3.2)
+\end_layout
+
+\begin_layout Subsubsection
+Particle Class
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/particle.png
+	width 40col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Particle Class Diagram
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Particle-Class-Diagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Particle class will be instantiated and used for storage of particle type
+ items on the UI of GPUNIT.
+ The Particle class in AMUSED will be used in the CLT.
+ The particle class will be used primarily for data storage for experiment
+ creation.
+\end_layout
+
+\begin_layout Paragraph
+Particle Attributes
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mass
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The current mass of the particle.
+ Will have units.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+velocity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The current mass of the particle.
+ Will have units.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+position
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The current position of the particle.
+ Will have units.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Particle Methods
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="40col%">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+Parameter getMass()
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(none)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Output
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A parameter with the value and units of the current mass.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gets the current value of the mass.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+bool setMass(double mass, Unit unit)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The new value of the mass and the unit it is in.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Output
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Returns true if the mass is successfully set.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the mass of the particle.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="40col%">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+Parameter getVelocity()
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(none)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Output
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A parameter with the value and units of the current velocity.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gets the current value of the velocity.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+bool setVelocity(List<double> v, Unit unit)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The new vector value of the velocity and the unit it is in.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Output
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Returns true if the velocity is successfully set.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the velocity of the particle.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="40col%">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+Parameter getPosition()
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(none)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Output
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A parameter with the value and units of the current position.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gets the current value of the position.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\shape italic
+bool setPosition(List<double> pos, Unit unit)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Input
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The new vector value of the position and the unit it is in.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Output
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Returns true if the position is successfully set.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the position of the particle.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -467,7 +1274,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/module.eps
 	lyxscale 66
-	width 90col%
+	width 80col%
 
 \end_inset
 
@@ -503,7 +1310,7 @@ Module Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -513,7 +1320,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/module_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -549,10 +1356,15 @@ An instance of the Module class represents a particular AMUSE module, providing
  The members of the Module class are used by GPUnit to properly locate and
  initialize an AMUSE module, as well as display a module's details and configura
 tion to the user in the graphical interface.
+ (Satisfies requirements 2.2.1, 2.2.2, 2.2.3, 2.2.4, 2.2.5)
 \end_layout
 
 \begin_layout Paragraph
 Module Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -561,7 +1373,7 @@ Module Attributes
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -842,6 +1654,10 @@ The module parameters.
 
 \begin_layout Paragraph
 Module Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -849,9 +1665,9 @@ Module Operations
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="40col%">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -947,7 +1763,7 @@ Dumps the Module to an XML element.
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -1049,7 +1865,7 @@ Parameter Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -1059,7 +1875,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/parameter_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -1098,10 +1914,15 @@ Modules have parameters that may be modified by the user via the graphical
  type of the parameter's value (e.g.
  integer or floating-point).
  A parameter may be a physical quantity, flag, or other value.
+ (Satisfies Requirement 2.3.6)
 \end_layout
 
 \begin_layout Paragraph
 Parameter Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1358,6 +2179,10 @@ The physical unit(s) associated with the parameter's value.
 
 \begin_layout Paragraph
 Parameter Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1365,7 +2190,7 @@ Parameter Operations
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -1463,7 +2288,7 @@ Dumps the Parameter to an XML element.
 <lyxtabular version="3" rows="4" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="30col%">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
@@ -1565,17 +2390,17 @@ Unit Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/unit_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -1615,6 +2440,10 @@ With AMUSE, physical quantities may be expressed using, and converted between,
 
 \begin_layout Paragraph
 Unit Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1623,7 +2452,7 @@ Unit Attributes
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1761,17 +2590,17 @@ CompoundUnit Class
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/compoundunit_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -1810,6 +2639,10 @@ When performing physical calculations, units of measure may combined in
 
 \begin_layout Paragraph
 CompoundUnit Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1818,7 +2651,7 @@ CompoundUnit Attributes
 <features>
 <column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="40col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1956,7 +2789,7 @@ UnitType Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -1966,7 +2799,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/unittype_class.eps
 	lyxscale 66
-	width 90col%
+	width 20col%
 
 \end_inset
 
@@ -2007,7 +2840,7 @@ SIPrefix Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -2017,7 +2850,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/siprefix_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -2059,7 +2892,7 @@ AstrophysicalDomain Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -2069,7 +2902,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/astrophysicaldomain_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -2113,7 +2946,7 @@ StoppingConditions Enumeration
 
 \begin_layout Standard
 \begin_inset Float figure
-placement bh
+placement H
 wide false
 sideways false
 status collapsed
@@ -2123,7 +2956,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/stoppingconditions_class.eps
 	lyxscale 66
-	width 90col%
+	width 40col%
 
 \end_inset
 
@@ -2178,14 +3011,16 @@ Object Model
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/diagnostics.eps
-	height 80theight%
+	width 60col%
 
 \end_inset
 
@@ -2265,7 +3100,7 @@ Logs are helpful when the experiment must be restarted along with its output
 \end_layout
 
 \begin_layout Subsubsection
-Object model
+Object Model
 \end_layout
 
 \begin_layout Standard
@@ -2276,7 +3111,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename C:/Users/Toshiba/Desktop/logging.eps
+	filename UML/logging.eps
 	scale 70
 
 \end_inset
@@ -2288,7 +3123,14 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Logging object Model
+Logging Object Model
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Logging-Object-Model"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2354,6 +3196,239 @@ The command line tool (CLT) is used for the running of an experiment file.
 \end_layout
 
 \begin_layout Subsection
+Using the CLT
+\end_layout
+
+\begin_layout Standard
+The command line tool will primarily be used by the GUI to send out jobs
+ and run them to make the user experience much more enjoyable and at ease.
+ The command line tool though can be used with a basic experiment file with
+ some on the fly modifications by using some flags.(Satisfies requirement
+ 2.4.1)
+\end_layout
+
+\begin_layout Subsubsection
+CLT Flags
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Flag
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<Value Being Passed>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--help
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+None
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Displays a useful help prompt with the list of CLT flags.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-f
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Experiment File Location
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Loads the experiment file prompted by the filename.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of Particles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the number of particles being passed in the experiment file.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-t
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+End Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the max time allowed in the simulation.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-dt
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Timestep
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the timestep in which dt moves forward.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-r
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Radius
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the radius scaling factor.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Running The Experiment
 \end_layout
 
@@ -2362,12 +3437,23 @@ Simulation Overview
 \end_layout
 
 \begin_layout Standard
+A Simulation is the goal of both GPUNIT and AMUSE, which makes it important
+ to understand and break it into key parts.
+ The Simulation can be looked at as three sections: Simulation Initialization,
+ Running Simulation, Post Simulation.
+ This section will go into more detail about all three of these parts and
+ what happens in each.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Flowcharts/SimulationFlowchart.ps
 	scale 40
@@ -2414,6 +3500,7 @@ In the initialization phase of the experiment it is important to select
  There are built in AMUSE classes that are used to set these.
  The CLT while reading in the experiment file will find the initial condition
  files by name.
+ (Satisfies Requirements 2.3.4)
 \end_layout
 
 \begin_layout Subparagraph
@@ -2456,7 +3543,7 @@ Channels are used to be able to communicate data to and from the modules
  to every modules seperate list of nodes.
  Afterwards you need to re-synch the modules nodes to the master node.
  This allows the modules to have the same data to move forward in the simulation.
- 
+ (Satisfies Requirement 2.5.1, 2.5.2, 2.5.2.1)
 \end_layout
 
 \begin_layout Paragraph
@@ -2467,6 +3554,7 @@ Running Simulation
 Running the system is the area inside of the while loop.
  This is where the modules are run, some logging is done, some diagnostics
  and increment the time scale.
+ (Satisfies Requirement 2.4.2)
 \end_layout
 
 \begin_layout Subparagraph
@@ -2505,11 +3593,32 @@ The function should loop through all the diagnostic scripts and if the diagnosti
 cs should use the shouldUpdate function with the current state of the experiment
  to check if it should run.
  If the diagnostic should run, it then runs the update method passing in
- the master list of particles.
+ the master list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Diagnostics-Object-Model"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subparagraph
 Run Logging
+\end_layout
+
+\begin_layout Standard
+The function will loop through all the logging scripts and run any real
+ time logging scripts that need to be run.
+ The real time logging scripts are denoted by name and run their logData
+ method passing in the list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Logging-Object-Model"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subparagraph
@@ -2517,7 +3626,7 @@ Increment Time
 \end_layout
 
 \begin_layout Standard
-The time should increment using the specified timestep(Figure 
+The time should increment using the specified timestep (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Exp-Obj-Model"
@@ -2527,6 +3636,7 @@ reference "fig:Exp-Obj-Model"
 ).
  The stopping condition of the experiment is met when the stopping conditions
  are met.
+ (Satisfies Requirement 2.4.3.1)
 \end_layout
 
 \begin_layout Paragraph
@@ -2554,6 +3664,20 @@ reference "fig:Diagnostics-Object-Model"
 
 \begin_layout Subparagraph
 Run Closing Logging Scripts
+\end_layout
+
+\begin_layout Standard
+The function will loop through all the logging scripts and run any post
+ simulation logging scripts that need to be run.
+ The post simulation logging scripts are denoted by name and run their logData
+ method passing in the list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Logging-Object-Model"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subparagraph
@@ -2978,10 +4102,12 @@ reference "fig:Example-XML-Experiment"
 \end_inset
 
  for an example XML experiment file.
+ (Satisfies requirement 2.3.3, 2.3.5)
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2989,6 +4115,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename XMLSpec/XMLExample.png
+	scale 50
 
 \end_inset
 
@@ -3722,7 +4849,8 @@ Stopping Condition
 
 \begin_layout Standard
 Stopping Condition tags define the stopping conditions used in the experiment.
- All stopping conditions are defined by AMUSE.
+ All stopping conditions are defined by AMUSE.(Satisfies Requirement 2.4.3,
+ 2.4.3.2)
 \end_layout
 
 \begin_layout Standard
