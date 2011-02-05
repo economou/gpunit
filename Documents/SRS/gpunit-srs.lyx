@@ -1,0 +1,2524 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 5
+\tocdepth 2
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\align right
+
+\series bold
+\size huge
+Software Requirements Specification:
+\series default
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\size larger
+GPU N-Body Integration Toolkit
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Prepared by:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Daniel Bagnell
+\begin_inset Newline newline
+\end_inset
+
+Jason Economou
+\begin_inset Newline newline
+\end_inset
+
+Rajkumar Jayachandran
+\begin_inset Newline newline
+\end_inset
+
+Tim McJilton
+\begin_inset Newline newline
+\end_inset
+
+Gabe Schwartz
+\begin_inset Newline newline
+\end_inset
+
+Andrew Sherman
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Advisor:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Jeremy Johnson
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Stakeholders:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Steve McMillan
+\begin_inset Newline newline
+\end_inset
+
+Alfred Whitehead
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+Purpose
+\end_layout
+
+\begin_layout Standard
+The purpose of this document is to thoroughly describe the software requirements
+ for the GPU N-Body Integration Toolkit (GPUNIT).
+ The document includes an explanation of the purpose and intended use of
+ GPUNIT, as well as a detailed summary of the functional and non-functional
+ requirements of the software.
+\end_layout
+
+\begin_layout Subsection
+Scope
+\end_layout
+
+\begin_layout Standard
+GPUNIT targets users interested in running quantitative astronomical experiments.
+ The software will be usable by physics students and instructors, as well
+ as theoretical and observational physicists.
+ A user of GPUNIT is expected to possess a general understanding of physics.
+\end_layout
+
+\begin_layout Subsection
+Definitions, Acronyms, and Abbreviations
+\end_layout
+
+\begin_layout Standard
+The following terms are used throughout this document and are defined here
+ for convenience.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="17" columns="2">
+<features islongtable="true">
+<column alignment="center" valignment="top" width="30page%">
+<column alignment="center" valignment="top" width="30page%">
+<row endhead="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Term
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Definition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "AMUSE"
+
+\end_inset
+
+AMUSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Astrophysical Multipurpose Software Environment.
+ A library used to bring together different physics functionality in a way
+ that they can interact with one another.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "(Astrophysics)-Module"
+
+\end_inset
+
+(Astrophysics) Module
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A pre-existing, low-level library designed by an expert in a specific field
+ of astrophysics.
+ Can be used to simulate real-world physics, create a graphical model or
+ parallelize simulations.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Body"
+
+\end_inset
+
+Body
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+An object made up of matter.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Computing-Environment"
+
+\end_inset
+
+Computing Environment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The set of hardware and components available for running simulations.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Diagnostics"
+
+\end_inset
+
+Diagnostics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The periodic output of quantities of interest that describe the internal
+ physical state of an experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Entity"
+
+\end_inset
+
+Entity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A representation of a particle, or a grid defining a gas.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Experiment"
+
+\end_inset
+
+Experiment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In the context of our software, an experiment defines the initial conditions
+ of a stellar system, modules involved and connections between modules and
+ diagnostics/logging tools.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Grid"
+
+\end_inset
+
+Grid
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A discretized representation of some space, can be finite or infinite, uniform
+ or irregular.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "GUI"
+
+\end_inset
+
+GUI
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Graphical User Interface.
+ A program interface using visual icons and cues instead of, or in addition
+ to, text-based input.
+ User commands and interactions are performed most often using a mouse,
+ but can also be performed with specified keyboard strokes.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Logging"
+
+\end_inset
+
+Logging
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Output tracing the progress of the experiment through the phases and modules
+ involved in the software.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "N-Body-Problem"
+
+\end_inset
+
+N-Body Problem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A problem used for predicting the movements of some number (N) of gravitationall
+y interdependent bodies.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Particle"
+
+\end_inset
+
+Particle
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+An ideal body that has some quantity of mass but no defined size.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Physical-State"
+
+\end_inset
+
+Physical State
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Describes the current properties of some entity at a given time.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Property"
+
+\end_inset
+
+Property
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A value passed into a simulation.
+ Each entity can have 1 to n properties.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Simulation"
+
+\end_inset
+
+Simulation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A piece of software used to integrate and represent a physical system.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "Workflow"
+
+\end_inset
+
+Workflow
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A sequence of steps in a process.
+ In the context of this document, a workflow refers to a sequence of operations
+ that may fulfill a use case scenario.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Subsubsection
+AMUSE Overview
+\end_layout
+
+\begin_layout Standard
+GPUNIT interacts with the Astrophysical Multipurpose Software Environment
+ (AMUSE) project.
+ The aim of AMUSE is to provide a software framework for large-scale simulations
+ of dense stellar systems.
+ Within this framework, existing code for dynamics, stellar evolution, and
+ hydrodynamics can be easily combined and placed in the appropriate observationa
+l context.
+ Without GPUNIT, a user wishing to perform an experiment using AMUSE must
+ create a Python script incorporating various AMUSE modules.
+ This requires the user to posses an understanding of each module and how
+ to use it.
+ AMUSE may also require efficient and well-designed code to be effective,
+ presenting additional difficulties for inexperienced users.
+ References to specific components and features of AMUSE in this document
+ refer to AMUSE version 3.0, the latest release as of the writing of this
+ document.
+\end_layout
+
+\begin_layout Subsubsection
+GPUNIT Overview
+\end_layout
+
+\begin_layout Standard
+GPUNIT is a software solution that eases the creation, execution, and analysis
+ of experiments with AMUSE.
+ The software enables users to design experiments from start to finish using
+ minimal programming.
+ GPUNIT allows the user to decide which modules to use, set initial conditions
+ for the cosmological simulation, run diagnostics on data to do useful calculati
+ons and export the simulation’s output in several formats.
+ Experiments created using GPUNIT are reusable, allowing future experiments
+ to build upon existing ones.
+\end_layout
+
+\begin_layout Subsection
+Case Studies
+\end_layout
+
+\begin_layout Standard
+The following is three examples of cases where GPUNIT could be used to simplify
+ the creation of a simulation using AMUSE while not holding back others
+ from adding more functionality.
+\end_layout
+
+\begin_layout Subsubsection
+Theoretical Physicist
+\end_layout
+
+\begin_layout Standard
+A theoretical physicist wants to find out why the Archest cluster has many
+ more heavy stars than light stars.
+ He is curious whether it was born this way or evolved to become like this.
+ To find out, he wants to take information from his observations of the
+ cluster and map it to various initial conditions, then see if the resulting
+ simulation agrees with the observations.
+ These initial conditions include the distribution of isophotes within an
+ image of the cluster taken through a telescope.
+ An isophote is a contour on a snapshot of the cluster within which all
+ stars have equal apparent brightness.
+ To set this up, the theoretical physicist opens up GPUNIT and creates a
+ new experiment.
+ He might want to load a separate module he created specifically for this
+ experiment with a Monte Carlo integrator, so he selects it and adds it
+ to the list of possible modules.
+ He connects it to the experiment via the interface and adds other Modules
+ such as the Single Star Evolution (SSE) module.
+ He will be testing this with multiple types of initial conditions, so he
+ selects which variables to pass in as parameters to the experiment by command
+ line.
+ This user also knows exactly what he wants for diagnostics of the experiment,
+ so he adds his created diagnostics tool to GPUNIT’s list of diagnostics,
+ selects it, and wires it up to be run.
+ This user will most likely be running his simulation on a super computer
+ so he moves the experiment file he created to the super computer.
+ This user then will add a few runs of his experiment to the queue, with
+ each experiment using different parameters/initial conditions.
+ The user then is able to look at multiple sets of data and run this experiment
+ several more times in an effort to observe how and when this cluster formed.
+\end_layout
+
+\begin_layout Subsubsection
+Observational Physicist
+\end_layout
+
+\begin_layout Standard
+An observational physicist is curious how long it takes for a star cluster
+ to dissolve while orbiting a galaxy.
+ She is interested in whether this cluster collapses or dissolves first.
+ The observational physicist opens up a new experiment with GPUNIT and selects
+ the Stellar Dynamics module Hermite0 and a Stellar Evolution Module called
+ Single Star Evolution (SSE).
+ She selects the initial conditions of a Plummer model and runs the experiment
+ looking for the boundary where the star cluster collapses versus dissolves
+ by changing values of the initial conditions.
+ The observational physicist then decides to use a different mass distribution
+ model for the initial conditions and, using GPUNIT, removes the Plummer
+ model, replacing it with a Krupa distribution.
+ She then investigates the same concept.
+\end_layout
+
+\begin_layout Subsubsection
+Physics Student
+\end_layout
+
+\begin_layout Standard
+There is a fifth year physics major preparing to write his senior thesis
+ at a university.
+ He wants to explore the origins of mass segregation.
+ Mass segregation describes the process through which higher mass objects
+ move towards the center of the cluster and the lighter objects are on the
+ outside.
+ The student wants to create an experiment and opens GPUNIT.
+ The student then selects a Stellar Dynamics Module called Hermite0, and
+ a Stellar Evolution Module called Single Star Evolution (SSE).
+ He goes on to select initial conditions of a Plummer model and draws connection
+s between the different modules loaded.
+ These connections represent variables passing between modules.
+ The student knows little about N-Body simulation, so he selects a pre-existing
+ density estimation diagnostic tool to observe the positions of the stars
+ in the cluster.
+ Finally, the student runs the simulation and is able to find variables
+ that need to be changed.
+\end_layout
+
+\begin_layout Section
+Functional Requirements
+\end_layout
+
+\begin_layout Subsection
+Requirement Apportioning
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="50page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Priority 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+This is the highest priority.
+ Requirements designated to be Priority 1 must be functional for the software
+ to be accepted by the customer.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Priority 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Requirements designated Priority 2 do not have to be completed for the initial
+ release of the software; however, their completion is required for the
+ final release of the software to be accepted by the customer.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Priority 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+This is the lowest priority.
+ Requirements designated to be Priority 3 are not required for the initial
+ release of the software.
+ These requirements are for future releases of the software.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Module Initialization
+\end_layout
+
+\begin_layout Standard
+The AMUSE code base has a number of existing modules used for the simulation
+ of stellar systems.
+ The existing modules in the AMUSE version 3.0 code base are: BHTree, Hermite0,
+ phiGRAPE, twobody, smallN, octgrave, SSE, BSE, evtwin, mesa, athena, capreole,
+ fi, and gadget2.
+\end_layout
+
+\begin_layout Subsubsection
+The Stellar Dynamics module can be loaded.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The Stellar Evolution module can be loaded.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The Hydrodynamics Interface can be loaded.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+Future modules added to the AMUSE code base can be loaded, provided they
+ conform to the template set forth by GPUNIT and implemented by existing
+ modules.
+ Priority 2.
+\end_layout
+
+\begin_layout Subsubsection
+Currently loaded Modules can be unloaded.
+ Priority 2.
+\end_layout
+
+\begin_layout Subsection
+Entity Management
+\end_layout
+
+\begin_layout Standard
+Entity management is the functionality to add/remove entities to/from the
+ simulation as well as query an entity’s current state.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+An entity can be added before a simulation or after the simulation meets
+ a defined stopping criterion.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+An entity can be removed before or after a simulation.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+An entity’s initial state can be set via properties in the experiment specificat
+ion.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+An entity’s state is locked upon beginning a simulation.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+If an entity’s initial state contains invalid property values, the user
+ cannot begin a simulation.
+ Invalid properties include numerical values out of range and incorrect
+ input for a given data type.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+If an entity’s initial state contains invalid properties values, the software
+ notifies the user.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsection
+Model Evolution
+\end_layout
+
+\begin_layout Standard
+The entities’ states evolve with time throughout the simulation.
+\end_layout
+
+\begin_layout Subsubsection
+The user can begin a simulation.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The user can not pause a simulation.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The user can provide criteria for stopping a running simulation.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+A running simulation stops if a stopping criterion is met.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The user can provide a timeout duration as a stopping criterion.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsection
+Module Interaction
+\end_layout
+
+\begin_layout Standard
+Modules can interact with each other by sending the required data up to
+ the central data model after the module has completed execution.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Each module or entity can be queried about their current state.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+Each module or entity can query the state of another module in the experiment
+ via the central model.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Each module or entity can be configured to query another module for values
+ needed to simulate the current time step.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsection
+Diagnostics
+\end_layout
+
+\begin_layout Standard
+Diagnostics about the state of all entities of the experiment are displayed
+ and/or saved to a file.
+\end_layout
+
+\begin_layout Subsubsection
+GPUNIT has built-in diagnostics such as a body’s mass, speed, density, and
+ radius.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The user can create custom diagnostics.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can add a custom diagnostic.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Paragraph
+The user can edit a custom diagnostic.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can delete a custom diagnostic.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Paragraph
+The user can rename a custom diagnostic.
+ Priority 1.
+\end_layout
+
+\begin_layout Subsubsection
+The user can select the diagnostics about which to be notified.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can select diagnostics from a list of built-in diagnostics.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can select a custom diagnostic that they created.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Custom diagnostics must conform to the template required by GPUNIT.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The user specifies when the diagnostics will be displayed.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can opt to have the diagnostics displayed after a stopping criterion
+ is met for all entities.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can opt to have the diagnostics displayed after a stopping criterion
+ is met for selected entities.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+The user can opt to have the diagnostics displayed when the experiment terminate
+s.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Paragraph
+The user can opt to have the diagnostics displayed for selected entities
+ when the experiment terminates.
+ Priority 1
+\end_layout
+
+\begin_layout Subsubsection
+The diagnostics can be saved to a file.
+ Priority1.
+\end_layout
+
+\begin_layout Subsection
+Logging
+\end_layout
+
+\begin_layout Standard
+The purpose of the logs is to be able to restart an experiment with the
+ output data if there is an error in the experiment or the experiment needs
+ to be stopped and continued at a later time.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Logging can be enabled.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Logging can be disabled.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The user can specify the output location for the logs.
+ Priority 1.
+\end_layout
+
+\begin_layout Paragraph
+Logs can be output to the console.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Logs can be output to a file.
+ Priority 1.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Logs can be output to a window in the GUI.
+ Priority 1.
+\end_layout
+
+\begin_layout Section
+Non-Functional Requirements
+\end_layout
+
+\begin_layout Subsection
+User Input Hardware
+\end_layout
+
+\begin_layout Standard
+The software is operable using a standard keyboard and mouse.
+\end_layout
+
+\begin_layout Subsection
+File Formats
+\end_layout
+
+\begin_layout Standard
+The software uses standard AMUSE output file formats for data, chosen by
+ the user.
+ The available formats are: HDF5, netCDF, Comma Separated Value (CSV).
+\end_layout
+
+\begin_layout Subsection
+Ease Of Use
+\end_layout
+
+\begin_layout Subsubsection
+The software greatly increases accessibility to the AMUSE code base by allowing
+ non-expert programmers to create astrophysical experiments.
+ The software allows experts to create experiments that can be shared with
+ the scientific community and reproduced on demand.
+\end_layout
+
+\begin_layout Subsubsection
+The software's GUI includes standard functionality typical users have come
+ to expect.
+ This includes resizable windows, clickable menu bar, confirm quitting when
+ your document has been modified, minimizable windows, etc.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Experiments created and persisted via the GUI can be run by expert users
+ using the standard text-based shell interface.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Users are able to choose between running the GUI and using the standard
+ text-based shell interface.
+\end_layout
+
+\begin_layout Subsection
+Maintanibility
+\end_layout
+
+\begin_layout Subsubsection
+The software can be extended to support new functionality such as custom
+ modules, user-specified diagnostics, logging and outputs.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The software is documented for readability.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The public interfaces exposed by the software’s underlying code are documented
+ for future development.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+All attributes and methods of the non-public implementation within the software’
+s underlying code are commented.
+\end_layout
+
+\begin_layout Subsubsection
+The formatting of the software’s underlying code conforms to industry-standard
+ best practices.
+\end_layout
+
+\begin_layout Subsubsection
+The naming conventions present in the software’s underlying code conforms
+ to industry-standard best practices.
+\end_layout
+
+\begin_layout Subsection
+System Evolution
+\end_layout
+
+\begin_layout Standard
+Future versions will support access to more experiment variables and greater
+ parallelization of modules.
+ The system can be expanded in the future to automatically control distribution
+ of parallel resources and computations.
+ As AMUSE grows, the system should be able to support new types of modules
+ and computations so that it is still a useful framework.
+ Visualization tools can be added to the framework so that users can see
+ a graphical representation of their output data.
+\end_layout
+
+\begin_layout Subsection
+Dependencies
+\end_layout
+
+\begin_layout Standard
+GPUNIT is dependent on AMUSE.
+ The AMUSE environment and its own dependencies must be successfully installed
+ prior to use of GPUNIT.
+\end_layout
+
+\begin_layout Subsection
+Security
+\end_layout
+
+\begin_layout Standard
+GPUnit does not create any new security flaws not present in current AMUSE
+ code.
+ Additional flaws are the user’s responsibility.
+ If any sensitive data is being processed with this software it is the responsib
+ility of the user to ensure that their communication network is secure enough
+ to protect said data.
+\end_layout
+
+\begin_layout Subsection
+Hardware Requirements
+\end_layout
+
+\begin_layout Standard
+Basic hardware requirements include: a 2.6 GHz processor, 1 GB RAM (2 GB
+ recommended), 256 MB diskspace (512 MB recommended), and an operating system
+ capable of running AMUSE.
+ Linux, Windows, Mac OS X are currently supported.
+\end_layout
+
+\begin_layout Section
+Use Cases
+\end_layout
+
+\begin_layout Standard
+The use cases describe sample usage scenarios for the GPUNIT software, the
+ commands available to the user in each scenario, and the actions taken
+ by GPUNIT in response to each user command.
+ The following table presents the symbols and terminology employed in the
+ use case descriptions and diagrams, along with their definitions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="2">
+<features>
+<column alignment="center" valignment="top" width="20page%">
+<column alignment="center" valignment="middle" width="30page%">
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Term or Symbol
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Definition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Action
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A command, task, or state change performed by an actor during the scenario.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A participant in the scenario.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Precondition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A constraint on the state of the world at the start of the scenario.
+ Each constraint is understood to have been fulfilled before the scenario
+ proceeds.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Postcondition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A constraint on the state of the world at the conclusion of the scenario.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/start.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The point at which the scenario begins and all preconditions must have been
+ fulfilled.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/transition.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A transition by which the scenario may proceed from the action or state
+ at the tail of the arrow to the action or state at the arrowhead.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/action.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+An action taken by an actor during the scenario.
+ The inner text briefly describes the action.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/state.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A state change that occurs during the scenario as a result of some action.
+ The inner text briefly describes the new state of the world at the particular
+ moment in the scenario.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row interlinespace="5pt">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/end.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The point at which the scenario ends and all postconditions must be fulfilled.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Create-an-Experiment"
+
+\end_inset
+
+Create an Experiment
+\end_layout
+
+\begin_layout Subsubsection
+Description
+\end_layout
+
+\begin_layout Standard
+The user creates a new experiment, or modifies an existing one, using the
+ graphical interface.
+\end_layout
+
+\begin_layout Subsubsection
+Actors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The person wishing to create an experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The interface
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The graphical interface of GPUNIT.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Preconditions
+\end_layout
+
+\begin_layout Standard
+The interface is loaded.
+ Optionally, an experiment is saved in a location accessible to the user.
+\end_layout
+
+\begin_layout Subsubsection
+Actions
+\end_layout
+
+\begin_layout Standard
+The user creates a new experiment or loads an existing one from an accessible
+ location.
+ The interface displays the configuration of modules and entities of which
+ the experiment is composed.
+ In addition, the interface displays a list of available modules and entities.
+ The user selects an existing module or entity, or adds one from the list.
+ The user specifies the initial parameters of the selected module or entity,
+ or opts to delete it.
+ The interface displays the updated state of the experiment.
+ The user repeatedly configured modules and entities in this manner.
+ When the user is satisfied with the state of the experiment, he or she
+ saves the experiment to one or more available formats.
+\end_layout
+
+\begin_layout Subsubsection
+Postconditions
+\end_layout
+
+\begin_layout Standard
+The interface displays a graphical representation of the experiment’s configurat
+ion.
+\end_layout
+
+\begin_layout Subsubsection
+Workflow Diagram
+\end_layout
+
+\begin_layout Standard
+The following diagram illustrates a workflow associated with this use case.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/workflow.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Run-an-Experiment-1"
+
+\end_inset
+
+Run an Experiment Using the Graphical Interface
+\end_layout
+
+\begin_layout Subsubsection
+Description
+\end_layout
+
+\begin_layout Standard
+Using the graphical interface, the user configures and runs an experiment.
+\end_layout
+
+\begin_layout Subsubsection
+Actors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The person wishing to run an experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The interface
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The graphical interface of GPUNIT.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Preconditions
+\end_layout
+
+\begin_layout Standard
+An experiment is created and loaded using the interface, as described in
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Create-an-Experiment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Actions
+\end_layout
+
+\begin_layout Standard
+The user prepares diagnostics for the experiment, as described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Prepare-Experiment-Diagnostics"
+
+\end_inset
+
+.
+ The user selects a computing environment in which to run the experiment.
+ The interface generates a simulaton reflecting the experiment’s configuration.
+ The interface executes the script using the specified environment, displaying
+ the specified diagnostics.
+ In the event of an error or other unexpected feedback, the interface provides
+ a detailed notification to the user.
+ If the user wishes, he or she may terminate the experiment in progress.
+\end_layout
+
+\begin_layout Subsubsection
+Postconditions
+\end_layout
+
+\begin_layout Standard
+During execution of the experiment, the interface displays diagnostic and
+ logging information.
+ At the conclusion of the experiment, the interface displays the results
+ of the experiment in the format configured by the user.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Run-an-Experiment"
+
+\end_inset
+
+Run an Experiment Using the Command-Line Interface
+\end_layout
+
+\begin_layout Subsubsection
+Description
+\end_layout
+
+\begin_layout Standard
+Using the command-line interface, the user runs an experiment.
+\end_layout
+
+\begin_layout Subsubsection
+Actors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="40page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The person wishing to run an experiment and possessing sufficiently advanced
+ computing skills to use the command-line interface.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The interface
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The graphical interface of GPUNIT.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The system
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The GPUnit software package
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Preconditions
+\end_layout
+
+\begin_layout Standard
+An experiment is created and saved in a location accessible to the user.
+ The user locates the saved experiment.
+\end_layout
+
+\begin_layout Subsubsection
+Actions
+\end_layout
+
+\begin_layout Standard
+The user provides the interface with the location of the saved experiment
+ and the identity of the computing environment in which to run the simulation.
+ The system validates the location and contents of the saved experiment.
+ The system executes the experiment using the specified environment, displaying
+ diagnostic and logging information.
+ In the event of an error or other unexpected feedback, the interface provides
+ a detailed notification to the user.
+ If the user wishes, he or she may terminate the experiment in progress.
+\end_layout
+
+\begin_layout Subsubsection
+Postconditions
+\end_layout
+
+\begin_layout Standard
+The interface saves the logs and diagnostics generated while running the
+ experiment for future reference.
+ At the conclusion of the experiment, the interface saves the results of
+ the experiment and notifies the user.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Prepare-Experiment-Diagnostics"
+
+\end_inset
+
+Prepare Experiment Diagnostics
+\end_layout
+
+\begin_layout Subsubsection
+Description
+\end_layout
+
+\begin_layout Standard
+Using the graphical user interface the user selects diagnostics to be run
+ on the results of the experiment.
+\end_layout
+
+\begin_layout Subsubsection
+Actors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="40page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The person wishing to run an experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The interface
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The graphical interface of GPUNIT.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Preconditions
+\end_layout
+
+\begin_layout Standard
+The interface is loaded.
+ The user creates a new experiment or loads a saved experiment as described
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Create-an-Experiment"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Actions
+\end_layout
+
+\begin_layout Standard
+The user elects to prepare diagnostics for the experiment.
+ The interface displays a list of available diagnostic scripts.
+ The user selects one or more diagnostic scripts to run alongside the experiment.
+ Upon running the experiment as described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Run-an-Experiment-1"
+
+\end_inset
+
+ or 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Run-an-Experiment"
+
+\end_inset
+
+, the system performs the specified diagnostics.
+\end_layout
+
+\begin_layout Subsubsection
+Postconditions
+\end_layout
+
+\begin_layout Standard
+Diagnostic information pertaining to the experiment is saved in the specified
+ format.
+ If the experiment has been run using the graphical interface as described
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Run-an-Experiment"
+
+\end_inset
+
+, the interface displays the diagnostic information using the representation
+ selected by the user.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Advanced-User-Writes"
+
+\end_inset
+
+Advanced User Writes Diagnostics on Experiment
+\end_layout
+
+\begin_layout Subsubsection
+Description
+\end_layout
+
+\begin_layout Standard
+An advanced user uses GPUNIT to create a diagnostics script to be used in
+ later experiments.
+\end_layout
+
+\begin_layout Subsubsection
+Actors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="40page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The person wishing to run an experiment and possessing sufficiently advanced
+ computing skills to use the command-line interface.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The interface
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The graphical interface of GPUNIT.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Preconditions
+\end_layout
+
+\begin_layout Standard
+GPUNIT is open with an experiment loaded.
+\end_layout
+
+\begin_layout Subsubsection
+Actions
+\end_layout
+
+\begin_layout Standard
+User selects option to create new diagnostics tool.
+ User codes following all python constructs and following the template guideline
+s of inputs and outputs of diagnostics tool.
+ User saves diagnostics tool.
+\end_layout
+
+\begin_layout Subsubsection
+Postconditions
+\end_layout
+
+\begin_layout Standard
+Diagnostics tool exists to be used for future experiments.
+ Diagnostics tool works assuming all GPUNIT guidelines are followed.
+\end_layout
+
+\begin_layout Subsection
+Use Case Diagram
+\end_layout
+
+\begin_layout Standard
+The following diagram graphically represents the actors involved in each
+ use case and the relationships between the use cases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/use-cases.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+User Interface Prototype
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/uiproto-modules.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Module Linking
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/uiproto-menus.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Menus
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/uiproto-connections.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Module Connection Editor
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/uiproto-moduleeditor.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Module Description Editor
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
