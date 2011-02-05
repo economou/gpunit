@@ -16,7 +16,7 @@ tabs-within-sections
 \font_roman default
 \font_sans default
 \font_typewriter default
-\font_default_family default
+\font_default_family sfdefault
 \font_sc false
 \font_osf false
 \font_sf_scale 100
@@ -59,28 +59,43 @@ tabs-within-sections
 
 \begin_body
 
-\begin_layout Title
-GPUnit Design Document
+\begin_layout Standard
+\align right
+
+\series bold
+\size huge
+Software Design Document:
+\series default
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\size larger
+GPU N-Body Integration Toolkit
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_layout Author
+\begin_layout Standard
+\align right
 
-\series bold
-Prepared
-\series default
- 
-\series bold
-by
-\series default
-: 
+\size larger
+Prepared by:
+\size default
+
 \begin_inset Newline newline
 \end_inset
 
-Daniel Bagnell 
+Daniel Bagnell
 \begin_inset Newline newline
 \end_inset
 
-Jason Economou 
+Jason Economou
 \begin_inset Newline newline
 \end_inset
 
@@ -88,41 +103,47 @@ Rajkumar Jayachandran
 \begin_inset Newline newline
 \end_inset
 
-Tim McJilton 
+Tim McJilton
 \begin_inset Newline newline
 \end_inset
 
-Gabe Schwartz 
+Gabe Schwartz
 \begin_inset Newline newline
 \end_inset
 
-Andrew Sherman 
-\series bold
-
+Andrew Sherman
 \begin_inset Newline newline
 \end_inset
 
-Advisor
-\series default
-: 
-\begin_inset Newline newline
-\end_inset
 
-Prof.
- Jeremy Johnson 
-\series bold
+\end_layout
 
-\begin_inset Newline newline
-\end_inset
+\begin_layout Standard
+\align right
 
-Stakeholders
-\series default
-: 
+\size larger
+Advisor:
+\size default
+
 \begin_inset Newline newline
 \end_inset
 
 Prof.
- Steve McMillan 
+ Jeremy Johnson
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Stakeholders:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Steve McMillan
 \begin_inset Newline newline
 \end_inset
 
@@ -206,6 +227,10 @@ http://qt.nokia.com/products/developer-tools/
 
 \begin_layout Subsection
 Glossary
+\end_layout
+
+\begin_layout Standard
+For terms not in this glossary, please refer to the SRS.
 \end_layout
 
 \begin_layout Standard
@@ -298,10 +323,6 @@ Architecture Diagram
 
 \end_layout
 
-\begin_layout Subsection
-Overview
-\end_layout
-
 \begin_layout Section
 Graphical User Interface
 \end_layout
@@ -383,11 +404,83 @@ GUI Network Connection Class
 
 \end_layout
 
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Node-Management"
+
+\end_inset
+
+Node Management
+\end_layout
+
+\begin_layout Standard
+Nodes in the cluster, detected through the network connector, may be viewed
+ in the node view window.
+ (Satisfies requirements 2.8.1.X)
+\end_layout
+
+\begin_layout Standard
+From the node window, the user can assign experiments to individual nodes.
+ (Satisfies requirement 2.8.2.1)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/node.eps
+	width 40col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:node-obj"
+
+\end_inset
+
+Node Class
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Experiment Components
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Experiment-Object-Model"
+
+\end_inset
+
 Experiment Object Model
 \end_layout
 
@@ -438,8 +531,8 @@ Experiment Class
 
 \begin_layout Standard
 An instance of the Experiment class represents a single AMUSE experiment.
- It holds all particles, modules, logging tools, diagnostics, and initial
- conditions for a simulation.
+ It holds all particles (Satisfies requirement 2.3.3), modules, logging tools,
+ diagnostics, and initial conditions for a simulation.
  These are described in more detail below.
  The experiment class can be viewed in Figure 
 \begin_inset CommandInset ref
@@ -2411,6 +2504,7 @@ Description
 
 \begin_layout Plain Layout
 Adds the given Diagnostic to the Experiment.
+ Satisfies requirement 2.6.3.{1,2}.
 \end_layout
 
 \end_inset
@@ -2709,6 +2803,7 @@ Description
 
 \begin_layout Plain Layout
 Adds the given Logger to the Experiment.
+ Satisfies requirement 2.7.1.
 \end_layout
 
 \end_inset
@@ -2909,6 +3004,7 @@ Description
 
 \begin_layout Plain Layout
 Removes the given Logger from the Experiment.
+ Satisfies requirement 2.7.2.
 \end_layout
 
 \end_inset
@@ -2926,6 +3022,12 @@ Removes the given Logger from the Experiment.
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Particles"
+
+\end_inset
+
 Particles
 \end_layout
 
@@ -3797,6 +3899,12 @@ Relationships between Module and supporting classes
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Module-Class"
+
+\end_inset
+
 Module Class
 \end_layout
 
@@ -4352,6 +4460,12 @@ Recreates a Module from its XML specification.
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Parameter-Class"
+
+\end_inset
+
 Parameter Class
 \end_layout
 
@@ -5485,6 +5599,12 @@ StoppingConditions is a set of bit flags enumerating the conditions under
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Diagnostics"
+
+\end_inset
+
 Diagnostics
 \end_layout
 
@@ -5495,6 +5615,7 @@ Diagnostics have access to the state of the experiment at the end of each
  printing the state to a file at a specified time step or creating a stellar
  mass histogram.
  Users can create custom diagnostic plug-ins.
+ (Satisfies requirement 2.6)
 \end_layout
 
 \begin_layout Subsubsection
@@ -5574,10 +5695,16 @@ Condition Class
 
 \begin_layout Standard
 The Condition class represents the conditions that need to be satisfied
- for a dignostic to be updated.
+ for a diagnostic to be updated.
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Logging"
+
+\end_inset
+
 Logging
 \end_layout
 
@@ -5589,6 +5716,7 @@ Logs are helpful when the experiment must be restarted along with its output
  The output destination for the logs could be specified .
  The specified destination for the output can be one among the following:
  the console, a file, or a window in the GUI.
+ (Satisfies requirement 2.7)
 \end_layout
 
 \begin_layout Subsubsection
@@ -5642,17 +5770,6 @@ name "fig:Logging-Object-Model"
 \end_layout
 
 \begin_layout Subsubsection
-Experiment Handler Class
-\end_layout
-
-\begin_layout Standard
-The Experiment Manager Class is responsible for controlling the enabling
- and disabling of the logs.
- The Experiment Handler class has an association relation with the logging
- class.
-\end_layout
-
-\begin_layout Subsubsection
 Logging Class
 \end_layout
 
@@ -5690,6 +5807,12 @@ The command line tool (CLT) is used for the running of an experiment file.
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Using-the-CLT"
+
+\end_inset
+
 Using the CLT
 \end_layout
 
@@ -5987,6 +6110,12 @@ Simulation Initialization is used for preparation of the particles and modules
 \end_layout
 
 \begin_layout Subparagraph
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Instantiate-Particles"
+
+\end_inset
+
 Instantiate Particles
 \end_layout
 
@@ -6031,6 +6160,12 @@ The CLT needs to instantiate the AMUSE class for the specific module it
 \end_layout
 
 \begin_layout Subparagraph
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Instantiate-Channels"
+
+\end_inset
+
 Instantiate Channels
 \end_layout
 
@@ -6038,13 +6173,19 @@ Instantiate Channels
 Channels are used to be able to communicate data to and from the modules
  that may be on a different system.
  On every time step you need to synchronize the master list of particles
- to every modules seperate list of nodes.
- Afterwards you need to re-synch the modules nodes to the master node.
+ to every modules separate list of nodes.
+ Afterwards you need to re-sync the modules nodes to the master node.
  This allows the modules to have the same data to move forward in the simulation.
  (Satisfies Requirement 2.5.1, 2.5.2, 2.5.2.1)
 \end_layout
 
 \begin_layout Paragraph
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Running-Simulation"
+
+\end_inset
+
 Running Simulation 
 \end_layout
 
@@ -6120,6 +6261,12 @@ reference "fig:Logging-Object-Model"
 \end_layout
 
 \begin_layout Subparagraph
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Increment-Time"
+
+\end_inset
+
 Increment Time
 \end_layout
 
@@ -6132,7 +6279,7 @@ reference "fig:Exp-Obj-Model"
 \end_inset
 
 ).
- The stopping condition of the experiment is met when the stopping conditions
+ The stopping of the experiment is signaled when the stopping conditions
  are met.
  (Satisfies Requirement 2.4.3.1)
 \end_layout
@@ -6184,7 +6331,7 @@ Stop Modules
 
 \begin_layout Standard
 The modules should be cleaned up after being run.
- This involves if running in parallel sending a kil command via MPI.
+ This involves if running in parallel sending a kill command via MPI.
  We will run the modules'(AMUSE class) stop() command.
 \end_layout
 
@@ -6329,6 +6476,49 @@ name "fig:CI-UML"
 \end_inset
 
 Control Instance Class Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Node Instance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/nodeinstance.eps
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Node Instance Class Diagram
 \end_layout
 
 \end_inset
@@ -6584,6 +6774,12 @@ Data
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Experiment-Specification"
+
+\end_inset
+
 Experiment Specification
 \end_layout
 
@@ -7342,6 +7538,12 @@ The filename of the logging script
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Stopping-Condition"
+
+\end_inset
+
 Stopping Condition
 \end_layout
 
@@ -7405,10 +7607,6 @@ The type of stopping condition to use
 \end_layout
 
 \begin_layout Subsection
-Module Specification
-\end_layout
-
-\begin_layout Subsection
 Network Packets
 \end_layout
 
@@ -7445,7 +7643,7 @@ Packet Header
 \end_layout
 
 \begin_layout Standard
-The packet header preceeds data in all packets.
+The packet header precedes data in all packets.
 \end_layout
 
 \begin_layout Standard
@@ -7892,12 +8090,767 @@ string
 
 \end_layout
 
+\begin_layout Section
+Appendix
+\end_layout
+
 \begin_layout Subsection
-Component Interactions
+Requirements Traceability Table
 \end_layout
 
 \begin_layout Standard
-SWIM LANE DIAGRAMS GO HERE
+\begin_inset Tabular
+<lyxtabular version="3" rows="29" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Requirement
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section in SDD
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Module-Class"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Module-Class"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Module-Class"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Module-Class"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Module-Class"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Particles"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Particles"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Experiment-Object-Model"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Instantiate-Particles"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Parameter-Class"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.4.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Using-the-CLT"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.4.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Running-Simulation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.4.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Increment-Time"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.4.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Increment-Time"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.5.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Instantiate-Channels"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.5.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Instantiate-Channels"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Diagnostics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Diagnostics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Diagnostics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Diagnostics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Diagnostics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Diagnostics"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.7.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Logging"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.7.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Logging"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.7.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Logging"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.8.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Node-Management"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.8.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Node-Management"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \end_body
