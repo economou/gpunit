@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -396,7 +396,7 @@ Experiment Object Model
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -442,7 +442,7 @@ Particles are the elements that are being updated and the experiment is
  being run on.
  These particles can be anything as little as atoms to as large as star
  clusters.
- They are made up of mass , position, and velocity.
+ They are made up of mass, position, and velocity.
  (Satisfies requirements 2.3.1, 2.3.2)
 \end_layout
 
@@ -458,9 +458,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename UML/particle.png
-	width 66text%
+	width 40col%
 
 \end_inset
 
@@ -492,7 +493,7 @@ name "fig:Particle-Class-Diagram"
 \end_layout
 
 \begin_layout Standard
-Particle class will be instantiate and used for storage of particle type
+Particle class will be instantiated and used for storage of particle type
  items on the UI of GPUNIT.
  The Particle class in AMUSED will be used in the CLT.
  The particle class will be used primarily for data storage for experiment
@@ -501,6 +502,10 @@ Particle class will be instantiate and used for storage of particle type
 
 \begin_layout Paragraph
 Particle Attributes
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -644,6 +649,10 @@ The current position of the particle.
 
 \begin_layout Paragraph
 Particle Methods
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
