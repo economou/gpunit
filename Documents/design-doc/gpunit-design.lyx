@@ -399,7 +399,7 @@ Experiment Object Model
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2324,7 +2324,7 @@ Simulation Overview
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -2477,7 +2477,7 @@ Increment Time
 \end_layout
 
 \begin_layout Standard
-The time should increment using the specified timestep(Figure 
+The time should increment using the specified timestep (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Exp-Obj-Model"
