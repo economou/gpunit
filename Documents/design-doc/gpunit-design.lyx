@@ -397,9 +397,10 @@ Experiment Object Model
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -454,6 +455,7 @@ Particle Class
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -3126,6 +3128,13 @@ status open
 
 \begin_layout Plain Layout
 Logging Object Model
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Logging-Object-Model"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3191,11 +3200,252 @@ The command line tool (CLT) is used for the running of an experiment file.
 \end_layout
 
 \begin_layout Subsection
+Using the CLT
+\end_layout
+
+\begin_layout Standard
+The command line tool will primarily be used by the GUI to send out jobs
+ and run them to make the user experience much more enjoyable and at ease.
+ The command line tool though can be used with a basic experiment file with
+ some on the fly modifications by using some flags.
+\end_layout
+
+\begin_layout Subsubsection
+CLT Flags
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Flag
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<Value Being Passed>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--help
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+None
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Displays a useful help prompt with the list of CLT flags.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-f
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Experiment File Location
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Loads the experiment file prompted by the filename.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of Particles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the number of particles being passed in the experiment file.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-t
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+End Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the max time allowed in the simulation.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-dt
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Timestep
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the timestep in which dt moves forward.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-r
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Radius
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Changes the radius scaling factor.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Running The Experiment
 \end_layout
 
 \begin_layout Subsubsection
 Simulation Overview
+\end_layout
+
+\begin_layout Standard
+A Simulation is the goal of both GPUNIT and AMUSE, which makes it important
+ to understand and break it into key parts.
+ The Simulation can be looked at as three sections: Simulation Initialization,
+ Running Simulation, Post Simulation.
+ This section will go into more detail about all three of these parts and
+ what happens in each.
 \end_layout
 
 \begin_layout Standard
@@ -3344,11 +3594,32 @@ The function should loop through all the diagnostic scripts and if the diagnosti
 cs should use the shouldUpdate function with the current state of the experiment
  to check if it should run.
  If the diagnostic should run, it then runs the update method passing in
- the master list of particles.
+ the master list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Diagnostics-Object-Model"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subparagraph
 Run Logging
+\end_layout
+
+\begin_layout Standard
+The function will loop through all the logging scripts and run any real
+ time logging scripts that need to be run.
+ The real time logging scripts are denoted by name and run their logData
+ method passing in the list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Logging-Object-Model"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subparagraph
@@ -3393,6 +3664,20 @@ reference "fig:Diagnostics-Object-Model"
 
 \begin_layout Subparagraph
 Run Closing Logging Scripts
+\end_layout
+
+\begin_layout Standard
+The function will loop through all the logging scripts and run any post
+ simulation logging scripts that need to be run.
+ The post simulation logging scripts are denoted by name and run their logData
+ method passing in the list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Logging-Object-Model"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subparagraph
