@@ -1057,13 +1057,6 @@ Each module or entity can be queried about their current state.
 Each module or entity can query the state of another module in the experiment
  via the central model.
  Priority 1.
- 
-\end_layout
-
-\begin_layout Subsubsection
-Each module or entity can be configured to query another module for values
- needed to simulate the current time step.
- Priority 1.
 \end_layout
 
 \begin_layout Subsection
