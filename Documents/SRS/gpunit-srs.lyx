@@ -1038,11 +1038,6 @@ A running simulation stops if a stopping criterion is met.
  Priority 1.
 \end_layout
 
-\begin_layout Subsubsection
-The user can provide a timeout duration as a stopping criterion.
- Priority 1.
-\end_layout
-
 \begin_layout Subsection
 Module Interaction
 \end_layout
