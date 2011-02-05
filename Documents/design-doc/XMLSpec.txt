@@ -2,10 +2,9 @@ Experiments are saved in XML format by the following specification.
 Experiment is the root of the XML tree, and all other tags are ancestors of experiment.
 ---------------------------------------------------------------------
 Experiment attributes:
-   name,
-   saveName
+   name
 e.g.
-<experiment name="test1" saveName="test1save"> ... </experiment>
+<experiment name="test1"> ... </experiment>
 
 ---------------------------------------------------------------------
 Time is a child of experiment with attributes:
@@ -18,12 +17,9 @@ e.g.
 
 ---------------------------------------------------------------------
 Module is a child of experiment with attributes:
-   name -- Current legal values are StellarDynamics, StellarEvolution, HydroDynamics
+   name
 e.g.
-<module name="StellarDynamics"> ... <module/>
-
----------------------------------------------------------------------
-Model is a child of module. Its attributes depend on the model. They are listed below by model:
+<module name="BHtree"> ... <module/>
 
 Stellar Dynamics Module
 ------------------------
@@ -62,9 +58,6 @@ As such, many attributes might not be used in all cases. All possible attributes
    speedX,
    speedY,
    speedZ,
-   accelX,
-   accelY,
-   accelZ,
    metallicity,
    luminosity,
    temperature,
