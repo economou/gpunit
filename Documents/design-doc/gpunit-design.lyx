@@ -43,7 +43,7 @@ tabs-within-sections
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
-\secnumdepth 4
+\secnumdepth 5
 \tocdepth 3
 \paragraph_separation indent
 \defskip medskip
@@ -2180,7 +2180,7 @@ Object Model
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2320,8 +2320,8 @@ Flow Chart of Typical AMUSE Simulation
 
 \end_layout
 
-\begin_layout Subsubsection
-Initialization
+\begin_layout Paragraph
+Simulation Initialization
 \end_layout
 
 \begin_layout Standard
@@ -2336,8 +2336,7 @@ Instantiate Particles
 \end_layout
 
 \begin_layout Standard
-In the initialization phase of the experiment it is important to select=======In
- the initialiazation phase of the experiment it is important to select other
+In the initialization phase of the experiment it is important to select
  proper initial conditions.
  The main initial conditions to set is the mass distribution and and starting
  locations of the particles.
@@ -2379,10 +2378,6 @@ The CLT needs to instantiate the AMUSE class for the specific module it
 Instantiate Channels
 \end_layout
 
-\begin_layout Subsubsection
-Channels
-\end_layout
-
 \begin_layout Standard
 Channels are used to be able to communicate data to and from the modules
  that may be on a different system.
@@ -2390,8 +2385,7 @@ Channels are used to be able to communicate data to and from the modules
  to every modules seperate list of nodes.
  Afterwards you need to re-synch the modules nodes to the master node.
  This allows the modules to have the same data to move forward in the simulation.
- These will be initialized for every module loaded and will synchronize
- after every time step in the simulation.
+ 
 \end_layout
 
 \begin_layout Paragraph
@@ -2401,19 +2395,46 @@ Running Simulation
 \begin_layout Standard
 Running the system is the area inside of the while loop.
  This is where the modules are run, some logging is done, some diagnostics
- and definitely some 
+ and increment the time scale.
 \end_layout
 
 \begin_layout Subparagraph
 Evolve Modules
 \end_layout
 
+\begin_layout Standard
+The evolution of the Module is core of running a simulation.
+ The evolution of the module is done by running the AMUSE module's evolve_model
+ function with passing in the current time.
+\end_layout
+
 \begin_layout Subparagraph
 Synchronize Particles
 \end_layout
 
+\begin_layout Standard
+Synchronize particles is required due to the fact every module has a local
+ list of particles to allow parallelization.
+ These particles are updated, yet only one set of dynamics or stellar evolution
+ will be run at a time which prevents any overlapping of data modification.
+ To synchronize the particles you run all the channels created to synchronize
+ all the data to the master list of particles.
+ After the master list is up to date, you then synchronize using all the
+ channels to the modules.
+ This leaves all the modules' list of particles with the latest version
+ of particle data.
+\end_layout
+
 \begin_layout Subparagraph
 Run Diagnostics
+\end_layout
+
+\begin_layout Standard
+The function should loop through all the diagnostic scripts and if the diagnosti
+cs should use the shouldUpdate function with the current state of the experiment
+ to check if it should run.
+ If the diagnostic should run, it then runs the update method passing in
+ the master list of particles.
 \end_layout
 
 \begin_layout Subparagraph
@@ -2424,6 +2445,19 @@ Run Logging
 Increment Time
 \end_layout
 
+\begin_layout Standard
+The time should increment using the specified timestep(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Exp-Obj-Model"
+
+\end_inset
+
+).
+ The stopping condition of the experiment is met when the stopping conditions
+ are met.
+\end_layout
+
 \begin_layout Paragraph
 Post Simulation
 \end_layout
@@ -2432,12 +2466,33 @@ Post Simulation
 Run Closing Diagnostics Scripts
 \end_layout
 
+\begin_layout Standard
+The function should loop through all the diagnostic scripts and if the diagnosti
+cs should use the shouldUpdate function with the current state of the experiment
+ to check if it should run.
+ If the diagnostic should run, it then runs the update method passing in
+ the master list of particles.(Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Diagnostics-Object-Model"
+
+\end_inset
+
+)
+\end_layout
+
 \begin_layout Subparagraph
 Run Closing Logging Scripts
 \end_layout
 
 \begin_layout Subparagraph
 Stop Modules
+\end_layout
+
+\begin_layout Standard
+The modules should be cleaned up after being run.
+ This involves if running in parallel sending a kil command via MPI.
+ We will run the modules'(AMUSE class) stop() command.
 \end_layout
 
 \begin_layout Section
