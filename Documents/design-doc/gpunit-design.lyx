@@ -404,9 +404,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename UML/experiment.eps
-	lyxscale 50
-	scale 40
+	filename UML/experiment.png
 
 \end_inset
 
