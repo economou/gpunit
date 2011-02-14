@@ -1117,7 +1117,7 @@ Name
 
 \begin_layout Plain Layout
 \align left
-Filename Flag Test
+Helpfile Flag Test
 \end_layout
 
 \end_inset
@@ -1159,12 +1159,7 @@ Pre-conditions
 
 \begin_layout Itemize
 \align left
-User has valid Experiment file to run with time step of not .1 and end time
- of not 4
-\end_layout
-
-\begin_layout Itemize
-User has default Logging enabled
+N/A
 \end_layout
 
 \end_inset
@@ -1185,12 +1180,7 @@ Actions
 
 \begin_layout Itemize
 \align left
-User runs <CLT> -t 4 -dt .1
-\end_layout
-
-\begin_layout Itemize
-\align left
-User compares data printed out in the log to experiment file
+User runs <CLT> -h
 \end_layout
 
 \end_inset
@@ -1211,10 +1201,8 @@ Post-conditions
 
 \begin_layout Plain Layout
 \align left
-Experiment printed out in the log is equal to experiment file except end
- time is 4 <time unit in experiment file> and the timestep is .1<time unit
- in experimental file>.
- Simulation begins running.
+Help prompt prints out how to use all flags and a brief description on how
+ to use the CLT.
 \end_layout
 
 \end_inset
@@ -1231,7 +1219,14 @@ Experiment printed out in the log is equal to experiment file except end
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Filename Flag Test
+Help Flag Test
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Help-Flag-Test"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
