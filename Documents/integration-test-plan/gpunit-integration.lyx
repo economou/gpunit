@@ -239,52 +239,6 @@ description "Any object or memory space used for Inter-Process Communication (IP
 \end_layout
 
 \begin_layout Section
-Architecture
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename arch-diagram.eps
-	lyxscale 50
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Architecture-Diagram"
-
-\end_inset
-
-Architecture Diagram
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
 Graphical User Interface
 \end_layout
 
@@ -505,7 +459,7 @@ status open
 <lyxtabular version="3" rows="6" columns="2">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="80col%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -540,6 +494,7 @@ Name
 \begin_inset Text
 
 \begin_layout Plain Layout
+\align left
 N-Body Simulation 
 \begin_inset Formula $\chi^{2}$
 \end_inset
@@ -564,6 +519,7 @@ Description
 \begin_inset Text
 
 \begin_layout Plain Layout
+\align left
 1,000 Particles Simulation compared to actual data via 
 \begin_inset Formula $\chi^{2}$
 \end_inset
@@ -588,6 +544,7 @@ Pre-conditions
 \begin_inset Text
 
 \begin_layout Plain Layout
+\align left
 The User has default logging scripts installed.
 \end_layout
 
@@ -607,8 +564,9 @@ Actions
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Plain Layout
-User does the initialization Steps as in section 
+\begin_layout Itemize
+\align left
+User performs the initialization steps as in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Initialization"
@@ -616,10 +574,11 @@ reference "sub:Initialization"
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-User Run's Experiment as in section 
+\begin_layout Itemize
+\align left
+User runs experiment as in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Run-Experiment"
@@ -646,6 +605,7 @@ Post-conditions
 \begin_inset Text
 
 \begin_layout Plain Layout
+\align left
 User uses the test methodology described in section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -749,7 +709,7 @@ test requires a hypothesis.
  by using equation 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:"
+reference "eq:1"
 
 \end_inset
 
@@ -758,7 +718,7 @@ reference "eq:"
 
 \begin_layout Standard
 \begin_inset Formula \begin{equation}
-\chi^{2}=\sum_{i=1}^{M}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\label{eq:}\end{equation}
+\chi^{2}=\sum_{i=1}^{M}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\label{eq:1}\end{equation}
 
 \end_inset
 
