@@ -478,109 +478,64 @@ Overview
 \end_layout
 
 \begin_layout Subsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Using-the-CLT"
-
-\end_inset
-
-Using the CLT
-\end_layout
-
-\begin_layout Subsubsection
-CLT Flags
+Testing CLT Flags
 \end_layout
 
 \begin_layout Subsection
-Running The Experiment
+Testing The Produced Simulation
 \end_layout
 
 \begin_layout Subsubsection
-Simulation Overview
+Sun, Earth, and Moon Test
+\end_layout
+
+\begin_layout Subsubsection
+N-Body Test
 \end_layout
 
 \begin_layout Paragraph
-Simulation Initialization
+Introduction
 \end_layout
 
-\begin_layout Subparagraph
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Instantiate-Particles"
-
+\begin_layout Standard
+Testing whether the simulation returns good or bad data is vital in this
+ project yet a difficult thing to do.
+ The simulation will have a factor of randomness compared to existing simulation
+s and data.
+ This requires some statistical testing.
+ To test whether the simulation is accurate or not we will do a 
+\begin_inset Formula $\chi^{2}$
 \end_inset
 
-Instantiate Particles
-\end_layout
-
-\begin_layout Subparagraph
-Create Conversion Object
-\end_layout
-
-\begin_layout Subparagraph
-Module Creation
-\end_layout
-
-\begin_layout Subparagraph
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Instantiate-Channels"
-
-\end_inset
-
-Instantiate Channels
+ goodness of fit test.
+ 
 \end_layout
 
 \begin_layout Paragraph
-\begin_inset CommandInset label
-LatexCommand label
-name "par:Running-Simulation"
+Test Methodology
+\end_layout
 
+\begin_layout Standard
+A 
+\begin_inset Formula $\chi^{2}$
 \end_inset
 
-Running Simulation 
-\end_layout
-
-\begin_layout Subparagraph
-Evolve Modules
-\end_layout
-
-\begin_layout Subparagraph
-Synchronize Particles
-\end_layout
-
-\begin_layout Subparagraph
-Run Diagnostics
-\end_layout
-
-\begin_layout Subparagraph
-Run Logging
-\end_layout
-
-\begin_layout Subparagraph
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Increment-Time"
-
+ goodness of fit test requires a previous model or set of data to compare
+ the new data to.
+ We will call previous data the expected.
+ We will call the data returned by the simulation created via GPUNIT the
+ observed.
+ The 
+\begin_inset Formula $\chi^{2}$
 \end_inset
 
-Increment Time
+test requires a hypothesis.
+ Our hypothesis will be that the observed will equal the expected.
+ We then solve for 
 \end_layout
 
 \begin_layout Paragraph
-Post Simulation
-\end_layout
-
-\begin_layout Subparagraph
-Run Closing Diagnostics Scripts
-\end_layout
-
-\begin_layout Subparagraph
-Run Closing Logging Scripts
-\end_layout
-
-\begin_layout Subparagraph
-Stop Modules
+Test Data
 \end_layout
 
 \begin_layout Section
@@ -721,7 +676,7 @@ Capability Response Packet
 Appendix
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Paragraph
 Requirements Traceability Table
 \end_layout
 
