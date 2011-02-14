@@ -1087,7 +1087,7 @@ name "tab:Time-Flags-Test"
 \end_layout
 
 \begin_layout Subsubsection
-Helpfile Flag Test
+Help Prompt Flag Test
 \end_layout
 
 \begin_layout Standard
@@ -1117,7 +1117,7 @@ Name
 
 \begin_layout Plain Layout
 \align left
-Helpfile Flag Test
+Help Prompt Flag Test
 \end_layout
 
 \end_inset
