@@ -586,20 +586,184 @@ Command Line Tool
 Overview
 \end_layout
 
+\begin_layout Standard
+The CLT(Command Line Tool) is made up of three main testing areas: the flags
+ being passed in, XML parsing and running the simulation produced.
+\end_layout
+
 \begin_layout Subsection
 Testing CLT Flags
 \end_layout
 
+\begin_layout Subsubsection
+Filename Flag Test
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Filename Flag Test
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+User runs simulation using CLT with the -f flag.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+\align left
+User has valid Experiment file to run
+\end_layout
+
+\begin_layout Itemize
+User has default Logging enabled
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+\align left
+User runs <CLT> -f <Experiment File>
+\end_layout
+
+\begin_layout Itemize
+\align left
+User compares data printed out in the log to experiment file
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Experiment printed out in the log is equal to experiment file.
+ Simulation begins running.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Filename Flag Test
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Number of Particles Flag Test
+\end_layout
+
+\begin_layout Subsubsection
+Time Flags Test
+\end_layout
+
 \begin_layout Subsection
-Testing The Produced Simulation
+XML Parsing
 \end_layout
 
-\begin_layout Subsubsection
-Sun, Earth, and Moon Test
-\end_layout
-
-\begin_layout Subsubsection
-N-Body Test
+\begin_layout Subsection
+Testing The Produced N-Body Simulation
 \end_layout
 
 \begin_layout Standard
@@ -791,7 +955,7 @@ name "tab:N-Body-Simulation-Test"
 
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection
 Introduction
 \end_layout
 
@@ -809,7 +973,7 @@ s and data.
  
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection
 Test Methodology 
 \begin_inset CommandInset label
 LatexCommand label
@@ -859,7 +1023,7 @@ reference "eq:1"
 
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection
 Test Data
 \end_layout
 
@@ -869,7 +1033,7 @@ There are a few tests we will be doing on a set of particles.
  Potential Energy, and the Net Energy.
 \end_layout
 
-\begin_layout Subparagraph
+\begin_layout Paragraph
 Initialization
 \begin_inset CommandInset label
 LatexCommand label
@@ -889,7 +1053,7 @@ The particles we will be running on will be a set of 1,000 particles with
  The experiment file will be saved in a local location.
 \end_layout
 
-\begin_layout Subparagraph
+\begin_layout Paragraph
 Run Experiment
 \begin_inset CommandInset label
 LatexCommand label
@@ -909,7 +1073,7 @@ The user runs the simulation with the experiment file being passed in with
  The calculations of all these values are held within the logging script.
 \end_layout
 
-\begin_layout Subparagraph
+\begin_layout Paragraph
 Compare Data
 \begin_inset CommandInset label
 LatexCommand label
