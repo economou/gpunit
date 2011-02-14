@@ -193,6 +193,56 @@ LatexCommand tableofcontents
 Introduction
 \end_layout
 
+\begin_layout Standard
+This document describes the necessary integration tests of the GPUnit software
+ system described by the GPUnit Software Design Document.
+\end_layout
+
+\begin_layout Section
+Test Assumptions and Exclusions
+\end_layout
+
+\begin_layout Standard
+This sections provides the integration test assumptions as well as the component
+s of the GPUnit system that will not be covered by the integration testing
+ process.
+\end_layout
+
+\begin_layout Subsection
+Test Assumptions
+\end_layout
+
+\begin_layout Standard
+It is assumed that all individual components of the GPUnit software system
+ had unit tests run previously and that these unit tests cover all aspects
+ not included in the Integration Test Plan.
+ The Integration Test Plan covers:
+\end_layout
+
+\begin_layout Itemize
+interaction of the GPUnit software components
+\end_layout
+
+\begin_layout Itemize
+interaction of the GPUnit software components with system components
+\end_layout
+
+\begin_layout Subsection
+Test Exclusions
+\end_layout
+
+\begin_layout Standard
+The Integration Test Plan does not cover:
+\end_layout
+
+\begin_layout Itemize
+individual intra-component functionality covered by unit tests
+\end_layout
+
+\begin_layout Itemize
+structural integrity of the source code
+\end_layout
+
 \begin_layout Section
 Graphical User Interface
 \end_layout
@@ -430,7 +480,7 @@ Pre-conditions
 
 \begin_layout Itemize
 \align left
-A cluster of nodes is available and running the node instance code.
+A cluster of nodes is available and running the Node Instance code.
 \end_layout
 
 \begin_layout Itemize
@@ -503,7 +553,170 @@ Node Viewing
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
 \begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+Run an Experiment on a Remote Node
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align left
+The user runs their experiment, sending different modules to run on different
+ nodes.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+\align left
+The user has loaded an experiment with multiple modules in the user interface.
+\end_layout
+
+\begin_layout Itemize
+The user has access to a remote machine(s) which are running the Node Instance
+ code.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+\align left
+The user selects the 
+\begin_inset Quotes eld
+\end_inset
+
+Run experiment...
+\begin_inset Quotes erd
+\end_inset
+
+ option in the interface.
+\end_layout
+
+\begin_layout Itemize
+The user assigns at least one module to at least one of the remote machines
+ in the cluster.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+\align left
+The experiment runs, sending each module's work to the selected cluster
+ node.
+\end_layout
+
+\begin_layout Itemize
+The logging and diagnostic output of the experiment return with the correct
+ state of the system.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Distributed Experiment
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -517,25 +730,303 @@ Experiment Components
 \end_layout
 
 \begin_layout Subsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Experiment-Object-Model"
+Overview
+\end_layout
+
+\begin_layout Standard
+Integration tests for the Experiment class.
+\end_layout
+
+\begin_layout Subsection
+Testing Experiment Export
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Export Experiment XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Writes an Experiment to XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+User creates a valid experiment.
+\end_layout
+
+\begin_layout Itemize
+User chooses a filename to save the file to.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Call Experiment writeXMLFile method with the user's filename.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+Experiment is written to the supplied filename in XML.
+\end_layout
+
+\begin_layout Itemize
+XML file matches experiment data/entities.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
-Experiment Object Model
+
 \end_layout
 
-\begin_layout Subsubsection
-Experiment Class
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Export Experiment XML
 \end_layout
 
-\begin_layout Paragraph
-Experiment Attributes
+\end_inset
+
+
 \end_layout
 
-\begin_layout Paragraph
-Experiment Operations
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Testing Experiment Import
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Import Experiment XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reads an Experiment from XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+User chooses a valid experiment XML file from disk.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Call Experiment loadXMLFile method with the user's filename.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+New experiment is created.
+\end_layout
+
+\begin_layout Itemize
+Experiment data/entities match XML file data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Import Experiment XML
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1655,7 +2146,7 @@ name "sub:Compare-Data"
 \end_layout
 
 \begin_layout Standard
-The data testing will require a set of trustoworthy data or a function to
+The data testing will require a set of trustworthy data or a function to
  use for comparing the data to from our stakeholders.
  We will run the 
 \begin_inset Formula $\chi^{2}$
@@ -1680,128 +2171,326 @@ The data testing will require a set of trustoworthy data or a function to
 Networking
 \end_layout
 
-\begin_layout Subsection
-Network Software Components
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multicast Discovery Test
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test the multicast node discovery feature.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Some number (
+\begin_inset Formula $\ge2$
+\end_inset
+
+) of networked machines are running the Node Instance code.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+The user starts up a Control Instance on a machine connected to the same
+ network as the nodes.
+\end_layout
+
+\begin_layout Itemize
+The user signals the Control Instance that they want to discover a list
+ of nodes on the network (either via the UI or the command line).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+The Control Instance sends out a multicast query packet.
+\end_layout
+
+\begin_layout Itemize
+All nodes send a response packet.
+\end_layout
+
+\begin_layout Itemize
+The tool used to generate the request receives a list of available nodes
+ from the Control Instance.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Control Instance - Node Instance Interaction: Status Query
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The integration tests for the network
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
 \end_layout
 
-\begin_layout Subsection
-Object Model
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Experiment Status Test
 \end_layout
 
-\begin_layout Subsubsection
-Overview
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
 \end_layout
 
-\begin_layout Subsubsection
-Control Instance
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test the experiment status query on remote nodes.
 \end_layout
 
-\begin_layout Subsubsection
-Node Instance
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
 \end_layout
 
-\begin_layout Subsubsection
-TransmissionThread
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+Some number (
+\begin_inset Formula $\ge2$
+\end_inset
+
+) of networked machines are running the Node Instance code.
 \end_layout
 
-\begin_layout Subsubsection
-ReceivingThread
+\begin_layout Itemize
+One or more of the networked nodes have running experiments on them.
 \end_layout
 
-\begin_layout Subsubsection
-ListeningThread
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
 \end_layout
 
-\begin_layout Subsubsection
-Packet Objects
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+The user starts up a Control Instance on a machine connected to the same
+ network as the nodes.
 \end_layout
 
-\begin_layout Section
-Data
+\begin_layout Itemize
+The user signals the Control Instance that they want to request a list of
+ experiments from one of the nodes running experiments (either via the UI
+ or the command line).
 \end_layout
 
-\begin_layout Subsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Experiment-Specification"
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+The Control Instance sends out an experiment status query packet.
+\end_layout
+
+\begin_layout Itemize
+The selected nodes send a response packet with a list of experiments running
+ on them.
+\end_layout
+
+\begin_layout Itemize
+The tool used to generate the request receives a list of nodes and corresponding
+ experiments from the Control Instance.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
-Experiment Specification
+
 \end_layout
 
-\begin_layout Subsubsection
-Experiment
-\end_layout
+\begin_layout Plain Layout
+\begin_inset Caption
 
-\begin_layout Subsubsection
-Time
+\begin_layout Plain Layout
+Control Instance - Node Instance Interaction: Experiment Query
 \end_layout
-
-\begin_layout Subsubsection
-Module
-\end_layout
-
-\begin_layout Subsubsection
-Param
-\end_layout
-
-\begin_layout Subsubsection
-Particle
-\end_layout
-
-\begin_layout Subsubsection
-Diagnostic
-\end_layout
-
-\begin_layout Subsubsection
-Logger
-\end_layout
-
-\begin_layout Subsubsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Stopping-Condition"
 
 \end_inset
 
-Stopping Condition
+
 \end_layout
 
-\begin_layout Subsection
-Network Packets
-\end_layout
+\end_inset
 
-\begin_layout Subsubsection
-Packet Header
-\end_layout
 
-\begin_layout Subsubsection
-Status Query Packet
-\end_layout
-
-\begin_layout Subsubsection
-Status Response Packet
-\end_layout
-
-\begin_layout Subsubsection
-Capability Query Packet
-\end_layout
-
-\begin_layout Subsubsection
-Capability Response Packet
-\end_layout
-
-\begin_layout Section
-Appendix
-\end_layout
-
-\begin_layout Paragraph
-Requirements Traceability Table
 \end_layout
 
 \end_body
