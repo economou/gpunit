@@ -10,6 +10,7 @@
 \begin_modules
 figs-within-sections
 tabs-within-sections
+eqs-within-sections
 \end_modules
 \language english
 \inputencoding auto
@@ -493,6 +494,209 @@ Sun, Earth, and Moon Test
 N-Body Test
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N-Body Simulation 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ Test
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,000 Particles Simulation compared to actual data via 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ test.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The User has default logging scripts installed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User does the initialization Steps as in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Initialization"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+User Run's Experiment as in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Run-Experiment"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User uses the test methodology described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Test-Methodology"
+
+\end_inset
+
+ and compares the data to what is defined in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compare-Data"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+N-Body Simulation Test
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:N-Body-Simulation-Test"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
 Introduction
 \end_layout
@@ -512,7 +716,14 @@ s and data.
 \end_layout
 
 \begin_layout Paragraph
-Test Methodology
+Test Methodology 
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Test-Methodology"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -532,10 +743,109 @@ A
 test requires a hypothesis.
  Our hypothesis will be that the observed will equal the expected.
  We then solve for 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ by using equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:"
+
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+\chi^{2}=\sum_{i=1}^{M}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\label{eq:}\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
 Test Data
+\end_layout
+
+\begin_layout Standard
+There are a few tests we will be doing on a set of particles.
+ We will be comparing the Virial Radius, the ratio of Kinetic Energy over
+ Potential Energy, and the Net Energy.
+\end_layout
+
+\begin_layout Subparagraph
+Initialization
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Initialization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The particles we will be running on will be a set of 1,000 particles with
+ a Plummer Model for distribution of the particles.
+ These particles will also have a Salpeter Mass Distribution.
+ User will create a new experiment selecting the appropriate fields to create
+ this experiment.
+ The experiment file will be saved in a local location.
+\end_layout
+
+\begin_layout Subparagraph
+Run Experiment
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Run-Experiment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The user runs the simulation with the experiment file being passed in with
+ the -f flag.
+ The simulation exports the custom log file with the total energy level,
+ the ratio of the kinetic energy of the potential energy, and the virial
+ radius of the particles.
+ The calculations of all these values are held within the logging script.
+\end_layout
+
+\begin_layout Subparagraph
+Compare Data
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Compare-Data"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The data testing will require a set of trustoworthy data or a function to
+ use for comparing the data to from our stakeholders.
+ We will run the 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ test on.
+ We will compare the ratio of the kinetic energy and potential energy to
+ 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+.
+ Future information on this test will be passed on 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ test looking up the information in the table.
+ 
 \end_layout
 
 \begin_layout Section
