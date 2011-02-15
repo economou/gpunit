@@ -256,7 +256,7 @@ Tool Integration
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -1064,65 +1064,297 @@ name "sub:Module-Class"
 
 \end_inset
 
-Module Class
+Adding a Module to an Experiment
 \end_layout
 
-\begin_layout Paragraph
-Module Attributes
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
 \end_layout
 
-\begin_layout Paragraph
-Module Operations
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Add Module
 \end_layout
 
-\begin_layout Subsubsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Parameter-Class"
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user can add a module to an experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+An experiment is open in the user interface.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+The user elects to add a module.
+\end_layout
+
+\begin_layout Itemize
+The user selects one of the default modules, or browses for a custom module.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The module is added to the experiment and its parameters are configurable.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
-Parameter Class
+
 \end_layout
 
-\begin_layout Paragraph
-Parameter Attributes
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Add Module
 \end_layout
 
-\begin_layout Paragraph
-Parameter Operations
+\end_inset
+
+
 \end_layout
 
-\begin_layout Subsubsection
-Unit Class
-\end_layout
+\end_inset
 
-\begin_layout Paragraph
-Unit Attributes
-\end_layout
 
-\begin_layout Subsubsection
-CompoundUnit Class
-\end_layout
-
-\begin_layout Paragraph
-CompoundUnit Attributes
 \end_layout
 
 \begin_layout Subsubsection
-UnitType Enumeration
+Removing a Module from an Experiment
 \end_layout
 
-\begin_layout Subsubsection
-SIPrefix Enumeration
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
 \end_layout
 
-\begin_layout Subsubsection
-AstrophysicalDomain Enumeration
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Remove Module
 \end_layout
 
-\begin_layout Subsubsection
-StoppingConditions Enumeration
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The user can remove a module from an experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+An experiment is open in the user interface.
+\end_layout
+
+\begin_layout Itemize
+At least one module has been added to the experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+The user selects a module from those present in the experiment.
+\end_layout
+
+\begin_layout Itemize
+The user elects to remove the module.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The module is removed from the experiment.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Remove Module
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
