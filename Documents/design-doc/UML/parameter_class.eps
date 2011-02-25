@@ -1,11 +1,11 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: C:\cs492\gpunit\Documents\design-doc\UML\parameter_class.dia
 %%Creator: Dia v0.97.1
-%%CreationDate: Fri Feb 04 15:16:04 2011
+%%CreationDate: Fri Feb 25 14:02:22 2011
 %%For: Clownboat
 %%Orientation: Portrait
 %%Magnification: 1.0000
-%%BoundingBox: 0 0 444 256
+%%BoundingBox: 0 0 477 528
 %%BeginSetup
 %%EndSetup
 %%EndComments
@@ -341,53 +341,77 @@ definefont pop
     currentdict end
 definefont pop
 28.346000 -28.346000 scale
--5.395000 -13.075000 translate
+-5.395000 -22.675000 translate
 %%EndProlog
 
 
 0.100000 slw
 [] 0 sd
 1.000000 1.000000 1.000000 srgb
-n 5.445000 4.825000 m 5.445000 6.225000 l 20.575000 6.225000 l 20.575000 4.825000 l f
+n 5.445000 4.825000 m 5.445000 6.225000 l 21.730000 6.225000 l 21.730000 4.825000 l f
 0.000000 0.000000 0.000000 srgb
-n 5.445000 4.825000 m 5.445000 6.225000 l 20.575000 6.225000 l 20.575000 4.825000 l cp s
+n 5.445000 4.825000 m 5.445000 6.225000 l 21.730000 6.225000 l 21.730000 4.825000 l cp s
 /Helvetica-Bold-latin1 ff 0.700000 scf sf
-(Parameter) dup sw 2 div 13.010000 ex sub 5.575000 m
+(Parameter) dup sw 2 div 13.587500 ex sub 5.575000 m
  gs 1 -1 sc sh gr
 1.000000 1.000000 1.000000 srgb
-n 5.445000 6.225000 m 5.445000 11.225000 l 20.575000 11.225000 l 20.575000 6.225000 l f
+n 5.445000 6.225000 m 5.445000 11.225000 l 21.730000 11.225000 l 21.730000 6.225000 l f
 0.000000 0.000000 0.000000 srgb
-n 5.445000 6.225000 m 5.445000 11.225000 l 20.575000 11.225000 l 20.575000 6.225000 l cp s
+n 5.445000 6.225000 m 5.445000 11.225000 l 21.730000 11.225000 l 21.730000 6.225000 l cp s
 /Courier-latin1 ff 0.560000 scf sf
-(+name: string) 5.595000 6.765000 m
+(-name: string) 5.595000 6.765000 m
  gs 1 -1 sc sh gr
-(+description: string) 5.595000 7.565000 m
+(-description: string) 5.595000 7.565000 m
  gs 1 -1 sc sh gr
-(+defaultValue: T) 5.595000 8.365000 m
+(-defaultValue: T) 5.595000 8.365000 m
  gs 1 -1 sc sh gr
-(+minValue: T) 5.595000 9.165000 m
+(-minValue: T) 5.595000 9.165000 m
  gs 1 -1 sc sh gr
-(+maxValue: T) 5.595000 9.965000 m
+(-maxValue: T) 5.595000 9.965000 m
  gs 1 -1 sc sh gr
-(+units: CompoundUnit) 5.595000 10.765000 m
+(-units: CompoundUnit) 5.595000 10.765000 m
  gs 1 -1 sc sh gr
 1.000000 1.000000 1.000000 srgb
-n 5.445000 11.225000 m 5.445000 13.025000 l 20.575000 13.025000 l 20.575000 11.225000 l f
+n 5.445000 11.225000 m 5.445000 22.625000 l 21.730000 22.625000 l 21.730000 11.225000 l f
 0.000000 0.000000 0.000000 srgb
-n 5.445000 11.225000 m 5.445000 13.025000 l 20.575000 13.025000 l 20.575000 11.225000 l cp s
-(+toXml\(\): string) 5.595000 11.765000 m
+n 5.445000 11.225000 m 5.445000 22.625000 l 21.730000 22.625000 l 21.730000 11.225000 l cp s
+(+getName\(\): string) 5.595000 11.765000 m
  gs 1 -1 sc sh gr
-(+fromXml\(element:string\): Parameter<T>) 5.595000 12.565000 m
+(+setName\(name:string\): void) 5.595000 12.565000 m
+ gs 1 -1 sc sh gr
+(+getDescription\(\): string) 5.595000 13.365000 m
+ gs 1 -1 sc sh gr
+(+setDescription\(description:string\): void) 5.595000 14.165000 m
+ gs 1 -1 sc sh gr
+(+getDefaultValue\(\): T) 5.595000 14.965000 m
+ gs 1 -1 sc sh gr
+(+setDefaultValue\(defaultValue:T\): void) 5.595000 15.765000 m
+ gs 1 -1 sc sh gr
+(+getMinValue\(\): T) 5.595000 16.565000 m
+ gs 1 -1 sc sh gr
+(+setMinValue\(minValue:T\): void) 5.595000 17.365000 m
+ gs 1 -1 sc sh gr
+(+getMaxValue\(\): T) 5.595000 18.165000 m
+ gs 1 -1 sc sh gr
+(+setMaxValue\(maxValue:T\): void) 5.595000 18.965000 m
+ gs 1 -1 sc sh gr
+(+getUnits\(\): CompoundUnit) 5.595000 19.765000 m
+ gs 1 -1 sc sh gr
+(+setUnits\(units:CompoundUnit\): void) 5.595000 20.565000 m
+ gs 1 -1 sc sh gr
+(+toXml\(\): string) 5.595000 21.365000 m
+ gs 1 -1 sc sh gr
+(+fromXml\(element:string\): Parameter<T>) 5.595000 22.165000 m
  gs 1 -1 sc sh gr
 0.050000 slw
-n 5.595000 12.805000 m 20.225000 12.805000 l s
+n 5.595000 22.405000 m 20.225000 22.405000 l s
 0.100000 slw
 1.000000 1.000000 1.000000 srgb
-n 18.275000 4.125000 m 18.275000 5.125000 l 20.985000 5.125000 l 20.985000 4.125000 l f
+n 19.430000 4.125000 m 19.430000 5.125000 l 22.140000 5.125000 l 22.140000 4.125000 l f
 [1.000000] 0 sd
 [0.300000] 0 sd
 0.000000 0.000000 0.000000 srgb
-n 18.275000 4.125000 m 18.275000 5.125000 l 20.985000 5.125000 l 20.985000 4.125000 l cp s
-(T:Type) 18.575000 4.665000 m
+n 19.430000 4.125000 m 19.430000 5.125000 l 22.140000 5.125000 l 22.140000 4.125000 l cp s
+(T:Type) 19.730000 4.665000 m
  gs 1 -1 sc sh gr
 showpage

@@ -1,11 +1,11 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: C:\cs492\gpunit\Documents\design-doc\UML\unit_class.dia
 %%Creator: Dia v0.97.1
-%%CreationDate: Fri Feb 04 15:19:18 2011
+%%CreationDate: Fri Feb 25 13:29:44 2011
 %%For: Clownboat
 %%Orientation: Portrait
 %%Magnification: 1.0000
-%%BoundingBox: 0 0 214 117
+%%BoundingBox: 0 0 410 258
 %%BeginSetup
 %%EndSetup
 %%EndComments
@@ -341,28 +341,44 @@ definefont pop
     currentdict end
 definefont pop
 28.346000 -28.346000 scale
--5.395000 -8.175000 translate
+-5.395000 -13.175000 translate
 %%EndProlog
 
 
 0.100000 slw
 [] 0 sd
 1.000000 1.000000 1.000000 srgb
-n 5.445000 4.125000 m 5.445000 5.525000 l 12.875000 5.525000 l 12.875000 4.125000 l f
+n 5.445000 4.125000 m 5.445000 5.525000 l 19.805000 5.525000 l 19.805000 4.125000 l f
 0.000000 0.000000 0.000000 srgb
-n 5.445000 4.125000 m 5.445000 5.525000 l 12.875000 5.525000 l 12.875000 4.125000 l cp s
+n 5.445000 4.125000 m 5.445000 5.525000 l 19.805000 5.525000 l 19.805000 4.125000 l cp s
 /Helvetica-Bold-latin1 ff 0.700000 scf sf
-(Unit) dup sw 2 div 9.160000 ex sub 4.875000 m
+(Unit) dup sw 2 div 12.625000 ex sub 4.875000 m
  gs 1 -1 sc sh gr
 1.000000 1.000000 1.000000 srgb
-n 5.445000 5.525000 m 5.445000 8.125000 l 12.875000 8.125000 l 12.875000 5.525000 l f
+n 5.445000 5.525000 m 5.445000 8.125000 l 19.805000 8.125000 l 19.805000 5.525000 l f
 0.000000 0.000000 0.000000 srgb
-n 5.445000 5.525000 m 5.445000 8.125000 l 12.875000 8.125000 l 12.875000 5.525000 l cp s
+n 5.445000 5.525000 m 5.445000 8.125000 l 19.805000 8.125000 l 19.805000 5.525000 l cp s
 /Courier-latin1 ff 0.560000 scf sf
-(+type: UnitType) 5.595000 6.065000 m
+(-type: UnitType) 5.595000 6.065000 m
  gs 1 -1 sc sh gr
-(+prefix: SIPrefix) 5.595000 6.865000 m
+(-prefix: SIPrefix) 5.595000 6.865000 m
  gs 1 -1 sc sh gr
-(+exponent: integer) 5.595000 7.665000 m
+(-exponent: integer) 5.595000 7.665000 m
+ gs 1 -1 sc sh gr
+1.000000 1.000000 1.000000 srgb
+n 5.445000 8.125000 m 5.445000 13.125000 l 19.805000 13.125000 l 19.805000 8.125000 l f
+0.000000 0.000000 0.000000 srgb
+n 5.445000 8.125000 m 5.445000 13.125000 l 19.805000 13.125000 l 19.805000 8.125000 l cp s
+(+getType\(\): UnitType) 5.595000 8.665000 m
+ gs 1 -1 sc sh gr
+(+setType\(type:UnitType\): void) 5.595000 9.465000 m
+ gs 1 -1 sc sh gr
+(+getPrefix\(\): SIPrefix) 5.595000 10.265000 m
+ gs 1 -1 sc sh gr
+(+setPrefix\(prefix:SIPrefix\): void) 5.595000 11.065000 m
+ gs 1 -1 sc sh gr
+(+getExponent\(\): integer) 5.595000 11.865000 m
+ gs 1 -1 sc sh gr
+(+setExponent\(exponent:integer\): void) 5.595000 12.665000 m
  gs 1 -1 sc sh gr
 showpage
