@@ -414,6 +414,18 @@ The user interface will allow the user to create and manage experiments
  this.
 \end_layout
 
+\begin_layout Standard
+The interface allows the user to load experiments from a variety of sources
+ as defined in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Experiment-Hierarchy"
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection
 Network Interaction
 \end_layout
@@ -3930,6 +3942,64 @@ Removes the given Logger from the Experiment.
 
 
 \begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Experiment-Hierarchy"
+
+\end_inset
+
+Experiment Hierarchy
+\end_layout
+
+\begin_layout Standard
+An experiment hierarchy stores an experiment and all outputs of the runs
+ of that experiment.
+ Given this, the user may recreate an experiment or restart a failed experiment.
+ The hierarchy may be stored in any format so long as there is an implementation
+ of the methods in this interface to load and save the structure.
+ Examples include databases, flat files, directory trees etc...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/exploader.eps
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Experiment Hierarchy Class
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
 
@@ -11353,6 +11423,12 @@ The Logger class takes care of selecting the required output option as the
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Command-Line-Tool"
+
+\end_inset
+
 Command Line Tool
 \end_layout
 
@@ -11937,6 +12013,69 @@ The modules are cleaned up after being run.
 stop()
 \emph default
  command.
+\end_layout
+
+\begin_layout Section
+Experiment Generation
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+Part of the framework includes generating the Python scripts that will run
+ the experiment.
+ Experiment generation by default will produce a script as defined in Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Command-Line-Tool"
+
+\end_inset
+
+.
+ The user may customize this generation process by providing custom code
+ that is run prior to module initialization, before, and after each timestep.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/expgen.eps
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Experiment Generation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
