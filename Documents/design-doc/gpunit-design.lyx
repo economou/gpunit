@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -756,7 +756,7 @@ Unit
 \begin_inset Text
 
 \begin_layout Plain Layout
-The Unit
+The Unit 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Unit-Class-Diagram"
@@ -821,7 +821,7 @@ List<Module>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Modules
+The list of Modules 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Module-Relationship-Diagram"
@@ -857,7 +857,7 @@ List<Particle>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Particles
+The list of Particles 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Particle-Class-Diagram"
@@ -893,7 +893,7 @@ List<Diagnostic>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Diagnostics
+The list of Diagnostics 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Diagnostics-Object-Model"
@@ -929,7 +929,7 @@ List<Logger>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Loggers
+The list of Loggers 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Logger-Object-Model"
@@ -1572,14 +1572,7 @@ Returns the name of the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void setTimeUnit(Unit
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Unit-Class-Diagram"
-
-\end_inset
-
- timeUnit)
+void setTimeUnit(Unit timeUnit)
 \end_layout
 
 \end_inset
@@ -1677,14 +1670,7 @@ Updates the Experiment's timeUnit to the given parameter.
 \begin_layout Plain Layout
 
 \shape italic
-Unit
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Unit-Class-Diagram"
-
-\end_inset
-
- getTimeUnit()
+Unit getTimeUnit()
 \end_layout
 
 \end_inset
@@ -2579,14 +2565,7 @@ Enables the Experiment's stopping conditions.
 \begin_layout Plain Layout
 
 \shape italic
-void addModule(Module
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Module-Class-Diagram"
-
-\end_inset
-
- module)
+void addModule(Module module)
 \end_layout
 
 \end_inset
@@ -2684,14 +2663,7 @@ Adds the given Module to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeModule(Module
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Module-Class-Diagram"
-
-\end_inset
-
- module)
+void removeModule(Module module)
 \end_layout
 
 \end_inset
@@ -2793,14 +2765,7 @@ Removes the given Module from the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addModules(List<Module
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Module-Class-Diagram"
-
-\end_inset
-
-> modules)
+void addModules(List<Module> modules)
 \end_layout
 
 \end_inset
@@ -2898,14 +2863,7 @@ Adds the given Modules to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addParticle(Particle
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Particle-Class-Diagram"
-
-\end_inset
-
- body)
+void addParticle(Particle body)
 \end_layout
 
 \end_inset
@@ -3007,14 +2965,7 @@ Adds the given Particle to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addParticles(List<Particle
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Particle-Class-Diagram"
-
-\end_inset
-
-> bodies)
+void addParticles(List<Particle> bodies)
 \end_layout
 
 \end_inset
@@ -3112,14 +3063,7 @@ Adds the given Particles to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeParticle(Particle
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Particle-Class-Diagram"
-
-\end_inset
-
- body)
+void removeParticle(Particle body)
 \end_layout
 
 \end_inset
@@ -3221,14 +3165,7 @@ Removes the given Particle from the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addDiagnostic(Diagnostic
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Diagnostics-Object-Model"
-
-\end_inset
-
- diag)
+void addDiagnostic(Diagnostic diag)
 \end_layout
 
 \end_inset
@@ -3327,14 +3264,7 @@ Adds the given Diagnostic to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addDiagnostics(List<Diagnostic
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Diagnostics-Object-Model"
-
-\end_inset
-
-> diags)
+void addDiagnostics(List<Diagnostic> diags)
 \end_layout
 
 \end_inset
@@ -3436,14 +3366,7 @@ Adds the given Diagnostics to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeDiagnostic(Diagnostic
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Diagnostics-Object-Model"
-
-\end_inset
-
- diag)
+void removeDiagnostic(Diagnostic diag)
 \end_layout
 
 \end_inset
@@ -3541,14 +3464,7 @@ Removes the given Diagnostic from the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addLogger(Logger
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Logger-Object-Model"
-
-\end_inset
-
- logger)
+void addLogger(Logger logger)
 \end_layout
 
 \end_inset
@@ -3651,14 +3567,7 @@ Adds the given Logger to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addLoggers(List<Logger
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Logger-Object-Model"
-
-\end_inset
-
-> loggers)
+void addLoggers(List<Logger> loggers)
 \end_layout
 
 \end_inset
@@ -3756,14 +3665,7 @@ Adds the given Loggers to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeLogger(Logger
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Logger-Object-Model"
-
-\end_inset
-
- logger)
+void removeLogger(Logger logger)
 \end_layout
 
 \end_inset
