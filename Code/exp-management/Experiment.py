@@ -13,7 +13,7 @@
 
 #Pretty sure sys is needed to write to files
 import sys
-#Possibly need a minidom
+#Possibly need minidom
 
 defaultTimeStep = 1
 defaultStartTime = 0
@@ -24,6 +24,7 @@ class Experiment :
 	for an AMUSE simulation'''
 
 	def __init__(self, name) :
+		#Constructor initializes the experiment to default values
 		self.name = name
 		self.timeStep = defaultTimeStep
 		self.stopIsEnabled = True
@@ -35,17 +36,17 @@ class Experiment :
 		self.stopTime = defaultStopTime
 
 	def writeXMLFile(fileName) :
-		#writes out the XML
+	  #writes out the XML
 		tabstop = '  ' #2 spaces
 		depth = 0
 		XMLString = ""
-		#Experiment tag
+	  #Experiment tag
 		XMLString += '<experiment name="'+self.name+'" stopEnabled="'+self.stopIsEnabled+'">\n'
 		depth += 1
-		#Time tag
+	  #Time tag
 		XMLString += tabstop*depth
 		XMLString += '<time units="'+self.timeStep.getType()+'" start="'+self.startTime+'" step="'+self.timeStep.getValue()+'" end="'+self.stopTime+'"/>\n'
-		#Module tags
+	  #Module tags
 		for module in self.modules :
 			XMLString += tabstop*depth
 			XMLString += module.toXml()
@@ -55,29 +56,29 @@ class Experiment :
 				XMLString += tabstop*depth
 				XMLString += param.toXml()
 				XMLString += '\n'
-			depth -= 1				
-		#Particle tags
+			depth -= 1
+	  #Particle tags
 		for particle in self.particles :
 			XMLString += tabstop*depth
 			XMLString += particle.toXml()
 			XMLString += '\n'
-		#Diagnostic tags
+	  #Diagnostic tags
 		for diag in self.diagnostics :
 			XMLString += tabstop*depth
 			XMLString += diag.toXml()
 			XMLString += '\n'
-		#Logger tags
+	  #Logger tags
 		for logger in self.loggers :
 			XMLString += tabstop*depth
 			XMLString += logger.toXml()
 			XMLString += '\n'
 		XMLString += '</experiment>'
-		#Write it to the given file 
+	  #Write it to the given file 
 		outFile = open(fileName, 'w')
 		outFile.write(XMLString)
 
 #---------------------------------------------------
-	def loadXMLFile(fileName) :
+#	def loadXMLFile(fileName) :
 		#loads in the XML
 		#not sure what to do here yet
 		#are we going to use minidom or something?
@@ -90,7 +91,7 @@ class Experiment :
 
 #---------------------------------------------------
 #Maybe this evolve method isn't needed?
-	def evolveState() :
+#	def evolveState() :
 		#Evolve the simulation
 #---------------------------------------------------
 
@@ -130,40 +131,40 @@ class Experiment :
 		#Adds the given modules to the module list
 		self.modules.extend(modules)
 
-    def addParticle(particle) :
-        #Adds the given particle to the particle list
-        self.particles.append(particle)
+	def addParticle(particle) :
+		#Adds the given particle to the particle list
+		self.particles.append(particle)
 
-    def removeParticle(particle) :
-        #Removes the given particle from the particle list
-        self.particles.remove(particle)
+	def removeParticle(particle) :
+		#Removes the given particle from the particle list
+		self.particles.remove(particle)
 
-    def addParticles(particles) :
-        #Adds the given particles to the particle list
-        self.particles.extend(particles)
+	def addParticles(particles) :
+		#Adds the given particles to the particle list
+		self.particles.extend(particles)
 
-    def addDiagnostic(diagnostic) :
-        #Adds the given diagnostic to the diagnostic list
-        self.diagnostics.append(diagnostic)
+	def addDiagnostic(diagnostic) :
+		#Adds the given diagnostic to the diagnostic list
+		self.diagnostics.append(diagnostic)
 
-    def removeDiagnostic(diagnostic) :
-        #Removes the given diagnostic from the diagnostic list
-        self.diagnostics.remove(diagnostic)
+	def removeDiagnostic(diagnostic) :
+		#Removes the given diagnostic from the diagnostic list
+		self.diagnostics.remove(diagnostic)
 
-    def addDiagnostics(diagnostics) :
-        #Adds the given diagnostics to the diagnostic list
-        self.diagnostics.extend(diagnostics)
+	def addDiagnostics(diagnostics) :
+		#Adds the given diagnostics to the diagnostic list
+		self.diagnostics.extend(diagnostics)
 
-    def addLogger(logger) :
-        #Adds the given logger to the logger list
-        self.loggers.append(logger)
+	def addLogger(logger) :
+		#Adds the given logger to the logger list
+		self.loggers.append(logger)
 
-    def removeLogger(logger) :
-        #Removes the given logger from the logger list
-        self.loggers.remove(logger)
+	def removeLogger(logger) :
+		#Removes the given logger from the logger list
+		self.loggers.remove(logger)
 
-    def addLoggers(loggers) :
-        #Adds the given loggers to the logger list
-        self.loggers.extend(loggers)
+	def addLoggers(loggers) :
+		#Adds the given loggers to the logger list
+		self.loggers.extend(loggers)
 
 
