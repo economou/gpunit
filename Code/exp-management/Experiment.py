@@ -39,7 +39,7 @@ class Experiment :
 
 	def writeXMLFile(fileName) :
 	  #writes out the XML
-		tabstop = '  ' #2 spaces
+		tabstop = '  ' #2 spaces for indentations aiding readability
 		depth = 0
 		XMLString = ""
 	  #Experiment tag
