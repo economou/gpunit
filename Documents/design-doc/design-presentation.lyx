@@ -1,0 +1,291 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{beamerthemesplit}
+\end_preamble
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Design Overview
+\end_layout
+
+\begin_layout Author
+Daniel Bagnell
+\begin_inset Newline newline
+\end_inset
+
+Jason Economou
+\begin_inset Newline newline
+\end_inset
+
+Rajkumar Jayachandran
+\begin_inset Newline newline
+\end_inset
+
+Tim McJilton
+\begin_inset Newline newline
+\end_inset
+
+Gabriel Schwartz
+\begin_inset Newline newline
+\end_inset
+
+Andrew Sherman
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace medskip
+\end_inset
+
+Advisor: Prof.
+ Jeremy Johnson
+\begin_inset Newline newline
+\end_inset
+
+Stakeholders: Prof.
+ Steve McMillan
+\begin_inset Newline newline
+\end_inset
+
+Alfred Whitehead
+\end_layout
+
+\begin_layout BeginFrame
+Components
+\end_layout
+
+\begin_layout Itemize
+Interface
+\end_layout
+
+\begin_layout Itemize
+Scripts
+\end_layout
+
+\begin_layout Itemize
+Diagnostics + Logging
+\end_layout
+
+\begin_layout Itemize
+Networking
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Experiment
+\end_layout
+
+\begin_layout Itemize
+Encapsulates everything required to reproduce or restart the simulation
+\end_layout
+
+\begin_layout Itemize
+The abstract requirements of an experiment include:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Persistence (some storage mechanism like a DB or directory structure)
+\end_layout
+
+\begin_layout Itemize
+Logging/Diagnostics:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Which ones are used
+\end_layout
+
+\begin_layout Itemize
+Where/how is their output stored
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Parameters:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Modules
+\end_layout
+
+\begin_layout Itemize
+Initial Conditions
+\end_layout
+
+\begin_layout Itemize
+Particles
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Code Generation
+\end_layout
+
+\begin_layout Itemize
+Experiments specify things like initial conditions, modules etc...
+\end_layout
+
+\begin_layout Itemize
+These are used as input to generate scripts
+\end_layout
+
+\begin_layout Itemize
+The scripts are generated using the code generator module (currently part
+ of the interface).
+\end_layout
+
+\begin_layout Itemize
+Different modules may require different code to run them, though this is
+ not the case now.
+\end_layout
+
+\begin_layout Itemize
+Code generation allows the end user (scientist) to tweak the generated experimen
+t to suit their needs.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Interface
+\end_layout
+
+\begin_layout Itemize
+Frontend for creating an experiment.
+\end_layout
+
+\begin_layout Itemize
+Defines initial conditions etc...
+\end_layout
+
+\begin_layout Itemize
+Specify where to run the experiment.
+\end_layout
+
+\begin_layout Itemize
+Connects to network implementation using IPC
+\end_layout
+
+\begin_layout Itemize
+Controls distribution of modules using MPI (mpirun, threaded module evolution)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Diagnostics + Logging
+\end_layout
+
+\begin_layout Itemize
+Diagnostics and logging implemented using Python
+\end_layout
+
+\begin_layout Itemize
+Diagnostics/logging modules can do anything the user needs so long as it
+ fits the given interface
+\end_layout
+
+\begin_layout Itemize
+Diagnostics have access to the entire system state.
+\end_layout
+
+\begin_layout Itemize
+Logging has access to the experiment information:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Which timestep was run.
+\end_layout
+
+\begin_layout Itemize
+Time between timesteps.
+\end_layout
+
+\begin_layout Itemize
+Types of modules loaded.
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Networking
+\end_layout
+
+\begin_layout Itemize
+Tracks which experiments are running on which nodes
+\end_layout
+
+\begin_layout Itemize
+Shows node usage and availability
+\end_layout
+
+\begin_layout Itemize
+Discovery performed using multicast, no need to specify a list of nodes
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document
