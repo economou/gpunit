@@ -18,6 +18,7 @@ import sys
 defaultTimeStep = 1
 defaultStartTime = 0
 defaultStopTime = 100
+defaultTimeUnit = UnitType.yr
 
 class Experiment :
 	'''Experiment class holds all relevant experiment data
@@ -34,6 +35,7 @@ class Experiment :
 		self.loggers = []
 		self.startTime = defaultStartTime
 		self.stopTime = defaultStopTime
+		self.timeUnit = defaultTimeUnit
 
 	def writeXMLFile(fileName) :
 	  #writes out the XML
@@ -45,7 +47,7 @@ class Experiment :
 		depth += 1
 	  #Time tag
 		XMLString += tabstop*depth
-		XMLString += '<time units="'+self.timeStep.getType()+'" start="'+self.startTime+'" step="'+self.timeStep.getValue()+'" end="'+self.stopTime+'"/>\n'
+		XMLString += '<time units="'+self.timeUnit.getType()+'" start="'+self.startTime+'" step="'+self.timeStep.getValue()+'" end="'+self.stopTime+'"/>\n'
 	  #Module tags
 		for module in self.modules :
 			XMLString += tabstop*depth
