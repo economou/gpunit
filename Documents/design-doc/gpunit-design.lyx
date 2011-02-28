@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -187,7 +187,7 @@ This document serves as the system design for the GPUnit framework to control
  AMUSE (Astrophysical Multipurpose Software Environment) is a software package
  and set of legacy codes for performing astrophysics simulations.
  For more details on the purpose and use cases of AMUSE, please refer to
- our SRS.
+ the GPUnit SRS.
  The goal of this document is to provide details guiding the construction
  of the framework, as well as to provide a reference to the framework's
  architecture.
@@ -200,12 +200,10 @@ Scope
 \end_layout
 
 \begin_layout Standard
-This document will describe the implementation for our framework, covering
- the network layer, the user interface and the core python command line
- scripts.
- It will cover user interface support classes as they will need to be coded,
- however the actual UI components such as windows and widgets will not be
- described.
+This document describes the implementation for our framework, covering the
+ network layer, the user interface and the core python command line scripts.
+ It covers user interface support classes as they will need to be coded,
+ however the actual UI components such as windows and widgets are not described.
  Code and objects for these items are generated as part of the Qt Creator
 \begin_inset Foot
 status open
@@ -219,10 +217,10 @@ http://qt.nokia.com/products/developer-tools/
  GUI development kit.
  As such, the code is not intended to be human-readable and is subject to
  change between Qt versions.
- Our SRS document contains the reference prototype which will serve as the
- design for the GUI widgets.
+ The GPUnit SRS document contains the reference prototype which serves as
+ the design for the GUI widgets.
  The data models including experiment file layouts and network packet details
- will also be covered.
+ are also covered.
 \end_layout
 
 \begin_layout Subsection
@@ -245,7 +243,7 @@ LatexCommand printnomenclature
 \begin_layout Standard
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
-symbol "Node Health Statistics"
+symbol "Node Health Statistics -"
 description "Information about the current state of a node including properties such as CPU usage and memory usage."
 
 \end_inset
@@ -253,7 +251,7 @@ description "Information about the current state of a node including properties 
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
-symbol "Cluster"
+symbol "Cluster -"
 description "A group of networked computing nodes available to perform some task."
 
 \end_inset
@@ -261,7 +259,7 @@ description "A group of networked computing nodes available to perform some task
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
-symbol "Computer Node"
+symbol "Computer Node -"
 description "A computer that is a member of a cluster."
 
 \end_inset
@@ -269,7 +267,7 @@ description "A computer that is a member of a cluster."
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
-symbol "IPC Channel"
+symbol "IPC Channel -"
 description "Any object or memory space used for Inter-Process Communication (IPC). Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory (SHM)."
 
 \end_inset
@@ -278,7 +276,7 @@ description "Any object or memory space used for Inter-Process Communication (IP
 \end_layout
 
 \begin_layout Section
-Architecture
+High Level Architecture
 \end_layout
 
 \begin_layout Standard
@@ -323,6 +321,30 @@ Architecture Diagram
 
 \end_layout
 
+\begin_layout Standard
+Experiments are designed and controlled from the top-level user interface
+ layer.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Experiment
+\begin_inset Quotes erd
+\end_inset
+
+ here includes all logging, diagnostics, and network control.
+ This layer communicates to the python core scripts layer to run the created
+ experiment(s).
+ The python layer also handles all logging and diagnostics created in the
+ user interface level.
+ Then, the python core scripts layer communicates to the network layer to
+ distribute simulation calculations.
+ These updated calculations then get sent back to the python layer for logging
+ and diagnostic purposes.
+ After a simulation ends, all results are presented back to the user interface
+ layer for user viewing.
+\end_layout
+
 \begin_layout Section
 Graphical User Interface
 \end_layout
@@ -334,8 +356,8 @@ Overview
 \begin_layout Standard
 The user interface will allow the user to create and manage experiments
  as described in the SRS.
- Much of the interface code is generated from the GUI development tools,
- however there are some support classes required for the GUI to interact
+ Much of the interface code is generated from the Qt Creator GUI development
+ tools, however there are some support classes required for the GUI to interact
  with the network and the command line tools.
 \end_layout
 
@@ -12001,6 +12023,85 @@ The type of stopping condition to use
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Experiment Results Directory Structure
+\end_layout
+
+\begin_layout Standard
+The following is a list of specifications for GPUnit's default directory
+ structure for storing experiment results.
+ Notice that it is three-tiered for ease in comparing results from multiple
+ runs of the same experiment.
+\end_layout
+
+\begin_layout Subsubsection
+Top Level Directory
+\end_layout
+
+\begin_layout Standard
+By default, GPUnit creates a directory named 
+\begin_inset Quotes eld
+\end_inset
+
+Experiments
+\begin_inset Quotes erd
+\end_inset
+
+ in its current location.
+ The user is also able to change this location and/or choose a different
+ directory for storing experiment data.
+ This directory contains a directory for each experiment created and saved
+ by GPUnit.
+ These directory names match the name of each experiment, dictated by the
+ user during a save operation.
+\end_layout
+
+\begin_layout Subsubsection
+Single Experiment Directory
+\end_layout
+
+\begin_layout Standard
+Each experiment directory contains a directory corresponding to a previously
+ run or currently running simulation.
+ By default, these are named 
+\begin_inset Quotes eld
+\end_inset
+
+Run #
+\begin_inset Quotes erd
+\end_inset
+
+ where '#' is a number corresponding to each run of the experiment.
+ These values start at 1 and continue ad infinitum.
+ e.g.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Run 1, Run 2, Run 3, ...
+\begin_inset Quotes erd
+\end_inset
+
+ where the commas separate directory names.
+\end_layout
+
+\begin_layout Subsubsection
+Run Directory
+\end_layout
+
+\begin_layout Standard
+Each 
+\begin_inset Quotes eld
+\end_inset
+
+Run #
+\begin_inset Quotes erd
+\end_inset
+
+ directory contains the initial XML specification for the experiment and
+ the results from logging and diagnostics.
 \end_layout
 
 \begin_layout Subsection
