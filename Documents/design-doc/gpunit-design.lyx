@@ -10363,10 +10363,10 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Logging Object Model
+Logger Object Model
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Logging-Object-Model"
+name "fig:Logger-Object-Model"
 
 \end_inset
 
@@ -10388,12 +10388,12 @@ name "fig:Logging-Object-Model"
 \end_layout
 
 \begin_layout Subsubsection
-Logging Class
+Logger Class
 \end_layout
 
 \begin_layout Standard
-The Logging class takes care of selecting the required output option as
- the console, file or the GUI window.
+The Logger class takes care of selecting the required output option as the
+ console, file or the GUI window.
 \end_layout
 
 \begin_layout Section
@@ -10893,7 +10893,7 @@ logData
  method passing in the list of particles.(Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Logging-Object-Model"
+reference "fig:Logger-Object-Model"
 
 \end_inset
 
@@ -10964,7 +10964,7 @@ logData
  method passing in the list of particles.(Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Logging-Object-Model"
+reference "fig:Logger-Object-Model"
 
 \end_inset
 
