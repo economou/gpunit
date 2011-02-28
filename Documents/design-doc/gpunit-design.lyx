@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\renewcommand{\nomname}{}
+\end_preamble
 \use_default_options true
 \begin_modules
 figs-within-sections
@@ -229,95 +232,43 @@ For terms not in this glossary, please refer to the SRS.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="80col%">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Cluster
-\end_layout
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
 
 \end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-A group of networked computing nodes available to perform some task.
+
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Node
-\end_layout
+\begin_layout Standard
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Node Health Statistics -"
+description "Information about the current state of a node including properties such as CPU usage and memory usage."
 
 \end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-A computer that is a member of a cluster.
-\end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-IPC Channel
-\end_layout
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Cluster -"
+description "A group of networked computing nodes available to perform some task."
 
 \end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-Any object or memory space used for Inter-Process Communication (IPC).
- Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory
- (SHM).
-\end_layout
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Computer Node -"
+description "A computer that is a member of a cluster."
 
 \end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-Node Health Statistics
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Information about the current state of a node including properties such
- as CPU usage and memory usage.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "IPC Channel -"
+description "Any object or memory space used for Inter-Process Communication (IPC). Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory (SHM)."
 
 \end_inset
 
@@ -333,7 +284,7 @@ High Level Architecture
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -382,16 +333,16 @@ Experiment
 \end_inset
 
  here includes all logging, diagnostics, and network control.
- This layer communicates to the Python core scripts layer to run the created
+ This layer communicates to the python core scripts layer to run the created
  experiment(s).
- The Python layer also handles all logging and diagnostics created in the
+ The python layer also handles all logging and diagnostics created in the
  user interface level.
- Then, the Python core scripts layer communicates to the network layer to
+ Then, the python core scripts layer communicates to the network layer to
  distribute simulation calculations.
- These updated calculations then get sent back to the Python layer for logging
+ These updated calculations then get sent back to the python layer for logging
  and diagnostic purposes.
  After a simulation ends, all results are presented back to the user interface
- layer for viewing.
+ layer for user viewing.
 \end_layout
 
 \begin_layout Section
@@ -408,10 +359,6 @@ The user interface will allow the user to create and manage experiments
  Much of the interface code is generated from the Qt Creator GUI development
  tools, however there are some support classes required for the GUI to interact
  with the network and the command line tools.
- Though the GUI components are implementation dependent, a proper implementation
- should provide controls over the network access.
- The interface detailed below describes a minimum interface that will fulfil
- this.
 \end_layout
 
 \begin_layout Standard
@@ -431,7 +378,7 @@ Network Interaction
 \end_layout
 
 \begin_layout Standard
-The network interaction classes allow the GUI to send and receive messages
+The network interaction classes allow the UI to send and receive messages
  through a control instance (Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -441,18 +388,8 @@ reference "sub:Control-Instance"
 
 ).
  The control instance can be either running locally or on a remote machine.
- The GUI uses this link to query the cluster for status updates and control
+ The UI uses this link to query the cluster for status updates and control
  running experiments.
- The GUI may need to send messages to query the nodes for status updates.
- These messages are sent via the NetworkConnector object and must be instances
- of the Packet class defined in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Packet-Objects"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
@@ -460,14 +397,14 @@ reference "sub:Packet-Objects"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/netcon.eps
 	lyxscale 50
-	width 60col%
+	width 70col%
 
 \end_inset
 
@@ -831,7 +768,7 @@ Unit
 \begin_inset Text
 
 \begin_layout Plain Layout
-The Unit
+The Unit 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Unit-Class-Diagram"
@@ -896,7 +833,7 @@ List<Module>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Modules
+The list of Modules 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Module-Relationship-Diagram"
@@ -932,7 +869,7 @@ List<Particle>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Particles
+The list of Particles 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Particle-Class-Diagram"
@@ -968,7 +905,7 @@ List<Diagnostic>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Diagnostics
+The list of Diagnostics 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Diagnostics-Object-Model"
@@ -1004,7 +941,7 @@ List<Logger>
 \begin_inset Text
 
 \begin_layout Plain Layout
-The list of Loggers
+The list of Loggers 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "fig:Logger-Object-Model"
@@ -1647,14 +1584,7 @@ Returns the name of the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void setTimeUnit(Unit
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Unit-Class-Diagram"
-
-\end_inset
-
- timeUnit)
+void setTimeUnit(Unit timeUnit)
 \end_layout
 
 \end_inset
@@ -1752,14 +1682,7 @@ Updates the Experiment's timeUnit to the given parameter.
 \begin_layout Plain Layout
 
 \shape italic
-Unit
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Unit-Class-Diagram"
-
-\end_inset
-
- getTimeUnit()
+Unit getTimeUnit()
 \end_layout
 
 \end_inset
@@ -1842,10 +1765,6 @@ Returns the timeUnit of the Experiment.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -2048,10 +1967,6 @@ Returns the start time of the Experiment.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -2251,10 +2166,6 @@ Returns the time step of the Experiment.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -2451,10 +2362,6 @@ Returns the stop time of the Experiment.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -2670,14 +2577,7 @@ Enables the Experiment's stopping conditions.
 \begin_layout Plain Layout
 
 \shape italic
-void addModule(Module
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Module-Class-Diagram"
-
-\end_inset
-
- module)
+void addModule(Module module)
 \end_layout
 
 \end_inset
@@ -2775,14 +2675,7 @@ Adds the given Module to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeModule(Module
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Module-Class-Diagram"
-
-\end_inset
-
- module)
+void removeModule(Module module)
 \end_layout
 
 \end_inset
@@ -2884,14 +2777,7 @@ Removes the given Module from the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addModules(List<Module
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Module-Class-Diagram"
-
-\end_inset
-
-> modules)
+void addModules(List<Module> modules)
 \end_layout
 
 \end_inset
@@ -2989,14 +2875,7 @@ Adds the given Modules to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addParticle(Particle
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Particle-Class-Diagram"
-
-\end_inset
-
- body)
+void addParticle(Particle body)
 \end_layout
 
 \end_inset
@@ -3098,14 +2977,7 @@ Adds the given Particle to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addParticles(List<Particle
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Particle-Class-Diagram"
-
-\end_inset
-
-> bodies)
+void addParticles(List<Particle> bodies)
 \end_layout
 
 \end_inset
@@ -3203,14 +3075,7 @@ Adds the given Particles to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeParticle(Particle
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Particle-Class-Diagram"
-
-\end_inset
-
- body)
+void removeParticle(Particle body)
 \end_layout
 
 \end_inset
@@ -3312,14 +3177,7 @@ Removes the given Particle from the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addDiagnostic(Diagnostic
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Diagnostics-Object-Model"
-
-\end_inset
-
- diag)
+void addDiagnostic(Diagnostic diag)
 \end_layout
 
 \end_inset
@@ -3418,14 +3276,7 @@ Adds the given Diagnostic to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addDiagnostics(List<Diagnostic
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Diagnostics-Object-Model"
-
-\end_inset
-
-> diags)
+void addDiagnostics(List<Diagnostic> diags)
 \end_layout
 
 \end_inset
@@ -3527,14 +3378,7 @@ Adds the given Diagnostics to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeDiagnostic(Diagnostic
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Diagnostics-Object-Model"
-
-\end_inset
-
- diag)
+void removeDiagnostic(Diagnostic diag)
 \end_layout
 
 \end_inset
@@ -3632,14 +3476,7 @@ Removes the given Diagnostic from the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addLogger(Logger
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Logger-Object-Model"
-
-\end_inset
-
- logger)
+void addLogger(Logger logger)
 \end_layout
 
 \end_inset
@@ -3742,14 +3579,7 @@ Adds the given Logger to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void addLoggers(List<Logger
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Logger-Object-Model"
-
-\end_inset
-
-> loggers)
+void addLoggers(List<Logger> loggers)
 \end_layout
 
 \end_inset
@@ -3847,14 +3677,7 @@ Adds the given Loggers to the Experiment.
 \begin_layout Plain Layout
 
 \shape italic
-void removeLogger(Logger
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "fig:Logger-Object-Model"
-
-\end_inset
-
- logger)
+void removeLogger(Logger logger)
 \end_layout
 
 \end_inset
@@ -4430,10 +4253,6 @@ Sets the mass of the particle.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -4630,10 +4449,6 @@ Sets the velocity of the particle.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -4836,10 +4651,6 @@ Sets the position of the particle.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -5036,10 +4847,6 @@ Recreates a Particle from its XML specification.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -5656,10 +5463,6 @@ Updates this module's name to the given argument.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -5859,10 +5662,6 @@ Updates this module's descriptive text to the given argument.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -5872,7 +5671,7 @@ Updates this module's descriptive text to the given argument.
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="30col%">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5970,7 +5769,7 @@ Returns this module's astrophysical domain.
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="30col%">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6059,10 +5858,6 @@ Updates this module's astrophysical domain.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -6265,10 +6060,6 @@ Updates this module's code reference to the given argument.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -6465,10 +6256,6 @@ Updates this module's code location reference to the given argument.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -6674,10 +6461,6 @@ Sets or clears the parallelism flag for this module.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -6878,10 +6661,6 @@ Updates this module's stopping conditions to those represented by the given
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -7078,10 +6857,6 @@ Updates this module's parameter list to the given argument.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -7286,10 +7061,6 @@ Removes the given parameter from this module, if the parameter exists.
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -7486,10 +7257,6 @@ Recreates a Module from its XML specification.
 </row>
 </lyxtabular>
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -9423,10 +9190,6 @@ The exponent to be applied to the unit.
 
 \begin_layout Paragraph
 Unit Operations
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -10227,10 +9990,6 @@ The list of simple units whose combination is represented by this compound
 
 \begin_layout Paragraph
 CompoundUnit Operations
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -12144,14 +11903,14 @@ Overview
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/network-overview.eps
 	lyxscale 50
-	width 95col%
+	width 90col%
 
 \end_inset
 
@@ -12201,7 +11960,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/controlinstance.eps
 	lyxscale 50
-	width 75col%
+	width 70col%
 
 \end_inset
 
@@ -12250,7 +12009,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename UML/nodeinstance.eps
-	width 65col%
+	width 70col%
 
 \end_inset
 
@@ -12463,12 +12222,6 @@ Listening Thread Class Diagram
 \end_layout
 
 \begin_layout Subsubsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Packet-Objects"
-
-\end_inset
-
 Packet Objects
 \end_layout
 
