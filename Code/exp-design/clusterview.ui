@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ClusterView</class>
+ <widget class="QMainWindow" name="ClusterView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>456</width>
+    <height>327</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Cluster Control</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>50</number>
+      </property>
+      <property name="rightMargin">
+       <number>50</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Node 1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="text">
+         <string>Node 2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>Node 3</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="pushButton_5">
+        <property name="text">
+         <string>Node 4</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Node 5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="text">
+         <string>Node 6</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QProgressBar" name="progressBar_2">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QProgressBar" name="progressBar_3">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QProgressBar" name="progressBar_4">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QProgressBar" name="progressBar_5">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QProgressBar" name="progressBar_6">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>456</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionClose"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>ClusterView</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>227</x>
+     <y>163</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
