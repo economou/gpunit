@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -10481,8 +10481,8 @@ A Simulation is the goal of both GPUnit and AMUSE, which makes it important
  to understand and break it into key parts.
  The Simulation can be looked at as three sections: Simulation Initialization,
  Running Simulation, Post Simulation.
- This section will go into more detail about all three of these parts and
- what happens in each.
+ This section goes into more detail about all three of these parts and what
+ happens in each.
 \end_layout
 
 \begin_layout Standard
@@ -10524,7 +10524,7 @@ Simulation Initialization
 \begin_layout Standard
 Simulation Initialization is used for preparation of the particles and modules
  to be able to model the system.
- The following will break down the initialization into the main steps.
+ The following breaks down the initialization into the main steps.
  
 \end_layout
 
@@ -10541,16 +10541,23 @@ Instantiate Particles
 \begin_layout Standard
 In the initialization phase of the experiment it is important to select
  proper initial conditions.
- The main initial conditions to set is the mass distribution and and starting
+ The main initial conditions to set is the mass distribution and starting
  locations of the particles.
  There are built in AMUSE classes that are used to set these.
- The CLT while reading in the experiment file will find the initial condition
- files by name.
+ The CLT will find the initial condition files by name while reading in
+ the experiment file.
  (Satisfies Requirements 2.3.4)
 \end_layout
 
 \begin_layout Subparagraph
 Create Conversion Object
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Create-Conversion-Object"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -10558,9 +10565,8 @@ Most astronomical simulations use a scaling factor so you can do the numerical
  integration quicker.
  A conversion object is a class in AMUSE that you instantiate by passing
  in the total mass and the average radius of the system.
- You will then pass this conversion object into any modules you will be
- using in the future so the module knows how to translate between this smaller
- number format to an actual real data value.
+ This conversion object is passed into all modules so the module knows how
+ to do unit conversions from unitless numbers.
 \end_layout
 
 \begin_layout Subparagraph
@@ -10570,9 +10576,16 @@ Module Creation
 \begin_layout Standard
 The CLT needs to instantiate the AMUSE class for the specific module it
  is working on from the location specified in the module class.
- It needs to instantiate the module being passed in the conversion object
- so the module knows what units it is working in and how to convert its
- units.
+ The module needs to be instantiated with a conversion object being passed
+ into its constructor.
+ This conversion object is used for the thinsg mentioned in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Create-Conversion-Object"
+
+\end_inset
+
+.
  The module then sets its list of particles to the master list of particles.
  After it does that it needs to run it's initial calculations needed for
  evolving the module.
@@ -10589,12 +10602,14 @@ Instantiate Channels
 \end_layout
 
 \begin_layout Standard
-Channels are used to be able to communicate data to and from the modules
+Channels are used for communication of the data to and from the modules
  that may be on a different system.
  On every time step you need to synchronize the master list of particles
- to every modules separate list of nodes.
- Afterwards you need to re-sync the modules nodes to the master node.
- This allows the modules to have the same data to move forward in the simulation.
+ to every modules separate list of particles.
+ Afterwards you need to re-sync the modules' particles to the master list
+ of particles.
+ This allows the modules to have the same data as it moves forward in the
+ simulation.
  (Satisfies Requirement 2.5.1, 2.5.2, 2.5.2.1)
 \end_layout
 
@@ -10620,8 +10635,11 @@ Evolve Modules
 \end_layout
 
 \begin_layout Standard
-The evolution of the Module is core of running a simulation.
- The evolution of the module is done by running the AMUSE module's evolve_model
+The evolution of the Module is the core of running a simulation.
+ The evolution of the module is done by running the AMUSE module's 
+\emph on
+evolve_model
+\emph default
  function with passing in the current time.
 \end_layout
 
@@ -10630,14 +10648,12 @@ Synchronize Particles
 \end_layout
 
 \begin_layout Standard
-Synchronize particles is required due to the fact every module has a local
- list of particles to allow parallelization.
- These particles are updated, yet only one set of dynamics or stellar evolution
- will be run at a time which prevents any overlapping of data modification.
- To synchronize the particles you run all the channels created to synchronize
- all the data to the master list of particles.
- After the master list is up to date, you then synchronize using all the
- channels to the modules.
+Synchronize particles is required because every module has a local list
+ of particles to allow parallelization.
+ Since at most only one of each module type will be run per experiment there
+ will be no overlapping data modifications.
+ After data is updated you need to synchronize using channels to and from
+ the master list of particles to each module.
  This leaves all the modules' list of particles with the latest version
  of particle data.
 \end_layout
@@ -10647,10 +10663,13 @@ Run Diagnostics
 \end_layout
 
 \begin_layout Standard
-The function should loop through all the diagnostic scripts and if the diagnosti
-cs should use the shouldUpdate function with the current state of the experiment
- to check if it should run.
- If the diagnostic should run, it then runs the update method passing in
+The function should loop through all the diagnostic scripts running their
+ 
+\emph on
+shouldUpdate
+\emph default
+ method with the current state to see if it should run.
+ If the diagnostic should run it then runs the update method passing in
  the master list of particles.(Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10668,7 +10687,10 @@ Run Logging
 \begin_layout Standard
 The function will loop through all the logging scripts and run any real
  time logging scripts that need to be run.
- The real time logging scripts are denoted by name and run their logData
+ The real time logging scripts are denoted by name and run their 
+\emph on
+logData
+\emph default
  method passing in the list of particles.(Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10712,10 +10734,13 @@ Run Closing Diagnostics Scripts
 \end_layout
 
 \begin_layout Standard
-The function should loop through all the diagnostic scripts and if the diagnosti
-cs should use the shouldUpdate function with the current state of the experiment
- to check if it should run.
- If the diagnostic should run, it then runs the update method passing in
+The function should loop through all the diagnostic scripts running their
+ 
+\emph on
+shouldUpdate
+\emph default
+ method with the current state to see if it should run.
+ If the diagnostic should run it then runs the update method passing in
  the master list of particles.(Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10731,9 +10756,12 @@ Run Closing Logging Scripts
 \end_layout
 
 \begin_layout Standard
-The function will loop through all the logging scripts and run any post
- simulation logging scripts that need to be run.
- The post simulation logging scripts are denoted by name and run their logData
+The function will loop through all the logging scripts and run any real
+ time logging scripts that need to be run.
+ The real time logging scripts are denoted by name and run their 
+\emph on
+logData
+\emph default
  method passing in the list of particles.(Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
