@@ -1,11 +1,8 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
 \textclass article
-\begin_preamble
-\renewcommand{\nomname}{}
-\end_preamble
 \use_default_options true
 \begin_modules
 figs-within-sections
@@ -232,43 +229,95 @@ For terms not in this glossary, please refer to the SRS.
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset nomencl_print
-LatexCommand printnomenclature
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="80col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
 
-\end_inset
-
-
+\begin_layout Plain Layout
+Cluster
 \end_layout
 
-\begin_layout Standard
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "Node Health Statistics -"
-description "Information about the current state of a node including properties such as CPU usage and memory usage."
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A group of networked computing nodes available to perform some task.
+\end_layout
 
 \end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
-
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "Cluster -"
-description "A group of networked computing nodes available to perform some task."
-
-\end_inset
-
-
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "Computer Node -"
-description "A computer that is a member of a cluster."
+\begin_layout Plain Layout
+Node
+\end_layout
 
 \end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+A computer that is a member of a cluster.
+\end_layout
 
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "IPC Channel -"
-description "Any object or memory space used for Inter-Process Communication (IPC). Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory (SHM)."
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+IPC Channel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Any object or memory space used for Inter-Process Communication (IPC).
+ Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory
+ (SHM).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Node Health Statistics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Information about the current state of a node including properties such
+ as CPU usage and memory usage.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
@@ -284,7 +333,7 @@ High Level Architecture
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -333,16 +382,16 @@ Experiment
 \end_inset
 
  here includes all logging, diagnostics, and network control.
- This layer communicates to the python core scripts layer to run the created
+ This layer communicates to the Python core scripts layer to run the created
  experiment(s).
- The python layer also handles all logging and diagnostics created in the
+ The Python layer also handles all logging and diagnostics created in the
  user interface level.
- Then, the python core scripts layer communicates to the network layer to
+ Then, the Python core scripts layer communicates to the network layer to
  distribute simulation calculations.
- These updated calculations then get sent back to the python layer for logging
+ These updated calculations then get sent back to the Python layer for logging
  and diagnostic purposes.
  After a simulation ends, all results are presented back to the user interface
- layer for user viewing.
+ layer for viewing.
 \end_layout
 
 \begin_layout Section
@@ -359,6 +408,10 @@ The user interface will allow the user to create and manage experiments
  Much of the interface code is generated from the Qt Creator GUI development
  tools, however there are some support classes required for the GUI to interact
  with the network and the command line tools.
+ Though the GUI components are implementation dependent, a proper implementation
+ should provide controls over the network access.
+ The interface detailed below describes a minimum interface that will fulfil
+ this.
 \end_layout
 
 \begin_layout Subsection
@@ -366,7 +419,7 @@ Network Interaction
 \end_layout
 
 \begin_layout Standard
-The network interaction classes allow the UI to send and receive messages
+The network interaction classes allow the GUI to send and receive messages
  through a control instance (Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -376,8 +429,18 @@ reference "sub:Control-Instance"
 
 ).
  The control instance can be either running locally or on a remote machine.
- The UI uses this link to query the cluster for status updates and control
+ The GUI uses this link to query the cluster for status updates and control
  running experiments.
+ The GUI may need to send messages to query the nodes for status updates.
+ These messages are sent via the NetworkConnector object and must be instances
+ of the Packet class defined in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Packet-Objects"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1770,6 +1833,10 @@ Returns the timeUnit of the Experiment.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1966,6 +2033,10 @@ Returns the start time of the Experiment.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -2168,6 +2239,10 @@ Returns the time step of the Experiment.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2364,6 +2439,10 @@ Returns the stop time of the Experiment.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -4281,6 +4360,10 @@ Sets the mass of the particle.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4477,6 +4560,10 @@ Sets the velocity of the particle.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -4679,6 +4766,10 @@ Sets the position of the particle.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4875,6 +4966,10 @@ Recreates a Particle from its XML specification.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -5491,6 +5586,10 @@ Updates this module's name to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5690,6 +5789,10 @@ Updates this module's descriptive text to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5699,7 +5802,7 @@ Updates this module's descriptive text to the given argument.
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="30col%">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5797,7 +5900,7 @@ Returns this module's astrophysical domain.
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="30col%">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5886,6 +5989,10 @@ Updates this module's astrophysical domain.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -6088,6 +6195,10 @@ Updates this module's code reference to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6284,6 +6395,10 @@ Updates this module's code location reference to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -6489,6 +6604,10 @@ Sets or clears the parallelism flag for this module.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6689,6 +6808,10 @@ Updates this module's stopping conditions to those represented by the given
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6885,6 +7008,10 @@ Updates this module's parameter list to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -7089,6 +7216,10 @@ Removes the given parameter from this module, if the parameter exists.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -7285,6 +7416,10 @@ Recreates a Module from its XML specification.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -9218,6 +9353,10 @@ The exponent to be applied to the unit.
 
 \begin_layout Paragraph
 Unit Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -10018,6 +10157,10 @@ The list of simple units whose combination is represented by this compound
 
 \begin_layout Paragraph
 CompoundUnit Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -11862,14 +12005,14 @@ Overview
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename UML/network-overview.eps
 	lyxscale 50
-	width 90col%
+	width 95col%
 
 \end_inset
 
@@ -11919,7 +12062,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/controlinstance.eps
 	lyxscale 50
-	width 70col%
+	width 75col%
 
 \end_inset
 
@@ -11968,7 +12111,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename UML/nodeinstance.eps
-	width 70col%
+	width 65col%
 
 \end_inset
 
@@ -12181,6 +12324,12 @@ Listening Thread Class Diagram
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Packet-Objects"
+
+\end_inset
+
 Packet Objects
 \end_layout
 
