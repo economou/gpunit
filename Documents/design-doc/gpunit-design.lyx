@@ -1826,6 +1826,10 @@ Returns the timeUnit of the Experiment.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2022,6 +2026,10 @@ Returns the start time of the Experiment.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -2224,6 +2232,10 @@ Returns the time step of the Experiment.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2420,6 +2432,10 @@ Returns the stop time of the Experiment.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -4311,6 +4327,10 @@ Sets the mass of the particle.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4510,6 +4530,10 @@ Sets the velocity of the particle.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4706,6 +4730,10 @@ Sets the position of the particle.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -4925,7 +4953,7 @@ This section defines an object model for the representation of and interaction
 placement bh
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -4984,7 +5012,7 @@ status collapsed
 \begin_inset Graphics
 	filename UML/module_class.eps
 	lyxscale 66
-	width 40col%
+	width 70col%
 
 \end_inset
 
@@ -5521,6 +5549,10 @@ Updates this module's name to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5720,6 +5752,10 @@ Updates this module's descriptive text to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5827,7 +5863,7 @@ Returns this module's astrophysical domain.
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="30col%">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5916,6 +5952,10 @@ Updates this module's astrophysical domain.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -6118,6 +6158,10 @@ Updates this module's code reference to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6314,6 +6358,10 @@ Updates this module's code location reference to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -6519,6 +6567,10 @@ Sets or clears the parallelism flag for this module.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6626,7 +6678,7 @@ Returns the stopping conditions specified for the module.
 <column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="30col%">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none" width="30col%">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6716,6 +6768,10 @@ Updates this module's stopping conditions to those represented by the given
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -6918,6 +6974,10 @@ Updates this module's parameter list to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -7116,6 +7176,10 @@ Removes the given parameter from this module, if the parameter exists.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -7849,6 +7913,10 @@ Updates this parameter's name to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8045,6 +8113,10 @@ Updates this parameter's descriptive text to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -8247,6 +8319,10 @@ Updates this parameter's default value to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8443,6 +8519,10 @@ Updates this parameter's minimum value to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -8645,6 +8725,10 @@ Updates this parameter's maximum value to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8842,6 +8926,10 @@ Updates this parameter's units to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -9248,6 +9336,10 @@ The exponent to be applied to the unit.
 
 \begin_layout Paragraph
 Unit Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -9447,6 +9539,10 @@ Updates this instance's base unit type to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -9643,6 +9739,10 @@ Updates this instance's SI prefix to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -10048,6 +10148,10 @@ The list of simple units whose combination is represented by this compound
 
 \begin_layout Paragraph
 CompoundUnit Operations
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -10244,6 +10348,10 @@ Updates this instance's description to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
@@ -10447,6 +10555,10 @@ Updates this instance's short description to the given argument.
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -10644,6 +10756,10 @@ Updates this instance's list of simple units to the given argument.
 </row>
 </lyxtabular>
 
+\end_inset
+
+
+\begin_inset Newline newline
 \end_inset
 
 
