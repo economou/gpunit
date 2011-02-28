@@ -11473,6 +11473,14 @@ A Simulation is the goal of both GPUnit and AMUSE, which makes it important
  Running Simulation, Post Simulation.
  This section goes into more detail about all three of these parts and what
  happens in each.
+ Each section title that corresponds with a section in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Flow-Chart-Simulation"
+
+\end_inset
+
+ will have a hyphenated number to correspond with a step in the flow chart.
 \end_layout
 
 \begin_layout Standard
@@ -11495,6 +11503,13 @@ status collapsed
 
 \begin_layout Plain Layout
 Flow Chart of Typical AMUSE Simulation
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Flow-Chart-Simulation"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -11525,7 +11540,7 @@ name "sub:Instantiate-Particles"
 
 \end_inset
 
-Instantiate Particles
+Instantiate Particles - 1
 \end_layout
 
 \begin_layout Standard
@@ -11540,7 +11555,7 @@ In the initialization phase of the experiment it is important to select
 \end_layout
 
 \begin_layout Subparagraph
-Create Conversion Object
+Create Conversion Object - 2
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Create-Conversion-Object"
@@ -11560,7 +11575,7 @@ on.
 \end_layout
 
 \begin_layout Subparagraph
-Module Creation
+Module Creation - 3,4
 \end_layout
 
 \begin_layout Standard
@@ -11588,7 +11603,7 @@ name "sub:Instantiate-Channels"
 
 \end_inset
 
-Instantiate Channels
+Instantiate Channels - 5
 \end_layout
 
 \begin_layout Standard
@@ -11620,7 +11635,7 @@ Running the system is the area inside of the while loop.
 \end_layout
 
 \begin_layout Subparagraph
-Evolve Modules
+Evolve Modules - 6
 \end_layout
 
 \begin_layout Standard
@@ -11633,7 +11648,56 @@ evolve_model
 \end_layout
 
 \begin_layout Subparagraph
-Synchronize Particles
+Synchronize Particles - 7
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename SynchronizationSwimLanes.eps
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Swimlane of Synchronizaton Phase
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Swimlane-of-Synchronizaton"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -11641,13 +11705,21 @@ Particle synchronization is required because every module has a local list
  of particles to allow for parallelization.
  Since at most only one of each module type will be run per experiment,
  there will be no overlapping data modifications.
- After data is updated, we use the aforementioned channels to synchronize
- back and forth between the master list of particles and each module.
+ After data is updated, we use the aforementioned channels to do the synchroniza
+tion, first from the master list of particles, then back(As shown in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Swimlane-of-Synchronizaton"
+
+\end_inset
+
+).
  This ensures all modules have the latest version of particle data.
 \end_layout
 
 \begin_layout Subparagraph
-Run Diagnostics
+Run Diagnostics - 8
 \end_layout
 
 \begin_layout Standard
@@ -11671,7 +11743,7 @@ reference "fig:Diagnostics-Object-Model"
 \end_layout
 
 \begin_layout Subparagraph
-Run Logging
+Run Logging - 9
 \end_layout
 
 \begin_layout Standard
@@ -11698,7 +11770,7 @@ name "sub:Increment-Time"
 
 \end_inset
 
-Increment Time
+Increment Time - 10
 \end_layout
 
 \begin_layout Standard
@@ -11719,7 +11791,7 @@ Post Simulation
 \end_layout
 
 \begin_layout Subparagraph
-Run Closing Diagnostics Scripts
+Run Closing Diagnostics Scripts - 11
 \end_layout
 
 \begin_layout Standard
@@ -11740,7 +11812,7 @@ reference "fig:Diagnostics-Object-Model"
 \end_layout
 
 \begin_layout Subparagraph
-Run Closing Logging Scripts
+Run Closing Logging Scripts - 12
 \end_layout
 
 \begin_layout Standard
@@ -11761,7 +11833,7 @@ reference "fig:Logger-Object-Model"
 \end_layout
 
 \begin_layout Subparagraph
-Stop Modules
+Stop Modules - 13
 \end_layout
 
 \begin_layout Standard
@@ -11803,7 +11875,7 @@ reference "sec:Command-Line-Tool"
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
