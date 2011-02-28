@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>456</width>
+    <width>496</width>
     <height>327</height>
    </rect>
   </property>
@@ -107,6 +107,9 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="Node" name="widget" native="true"/>
+      </item>
      </layout>
     </item>
    </layout>
@@ -116,8 +119,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>456</width>
-     <height>21</height>
+     <width>496</width>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -137,6 +140,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Node</class>
+   <extends>QWidget</extends>
+   <header>node.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

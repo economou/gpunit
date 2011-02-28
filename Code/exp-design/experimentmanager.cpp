@@ -8,7 +8,8 @@
 ExperimentManager::ExperimentManager(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ExperimentManager),
-    editor(new ModuleEditor(this))
+    editor(new ModuleEditor(this)),
+    clusterViewer(new ClusterView(this))
 {
     ui->setupUi(this);
 }
@@ -43,6 +44,5 @@ void ExperimentManager::openNewManager() {
 }
 
 void ExperimentManager::on_actionRun_Experiment_triggered() {
-    ClusterView* cv = new ClusterView(this);
-    cv->show();
+    clusterViewer->show();
 }

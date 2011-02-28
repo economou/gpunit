@@ -2,10 +2,11 @@
 #define EXPERIMENTMANAGER_H
 
 #include <QMainWindow>
-#include<vector>
+#include <vector>
 using std::vector;
 
 #include "moduleeditor.hpp"
+#include "clusterview.hpp"
 
 namespace Ui {
     class ExperimentManager;
@@ -21,6 +22,7 @@ public:
 private:
     Ui::ExperimentManager *ui;
     ModuleEditor* editor;
+    ClusterView* clusterViewer;
     void openNewManager();
 
     vector<ExperimentManager*> managers;

@@ -14,13 +14,15 @@ SOURCES += main.cpp\
     moduleeditor.cpp \
     modulestoolbox.cpp \
     experimentmanager.cpp \
-    clusterview.cpp
+    clusterview.cpp \
+    node.cpp
 
 HEADERS  += \
     moduleeditor.hpp \
     modulestoolbox.hpp \
     experimentmanager.hpp \
-    clusterview.hpp
+    clusterview.hpp \
+    node.hpp
 
 FORMS    += \
     moduleeditor.ui \
