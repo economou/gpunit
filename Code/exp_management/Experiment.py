@@ -11,6 +11,8 @@
 #
 #
 
+from amuse.support.units import units
+
 #Pretty sure sys is needed to write to files
 import sys
 #Possibly need minidom
@@ -18,7 +20,9 @@ import sys
 defaultTimeStep = 1
 defaultStartTime = 0
 defaultStopTime = 100
-defaultTimeUnit = UnitType.yr
+
+#Modified code to allow Use AMUSE units
+defaultTimeUnit = units.yr #UnitType.yr
 
 class Experiment :
 	'''Experiment class holds all relevant experiment data
@@ -33,11 +37,11 @@ class Experiment :
 		self.particles = []
 		self.diagnostics = []
 		self.loggers = []
-		self.startTime = defaultStartTime
-		self.stopTime = defaultStopTime
-		self.timeUnit = defaultTimeUnit
+		self.timeUnit  = defaultTimeUnit
+		self.startTime = defaultStartTime | self.timeUnit
+		self.stopTime  = defaultStopTime  | self.timeUnit
 
-	def writeXMLFile(fileName) :
+	def writeXMLFile(self,fileName) :
 	  #writes out the XML
 		tabstop = '  ' #2 spaces for indentations aiding readability
 		depth = 0
@@ -80,14 +84,15 @@ class Experiment :
 		outFile.write(XMLString)
 
 #---------------------------------------------------
-#	def loadXMLFile(fileName) :
+	def loadXMLFile(self, fileName) :
+		pass #Just a place holder so code compiles
 		#loads in the XML
 		#not sure what to do here yet
 		#are we going to use minidom or something?
 #---------------------------------------------------
 		
 
-	def getCurrentState() :
+	def getCurrentState(self) :
 		#returns the list of particles to read their states
 		return self.particles
 
@@ -97,75 +102,75 @@ class Experiment :
 		#Evolve the simulation
 #---------------------------------------------------
 
-	def setName(name) :
+	def setName(self, name) :
 		#Sets the name of the experiment to the given value
 		self.name = name
 
-	def getName() :
+	def getName(self) :
 		#Returns the name of the experiment
 		return self.name
 
-	def setTimeStep(timeStep) :
+	def setTimeStep(self,timeStep) :
 		#Sets the timestep to the given value
 		self.timeStep = timeStep
 
-	def getTimeStep() :
+	def getTimeStep(self) :
 		#Returns the experiment's timeStep
 		return self.timeStep
 
-	def disableStopConditions() :
+	def disableStopConditions(self) :
 		#Disables the stopping conditions
 		self.stopIsEnabled = False
 
-	def enableStopConditions() :
+	def enableStopConditions(self) :
 		#Enables the stopping conditions
 		self.stopIsEnabled = True
 
-	def addModule(module) :
+	def addModule(self, module) :
 		#Adds the given module to the module list
 		self.modules.append(module)
 
-	def removeModule(module) :
+	def removeModule(self, module) :
 		#Removes the given module from the module list
 		self.modules.remove(module)
 
-	def addModules(modules) :
+	def addModules(self, modules) :
 		#Adds the given modules to the module list
 		self.modules.extend(modules)
 
-	def addParticle(particle) :
+	def addParticle(self, particle) :
 		#Adds the given particle to the particle list
 		self.particles.append(particle)
 
-	def removeParticle(particle) :
+	def removeParticle(self, particle) :
 		#Removes the given particle from the particle list
 		self.particles.remove(particle)
 
-	def addParticles(particles) :
+	def addParticles(self, particles) :
 		#Adds the given particles to the particle list
 		self.particles.extend(particles)
 
-	def addDiagnostic(diagnostic) :
+	def addDiagnostic(self, diagnostic) :
 		#Adds the given diagnostic to the diagnostic list
 		self.diagnostics.append(diagnostic)
 
-	def removeDiagnostic(diagnostic) :
+	def removeDiagnostic(self, diagnostic) :
 		#Removes the given diagnostic from the diagnostic list
 		self.diagnostics.remove(diagnostic)
 
-	def addDiagnostics(diagnostics) :
+	def addDiagnostics(self, diagnostics) :
 		#Adds the given diagnostics to the diagnostic list
 		self.diagnostics.extend(diagnostics)
 
-	def addLogger(logger) :
+	def addLogger(self, logger) :
 		#Adds the given logger to the logger list
 		self.loggers.append(logger)
 
-	def removeLogger(logger) :
+	def removeLogger(self, logger) :
 		#Removes the given logger from the logger list
 		self.loggers.remove(logger)
 
-	def addLoggers(loggers) :
+	def addLoggers(self, loggers) :
 		#Adds the given loggers to the logger list
 		self.loggers.extend(loggers)
 
