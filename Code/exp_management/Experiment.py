@@ -31,7 +31,6 @@ class Experiment :
 	def __init__(self, name) :
 		#Constructor initializes the experiment to default values
 		self.name = name
-		self.timeStep = defaultTimeStep
 		self.stopIsEnabled = True
 		self.modules = []
 		self.particles = []
@@ -40,6 +39,7 @@ class Experiment :
 		self.timeUnit  = defaultTimeUnit
 		self.startTime = defaultStartTime | self.timeUnit
 		self.stopTime  = defaultStopTime  | self.timeUnit
+		self.timeStep  = defaultTimeStep  | self.timeUnit
 
 	def writeXMLFile(self,fileName) :
 	  #writes out the XML
@@ -112,7 +112,7 @@ class Experiment :
 
 	def setTimeStep(self,timeStep) :
 		#Sets the timestep to the given value
-		self.timeStep = timeStep
+		self.timeStep = timeStep|self.timeUnit
 
 	def getTimeStep(self) :
 		#Returns the experiment's timeStep
