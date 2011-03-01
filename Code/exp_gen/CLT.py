@@ -38,8 +38,8 @@ def parse_flags():
     
     return experiment
 def run_experiment(experiment):
-    from amuse.support.units import units
-    r    = 1 | units.pc
+    from amuse.support.units import units, nbody_system
+    r    = 1 | units.parsec
     time = 0 | experiment.timeUnit
     dt   = experiment.getTimeStep()
     tmax = experiment.stopTime
@@ -58,17 +58,39 @@ def run_experiment(experiment):
         channels_to_module.append(experiment.particles.new_channel_to(module.particles))
         channels_from_module.append(module.particles.new_channel_to(experiment.particles))
 
-    while t <= tmax:
+    while time <= tmax:
         #Evolve Modules
+        for module in experiment.modules:
+            module.evolve_model()
         #Synchronize Particles Across Channels
+        for channel in channels_from_module:
+            channel.copy()
+        for channel in channels_to_module:
+            channel.copy()
         #Run Diagnostic Scripts
+        for diagnostic in experiment.diagnostics:
+            if diagnostic.shouldUpdate(None):
+                diagnostic.update(experiment.particles)
+            
         #Run Logging Scripts
+        for logger in experiment.loggers:
+            logger.logData(experiment.particles)
+            
         #Increment Time
-        t += dt
+        time += dt
     #Run Closing Diagnostic Scripts
+    for diagnostic in experiment.diagnostics:
+        if diagnostic.shouldUpdate(None):
+            diagnostic.update(experiment.particles)
     #Run Closing Logging Scripts
+    for logger in experiment.loggers:
+        logger.logData(experiment.particles)
     #Stop Modules
+    for module in experiment.modules:
+        module.stop()
 
 if __name__ == "__main__":
     my_experiment = parse_flags()
+    run_experiment(my_experiment)
+    
     
