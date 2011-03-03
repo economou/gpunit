@@ -34,7 +34,7 @@
      <number>5</number>
     </property>
     <item>
-     <widget class="ModulesToolBox" name="widget" native="true">
+     <widget class="ModulesToolbox" name="widget" native="true">
       <property name="minimumSize">
        <size>
         <width>150</width>
@@ -122,7 +122,7 @@
      <x>0</x>
      <y>0</y>
      <width>690</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -220,9 +220,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ModulesToolBox</class>
+   <class>ModulesToolbox</class>
    <extends>QWidget</extends>
-   <header>modulestoolbox.hpp</header>
+   <header>modulestoolbox</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -244,5 +244,58 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionOpen_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>openManager()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRun_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>toggleClusterView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEdit_Modules</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>toggleModuleEditor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>openManager()</slot>
+  <slot>toggleClusterView()</slot>
+  <slot>toggleModuleEditor()</slot>
+ </slots>
 </ui>
