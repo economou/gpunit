@@ -15,7 +15,8 @@ from amuse.support.units import units
 
 #Pretty sure sys is needed to write to files
 import sys
-#Possibly need minidom
+#Need to document this dependency -- minidom
+from xml.dom import minidom
 
 defaultTimeStep = 1
 defaultStartTime = 0
@@ -51,7 +52,7 @@ class Experiment :
 		depth += 1
 	  #Time tag
 		XMLString += tabstop*depth
-		XMLString += '<time units="'+self.timeUnit.getType()+'" start="'+self.startTime+'" step="'+self.timeStep.getValue()+'" end="'+self.stopTime+'"/>\n'
+		XMLString += '<time units="'+self.timeUnit._name_+'" start="'+self.startTime.number+'" step="'+self.timeStep.getValue()+'" end="'+self.stopTime+'"/>\n'
 	  #Module tags
 		for module in self.modules :
 			XMLString += tabstop*depth
