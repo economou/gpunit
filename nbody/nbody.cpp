@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <sys/time.h>
+#include <cstdlib>
 #include <cmath>
 
 #include "vector.hpp"
@@ -39,12 +41,20 @@ inline vec3 gravity(
     return grav;
 }
 
+static const int N = 512;
 int main(int argc, char** argv) {
-    vector<vec3> points(2);
-    vector<vec3> velocities(2);
-    vector<double> masses(2);
+    vector<vec3> points(N);
+    vector<vec3> velocities(N);
+    vector<double> masses(N);
+
+    for(int i=0; i<N; ++i) {
+        points[i] = vec3(rand() / (float) RAND_MAX);
+        velocities[i] = vec3(rand() / (float) RAND_MAX);
+        masses[i] = (rand() / (float) RAND_MAX);
+    }
 
     // Sun
+    /*
     points[0] = vec3(0,0,0);
     velocities[0] = vec3(0,0,0);
     masses[0] = mSun;
@@ -53,15 +63,22 @@ int main(int argc, char** argv) {
     points[1] = vec3(1.0 * metersPerAU, 0, 0);
     velocities[1] = vec3(0, vEarthOrbit, 0);
     masses[1] = mEarth;
+    */
 
     const double dt = (60 * 60 * 24);
-    const int timesteps = 365;
+    const int timesteps = 730;
     cerr <<  timesteps << endl;
 
     ofstream file("pos.txt");
+
+    struct timeval start, end;
     for(int t = 0; t < timesteps; ++t) {
         file << points[0] << "," << points[1] << "," << points[2] << endl;
+        gettimeofday(&start, NULL);
         integrateRK4(points, velocities, masses, dt);
+        gettimeofday(&end, NULL);
+        const float elapsed = (float)(end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6f;
+        cerr << elapsed << "s" << endl;
 
         if(t%100 == 0) cerr << "T: " << t << endl;
     }
