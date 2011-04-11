@@ -19,10 +19,10 @@ class SalpeterModel:
 		self.mass_max = mass_max
 		self.alpha = alpha
 
-	def getParticleList(self):
+	def getScaledMass(self):
 		'''Creates a particle list by making a new Plummer model. Note this will be
 		different every time this function is called in case any members have changed'''
-		return SalpeterIMF(self.mass_min,self.mass_max,alpha).result
+		return SalpeterIMF(self.mass_min,self.mass_max,alpha)
 		
 	def getMassMin(self):
 		return self.mass_min

@@ -1,3 +1,16 @@
+#!/usr/bin/python
+#
+# CLT.py
+#    The CLT is used for running of an experiment file for
+#    an AMUSE simulation.
+#
+# Tim McJilton
+# 2/11
+#
+# Team GPUnit - Senior Design 2011
+#
+#
+
 from exp_management.Experiment import Experiment
 def parse_flags():
     import getopt

@@ -46,7 +46,7 @@ class Module:
 		self.parameters = parameters
 	
 	# Methods
-	def toXml():
+	def toXml(self):
 		'''Dumps the Module to an XML element.
 		
 		Output:
@@ -67,7 +67,7 @@ class Module:
 		# TODO: Implement
 		raise NotImplementedError, 'XML deserialization of Modules is NYI.'
 	
-	def addParameter(p):
+	def addParameter(self, p):
 		'''Adds the given parameter to this module.
 		
 		Parameters:
@@ -75,7 +75,7 @@ class Module:
 		
 		self.parameters.append(p)
 	
-	def removeParameter(p):
+	def removeParameter(self, p):
 		'''Removes the given parameter from this module, if the parameter exists.
 		
 		Parameters:
@@ -91,7 +91,7 @@ class Module:
 			return False
 	
 	# Accessors
-	def getName():
+	def getName(self):
 		'''Returns the name of the module.
 		
 		Output:
@@ -99,7 +99,7 @@ class Module:
 		
 		return self.name
 	
-	def setName(name):
+	def setName(self, name):
 		'''Updates this module's name to the given argument.
 		
 		Parameters:
@@ -107,7 +107,7 @@ class Module:
 		
 		self.name = name
 	
-	def getDescription():
+	def getDescription(self):
 		'''Returns this module's descriptive text.
 		
 		Output:
@@ -115,7 +115,7 @@ class Module:
 		
 		return self.description
 	
-	def setDescription(description):
+	def setDescription(self, description):
 		'''Updates this module's descriptive text to the given argument.
 		
 		Parameters:
@@ -123,7 +123,7 @@ class Module:
 		
 		self.description = description
 	
-	def getAstrophysicalDomain():
+	def getAstrophysicalDomain(self):
 		'''Returns this module's astrophysical domain.
 		
 		Output:
@@ -131,7 +131,7 @@ class Module:
 		
 		return self.domain
 	
-	def setAstrophysicalDomain(domain):
+	def setAstrophysicalDomain(self, domain):
 		'''Updates this module's astrophysical domain.
 		
 		Parameters:
@@ -139,7 +139,7 @@ class Module:
 		
 		self.domain = domain
 	
-	def getCodeName():
+	def getCodeName(self):
 		'''Returns the name of the module's associated AMUSE class.
 		
 		Output:
@@ -147,7 +147,7 @@ class Module:
 		
 		return self.codeName
 	
-	def setCodeName(codeName):
+	def setCodeName(self, codeName):
 		'''Updates this module's code reference to the given argument.
 		
 		Parameters:
@@ -155,7 +155,7 @@ class Module:
 		
 		self.codeName = codeName
 	
-	def getCodeLocation():
+	def getCodeLocation(self):
 		'''Returns the location of the module's AMUSE code.
 		
 		Output:
@@ -163,7 +163,7 @@ class Module:
 		
 		return self.codeLocation
 	
-	def setCodeLocation(codeLocation):
+	def setCodeLocation(self, codeLocation):
 		'''Updates this module's code location reference to the given argument.
 		
 		Parameters:
@@ -171,7 +171,7 @@ class Module:
 		
 		self.codeLocation = codeLocation
 	
-	def getParallelism():
+	def getParallelism(self):
 		'''Returns a boolean indicating whether the module's calculations can be parallelized.
 		
 		Output:
@@ -179,7 +179,7 @@ class Module:
 		
 		return self.isParallel
 	
-	def setParallelism(isParallel):
+	def setParallelism(self, isParallel):
 		'''Sets or clears the parallelism flag for this module.
 		
 		Parameters:
@@ -187,7 +187,7 @@ class Module:
 		
 		self.isParallel = isParallel
 	
-	def getStoppingConditions():
+	def getStoppingConditions(self):
 		'''Returns the stopping conditions specified for the module.
 		
 		Output:
@@ -195,7 +195,7 @@ class Module:
 		
 		return self.isParallel
 	
-	def setStoppingConditions(conds):
+	def setStoppingConditions(self, conds):
 		'''Updates this module's stopping conditions to those represented by the given argument.
 		
 		Parameters:
@@ -203,7 +203,7 @@ class Module:
 		
 		self.stoppingConditions = conds
 	
-	def getParameters():
+	def getParameters(self):
 		'''Returns the parameters of this module.
 		
 		Output:
@@ -211,13 +211,19 @@ class Module:
 		
 		return self.parameters
 	
-	def setParameters(parameters):
+	def setParameters(self, parameters):
 		'''Updates this module's parameter list to the given argument.
 		
 		Parameters:
 		  parameters -- A list of module parameters.'''
 		
 		self.parameters = parameters
+        
+    @property
+    def result(self):
+        '''Returns an instance of the value. Treats result as a 
+                    value rather than a function'''
+        return None
 
 class Parameter:
 	'''A parameter to an AMUSE module.
@@ -249,7 +255,7 @@ class Parameter:
 		self.units = units
 	
 	# Methods
-	def toXml():
+	def toXml(self):
 		'''Dumps the Parameter to an XML element.
 		
 		Output:
@@ -271,7 +277,7 @@ class Parameter:
 		raise NotImplementedError, 'XML deserialization of Parameters is NYI.'
 	
 	# Accessors
-	def getName():
+	def getName(self):
 		'''Returns the name of the parameter.
 		
 		Output:
@@ -279,7 +285,7 @@ class Parameter:
 		
 		return self.name
 	
-	def setName(name):
+	def setName(self, name):
 		'''Updates this parameter's name to the given argument.
 		
 		Parameters:
@@ -287,7 +293,7 @@ class Parameter:
 		
 		self.name = name
 	
-	def getDescription():
+	def getDescription(self):
 		'''Returns this parameter's descriptive text.
 		
 		Output:
@@ -295,7 +301,7 @@ class Parameter:
 		
 		return self.description
 	
-	def setDescription(description):
+	def setDescription(self, description):
 		'''Updates this parameter's descriptive text to the given argument.
 		
 		Parameters:
@@ -303,7 +309,7 @@ class Parameter:
 		
 		self.description = description
 	
-	def getDefaultValue():
+	def getDefaultValue(self):
 		'''Returns the default value for this parameter.
 		
 		Output:
@@ -311,7 +317,7 @@ class Parameter:
 		
 		return self.defaultValue
 	
-	def setDefaultValue(defaultValue):
+	def setDefaultValue(self, defaultValue):
 		'''Updates this parameter's default value to the given argument.
 		
 		Parameters:
@@ -319,7 +325,7 @@ class Parameter:
 		
 		self.defaultValue = defaultValue
 	
-	def getMinValue():
+	def getMinValue(self):
 		'''Returns the minimal allowed value for this parameter.
 		
 		Output:
@@ -327,7 +333,7 @@ class Parameter:
 		
 		return self.minValue
 	
-	def setMinValue(minValue):
+	def setMinValue(self, minValue):
 		'''Updates this parameter's minimum value to the given argument.
 		
 		Parameters:
@@ -335,7 +341,7 @@ class Parameter:
 		
 		self.minValue = minValue
 	
-	def getMaxValue():
+	def getMaxValue(self, ):
 		'''Returns the maximal allowed value for this parameter.
 		
 		Output:
@@ -343,7 +349,7 @@ class Parameter:
 		
 		return self.maxValue
 	
-	def setMaxValue(maxValue):
+	def setMaxValue(self, maxValue):
 		'''Updates this parameter's maximum value to the given argument.
 		
 		Parameters:
@@ -351,7 +357,7 @@ class Parameter:
 		
 		self.maxValue = maxValue
 	
-	def getUnits():
+	def getUnits(self):
 		'''Returns an object containing the units associated with this parameter.
 		
 		Output:
@@ -359,7 +365,7 @@ class Parameter:
 		
 		return self.units
 	
-	def setUnits(units):
+	def setUnits(self, units):
 		'''Updates this parameter's units to the given argument.
 		
 		Parameters:
