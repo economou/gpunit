@@ -88,7 +88,7 @@ class Module:
 		codeLocation.text = self.codeLocation
 		
 		isParallel = etree.SubElement(module, "isParallel")
-		isParallel.text = self.isParallel
+		isParallel.text = str(self.isParallel)
 		
 		stoppingConditions = etree.SubElement(module, "stoppingConditions")
 		stoppingConditions.text = self.stoppingConditions
@@ -97,8 +97,9 @@ class Module:
 		for parameter in self.parameters:
 			module.append(etree.fromstring(parameter.toXml()))
 		
-		return etree.tostring(module, encoding = UTF-8)
+		return etree.tostring(module, encoding = "UTF-8")
 	
+	@staticmethod
 	def fromXml(element):
 		'''Recreates a Module from its XML specification.
 		
@@ -118,7 +119,7 @@ class Module:
 		domain             = module.find("domain").text
 		codeName           = module.find("codeName").text
 		codeLocation       = module.find("codeLocation").text
-		isParallel         = module.find("isParallel").text
+		isParallel         = eval(module.find("isParallel").text)
 		stoppingConditions = module.find("stoppingConditions").text
 		
 		# Create the module
@@ -126,7 +127,7 @@ class Module:
 		
 		# Iterate through parameter elements and add parameters to the module
 		for parameter in module.findall("Parameter"):
-			param = Parameter.fromXml(etree.tostring(parameter, encoding = UTF-8))
+			param = Parameter.fromXml(etree.tostring(parameter, encoding = "UTF-8"))
 			mod.addParameter(param)
 		
 		return mod
@@ -283,11 +284,12 @@ class Module:
 		
 		self.parameters = parameters
         
-    @property
-    def result(self):
-        '''Returns an instance of the value. Treats result as a 
-                    value rather than a function'''
-        return None
+    	@property
+    	def result(self):
+        	'''Returns an instance of the value. Treats result as a value
+		rather than a function.'''
+		
+        	return None
 
 class Parameter:
 	'''A parameter to an AMUSE module.
