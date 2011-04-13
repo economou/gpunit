@@ -18,6 +18,8 @@ State:
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
 
+XML_ENCODING = "UTF-8"
+
 class Module:
 	'''A particular AMUSE module, providing an interface between GPUnit and
 	the AMUSE code. The members of the Module class are used by GPUnit to
@@ -54,16 +56,25 @@ class Module:
 		
 		The element is formatted as follows:
 		<Module name="Example">
-		  <description>The example module is an example module.</description>
-		  <domain>Stellar Dynamics</domain>
-		  <codeName>example.py</codeName>
-		  <codeLocation>src/amuse/community/example</codeLocation>
-		  <isParallel>false</isParallel>
-		  <stoppingConditions>TIMEOUT | NUMBER_OF_STEPS | ESCAPER</stoppingConditions>
-		  <Parameter name="Parameter 1">
-		    ...
-		  </Parameter>
-		  <Parameter name="Parameter 2">
+		  <description>
+		    Calculates the temporal discombobulation of the flux capacitor over time.
+		  </description>
+		  <domain>
+		    Stellar Dynamics
+		  </domain>
+		  <codeName>
+		    example.py
+		  </codeName>
+		  <codeLocation>
+		    src/amuse/community/example
+		  </codeLocation>
+		  <isParallel>
+		    false
+		  </isParallel>
+		  <stoppingConditions>
+		    TIMEOUT | NUMBER_OF_STEPS | ESCAPER
+		  </stoppingConditions>
+		  <Parameter ...>
 		    ...
 		  </Parameter>
 		  ...
@@ -99,9 +110,9 @@ class Module:
 			module.append(etree.fromstring(parameter.toXml()))
 		
 		# Prettify the XML
-		uglyXml = xml.dom.minidom.parseString(etree.tostring(module, encoding = "UTF-8"))
+		uglyXml = xml.dom.minidom.parseString(etree.tostring(module, encoding = XML_ENCODING))
 		
-		return uglyXml.toprettyxml(encoding = "UTF-8")
+		return uglyXml.toprettyxml(encoding = XML_ENCODING)
 	
 	@staticmethod
 	def fromXml(element):
@@ -131,7 +142,7 @@ class Module:
 		
 		# Iterate through Parameter elements and add Parameters to the Module
 		for parameterElement in moduleElement.findall("Parameter"):
-			parameter = Parameter.fromXml(etree.tostring(parameterElement, encoding = "UTF-8"))
+			parameter = Parameter.fromXml(etree.tostring(parameterElement, encoding = XML_ENCODING))
 			module.addParameter(parameter)
 		
 		return module
@@ -328,9 +339,23 @@ class Parameter:
 	def toXml(self):
 		'''Dumps the Parameter to an XML element.
 		
-		The parameter is formatted as follows:
+		The element is formatted as follows:
 		<Parameter name="Example">
-		  TODO
+		  <description>
+		    The current magnitude of the flux capacitance.
+		  </description>
+		  <defaultValue>
+		    0.88
+		  </defaultValue>
+		  <minValue>
+		    0
+		  </minValue>
+		  <maxValue>
+		    1
+		  </maxValue>
+		  <Units ...>
+		    ...
+		  </Units>
 		</Parameter>
 		
 		Output:
@@ -344,7 +369,7 @@ class Parameter:
 		description.text = self.description
 		
 		defaultValue = etree.SubElement(parameter, "defaultValue")
-		defaultValue.text = str(self.defaultValue)  # Convert integers to strings for serialization
+		defaultValue.text = str(self.defaultValue)  # Convert numbers to strings for serialization
 		
 		minValue = etree.SubElement(parameter, "minValue")
 		minValue.text = str(self.minValue)
@@ -355,9 +380,9 @@ class Parameter:
 		parameter.append(etree.fromstring(self.units.toXml()))
 		
 		# Prettify the XML
-		uglyXml = xml.dom.minidom.parseString(etree.tostring(parameter, encoding = "UTF-8"))
+		uglyXml = xml.dom.minidom.parseString(etree.tostring(parameter, encoding = XML_ENCODING))
 		
-		return uglyXml.toprettyxml(encoding = "UTF-8")
+		return uglyXml.toprettyxml(encoding = XML_ENCODING)
 	
 	@staticmethod
 	def fromXml(element):
@@ -375,14 +400,14 @@ class Parameter:
 		# Extract Parameter's properties from XML attributes and sub-elements
 		name = parameterElement.get("name")
 		
-		description = parameterElement.find("description").text.strip()
-		defaultValue = eval(parameterElement.find("defaultValue").text.strip())  # Evaluate strings as integers
-		minValue    = eval(parameterElement.find("minValue").text.strip())
-		maxValue    = eval(parameterElement.find("maxValue").text.strip())
+		description  = parameterElement.find("description").text.strip()
+		defaultValue = eval(parameterElement.find("defaultValue").text.strip())  # Evaluate strings as numbers
+		minValue     = eval(parameterElement.find("minValue").text.strip())
+		maxValue     = eval(parameterElement.find("maxValue").text.strip())
 		
 		# Read Units sub-element into a CompoundUnit instance
 		unitsElement = parameterElement.find("Units")
-		units        = CompoundUnit.fromXml(etree.tostring(unitsElement, encoding = "UTF-8"))
+		units        = CompoundUnit.fromXml(etree.tostring(unitsElement, encoding = XML_ENCODING))
 		
 		# Create the Parameter
 		parameter = Parameter(name, description, defaultValue, minValue, maxValue, units)
@@ -511,11 +536,41 @@ class CompoundUnit:
 	def toXml(self):
 		'''Dumps the CompoundUnit to an XML element.
 		
+		The element is formatted as follows:
+		<Units>
+		  <description>
+		    gigawatts per second
+		  </description>
+		  <symbolicDescription>
+		    GW/s
+		  </symbolicDescription>
+		  <Unit ...>
+		    ...
+		  </Unit>
+		  ...
+		</Units>
+		
 		Output:
 		  A string containing an XML representation of the CompoundUnit.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML serialization of CompoundUnits is NYI.'
+		# Create <Units> XML element
+		units = etree.Element("Units")
+		
+		# Append simple sub-elements
+		description = etree.SubElement(units, "description")
+		description.text = self.description
+		
+		symbolicDescription = etree.SubElement(units, "symbolicDescription")
+		symbolicDescription.text = self.symbolicDescription
+		
+		# Iterate through simple units and append them as sub-elements
+		for unit in self.units:
+			units.append(etree.fromstring(unit.toXml()))
+		
+		# Prettify the XML
+		uglyXml = xml.dom.minidom.parseString(etree.tostring(units, encoding = XML_ENCODING))
+		
+		return uglyXml.toprettyxml(encoding = XML_ENCODING)
 	
 	@staticmethod
 	def fromXml(element):
@@ -527,8 +582,22 @@ class CompoundUnit:
 		Output:
 		  A CompoundUnit whose property values are specified by the given XML element.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML deserialization of CompoundUnits is NYI.'
+		# Parse CompoundUnit from XML
+		unitsElement = etree.fromstring(element)
+		
+		# Extract CompoundUnit's properties from XML sub-elements
+		description         = unitsElement.find("description").text.strip()
+		symbolicDescription = unitsElement.find("symbolicDescription").text.strip()
+		
+		# Create the CompoundUnit
+		units = CompoundUnit(description, symbolicDescription, [])
+		
+		# Iterate through simple Unit elements and add simple Units to the CompoundUnit
+		for unitElement in unitsElement.findall("Unit"):
+			unit = Unit.fromXml(etree.tostring(unitElement, encoding = XML_ENCODING))
+			units.addUnit(unit)
+		
+		return units
 	
 	def addUnit(self, u):
 		'''Adds the given unit to this compound unit's list of simple units.
@@ -627,11 +696,19 @@ class Unit:
 	def toXml(self):
 		'''Dumps the Unit to an XML element.
 		
+		The element is formatted as follows:
+		<Unit type="Watt" prefix="G" exponent="1" />
+		
 		Output:
 		  A string containing an XML representation of the Unit.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML serialization of Units is NYI.'
+		# Create <Unit> XML element and set its attributes
+		unit = etree.Element("Unit", attrib = {"type" : self.utype, "prefix" : self.prefix, "exponent" : self.exponent})
+		
+		# Prettify the XML
+		uglyXml = xml.dom.minidom.parseString(etree.tostring(units, encoding = XML_ENCODING))
+		
+		return uglyXml.toprettyxml(encoding = XML_ENCODING)
 	
 	@staticmethod
 	def fromXml(element):
@@ -643,8 +720,18 @@ class Unit:
 		Output:
 		  A Unit whose property values are specified by the given XML element.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML deserialization of Units is NYI.'
+		# Parse Unit from XML
+		unitElement = etree.fromstring(element)
+		
+		# Extract Unit's properties from XML attributes
+		utype    = unitElement.get("type")
+		prefix   = unitElement.get("prefix")
+		exponent = unitElement.get("exponent")
+		
+		# Create the Parameter
+		unit = Unit(utype, prefix, exponent)
+		
+		return unit
 	
 	# Accessors
 	def getType(self):
