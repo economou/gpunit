@@ -15,6 +15,8 @@ State:
 # TODO: Enforce type safety?
 # TODO: Implement enumerations?  If so, to what degree?
 
+import xml.etree.ElementTree as etree
+
 class Module:
 	'''A particular AMUSE module, providing an interface between GPUnit and
 	the AMUSE code. The members of the Module class are used by GPUnit to
@@ -49,11 +51,53 @@ class Module:
 	def toXml(self):
 		'''Dumps the Module to an XML element.
 		
+		The element is formatted as follows:
+		<Module name="Example">
+		  <description>The example module is an example module.</description>
+		  <domain>Stellar Dynamics</domain>
+		  <codeName>example.py</codeName>
+		  <codeLocation>src/amuse/community/example</codeLocation>
+		  <isParallel>false</isParallel>
+		  <stoppingConditions>TIMEOUT | NUMBER_OF_STEPS | ESCAPER</stoppingConditions>
+		  <Parameter name="Parameter 1">
+		    ...
+		  </Parameter>
+		  <Parameter name="Parameter 2">
+		    ...
+		  </Parameter>
+		  ...
+		</Module>
+		
 		Output:
 		  A string containing an XML representation of the Module.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML serialization of Modules is NYI.'
+		# Create <Module> XML element and set its attributes
+		module = etree.Element("Module", attrib = {"name" : self.name})
+		
+		# Append simple sub-elements
+		description = etree.SubElement(module, "description")
+		description.text = self.description
+		
+		domain = etree.SubElement(module, "domain")
+		domain.text = self.domain
+		
+		codeName = etree.SubElement(module, "codeName")
+		codeName.text = self.codeName
+		
+		codeLocation = etree.SubElement(module, "codeLocation")
+		codeLocation.text = self.codeLocation
+		
+		isParallel = etree.SubElement(module, "isParallel")
+		isParallel.text = self.isParallel
+		
+		stoppingConditions = etree.SubElement(module, "stoppingConditions")
+		stoppingConditions.text = self.stoppingConditions
+		
+		# Iterate through parameters and append them as sub-elements
+		for parameter in self.parameters:
+			module.append(etree.fromstring(parameter.toXml()))
+		
+		return etree.tostring(module, encoding = UTF-8)
 	
 	def fromXml(element):
 		'''Recreates a Module from its XML specification.
@@ -64,8 +108,28 @@ class Module:
 		Output:
 		  A Module whose property values are specified by the given XML element.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML deserialization of Modules is NYI.'
+		# Parse module from XML
+		module = etree.fromstring(element)
+		
+		# Extract module's properties from XML attributes and sub-elements
+		name = module.get("name")
+		
+		description        = module.find("description").text
+		domain             = module.find("domain").text
+		codeName           = module.find("codeName").text
+		codeLocation       = module.find("codeLocation").text
+		isParallel         = module.find("isParallel").text
+		stoppingConditions = module.find("stoppingConditions").text
+		
+		# Create the module
+		mod = Module(name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, [])
+		
+		# Iterate through parameter elements and add parameters to the module
+		for parameter in module.findall("Parameter"):
+			param = Parameter.fromXml(etree.tostring(parameter, encoding = UTF-8))
+			mod.addParameter(param)
+		
+		return mod
 	
 	def addParameter(self, p):
 		'''Adds the given parameter to this module.
@@ -258,6 +322,11 @@ class Parameter:
 	def toXml(self):
 		'''Dumps the Parameter to an XML element.
 		
+		The parameter is formatted as follows:
+		<Parameter name="Example">
+		  TODO
+		</Parameter>
+		
 		Output:
 		  A string containing an XML representation of the Parameter.'''
 		
@@ -395,7 +464,7 @@ class Unit:
 		self.exponent = exponent
 	
 	# Methods
-	def toXml():
+	def toXml(self):
 		'''Dumps the Unit to an XML element.
 		
 		Output:
@@ -417,7 +486,7 @@ class Unit:
 		raise NotImplementedError, 'XML deserialization of Units is NYI.'
 	
 	# Accessors
-	def getType():
+	def getType(self):
 		'''Returns the base type of astrophysical unit represented by this instance.
 		
 		Output:
@@ -425,7 +494,7 @@ class Unit:
 		
 		return self.utype
 	
-	def setType(utype):
+	def setType(self, utype):
 		'''Updates this instance's base unit type to the given argument.
 		
 		Parameters:
@@ -433,7 +502,7 @@ class Unit:
 		
 		self.utype = utype
 	
-	def getPrefix():
+	def getPrefix(self):
 		'''Returns the SI prefix that augments the magnitude of this unit.
 		
 		Output:
@@ -441,7 +510,7 @@ class Unit:
 		
 		return self.prefix
 	
-	def setPrefix(prefix):
+	def setPrefix(self, prefix):
 		'''Updates this instance's SI prefix to the given argument.
 		
 		Parameters:
@@ -449,7 +518,7 @@ class Unit:
 		
 		self.prefix = prefix
 	
-	def getExponent():
+	def getExponent(self):
 		'''Returns the exponent applied to this unit.
 		
 		Output:
@@ -457,7 +526,7 @@ class Unit:
 		
 		return self.exponent
 	
-	def setExponent(exponent):
+	def setExponent(self, exponent):
 		'''Updates this instance's exponent to the given argument.
 		
 		Parameters:
@@ -487,7 +556,7 @@ class CompoundUnit:
 		self.units = units
 	
 	# Methods
-	def toXml():
+	def toXml(self):
 		'''Dumps the CompoundUnit to an XML element.
 		
 		Output:
@@ -508,7 +577,7 @@ class CompoundUnit:
 		# TODO: Implement
 		raise NotImplementedError, 'XML deserialization of CompoundUnits is NYI.'
 	
-	def addUnit(u):
+	def addUnit(self, u):
 		'''Adds the given unit to this compound unit's list of simple units.
 		
 		Parameters:
@@ -516,7 +585,7 @@ class CompoundUnit:
 		
 		self.units.append(u)
 	
-	def removeUnit(u):
+	def removeUnit(self, u):
 		'''Removes the given simple unit from this compound unit, if the simple unit exists.
 		
 		Parameters:
@@ -532,7 +601,7 @@ class CompoundUnit:
 			return False
 	
 	# Accessors
-	def getDescription():
+	def getDescription(self):
 		'''Returns a textual description of this combined unit.
 		
 		Output:
@@ -540,7 +609,7 @@ class CompoundUnit:
 		
 		return self.description
 	
-	def setDescription(description):
+	def setDescription(self, description):
 		'''Updates this instance's description to the given argument.
 		
 		Parameters:
@@ -548,7 +617,7 @@ class CompoundUnit:
 		
 		self.description = description
 	
-	def getSymbolicDescription():
+	def getSymbolicDescription(self):
 		'''Returns an abbreviated description of this combined unit.
 		
 		Output:
@@ -556,7 +625,7 @@ class CompoundUnit:
 		
 		return self.symbolicDescription
 	
-	def setSymbolicDescription(symbolicDescription):
+	def setSymbolicDescription(self, symbolicDescription):
 		'''Updates this instance's short description to the given argument.
 		
 		Parameters:
@@ -564,7 +633,7 @@ class CompoundUnit:
 		
 		self.symbolicDescription = symbolicDescription
 	
-	def getUnits():
+	def getUnits(self):
 		'''Returns the list of units contained in this compound unit.
 		
 		Output:
@@ -572,7 +641,7 @@ class CompoundUnit:
 		
 		return self.units
 	
-	def setUnits(units):
+	def setUnits(self, units):
 		'''Updates this instance's list of simple units to the given argument.
 		
 		Parameters:
