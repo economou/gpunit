@@ -299,12 +299,13 @@ class Module:
 		
 		self.parameters = parameters
         
-    	@property
-    	def result(self):
-        	'''Returns an instance of the value. Treats result as a value
-		rather than a function.'''
-		
-        	return None
+
+    @property
+    def result(self):
+        '''Returns an instance of the value. Treats result as a 
+                    value rather than a function'''
+        
+        return None
 
 class Parameter:
 	'''A parameter to an AMUSE module.
