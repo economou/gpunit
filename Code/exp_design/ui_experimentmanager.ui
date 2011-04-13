@@ -292,10 +292,28 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSave_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>saveExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openManager()</slot>
   <slot>toggleClusterView()</slot>
   <slot>toggleModuleEditor()</slot>
+  <slot>loadExperiment()</slot>
+  <slot>saveExperiment()</slot>
  </slots>
 </ui>

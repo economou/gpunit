@@ -31,7 +31,7 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def saveExperiment(self):
-        QFileDialog.getSaveFileName(self, "Save experiment as...")
+        print QFileDialog.getSaveFileName(self, "Save experiment as...")
 
     def closeEvent(self, event):
         ExperimentManager.managers.remove(self)
