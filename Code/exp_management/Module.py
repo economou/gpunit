@@ -16,6 +16,7 @@ State:
 # TODO: Implement enumerations?  If so, to what degree?
 
 import xml.etree.ElementTree as etree
+import xml.dom.minidom
 
 class Module:
 	'''A particular AMUSE module, providing an interface between GPUnit and
@@ -88,7 +89,7 @@ class Module:
 		codeLocation.text = self.codeLocation
 		
 		isParallel = etree.SubElement(module, "isParallel")
-		isParallel.text = str(self.isParallel)
+		isParallel.text = str(self.isParallel)  # Convert boolean to string for serialization
 		
 		stoppingConditions = etree.SubElement(module, "stoppingConditions")
 		stoppingConditions.text = self.stoppingConditions
@@ -97,7 +98,10 @@ class Module:
 		for parameter in self.parameters:
 			module.append(etree.fromstring(parameter.toXml()))
 		
-		return etree.tostring(module, encoding = "UTF-8")
+		# Prettify the XML
+		uglyXml = xml.dom.minidom.parseString(etree.tostring(module, encoding = "UTF-8"))
+		
+		return uglyXml.toprettyxml(encoding = "UTF-8")
 	
 	@staticmethod
 	def fromXml(element):
@@ -109,28 +113,28 @@ class Module:
 		Output:
 		  A Module whose property values are specified by the given XML element.'''
 		
-		# Parse module from XML
-		module = etree.fromstring(element)
+		# Parse Module from XML
+		moduleElement = etree.fromstring(element)
 		
-		# Extract module's properties from XML attributes and sub-elements
-		name = module.get("name")
+		# Extract Module's properties from XML attributes and sub-elements
+		name = moduleElement.get("name")
 		
-		description        = module.find("description").text
-		domain             = module.find("domain").text
-		codeName           = module.find("codeName").text
-		codeLocation       = module.find("codeLocation").text
-		isParallel         = eval(module.find("isParallel").text)
-		stoppingConditions = module.find("stoppingConditions").text
+		description        = moduleElement.find("description").text.strip()
+		domain             = moduleElement.find("domain").text.strip()
+		codeName           = moduleElement.find("codeName").text.strip()
+		codeLocation       = moduleElement.find("codeLocation").text.strip()
+		isParallel         = eval(moduleElement.find("isParallel").text.strip())  # Evaluate string as boolean
+		stoppingConditions = moduleElement.find("stoppingConditions").text.strip()
 		
-		# Create the module
-		mod = Module(name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, [])
+		# Create the Module
+		module = Module(name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, [])
 		
-		# Iterate through parameter elements and add parameters to the module
-		for parameter in module.findall("Parameter"):
-			param = Parameter.fromXml(etree.tostring(parameter, encoding = "UTF-8"))
-			mod.addParameter(param)
+		# Iterate through Parameter elements and add Parameters to the Module
+		for parameterElement in moduleElement.findall("Parameter"):
+			parameter = Parameter.fromXml(etree.tostring(parameterElement, encoding = "UTF-8"))
+			module.addParameter(parameter)
 		
-		return mod
+		return module
 	
 	def addParameter(self, p):
 		'''Adds the given parameter to this module.
@@ -332,9 +336,30 @@ class Parameter:
 		Output:
 		  A string containing an XML representation of the Parameter.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML serialization of Parameters is NYI.'
+		# Create <Parameter> XML element and set its attributes
+		parameter = etree.Element("Parameter", attrib = {"name" : self.name})
+		
+		# Append sub-elements
+		description = etree.SubElement(parameter, "description")
+		description.text = self.description
+		
+		defaultValue = etree.SubElement(parameter, "defaultValue")
+		defaultValue.text = str(self.defaultValue)  # Convert integers to strings for serialization
+		
+		minValue = etree.SubElement(parameter, "minValue")
+		minValue.text = str(self.minValue)
+		
+		maxValue = etree.SubElement(parameter, "maxValue")
+		maxValue.text = str(self.maxValue)
+		
+		parameter.append(etree.fromstring(self.units.toXml()))
+		
+		# Prettify the XML
+		uglyXml = xml.dom.minidom.parseString(etree.tostring(parameter, encoding = "UTF-8"))
+		
+		return uglyXml.toprettyxml(encoding = "UTF-8")
 	
+	@staticmethod
 	def fromXml(element):
 		'''Recreates a Parameter from its XML specification.
 		
@@ -344,8 +369,25 @@ class Parameter:
 		Output:
 		  A Parameter whose property values are specified by the given XML element.'''
 		
-		# TODO: Implement
-		raise NotImplementedError, 'XML deserialization of Parameters is NYI.'
+		# Parse Parameter from XML
+		parameterElement = etree.fromstring(element)
+		
+		# Extract Parameter's properties from XML attributes and sub-elements
+		name = parameterElement.get("name")
+		
+		description = parameterElement.find("description").text.strip()
+		defaultValue = eval(parameterElement.find("defaultValue").text.strip())  # Evaluate strings as integers
+		minValue    = eval(parameterElement.find("minValue").text.strip())
+		maxValue    = eval(parameterElement.find("maxValue").text.strip())
+		
+		# Read Units sub-element into a CompoundUnit instance
+		unitsElement = parameterElement.find("Units")
+		units        = CompoundUnit.fromXml(etree.tostring(unitsElement, encoding = "UTF-8"))
+		
+		# Create the Parameter
+		parameter = Parameter(name, description, defaultValue, minValue, maxValue, units)
+		
+		return parameter
 	
 	# Accessors
 	def getName(self):
@@ -444,98 +486,6 @@ class Parameter:
 		
 		self.units = units
 
-class Unit:
-	'''A simple physical unit.
-	
-	With AMUSE, physical quantities may be expressed using, and converted
-	between, a number of different standard units. The Unit class, in
-	conjunction with the CompoundUnit class, allows GPUnit to present these
-	units to the user for the purposes of description and selection.'''
-	
-	# Constructor
-	def __init__(self, utype, prefix, exponent):
-		'''Initializes a new Unit with the given instance data.
-		
-		Parameters:
-		  utype -- The base type of astrophysical unit being represented.
-		  prefix -- The SI prefix that modifies the base unit's order of magnitude.
-		  exponent -- The exponent to be applied to the unit. For example, a typical unit of volume (such as cubic meters) would have an exponent of 3.'''
-		
-		self.utype = utype
-		self.prefix = prefix
-		self.exponent = exponent
-	
-	# Methods
-	def toXml(self):
-		'''Dumps the Unit to an XML element.
-		
-		Output:
-		  A string containing an XML representation of the Unit.'''
-		
-		# TODO: Implement
-		raise NotImplementedError, 'XML serialization of Units is NYI.'
-	
-	def fromXml(element):
-		'''Recreates a Unit from its XML specification.
-		
-		Parameters:
-		  element -- A string containing an XML representation of a Unit.
-		
-		Output:
-		  A Unit whose property values are specified by the given XML element.'''
-		
-		# TODO: Implement
-		raise NotImplementedError, 'XML deserialization of Units is NYI.'
-	
-	# Accessors
-	def getType(self):
-		'''Returns the base type of astrophysical unit represented by this instance.
-		
-		Output:
-		  The base type of astrophysical unit being represented.'''
-		
-		return self.utype
-	
-	def setType(self, utype):
-		'''Updates this instance's base unit type to the given argument.
-		
-		Parameters:
-		  utype -- A base astrophysical unit to which this instance should be updated.'''
-		
-		self.utype = utype
-	
-	def getPrefix(self):
-		'''Returns the SI prefix that augments the magnitude of this unit.
-		
-		Output:
-		  The SI prefix that modifies the base unit's order of magnitude.'''
-		
-		return self.prefix
-	
-	def setPrefix(self, prefix):
-		'''Updates this instance's SI prefix to the given argument.
-		
-		Parameters:
-		  prefix -- An SI prefix that will replace this instance's current SI prefix.'''
-		
-		self.prefix = prefix
-	
-	def getExponent(self):
-		'''Returns the exponent applied to this unit.
-		
-		Output:
-		  The exponent applied to this unit.'''
-		
-		return self.exponent
-	
-	def setExponent(self, exponent):
-		'''Updates this instance's exponent to the given argument.
-		
-		Parameters:
-		  exponent -- A new exponent to be applied to this unit.'''
-		
-		self.exponent = exponent
-
 class CompoundUnit:
 	'''A compound physical unit.
 	
@@ -567,6 +517,7 @@ class CompoundUnit:
 		# TODO: Implement
 		raise NotImplementedError, 'XML serialization of CompoundUnits is NYI.'
 	
+	@staticmethod
 	def fromXml(element):
 		'''Recreates a CompoundUnit from its XML specification.
 		
@@ -650,3 +601,97 @@ class CompoundUnit:
 		  units -- A list of simple units to which this instance should be updated.'''
 		
 		self.units = units
+
+class Unit:
+	'''A simple physical unit.
+	
+	With AMUSE, physical quantities may be expressed using, and converted
+	between, a number of different standard units. The Unit class, in
+	conjunction with the CompoundUnit class, allows GPUnit to present these
+	units to the user for the purposes of description and selection.'''
+	
+	# Constructor
+	def __init__(self, utype, prefix, exponent):
+		'''Initializes a new Unit with the given instance data.
+		
+		Parameters:
+		  utype -- The base type of astrophysical unit being represented.
+		  prefix -- The SI prefix that modifies the base unit's order of magnitude.
+		  exponent -- The exponent to be applied to the unit. For example, a typical unit of volume (such as cubic meters) would have an exponent of 3.'''
+		
+		self.utype = utype
+		self.prefix = prefix
+		self.exponent = exponent
+	
+	# Methods
+	def toXml(self):
+		'''Dumps the Unit to an XML element.
+		
+		Output:
+		  A string containing an XML representation of the Unit.'''
+		
+		# TODO: Implement
+		raise NotImplementedError, 'XML serialization of Units is NYI.'
+	
+	@staticmethod
+	def fromXml(element):
+		'''Recreates a Unit from its XML specification.
+		
+		Parameters:
+		  element -- A string containing an XML representation of a Unit.
+		
+		Output:
+		  A Unit whose property values are specified by the given XML element.'''
+		
+		# TODO: Implement
+		raise NotImplementedError, 'XML deserialization of Units is NYI.'
+	
+	# Accessors
+	def getType(self):
+		'''Returns the base type of astrophysical unit represented by this instance.
+		
+		Output:
+		  The base type of astrophysical unit being represented.'''
+		
+		return self.utype
+	
+	def setType(self, utype):
+		'''Updates this instance's base unit type to the given argument.
+		
+		Parameters:
+		  utype -- A base astrophysical unit to which this instance should be updated.'''
+		
+		self.utype = utype
+	
+	def getPrefix(self):
+		'''Returns the SI prefix that augments the magnitude of this unit.
+		
+		Output:
+		  The SI prefix that modifies the base unit's order of magnitude.'''
+		
+		return self.prefix
+	
+	def setPrefix(self, prefix):
+		'''Updates this instance's SI prefix to the given argument.
+		
+		Parameters:
+		  prefix -- An SI prefix that will replace this instance's current SI prefix.'''
+		
+		self.prefix = prefix
+	
+	def getExponent(self):
+		'''Returns the exponent applied to this unit.
+		
+		Output:
+		  The exponent applied to this unit.'''
+		
+		return self.exponent
+	
+	def setExponent(self, exponent):
+		'''Updates this instance's exponent to the given argument.
+		
+		Parameters:
+		  exponent -- A new exponent to be applied to this unit.'''
+		
+		self.exponent = exponent
+
