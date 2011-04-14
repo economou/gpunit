@@ -1,57 +1,75 @@
 from PyQt4.QtCore import SIGNAL, SLOT
-from PyQt4.QtGui import QWidget, QPushButton, QProgressBar, QVBoxLayout, QDialog
+from PyQt4.QtGui import QWidget, QPushButton, QProgressBar, QHBoxLayout, QDialog
 
 from ui_nodeinfodialog import Ui_NodeInfoDialog
 
 class Node(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent = None, name = "Node"):
         QWidget.__init__(self, parent)
 
-        self.vbox = QVBoxLayout(self)
+        self.hbox = QHBoxLayout(self)
 
-        self.infoDialog = QDialog()
+        self.infoDialog = QDialog(self)
         self.dialogUi = Ui_NodeInfoDialog()
         self.dialogUi.setupUi(self.infoDialog)
 
-        self.name = "TestButton"
+        self.name = name
         self.ipAddress = ""
 
-        self.dialogUi.nodeNameLabel.setText(self.name)
-        self.button = QPushButton(self.name, self)
-        self.vbox.addWidget(self.button)
+        self.usageBar = QProgressBar(self)
+        self.usageBar.setValue(0.0)
+        self.button = QPushButton(str(self.name), self)
 
-        self.connect(self.button, SIGNAL('clicked()'), self.infoDialog.show)
+        self.hbox.addWidget(self.button)
+        self.hbox.addWidget(self.usageBar)
+
+        self.connect(self.button, SIGNAL('clicked()'), self.showInfo)
 
         self.cpuUsage = 0.0
         self.freeMemory = 0.0
 
-        self.numCPUs = 0
-        self.totalMemory = 0
+        self.numCPUs = 1
+        self.totalMemory = 1
 
-        self.createChildren()
+    def showInfo(self):
+        self.updateDialog()
+        self.infoDialog.show()
 
-    def createChildren(self):
-        pass
+    def updateDialog(self):
+        self.dialogUi.nodeNameLabel.setText(str(self.name))
+        self.dialogUi.memBar.setValue(100.0 * float(self.totalMemory - self.freeMemory) / self.totalMemory)
+        self.dialogUi.usageBar.setValue(self.cpuUsage)
+        self.dialogUi.totalMemText.setText(str(int(self.totalMemory)))
+        self.dialogUi.numCPUText.setText(str(int(self.numCPUs)))
 
     def setName(self, name):
         self.name = name;
+        self.button.setText(str(self.name))
+
+        self.updateDialog()
         self.update()
 
     def setUsage(self, usage):
         self.usage = usage
+
+        self.usageBar.setValue(self.cpuUsage)
+        self.updateDialog()
         self.update()
 
     def setNumCPUs(self, cpus):
         self.numCPUs = cpus
+
+        self.updateDialog()
         self.update()
 
     def setFreeMemory(self, freemem):
         self.freeMemory = freemem
+
+        self.updateDialog()
         self.update()
 
     def setTotalMemory(self, totalmem):
         self.totalMemory = totalmem
-        self.update()
 
-    def paintEvent(self, event):
-        pass
+        self.updateDialog()
+        self.update()
