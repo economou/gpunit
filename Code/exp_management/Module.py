@@ -15,12 +15,13 @@ State:
 # TODO: Enforce type safety?
 # TODO: Implement enumerations?  If so, to what degree?
 
+from PyQt4.QtGui QListWidgetItem
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
 
 XML_ENCODING = "UTF-8"
 
-class Module:
+class Module(QListWidgetItem):
 	'''A particular AMUSE module, providing an interface between GPUnit and
 	the AMUSE code. The members of the Module class are used by GPUnit to
 	properly locate and initialize an AMUSE module, as well as display a
@@ -49,6 +50,11 @@ class Module:
 		self.isParallel = isParallel
 		self.stoppingConditions = stoppingConditions
 		self.parameters = parameters
+
+        # Set up the module's name so that it can be displayed in GUI list
+        # boxes.
+        QListWidgetItem.__init__(self)
+        self.setText(self.name)
 	
 	# Methods
 	def toXml(self):
