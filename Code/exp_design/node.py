@@ -18,7 +18,8 @@ class Node(QWidget):
         self.dialogUi = Ui_NodeInfoDialog()
         self.dialogUi.setupUi(self.infoDialog)
 
-        self.name = name
+        self.name = str(name)
+        self.ui.button.setText(str(name))
         self.ipAddress = ""
 
         self.ui.usageBar.setValue(0.0)

@@ -31,12 +31,8 @@ class ExperimentManager(QMainWindow):
 
         self.editor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
-        self.clusterView.addNode(Node(self.clusterView, "Node 1"))
-        self.clusterView.addNode(Node(self.clusterView, "Node 2"))
-        self.clusterView.addNode(Node(self.clusterView, "Node 3"))
-        self.clusterView.addNode(Node(self.clusterView, "Node 4"))
-        self.clusterView.addNode(Node(self.clusterView, "Node 5"))
-        self.clusterView.addNode(Node(self.clusterView, "Node 6"))
+        for i in range(30):
+            self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
         self.dirty = False
         """Set to true if unsaved changes have been made."""

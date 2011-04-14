@@ -1,7 +1,7 @@
 from PyQt4.QtGui import QMainWindow
 from ui_clusterview import Ui_ClusterView
 
-MAX_NODE_COLS = 4
+MAX_NODE_COLS = 3
 """Maximum number of columns to display in the node grid view."""
 
 class ClusterView(QMainWindow):
