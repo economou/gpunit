@@ -1,11 +1,26 @@
-from PyQt4.QtGui import QWidget, QPushButton, QVBoxLayout
+from PyQt4.QtCore import SIGNAL, SLOT
+from PyQt4.QtGui import QWidget, QPushButton, QProgressBar, QVBoxLayout, QDialog
+
+from ui_nodeinfodialog import Ui_NodeInfoDialog
 
 class Node(QWidget):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
 
-        self.name = "lolbutton"
+        self.vbox = QVBoxLayout(self)
+
+        self.infoDialog = QDialog()
+        self.dialogUi = Ui_NodeInfoDialog()
+        self.dialogUi.setupUi(self.infoDialog)
+
+        self.name = "TestButton"
         self.ipAddress = ""
+
+        self.dialogUi.nodeNameLabel.setText(self.name)
+        self.button = QPushButton(self.name, self)
+        self.vbox.addWidget(self.button)
+
+        self.connect(self.button, SIGNAL('clicked()'), self.infoDialog.show)
 
         self.cpuUsage = 0.0
         self.freeMemory = 0.0
@@ -16,10 +31,7 @@ class Node(QWidget):
         self.createChildren()
 
     def createChildren(self):
-        vbox = QVBoxLayout(self)
-
-        self.pbutton = QPushButton(self.name, self)
-        vbox.addWidget(self.pbutton)
+        pass
 
     def setName(self, name):
         self.name = name;
