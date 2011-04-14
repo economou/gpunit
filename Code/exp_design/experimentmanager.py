@@ -16,20 +16,12 @@ from ui_experimentmanager import Ui_ExperimentManager
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 
-class tcls(QListWidgetItem):
-    def __init__(self, name="TCLS"):
-        self.name = name
-        QListWidgetItem.__init__(self)
-        self.setText(self.name)
-
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
     performed by the user in the GUI."""
 
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
-
-        tcl = tcls("LOL")
 
         self.ui = Ui_ExperimentManager()
         self.ui.setupUi(self)
