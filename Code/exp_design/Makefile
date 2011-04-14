@@ -1,6 +1,10 @@
 .PHONY: all clean
 
-PY_FILES = experimentmanager.py
+PY_FILES = experimentmanager.py \
+		   modulestoolbox.py \
+		   clusterview.py \
+		   moduleeditor.py \
+		   node.py
 
 PY_UI_FILES = ui_modulestoolbox.py \
 		  ui_clusterview.py \
