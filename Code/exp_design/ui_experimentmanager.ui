@@ -34,7 +34,13 @@
      <number>5</number>
     </property>
     <item>
-     <widget class="ModulesToolbox" name="widget" native="true">
+     <widget class="ModulesToolbox" name="modulesToolbox" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>150</width>
@@ -65,7 +71,7 @@
       </property>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="1">
-        <widget class="QListWidget" name="listWidget">
+        <widget class="QListWidget" name="initCondList">
          <item>
           <property name="text">
            <string>Initial Condition Model #1</string>
@@ -74,14 +80,14 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="initCondLabel">
          <property name="text">
           <string>Initial Conditions:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QListWidget" name="listWidget_2">
+       <item row="3" column="1">
+        <widget class="QListWidget" name="moduleList">
          <item>
           <property name="text">
            <string>Hydrodynamics Module (Fast)</string>
@@ -104,12 +110,148 @@
          </item>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="3" column="0">
+        <widget class="QLabel" name="moduleLabel">
          <property name="text">
           <string>Modules:</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QToolButton" name="addInitButton">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>+</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="removeInitButton">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="initSettingsButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Settings...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QToolButton" name="addModuleButton">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>+</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="removeModuleButton">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="moduleSettingsButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Settings...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -122,13 +264,14 @@
      <x>0</x>
      <y>0</y>
      <width>690</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionNew_Experiment"/>
     <addaction name="actionOpen_Experiment"/>
     <addaction name="actionSave_Experiment"/>
@@ -139,13 +282,13 @@
    </widget>
    <widget class="QMenu" name="menuRun">
     <property name="title">
-     <string>Run</string>
+     <string>&amp;Run</string>
     </property>
     <addaction name="actionRun_Experiment"/>
    </widget>
    <widget class="QMenu" name="menuModules">
     <property name="title">
-     <string>Modules</string>
+     <string>&amp;Modules</string>
     </property>
     <addaction name="actionImport_Module"/>
     <addaction name="actionEdit_Modules"/>
@@ -157,7 +300,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen_Experiment">
    <property name="text">
-    <string>Open Experiment...</string>
+    <string>&amp;Open Experiment...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -168,7 +311,7 @@
   </action>
   <action name="actionNew_Experiment">
    <property name="text">
-    <string>New Experiment...</string>
+    <string>&amp;New Experiment...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -176,7 +319,7 @@
   </action>
   <action name="actionSave_Experiment">
    <property name="text">
-    <string>Save Experiment</string>
+    <string>&amp;Save Experiment</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -184,7 +327,7 @@
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>Close</string>
+    <string>&amp;Close</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
@@ -200,7 +343,7 @@
   </action>
   <action name="actionExport_experiment">
    <property name="text">
-    <string>Export Experiment...</string>
+    <string>E&amp;xport Experiment...</string>
    </property>
   </action>
   <action name="actionImport_Module">
@@ -248,7 +391,7 @@
    <sender>actionOpen_Experiment</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>openManager()</slot>
+   <slot>openExperiment()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -308,12 +451,29 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionNew_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>newExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>openManager()</slot>
+  <slot>openExperiment()</slot>
   <slot>toggleClusterView()</slot>
   <slot>toggleModuleEditor()</slot>
   <slot>loadExperiment()</slot>
   <slot>saveExperiment()</slot>
+  <slot>newExperiment()</slot>
  </slots>
 </ui>
