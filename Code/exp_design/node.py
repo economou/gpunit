@@ -1,13 +1,18 @@
 from PyQt4.QtCore import SIGNAL, SLOT
 from PyQt4.QtGui import QWidget, QPushButton, QProgressBar, QHBoxLayout, QDialog
+from PyQt4.QtCore import pyqtSlot
 
+from ui_node import Ui_Node
 from ui_nodeinfodialog import Ui_NodeInfoDialog
 
 class Node(QWidget):
     def __init__(self, parent = None, name = "Node"):
         QWidget.__init__(self, parent)
 
-        self.hbox = QHBoxLayout(self)
+        self.ui = Ui_Node()
+        """GUI Implementation"""
+
+        self.ui.setupUi(self)
 
         self.infoDialog = QDialog(self)
         self.dialogUi = Ui_NodeInfoDialog()
@@ -16,14 +21,7 @@ class Node(QWidget):
         self.name = name
         self.ipAddress = ""
 
-        self.usageBar = QProgressBar(self)
-        self.usageBar.setValue(0.0)
-        self.button = QPushButton(str(self.name), self)
-
-        self.hbox.addWidget(self.button)
-        self.hbox.addWidget(self.usageBar)
-
-        self.connect(self.button, SIGNAL('clicked()'), self.showInfo)
+        self.ui.usageBar.setValue(0.0)
 
         self.cpuUsage = 0.0
         self.freeMemory = 0.0
@@ -31,6 +29,7 @@ class Node(QWidget):
         self.numCPUs = 1
         self.totalMemory = 1
 
+    @pyqtSlot()
     def showInfo(self):
         self.updateDialog()
         self.infoDialog.show()
@@ -44,7 +43,7 @@ class Node(QWidget):
 
     def setName(self, name):
         self.name = name;
-        self.button.setText(str(self.name))
+        self.ui.button.setText(str(self.name))
 
         self.updateDialog()
         self.update()
@@ -52,7 +51,7 @@ class Node(QWidget):
     def setUsage(self, usage):
         self.usage = usage
 
-        self.usageBar.setValue(self.cpuUsage)
+        self.ui.usageBar.setValue(self.cpuUsage)
         self.updateDialog()
         self.update()
 

@@ -10,7 +10,8 @@ PY_UI_FILES = ui_modulestoolbox.py \
 		  ui_clusterview.py \
 		  ui_experimentmanager.py \
 		  ui_moduleeditor.py \
-		  ui_nodeinfodialog.py
+		  ui_nodeinfodialog.py \
+		  ui_node.py
 
 all : $(PY_UI_FILES) $(PY_FILES)
 
