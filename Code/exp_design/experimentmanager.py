@@ -15,6 +15,7 @@ from PyQt4.QtCore import pyqtSlot
 from ui_experimentmanager import Ui_ExperimentManager
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
+from node import Node
 
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
@@ -24,36 +25,39 @@ class ExperimentManager(QMainWindow):
         QMainWindow.__init__(self, parent)
 
         self.ui = Ui_ExperimentManager()
+        """GUI Implementation"""
+
         self.ui.setupUi(self)
-        self.ui.initCondList.addItem(tcl)
 
         self.editor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
+        self.clusterView.addNode(Node(self.clusterView, "Node 1"))
+        self.clusterView.addNode(Node(self.clusterView, "Node 2"))
+        self.clusterView.addNode(Node(self.clusterView, "Node 3"))
+        self.clusterView.addNode(Node(self.clusterView, "Node 4"))
+        self.clusterView.addNode(Node(self.clusterView, "Node 5"))
+        self.clusterView.addNode(Node(self.clusterView, "Node 6"))
+
+        self.dirty = False
+        """Set to true if unsaved changes have been made."""
 
     @pyqtSlot()
     def newExperiment(self):
-        parent = self.parentWidget()
-        if parent is None:
-            parent = self
-
-        m = ExperimentManager(self)
-        m.show()
+        pass
 
     @pyqtSlot()
     def openExperiment(self):
-        parent = self.parentWidget()
-        if parent is None:
-            parent = self
-
-        m = ExperimentManager(self)
-        m.show()
+        pass
 
     @pyqtSlot()
     def saveExperiment(self):
         filename = QFileDialog.getSaveFileName(self, "Save experiment as...")
+        if filename == "":
+            return
+
         try:
             #self.experiment.writeXMLFile(filename)
-            raise IOError("TEST ERROR")
+            self.dirty = False
         except IOError as err:
             QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
@@ -63,15 +67,11 @@ class ExperimentManager(QMainWindow):
         pass
 
     @pyqtSlot()
-    def toggleClusterView(self):
+    def showClusterView(self):
         if not self.clusterView.isVisible():
             self.clusterView.show()
-        else:
-            self.clusterView.hide()
 
     @pyqtSlot()
-    def toggleModuleEditor(self):
+    def showModuleEditor(self):
         if not self.editor.isVisible():
             self.editor.show()
-        else:
-            self.editor.hide()
