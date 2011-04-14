@@ -1,27 +1,54 @@
-from PyQt4.QtGui import QMainWindow, QFileDialog
+#
+# experimentmanager.py
+#
+# Gabriel Schwartz
+# 2/11
+#
+# Team GPUnit - Senior Design 2011
+#
+
+import sys
+
+from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
 from PyQt4.QtCore import pyqtSlot
 
 from ui_experimentmanager import Ui_ExperimentManager
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 
+class tcls(QListWidgetItem):
+    def __init__(self, name="TCLS"):
+        self.name = name
+        QListWidgetItem.__init__(self)
+        self.setText(self.name)
+
 class ExperimentManager(QMainWindow):
-    managers = []
-    """Stores a list of opened experiment manager windows."""
+    """The experiment manager implements the logic that handles actions
+    performed by the user in the GUI."""
 
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
 
+        tcl = tcls("LOL")
+
         self.ui = Ui_ExperimentManager()
         self.ui.setupUi(self)
+        self.ui.initCondList.addItem(tcl)
 
         self.editor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
 
-        ExperimentManager.managers.append(self)
+    @pyqtSlot()
+    def newExperiment(self):
+        parent = self.parentWidget()
+        if parent is None:
+            parent = self
+
+        m = ExperimentManager(self)
+        m.show()
 
     @pyqtSlot()
-    def openManager(self):
+    def openExperiment(self):
         parent = self.parentWidget()
         if parent is None:
             parent = self
@@ -31,18 +58,17 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def saveExperiment(self):
-        print QFileDialog.getSaveFileName(self, "Save experiment as...")
+        filename = QFileDialog.getSaveFileName(self, "Save experiment as...")
+        try:
+            #self.experiment.writeXMLFile(filename)
+            raise IOError("TEST ERROR")
+        except IOError as err:
+            QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
+                    )
 
     def closeEvent(self, event):
-        ExperimentManager.managers.remove(self)
-
-        # If this was the last window to close, then close, otherwise ignore
-        # the event and hide.
-        if len(ExperimentManager.managers) == 0:
-            event.accept()
-        else:
-            event.ignore()
-            self.hide()
+        # TODO: Shutdown the network connections here.
+        pass
 
     @pyqtSlot()
     def toggleClusterView(self):
