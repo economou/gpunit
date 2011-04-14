@@ -15,7 +15,7 @@ State:
 # TODO: Enforce type safety?
 # TODO: Implement enumerations?  If so, to what degree?
 
-from PyQt4.QtGui QListWidgetItem
+from PyQt4.QtGui import QListWidgetItem
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
 
