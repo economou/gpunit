@@ -72,7 +72,7 @@ class Module:
 		    false
 		  </isParallel>
 		  <stoppingConditions>
-		    TIMEOUT | NUMBER_OF_STEPS | ESCAPER
+		    0
 		  </stoppingConditions>
 		  <Parameter ...>
 		    ...
@@ -103,7 +103,7 @@ class Module:
 		isParallel.text = str(self.isParallel)  # Convert boolean to string for serialization
 		
 		stoppingConditions = etree.SubElement(module, "stoppingConditions")
-		stoppingConditions.text = self.stoppingConditions
+		stoppingConditions.text = str(self.stoppingConditions)  # Convert integer to string for serialization
 		
 		# Iterate through parameters and append them as sub-elements
 		for parameter in self.parameters:
@@ -135,7 +135,7 @@ class Module:
 		codeName           = moduleElement.find("codeName").text.strip()
 		codeLocation       = moduleElement.find("codeLocation").text.strip()
 		isParallel         = eval(moduleElement.find("isParallel").text.strip())  # Evaluate string as boolean
-		stoppingConditions = moduleElement.find("stoppingConditions").text.strip()
+		stoppingConditions = eval(moduleElement.find("stoppingConditions").text.strip())  # Evaluate string as integer
 		
 		# Create the Module
 		module = Module(name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, [])
@@ -273,7 +273,7 @@ class Module:
 		Output:
 		  The conditions under which this module may stop executing prematurely.'''
 		
-		return self.isParallel
+		return self.stoppingConditions
 	
 	def setStoppingConditions(self, conds):
 		'''Updates this module's stopping conditions to those represented by the given argument.
@@ -299,13 +299,14 @@ class Module:
 		
 		self.parameters = parameters
         
-
-    @property
-    def result(self):
-        '''Returns an instance of the value. Treats result as a 
-                    value rather than a function'''
-        
-        return None
+    	@property
+    	def result(self):
+        	'''Returns an instance of the value. Treats result as a value
+		rather than a function.'''
+		
+		# TODO: ?
+		
+        	return None
 
 class Parameter:
 	'''A parameter to an AMUSE module.
@@ -782,4 +783,146 @@ class Unit:
 		  exponent -- A new exponent to be applied to this unit.'''
 		
 		self.exponent = exponent
+
+# Enumerations
+
+# TODO: Categorize unit types into "UnitCategory"s?
+# Look into how AMUSE modules treat parameters with generic unit types like "length" instead of a specific type like "meters".
+# How can we display the correct UnitTypes for the user to select from?
+UnitType = {
+	"None" : 0,
+	
+	"A"        : 10,
+	"amu"      : 20,
+	"AU"       : 30,
+	"C"        : 40,
+	"cd"       : 50,
+	"day"      : 60,
+	"e"        : 70,
+	"eV"       : 80,
+	"erg"      : 90,
+	"F"        : 100,
+	"g"        : 110,
+	"hr"       : 120,
+	"Hz"       : 130,
+	"J"        : 140,
+	"JulianYr" : 150,
+	"K"        : 160,
+	"LSun"     : 170,
+	"ly"       : 180,
+	"m"        : 190,
+	"min"      : 200,
+	"mol"      : 210,
+	"MSun"     : 220,
+	"N"        : 230,
+	"ohm"      : 240,
+	"Pa"       : 250,
+	"pc"       : 260,
+	"percent"  : 270,
+	"rad"      : 280,
+	"RSun"     : 290,
+	"S"        : 300,
+	"s"        : 310,
+	"sr"       : 320,
+	"T"        : 330,
+	"V"        : 340,
+	"W"        : 350,
+	"Wb"       : 360,
+	"yr"       : 370,
+	"Z"        : 380
+}
+'''A basic physical unit type.  This dictionary simulates an enumerated type.
+
+UnitType enumerates the myriad of base physical units supported by AMUSE.'''
+
+SIPrefix = {
+	"None" : 0,
+	
+	# Full names
+	"yocto" : -24,
+	"zepto" : -21,
+	"atto"  : -18,
+	"femto" : -15,
+	"pico"  : -12,
+	"nano"  : -9,
+	"micro" : -6,
+	"milli" : -3,
+	"centi" : -2,
+	"deci"  : -1,
+	
+	"deca"  : 1,
+	"hecto" : 2,
+	"kilo"  : 3,
+	"mega"  : 6,
+	"giga"  : 9,
+	"tera"  : 12,
+	"peta"  : 15,
+	"exa"   : 18,
+	"zetta" : 21,
+	"yotta" : 24,
+	
+	# Abbreviations (including common alternatives)
+	"y" : -24,
+	"z" : -21,
+	"a" : -18,
+	"f" : -15,
+	"p" : -12,
+	"n" : -9,
+	"μ" : -6,
+	"u" : -6,
+	"m" : -3,
+	"c" : -2,
+	"d" : -1,
+	
+	"da" : 1,
+	"h"  : 2,
+	"k"  : 3,
+	"K"  : 3,
+	"M"  : 6,
+	"G"  : 9,
+	"T"  : 12,
+	"P"  : 15,
+	"E"  : 18,
+	"Z"  : 21,
+	"Y"  : 24
+}
+'''An SI prefix for a physical unit.  This dictionary simulates an enumerated
+type.
+
+When dealing with physical quantities, standard prefixes may be prepended to
+units to denote a given quantity's order of magnitude.  SIPrefix enumerates the
+possible unit prefixes.'''
+
+AstrophysicalDomain = {
+	"None" : 0,
+	
+	"StellarDynamics"   : 10,
+	"StellarEvolution"  : 20,
+	"Hydrodynamics"     : 30,
+	"RadiativeTransfer" : 40
+}
+'''An AMUSE astrophysical domain.  This dictionary simulates an enumerated type.
+
+The modules included with AMUSE have categorized according to their domain. A
+module's domain indicates the quantities it deals with as well as common
+operations that may be called on the module. The AstrophysicalDomain type
+enumerates the several domains that have been specified by AMUSE.'''
+
+StoppingConditions = {
+	"None" : 0,
+	
+	"Collision"     : 1,
+	"Pair"          : 2,
+	"Escaper"       : 4,
+	"Timeout"       : 8,
+	"NumberOfSteps" : 16,
+	"OutOfBox"      : 32
+}
+'''Stopping conditions for an AMUSE module.  This dictionary simulates a flags
+enumeration.  For modules with multiple stopping conditions, the values of this
+enumeration may be added together.
+
+StoppingConditions is a set of bit flags enumerating the conditions under which
+a module may return from execution before completing its assigned
+calculations.'''
 
