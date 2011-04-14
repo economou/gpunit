@@ -71,13 +71,7 @@
       </property>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="1">
-        <widget class="QListWidget" name="initCondList">
-         <item>
-          <property name="text">
-           <string>Initial Condition Model #1</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QListWidget" name="initCondList"/>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="initCondLabel">
@@ -87,28 +81,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QListWidget" name="moduleList">
-         <item>
-          <property name="text">
-           <string>Hydrodynamics Module (Fast)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Stellar Evolution Module (Fast)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Gravitational Dynamics Module (Tree)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Radiative Transfer Module (Fast)</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QListWidget" name="moduleList"/>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="moduleLabel">
@@ -284,6 +257,7 @@
     <property name="title">
      <string>&amp;Run</string>
     </property>
+    <addaction name="actionView_Cluster"/>
     <addaction name="actionRun_Experiment"/>
    </widget>
    <widget class="QMenu" name="menuModules">
@@ -335,7 +309,7 @@
   </action>
   <action name="actionRun_Experiment">
    <property name="text">
-    <string>Run Experiment</string>
+    <string>&amp;Run Experiment</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -357,6 +331,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionView_Cluster">
+   <property name="text">
+    <string>&amp;View Cluster...</string>
    </property>
   </action>
  </widget>
@@ -404,10 +383,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionRun_Experiment</sender>
+   <sender>actionView_Cluster</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>toggleClusterView()</slot>
+   <slot>showClusterView()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -423,7 +402,7 @@
    <sender>actionEdit_Modules</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>toggleModuleEditor()</slot>
+   <slot>showModuleEditor()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -470,8 +449,8 @@
  </connections>
  <slots>
   <slot>openExperiment()</slot>
-  <slot>toggleClusterView()</slot>
-  <slot>toggleModuleEditor()</slot>
+  <slot>showClusterView()</slot>
+  <slot>showModuleEditor()</slot>
   <slot>loadExperiment()</slot>
   <slot>saveExperiment()</slot>
   <slot>newExperiment()</slot>
