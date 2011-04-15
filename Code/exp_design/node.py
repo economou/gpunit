@@ -25,7 +25,7 @@ class Node(QWidget):
         self.ui.usageBar.setValue(0.0)
 
         self.cpuUsage = 0.0
-        self.freeMemory = 0.0
+        self.memoryUsed = 0.0
 
         self.numCPUs = 1
         self.totalMemory = 1
@@ -37,7 +37,7 @@ class Node(QWidget):
 
     def updateDialog(self):
         self.dialogUi.nodeNameLabel.setText(str(self.name))
-        self.dialogUi.memBar.setValue(100.0 * float(self.totalMemory - self.freeMemory) / self.totalMemory)
+        self.dialogUi.memBar.setValue(100.0 * float(self.memoryUsed) / float(self.totalMemory))
         self.dialogUi.usageBar.setValue(self.cpuUsage)
         self.dialogUi.totalMemText.setText(str(int(self.totalMemory)))
         self.dialogUi.numCPUText.setText(str(int(self.numCPUs)))
@@ -62,8 +62,8 @@ class Node(QWidget):
         self.updateDialog()
         self.update()
 
-    def setFreeMemory(self, freemem):
-        self.freeMemory = freemem
+    def setFreeMemory(self, usedmem):
+        self.memoryUsed = usedmem
 
         self.updateDialog()
         self.update()
