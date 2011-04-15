@@ -12,7 +12,7 @@ import sys
 from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
 from PyQt4.QtCore import pyqtSlot
 
-from ui_experimentmanager import Ui_ExperimentManager
+from gui.ui_experimentmanager import Ui_ExperimentManager
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node

@@ -1,6 +1,6 @@
 from PyQt4.QtGui import QWidget
 
-from ui_modulestoolbox import Ui_ModulesToolBox
+from gui.ui_modulestoolbox import Ui_ModulesToolBox
 
 class ModulesToolbox(QWidget):
     def __init__(self, parent = None):
