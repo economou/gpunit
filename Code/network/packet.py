@@ -1,3 +1,6 @@
+# Field separator.
+SEP = "|"
+
 # Number of fields in the header.
 HEADER_FIELDS = 4
 
@@ -29,23 +32,39 @@ class PacketHeader:
         self.sourceIp = str(fields[2])
         self.destIp = str(fields[3])
 
+    def __str__(self):
+        return SEP.join([str(f) for f in [self.type, self.length, self.sourceIp, self.destIp]])
+
 class Packet:
     def __init__(self, fields):
         self.header = PacketHeader(fields[:HEADER_FIELDS])
         del fields[:HEADER_FIELDS]
 
+    def __str__(self):
+        return self.header.__str__()
+
 class StatusQueryPacket(Packet):
     def __init__(self, data):
         fields = data.split("|")
-
         Packet.__init__(self, fields)
 
         self.additionalFlags = fields[0]
+
+    def __str__(self):
+        return SEP.join([str(f) for f in [self.type, self.length, self.sourceIp, self.destIp]])
 
 class StatusResponsePacket(Packet):
     def __init__(self, data):
         fields = data.split("|")
         Packet.__init__(self, fields)
+
+        self.usage = float(fields[0])
+        self.memoryUsed = int(fields[1])
+        self.simsRunning = int(fields[2])
+
+    def __str__(self):
+        return Packet.__str__(self) + SEP + SEP.join(
+                [str(f) for f in [self.usage, self.memoryUsed, self.simsRunning]])
 
 class CapabilityQueryPacket(Packet):
     def __init__(self, data):
@@ -54,7 +73,18 @@ class CapabilityQueryPacket(Packet):
 
         self.additionalFlags = fields[0]
 
+    def __str__(self):
+        return Packet.__str__(self) + SEP + self.additionalFlags
+
 class CapabilityResponsePacket(Packet):
     def __init__(self, fields):
         fields = data.split("|")
         Packet.__init__(self, fields)
+
+        self.numCPUs = int(fields[0])
+        self.maxMemory = int(fields[1])
+        self.numGPUs = int(fields[2])
+
+    def __str__(self):
+        return Packet.__str__(self) + SEP + SEP.join(
+                [str(f) for f in [self.numCPUs, self.maxMemory, self.numGPUs]])
