@@ -2,6 +2,9 @@ from threading import Thread
 from socket import *
 import struct
 
+from packet import Packet, PacketHeader
+import packet
+
 DEFAULT_MCAST_PORT = 3141
 
 class NodeInstance(Thread):
@@ -26,6 +29,13 @@ class NodeInstance(Thread):
         self.sock = None
         """A socket connected to the multicast group."""
 
+        self.packetHandlers = {
+                packet.STATUS_QUERY : self.handleStatusQuery,
+                packet.STATUS_RESPONSE : self.handleStatusResponse,
+                packet.CAPABILITY_QUERY : self.handleCapabilityQuery,
+                packet.CAPABILITY_RESPONSE : self.handleCapabilityResponse,
+                }
+
         self.joinGroup(groupIP)
 
     def joinGroup(self, port = DEFAULT_MCAST_PORT):
@@ -43,4 +53,18 @@ class NodeInstance(Thread):
 
     def run(self):
         while True:
-            data = self.sock.recv(10240)
+            data = str(self.sock.recv(10240))
+            packet = Packet(data)
+            packetHandlers[packet.type].execute()
+
+    def handleStatusQuery(self):
+        pass
+
+    def handleStatusResponse(self):
+        pass
+
+    def handleCapabilityQuery(self):
+        pass
+
+    def handleCapabilityResponse(self):
+        pass
