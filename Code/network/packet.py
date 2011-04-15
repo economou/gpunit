@@ -44,17 +44,23 @@ class Packet:
         return self.header.__str__()
 
 class StatusQueryPacket(Packet):
-    def __init__(self, data):
+    def __init__(self, data = None):
+        if data is None:
+            return
+
         fields = data.split("|")
         Packet.__init__(self, fields)
 
         self.additionalFlags = fields[0]
 
     def __str__(self):
-        return SEP.join([str(f) for f in [self.type, self.length, self.sourceIp, self.destIp]])
+        return Packet.__str__(self) + SEP + self.additionalFlags
 
 class StatusResponsePacket(Packet):
-    def __init__(self, data):
+    def __init__(self, data = None):
+        if data is None:
+            return
+
         fields = data.split("|")
         Packet.__init__(self, fields)
 
@@ -67,7 +73,10 @@ class StatusResponsePacket(Packet):
                 [str(f) for f in [self.usage, self.memoryUsed, self.simsRunning]])
 
 class CapabilityQueryPacket(Packet):
-    def __init__(self, data):
+    def __init__(self, data = None):
+        if data is None:
+            return
+
         fields = data.split("|")
         Packet.__init__(self, fields)
 
@@ -77,7 +86,10 @@ class CapabilityQueryPacket(Packet):
         return Packet.__str__(self) + SEP + self.additionalFlags
 
 class CapabilityResponsePacket(Packet):
-    def __init__(self, fields):
+    def __init__(self, fields = None):
+        if data is None:
+            return
+
         fields = data.split("|")
         Packet.__init__(self, fields)
 

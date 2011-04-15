@@ -1,9 +1,13 @@
-from threading import Thread
-from socket import *
+#/usr/bin/python
+
+import sys
 import struct
 
-from packet import Packet, PacketHeader
+from threading import Thread
+from socket import *
+
 import packet
+from packet import PacketFactory
 
 DEFAULT_MCAST_PORT = 3141
 
@@ -15,9 +19,11 @@ class NodeInstance(Thread):
         @type groupIP: string
         @param groupIP: multicast group IP to use for communication with
         control instances.
-        
+
         @type name: string
         @param name: the name of this node."""
+
+        Thread.__init__(self)
 
         self.groupIP = groupIP
         """Multicast group IP to use for communication with control
@@ -36,7 +42,7 @@ class NodeInstance(Thread):
                 packet.CAPABILITY_RESPONSE : self.handleCapabilityResponse,
                 }
 
-        self.joinGroup(groupIP)
+        self.joinGroup()
 
     def joinGroup(self, port = DEFAULT_MCAST_PORT):
         self.sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)
@@ -54,17 +60,31 @@ class NodeInstance(Thread):
     def run(self):
         while True:
             data = str(self.sock.recv(10240))
-            packet = Packet(data)
-            packetHandlers[packet.type].execute()
+            packet = PacketFactory.packetFromString(data)
+            self.packetHandlers[packet.header.type](packet)
 
-    def handleStatusQuery(self):
+    def handleStatusQuery(self, packet):
+        print "Got StatusQueryPacket:", packet
+        self.leaveGroup()
+        exit(0)
+
+    def handleStatusResponse(self, packet):
         pass
 
-    def handleStatusResponse(self):
+    def handleCapabilityQuery(self, packet):
         pass
 
-    def handleCapabilityQuery(self):
+    def handleCapabilityResponse(self, packet):
         pass
 
-    def handleCapabilityResponse(self):
-        pass
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print "Usage: nodeinstance MULTICAST_GROUP NODE_NAME"
+        sys.exit(1)
+    
+    ip = sys.argv[1]
+    name = sys.argv[2]
+
+    instance = NodeInstance(ip, name)
+    instance.start()
+    instance.join()
