@@ -13,8 +13,11 @@
 
 from amuse.support.units import units
 
-#Need to document this dependency -- minidom
-from xml.dom import minidom
+import os
+
+#Need to document these dependencies -- elementTree,minidom
+import xml.etree.ElementTree as etree
+import xml.dom.minidom
 
 defaultTimeStep = 1
 defaultStartTime = 0
@@ -22,6 +25,11 @@ defaultStopTime = 100
 
 #Modified code to allow Use AMUSE units
 defaultTimeUnit = units.yr #UnitType.yr
+
+ModulePaths = {
+    "hermite0" : "exp_management/ModulesXML"
+}
+'''File paths for Module XML file definitions'''
 
 class Experiment :
     '''Experiment class holds all relevant experiment data
@@ -33,61 +41,103 @@ class Experiment :
         self.stopIsEnabled = True
         self.modules = []
         self.particles = []
+        self.particlesPath = ""
         self.diagnostics = []
+        self.diagnosticsPaths = []
         self.loggers = []
+        self.loggersPaths = []
+        self.initialConditions = []
+        self.initialConditionPaths = []
         self.timeUnit  = defaultTimeUnit
         self.startTime = defaultStartTime | self.timeUnit
         self.stopTime  = defaultStopTime  | self.timeUnit
         self.timeStep  = defaultTimeStep  | self.timeUnit
 
     def writeXMLFile(self,fileName) :
-      #writes out the XML
-        tabstop = '  ' #2 spaces for indentations aiding readability
-        depth = 0
-        XMLString = ""
-      #Experiment tag
-        XMLString += '<experiment name="'+self.name+'" stopEnabled="'+self.stopIsEnabled+'">\n'
-        depth += 1
-      #Time tag
-        XMLString += tabstop*depth
-        XMLString += '<time units="'+self.timeUnit._name_+'" start="'+self.startTime.number+'" step="'+self.timeStep.getValue()+'" end="'+self.stopTime+'"/>\n'
-      #Module tags
+    
+        # Create <experiment> XML element and set its attributes
+        experiment = etree.Element("experiment", attrib = {"name" : self.name, "stopEnabled" : str(self.stopIsEnabled)})
+        
+        # Append sub-elements
+        etree.SubElement(experiment, "time",
+            attrib = {
+                "units" : self.timeUnit._name_,
+                "start" : str(self.startTime.number),
+                "step"  : str(self.timeStep.getValue()),
+                "end"   : str(self.stopTime.number)    
+            }
+        )
+        
         for module in self.modules :
-            XMLString += tabstop*depth
-            XMLString += module.toXml()
-            XMLString += '\n'
-            depth += 1
-            for param in module.getParameters() :
-                XMLString += tabstop*depth
-                XMLString += param.toXml()
-                XMLString += '\n'
-            depth -= 1
-      #Particle tags
-        for particle in self.particles :
-            XMLString += tabstop*depth
-            XMLString += particle.toXml()
-            XMLString += '\n'
-      #Diagnostic tags
-        for diag in self.diagnostics :
-            XMLString += tabstop*depth
-            XMLString += diag.toXml()
-            XMLString += '\n'
-      #Logger tags
-        for logger in self.loggers :
-            XMLString += tabstop*depth
-            XMLString += logger.toXml()
-            XMLString += '\n'
-        XMLString += '</experiment>'
+            etree.SubElement(experiment, "module", attrib = {"name" : module.name})
+
+        for ic in self.initialConditionPaths :
+            etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic})    
+
+        etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
+
+        for diag in self.diagnosticsPaths :
+            etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag})
+
+        for logger in self.loggersPaths :
+            etree.SubElement(experiment, "logger", attrib = {"file" : logger})
+        
+        # Prettify the XML
+        uglyXml = xml.dom.minidom.parseString(etree.tostring(experiment, encoding = XML_ENCODING))
+        
       #Write it to the given file 
         outFile = open(fileName, 'w')
-        outFile.write(XMLString)
+        outFile.write(uglyXml.toprettyxml(encoding = XML_ENCODING))
 
 #---------------------------------------------------
-    def loadXMLFile(self, fileName) :
+    def fromXML(self, XMLString) :
         pass #Just a place holder so code compiles
         #loads in the XML
-        #not sure what to do here yet
-        #are we going to use minidom or something?
+        expElement = etree.fromstring(element)
+        
+        # Extract Experiment's properties from XML attributes and sub-elements
+        self.name = expElement.get("name").strip()
+        self.stopIsEnabled = eval(expElement.get("stopEnabled").strip().title())
+        
+        timeElement        = expElement.find("time")
+        self.timeUnit      = timeElement.get("units").strip()
+        self.startTime     = int(timeElement.get("start").strip()) | self.timeUnit
+        self.timeStep      = int(timeElement.get("step").strip()) | self.timeUnit
+        self.stopTime      = int(timeElement.get("end").strip()) | self.timeUnit
+
+        for moduleElement in expElement.findall("module"):
+            moduleName = moduleElement.get("name").strip()
+            #look up file and parse it
+            modFile = open(ModulePaths[moduleName], "r")
+            xml = ""
+            for line in modFile:
+                xml += line
+            modFile.close()
+            module = Module.Module.fromXml(xml)
+            self.modules.append(module)
+        
+        for initialConditionElement in expElement.findall("initialCondition"):
+            initialConditionName = initialConditionElement.get("file").strip()
+            #unpickle here
+            self.initialConditions.append(#put model here)
+        
+        for loggerElement in expElement.findall("logger"):
+            loggerPath = loggerElement.get("file").strip()
+            #unpickle here
+            self.loggers.append(#put loggers in here)
+
+        for diagnosticElement in expElement.findall("diagnostic"):
+            diagnosticPath = diagnosticElement.get("file").strip()
+            #unpickle here
+            self.diagnostics.append(#put diags in here)
+
+        for particlesElement in expElement.findall("particle"):
+            particlePath = particlesElement.get("file").strip()
+            #unpickle here
+            self.particles.append(#put particles in here)
+
+        return
+        
 #---------------------------------------------------
         
 
