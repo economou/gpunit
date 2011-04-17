@@ -11,13 +11,15 @@
 #
 #
 
-from amuse.support.units import units
 
 import os
+import cPickle
 
 #Need to document these dependencies -- elementTree,minidom
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
+
+from amuse.support.units import units
 
 defaultTimeStep = 1
 defaultStartTime = 0
@@ -40,12 +42,12 @@ class Experiment :
         self.name = name
         self.stopIsEnabled = True
         self.modules = []
-        self.particles = []
+        self.particles = None
         self.particlesPath = ""
         self.diagnostics = []
-        self.diagnosticsPaths = []
+        self.diagnosticPaths = []
         self.loggers = []
-        self.loggersPaths = []
+        self.loggerPaths = []
         self.initialConditions = []
         self.initialConditionPaths = []
         self.timeUnit  = defaultTimeUnit
@@ -76,10 +78,10 @@ class Experiment :
 
         etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
 
-        for diag in self.diagnosticsPaths :
+        for diag in self.diagnosticPaths :
             etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag})
 
-        for logger in self.loggersPaths :
+        for logger in self.loggerPaths :
             etree.SubElement(experiment, "logger", attrib = {"file" : logger})
         
         # Prettify the XML
@@ -91,8 +93,6 @@ class Experiment :
 
 #---------------------------------------------------
     def fromXML(self, XMLString) :
-        pass #Just a place holder so code compiles
-        #loads in the XML
         expElement = etree.fromstring(element)
         
         # Extract Experiment's properties from XML attributes and sub-elements
@@ -117,24 +117,41 @@ class Experiment :
             self.modules.append(module)
         
         for initialConditionElement in expElement.findall("initialCondition"):
-            initialConditionName = initialConditionElement.get("file").strip()
-            #unpickle here
-            self.initialConditions.append(#put model here)
+            path = initialConditionElement.get("file").strip()
+
+            initCondFile = open(path, 'r')
+            initCond = cPickle.load(initCondFile)
+            initCondFile.close()
+
+            self.initialConditionPaths.append(path)
+            self.initialConditions.append(initCond)
         
         for loggerElement in expElement.findall("logger"):
-            loggerPath = loggerElement.get("file").strip()
-            #unpickle here
-            self.loggers.append(#put loggers in here)
+            path = loggerElement.get("file").strip()
+
+            loggerFile = open(path, 'r')
+            logger = cPickle.load(loggerFile)
+            loggerFile.close()
+
+            self.loggerPaths.append(path)
+            self.loggers.append(logger)
 
         for diagnosticElement in expElement.findall("diagnostic"):
-            diagnosticPath = diagnosticElement.get("file").strip()
-            #unpickle here
-            self.diagnostics.append(#put diags in here)
+            path = diagnosticElement.get("file").strip()
 
-        for particlesElement in expElement.findall("particle"):
-            particlePath = particlesElement.get("file").strip()
-            #unpickle here
-            self.particles.append(#put particles in here)
+            diagnosticFile = open(path, 'r')
+            diag = cPickle.load(diagnosticFile)
+            diagnosticFile.close()
+
+            self.diagnosticPaths.append(path)
+            self.diagnostics.append(diag)
+
+        particlesElement = expElement.findall("particle")[0]
+        self.particlesPath = particlesElement.get("file").strip()
+
+        particlesFile = open(self.particlesPath, 'r')
+        self.particles = cPickle.load(particlesFile)
+        particlesFile.close()
 
         return
         
