@@ -346,6 +346,10 @@
    <extends>QWidget</extends>
    <header>..modulestoolbox</header>
    <container>1</container>
+   <slots>
+    <signal>initCondAdded(PyQt_PyObject)</signal>
+    <signal>moduleAdded(PyQt_PyObject)</signal>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -510,6 +514,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>modulesToolbox</sender>
+   <signal>moduleAdded(PyQt_PyObject)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>addModule(PyQt_PyObject)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modulesToolbox</sender>
+   <signal>initCondAdded(PyQt_PyObject)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>addInitCondition(PyQt_PyObject)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -518,8 +554,8 @@
   <slot>loadExperiment()</slot>
   <slot>saveExperiment()</slot>
   <slot>newExperiment()</slot>
-  <slot>addInitCondition()</slot>
-  <slot>addModule()</slot>
+  <slot>addInitCondition(PyQt_PyObject)</slot>
+  <slot>addModule(PyQt_PyObject)</slot>
   <slot>removeInitCondition()</slot>
   <slot>removeModule()</slot>
  </slots>

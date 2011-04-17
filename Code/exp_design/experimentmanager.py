@@ -80,16 +80,16 @@ class ExperimentManager(QMainWindow):
             self.editor.show()
 
     @pyqtSlot()
-    def addInitCondition(self):
-        pass
+    def addInitCondition(self, initcond = None):
+        print initcond
 
     @pyqtSlot()
     def removeInitCondition(self):
         pass
 
     @pyqtSlot()
-    def addModule(self):
-        pass
+    def addModule(self, module = None):
+        print module
 
     @pyqtSlot()
     def removeModule(self):

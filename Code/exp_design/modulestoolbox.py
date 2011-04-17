@@ -1,8 +1,13 @@
-from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtCore import pyqtSlot, SIGNAL
 from PyQt4.QtGui import QWidget
 
-from exp_management.PlummerModel import PlummerModel
+from exp_management.initialconditions import *
+
 from gui.ui_modulestoolbox import Ui_ModulesToolBox
+
+initialConditions = {
+        "Plummer" : PlummerModel
+        }
 
 class ModulesToolbox(QWidget):
     def __init__(self, parent = None):
@@ -11,16 +16,13 @@ class ModulesToolbox(QWidget):
         self.ui = Ui_ModulesToolBox()
         self.ui.setupUi(self)
 
-    @pyqtSlot()
-    def test(self, item, i):
-        print "item:", item.text()
-        if i is not None:
-            print i.text()
-        print
-
-        item.addChild(PlummerModel(32))
+        for initCond in initialConditions.values():
+            self.ui.initCondList.addItem(initCond())
 
     @pyqtSlot()
-    def addButtonClicked(self):
-        pass
-        #self.emit(itemAdded, self.ui.
+    def addModule(self):
+        self.emit(SIGNAL("moduleAdded(PyQt_PyObject)"), self.ui.moduleList.currentItem())
+
+    @pyqtSlot()
+    def addInitCond(self):
+        self.emit(SIGNAL("initCondAdded(PyQt_PyObject)"), self.ui.initCondList.currentItem())
