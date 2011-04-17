@@ -145,8 +145,8 @@ class Module(QListWidgetItem):
 		domain             = moduleElement.find("domain").text.strip()
 		codeName           = moduleElement.find("codeName").text.strip()
 		codeLocation       = moduleElement.find("codeLocation").text.strip()
-		isParallel         = eval(moduleElement.find("isParallel").text.strip())  # Evaluate string as boolean
-		stoppingConditions = eval(moduleElement.find("stoppingConditions").text.strip())  # Evaluate string as integer
+		isParallel         = eval(moduleElement.find("isParallel").text.strip().title())  # Evaluate string as boolean
+		stoppingConditions = int(moduleElement.find("stoppingConditions").text.strip())  # Parse integer from string.
 		
 		# Create the Module
 		module = Module(name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, [])
