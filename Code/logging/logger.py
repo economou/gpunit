@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 #
 # Logger.py
@@ -5,24 +6,51 @@
 #
 # Team GPUnit - Senior Design 2011
 
-class Experiment :
+class Logger :
 	
-def __init__(self, name) :
-values
-		
-	self.loggers = []
-for logger in self.loggers :
-			XMLString += tabstop*depth
-			XMLString += logger.toXml()
-			XMLString += '\n'
-def addLogger(logger) :
-		
-		self.loggers.append(logger)
-def removeLogger(logger) :
-		
-		self.loggers.remove(logger)
-XMLString += '</experiment>'
-	 
-		outFile = open(fileName, 'w')
-		outFile.write(XMLString)
+def __init__(self) :
+       self.name = " Logger subclass "
+       self.outputmode = []
+def name() :
+		'''Gets the name of the logger.'''
+		return self.name
+
+
+def selectoutput(self,outputmode) :
+		'''select output mode for logger '''
+		self.outputmode.extend(outputmode)
+
+def logdata(self,particle) :
+           '''gets data from experiment for logger'''
+           self.particles.append(particle)
+
+def toXml() :
+		'''Get a xml string representation.'''
+		# TODO: implement
+		return ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
