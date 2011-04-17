@@ -2,7 +2,7 @@
 import sys
 
 from PyQt4.QtGui import QApplication
-from experimentmanager import ExperimentManager
+from exp_design.experimentmanager import ExperimentManager
 
 if __name__ == "__main__":
     a = QApplication(sys.argv)

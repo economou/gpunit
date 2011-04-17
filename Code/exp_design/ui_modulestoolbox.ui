@@ -149,8 +149,53 @@
      </item>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="addSelectedButton">
+     <property name="text">
+      <string>---&gt;</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>addSelectedButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ModulesToolBox</receiver>
+   <slot>addButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>treeWidget</sender>
+   <signal>currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)</signal>
+   <receiver>ModulesToolBox</receiver>
+   <slot>test(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>169</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>itemAdded(object)</signal>
+  <slot>addButtonClicked()</slot>
+  <slot>test(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+ </slots>
 </ui>
