@@ -1,0 +1,1281 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\renewcommand{\nomname}{}
+\end_preamble
+\use_default_options true
+\begin_modules
+figs-within-sections
+tabs-within-sections
+eqs-within-sections
+\end_modules
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 5
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\align right
+
+\series bold
+\size huge
+Software Integration Tests:
+\series default
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+\size larger
+GPU N-Body Integration Toolkit
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Prepared by:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Daniel Bagnell
+\begin_inset Newline newline
+\end_inset
+
+Jason Economou
+\begin_inset Newline newline
+\end_inset
+
+Rajkumar Jayachandran
+\begin_inset Newline newline
+\end_inset
+
+Tim McJilton
+\begin_inset Newline newline
+\end_inset
+
+Gabe Schwartz
+\begin_inset Newline newline
+\end_inset
+
+Andrew Sherman
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Advisor:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Jeremy Johnson
+\end_layout
+
+\begin_layout Standard
+\align right
+
+\size larger
+Stakeholders:
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Prof.
+ Steve McMillan
+\begin_inset Newline newline
+\end_inset
+
+Alfred Whitehead
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+Purpose
+\end_layout
+
+\begin_layout Standard
+This document provides the process for completing the integration testing
+ of the GPUnit software system described by the GPUnit Software Design Document.
+\end_layout
+
+\begin_layout Subsection
+Scope
+\end_layout
+
+\begin_layout Subsection
+Glossary
+\end_layout
+
+\begin_layout Standard
+For terms not in this glossary, please refer to the SRS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Node Health Statistics"
+description "Information about the current state of a node including properties such as CPU usage and memory usage."
+
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Cluster"
+description "A group of networked computing nodes available to perform some task."
+
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "Computer Node"
+description "A computer that is a member of a cluster."
+
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "IPC Channel"
+description "Any object or memory space used for Inter-Process Communication (IPC). Examples include UNIX Pipes, BSD/Winsock Sockets and UNIX Shared Memory (SHM)."
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Architecture
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename arch-diagram.eps
+	lyxscale 50
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Architecture-Diagram"
+
+\end_inset
+
+Architecture Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Graphical User Interface
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Subsection
+Network Interaction
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Node-Management"
+
+\end_inset
+
+Node Management
+\end_layout
+
+\begin_layout Section
+Experiment Components
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+The integration tests for the Experiment class 
+\end_layout
+
+\begin_layout Subsection
+Testing Experiment Export
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Export Experiment XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Writes an Experiment to XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+User creates a valid experiment.
+\end_layout
+
+\begin_layout Itemize
+User chooses a filename to save the file to.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Call Experiment writeXMLFile method with the user's filename.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+Experiment is written to the supplied filename in XML.
+\end_layout
+
+\begin_layout Itemize
+XML file matches experiment data/entities.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Export Experiment XML
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Testing Experiment Import
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="90col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Import Experiment XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reads an Experiment from XML
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User chooses a valid experiment XML file from disk.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Call Experiment loadXMLFile method with the user's filename.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Itemize
+New experiment is created.
+\end_layout
+
+\begin_layout Itemize
+Experiment data/entities match XML file data.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Import Experiment XML
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Particles"
+
+\end_inset
+
+Particles
+\end_layout
+
+\begin_layout Subsubsection
+Particle Class
+\end_layout
+
+\begin_layout Paragraph
+Particle Attributes
+\end_layout
+
+\begin_layout Paragraph
+Particle Methods
+\end_layout
+
+\begin_layout Subsection
+Modules
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Module-Class"
+
+\end_inset
+
+Module Class
+\end_layout
+
+\begin_layout Paragraph
+Module Attributes
+\end_layout
+
+\begin_layout Paragraph
+Module Operations
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Parameter-Class"
+
+\end_inset
+
+Parameter Class
+\end_layout
+
+\begin_layout Paragraph
+Parameter Attributes
+\end_layout
+
+\begin_layout Paragraph
+Parameter Operations
+\end_layout
+
+\begin_layout Subsubsection
+Unit Class
+\end_layout
+
+\begin_layout Paragraph
+Unit Attributes
+\end_layout
+
+\begin_layout Subsubsection
+CompoundUnit Class
+\end_layout
+
+\begin_layout Paragraph
+CompoundUnit Attributes
+\end_layout
+
+\begin_layout Subsubsection
+UnitType Enumeration
+\end_layout
+
+\begin_layout Subsubsection
+SIPrefix Enumeration
+\end_layout
+
+\begin_layout Subsubsection
+AstrophysicalDomain Enumeration
+\end_layout
+
+\begin_layout Subsubsection
+StoppingConditions Enumeration
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Diagnostics"
+
+\end_inset
+
+Diagnostics
+\end_layout
+
+\begin_layout Subsubsection
+Object Model
+\end_layout
+
+\begin_layout Subsubsection
+Diagnostic Class
+\end_layout
+
+\begin_layout Subsubsection
+Experiment Manager Class
+\end_layout
+
+\begin_layout Subsubsection
+Condition Class
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Logging"
+
+\end_inset
+
+Logging
+\end_layout
+
+\begin_layout Subsubsection
+Object Model
+\end_layout
+
+\begin_layout Subsubsection
+Logging Class
+\end_layout
+
+\begin_layout Section
+Command Line Tool
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Subsection
+Testing CLT Flags
+\end_layout
+
+\begin_layout Subsection
+Testing The Produced Simulation
+\end_layout
+
+\begin_layout Subsubsection
+Sun, Earth, and Moon Test
+\end_layout
+
+\begin_layout Subsubsection
+N-Body Test
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N-Body Simulation 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ Test
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,000 Particles Simulation compared to actual data via 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ test.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pre-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The User has default logging scripts installed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User does the initialization Steps as in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Initialization"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+User Run's Experiment as in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Run-Experiment"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Post-conditions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User uses the test methodology described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Test-Methodology"
+
+\end_inset
+
+ and compares the data to what is defined in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compare-Data"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+N-Body Simulation Test
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:N-Body-Simulation-Test"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Introduction
+\end_layout
+
+\begin_layout Standard
+Testing whether the simulation returns good or bad data is vital in this
+ project yet a difficult thing to do.
+ The simulation will have a factor of randomness compared to existing simulation
+s and data.
+ This requires some statistical testing.
+ To test whether the simulation is accurate or not we will do a 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ goodness of fit test.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Test Methodology 
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Test-Methodology"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ goodness of fit test requires a previous model or set of data to compare
+ the new data to.
+ We will call previous data the expected.
+ We will call the data returned by the simulation created via GPUNIT the
+ observed.
+ The 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+test requires a hypothesis.
+ Our hypothesis will be that the observed will equal the expected.
+ We then solve for 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ by using equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:"
+
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+\chi^{2}=\sum_{i=1}^{M}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\label{eq:}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Test Data
+\end_layout
+
+\begin_layout Standard
+There are a few tests we will be doing on a set of particles.
+ We will be comparing the Virial Radius, the ratio of Kinetic Energy over
+ Potential Energy, and the Net Energy.
+\end_layout
+
+\begin_layout Subparagraph
+Initialization
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Initialization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The particles we will be running on will be a set of 1,000 particles with
+ a Plummer Model for distribution of the particles.
+ These particles will also have a Salpeter Mass Distribution.
+ User will create a new experiment selecting the appropriate fields to create
+ this experiment.
+ The experiment file will be saved in a local location.
+\end_layout
+
+\begin_layout Subparagraph
+Run Experiment
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Run-Experiment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The user runs the simulation with the experiment file being passed in with
+ the -f flag.
+ The simulation exports the custom log file with the total energy level,
+ the ratio of the kinetic energy of the potential energy, and the virial
+ radius of the particles.
+ The calculations of all these values are held within the logging script.
+\end_layout
+
+\begin_layout Subparagraph
+Compare Data
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Compare-Data"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The data testing will require a set of trustoworthy data or a function to
+ use for comparing the data to from our stakeholders.
+ We will run the 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ test on.
+ We will compare the ratio of the kinetic energy and potential energy to
+ 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+.
+ Future information on this test will be passed on 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ test looking up the information in the table.
+ 
+\end_layout
+
+\begin_layout Section
+Networking
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Subsection
+Network Software Components
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Control-Instance"
+
+\end_inset
+
+Control Instance
+\end_layout
+
+\begin_layout Subsubsection
+Node Instance
+\end_layout
+
+\begin_layout Subsection
+Object Model
+\end_layout
+
+\begin_layout Subsubsection
+Overview
+\end_layout
+
+\begin_layout Subsubsection
+Control Instance
+\end_layout
+
+\begin_layout Subsubsection
+Node Instance
+\end_layout
+
+\begin_layout Subsubsection
+TransmissionThread
+\end_layout
+
+\begin_layout Subsubsection
+ReceivingThread
+\end_layout
+
+\begin_layout Subsubsection
+ListeningThread
+\end_layout
+
+\begin_layout Subsubsection
+Packet Objects
+\end_layout
+
+\begin_layout Section
+Data
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Experiment-Specification"
+
+\end_inset
+
+Experiment Specification
+\end_layout
+
+\begin_layout Subsubsection
+Experiment
+\end_layout
+
+\begin_layout Subsubsection
+Time
+\end_layout
+
+\begin_layout Subsubsection
+Module
+\end_layout
+
+\begin_layout Subsubsection
+Param
+\end_layout
+
+\begin_layout Subsubsection
+Particle
+\end_layout
+
+\begin_layout Subsubsection
+Diagnostic
+\end_layout
+
+\begin_layout Subsubsection
+Logger
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Stopping-Condition"
+
+\end_inset
+
+Stopping Condition
+\end_layout
+
+\begin_layout Subsection
+Network Packets
+\end_layout
+
+\begin_layout Subsubsection
+Packet Header
+\end_layout
+
+\begin_layout Subsubsection
+Status Query Packet
+\end_layout
+
+\begin_layout Subsubsection
+Status Response Packet
+\end_layout
+
+\begin_layout Subsubsection
+Capability Query Packet
+\end_layout
+
+\begin_layout Subsubsection
+Capability Response Packet
+\end_layout
+
+\begin_layout Section
+Appendix
+\end_layout
+
+\begin_layout Paragraph
+Requirements Traceability Table
+\end_layout
+
+\end_body
+\end_document
