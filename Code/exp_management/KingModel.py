@@ -9,7 +9,7 @@
 #
 #
 
-from InitialCondition import InitialCondition
+from InitialCondition import ParticleDistribution
 from amuse.ext.kingmodel import MakeKingModel
 
 class KingModel(ParticleDistribution):
