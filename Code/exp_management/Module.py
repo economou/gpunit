@@ -18,6 +18,9 @@ State:
 from PyQt4.QtGui import QListWidgetItem
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
+import re
+import os
+import sys
 
 XML_ENCODING = "UTF-8"
 
@@ -29,7 +32,7 @@ class Module(QListWidgetItem):
 	interface.'''
 	
 	# Constructor
-	def __init__(self, name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, parameters):
+	def __init__(self, name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, parameters,classname = None):
 		'''Initializes a new Module with the given instance data.
 		
 		Parameters:
@@ -40,7 +43,8 @@ class Module(QListWidgetItem):
 		  codeLocation -- The location of the AMUSE module code.
 		  isParallel -- Whether the module's calculations can be parallelized across multiple workers by MPI.
 		  stoppingConditions -- The condition(s) under which the module may stop executing prematurely.
-		  parameters -- The module parameters.  These module-specific values may be modified prior to running the experiment in order to fine-tune the module's behavior.'''
+		  parameters -- The module parameters.  These module-specific values may be modified prior to running the experiment in order to fine-tune the module's behavior.
+		  classname -- The name of the class inside the AMUSE module one will be using.'''
 		
 		self.name = name
 		self.description = description
@@ -50,11 +54,12 @@ class Module(QListWidgetItem):
 		self.isParallel = isParallel
 		self.stoppingConditions = stoppingConditions
 		self.parameters = parameters
+		self.className  = classname
 
-        # Set up the module's name so that it can be displayed in GUI list
-        # boxes.
-        QListWidgetItem.__init__(self)
-        self.setText(self.name)
+		# Set up the module's name so that it can be displayed in GUI list      
+		# boxes.
+        	QListWidgetItem.__init__(self)
+	        self.setText(self.name)
 	
 	# Methods
 	def toXml(self):
@@ -316,10 +321,13 @@ class Module(QListWidgetItem):
 		sys.path.append("/home/cassini/tmcjilton/amuse-svn/src/amuse/community/")
 		from hermite0.interface import Hermite
 		'''
-		code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
-		sys.path.append(code_path[:-1])
-		exec("from "+code_path+".interface import "+self.classname)
-		return None
+		filename = re.search("(?<=/)[\da-zA-Z]*\.py$",self.codeLocation).group(0)
+#		code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
+		sys.path.append(self.codeLocation.rstrip(filename))
+		exec("from "+filename.rstrip(".py")+" import "+self.className)
+		
+		exec("r_val = %s"%str(self.className))
+		return r_val
 
 class Parameter:
 	'''A parameter to an AMUSE module.
