@@ -9,7 +9,7 @@
 #
 #
 
-from InitialCondition import InitialCondition
+from InitialCondition import MassDistribution
 from amuse.ext.salpeter import SalpeterIMF 
 
 class SalpeterModel(MassDistribution):
