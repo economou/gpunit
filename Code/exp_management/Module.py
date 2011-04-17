@@ -62,7 +62,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         self.setText(self.name)
     
     # Methods
-    def toXml(self):
+    def toXML(self):
         '''Dumps the Module to an XML element.
         
         The element is formatted as follows:
@@ -118,7 +118,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         
         # Iterate through parameters and append them as sub-elements
         for parameter in self.parameters:
-            module.append(etree.fromstring(parameter.toXml()))
+            module.append(etree.fromstring(parameter.toXML()))
         
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(module, encoding = XML_ENCODING))
@@ -126,7 +126,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         return uglyXml.toprettyxml(encoding = XML_ENCODING)
     
     @staticmethod
-    def fromXml(element):
+    def fromXML(element):
         '''Recreates a Module from its XML specification.
         
         Parameters:
@@ -153,7 +153,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         
         # Iterate through Parameter elements and add Parameters to the Module
         for parameterElement in moduleElement.findall("Parameter"):
-            parameter = Parameter.fromXml(etree.tostring(parameterElement, encoding = XML_ENCODING))
+            parameter = Parameter.fromXML(etree.tostring(parameterElement, encoding = XML_ENCODING))
             module.addParameter(parameter)
         
         return module
@@ -359,7 +359,7 @@ class Parameter:
         self.units = units
     
     # Methods
-    def toXml(self):
+    def toXML(self):
         '''Dumps the Parameter to an XML element.
         
         The element is formatted as follows:
@@ -400,7 +400,7 @@ class Parameter:
         maxValue = etree.SubElement(parameter, "maxValue")
         maxValue.text = str(self.maxValue)
         
-        parameter.append(etree.fromstring(self.units.toXml()))
+        parameter.append(etree.fromstring(self.units.toXML()))
         
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(parameter, encoding = XML_ENCODING))
@@ -408,7 +408,7 @@ class Parameter:
         return uglyXml.toprettyxml(encoding = XML_ENCODING)
     
     @staticmethod
-    def fromXml(element):
+    def fromXML(element):
         '''Recreates a Parameter from its XML specification.
         
         Parameters:
@@ -430,7 +430,7 @@ class Parameter:
         
         # Read Units sub-element into a CompoundUnit instance
         unitsElement = parameterElement.find("Units")
-        units        = CompoundUnit.fromXml(etree.tostring(unitsElement, encoding = XML_ENCODING))
+        units        = CompoundUnit.fromXML(etree.tostring(unitsElement, encoding = XML_ENCODING))
         
         # Create the Parameter
         parameter = Parameter(name, description, defaultValue, minValue, maxValue, units)
@@ -556,7 +556,7 @@ class CompoundUnit:
         self.units = units
     
     # Methods
-    def toXml(self):
+    def toXML(self):
         '''Dumps the CompoundUnit to an XML element.
         
         The element is formatted as follows:
@@ -588,7 +588,7 @@ class CompoundUnit:
         
         # Iterate through simple units and append them as sub-elements
         for unit in self.units:
-            units.append(etree.fromstring(unit.toXml()))
+            units.append(etree.fromstring(unit.toXML()))
         
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(units, encoding = XML_ENCODING))
@@ -596,7 +596,7 @@ class CompoundUnit:
         return uglyXml.toprettyxml(encoding = XML_ENCODING)
     
     @staticmethod
-    def fromXml(element):
+    def fromXML(element):
         '''Recreates a CompoundUnit from its XML specification.
         
         Parameters:
@@ -617,7 +617,7 @@ class CompoundUnit:
         
         # Iterate through simple Unit elements and add simple Units to the CompoundUnit
         for unitElement in unitsElement.findall("Unit"):
-            unit = Unit.fromXml(etree.tostring(unitElement, encoding = XML_ENCODING))
+            unit = Unit.fromXML(etree.tostring(unitElement, encoding = XML_ENCODING))
             units.addUnit(unit)
         
         return units
@@ -716,7 +716,7 @@ class Unit:
         self.exponent = exponent
     
     # Methods
-    def toXml(self):
+    def toXML(self):
         '''Dumps the Unit to an XML element.
         
         The element is formatted as follows:
@@ -734,7 +734,7 @@ class Unit:
         return uglyXml.toprettyxml(encoding = XML_ENCODING)
     
     @staticmethod
-    def fromXml(element):
+    def fromXML(element):
         '''Recreates a Unit from its XML specification.
         
         Parameters:
