@@ -12,7 +12,7 @@
 from InitialCondition import InitialCondition
 from amuse.ext.kingmodel import MakeKingModel
 
-class KingModel(InitialCondition):
+class KingModel(ParticleDistribution):
 
     def __init__(self, number_of_particles, W0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):

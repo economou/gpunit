@@ -12,16 +12,16 @@
 from InitialCondition import InitialCondition
 from amuse.ext.plummer import MakePlummerModel
 
-class PlummerModel(InitialCondition):
+class PlummerModel(ParticleDistribution):
 
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = None,
             mass_cutoff = None, do_scale = False, random_state = None):
         InitialCondition.__init__(self, "Plummer Model")
 
-        self.numParticles = numParticles
+        self.numParticles = int(numParticles)
         self.convert_nbody = convert_nbody
-        self.radius_cutoff = radius_cutoff
-        self.mass_cutoff = mass_cutoff
+        self.radius_cutoff = float(radius_cutoff)
+        self.mass_cutoff = float(mass_cutoff)
         self.do_scale = do_scale
         self.random_state = random_state
 

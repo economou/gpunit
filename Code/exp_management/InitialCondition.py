@@ -9,9 +9,9 @@
 #
 #
 
-from PyQt4.QtGui import QListWidgetItem, QTreeWidgetItem
+from PyQt4.QtGui import QListWidgetItem 
 
-class InitialCondition(QListWidgetItem, QTreeWidgetItem):
+class InitialCondition(QListWidgetItem):
     def __init__(self, name):
         QListWidgetItem.__init__(self)
 
@@ -21,3 +21,9 @@ class InitialCondition(QListWidgetItem, QTreeWidgetItem):
     def setName(self, name):
         self.name = name
         self.setText(self.name)
+
+class MassDistribution(InitialCondition):
+    pass
+
+class ParticleDistribution(InitialCondition):
+    pass
