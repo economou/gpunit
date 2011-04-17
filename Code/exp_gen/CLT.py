@@ -50,6 +50,12 @@ def parse_flags():
 
     
     return experiment
+#class ModuleRunner:
+#	def __init__(self, p_experiment):
+#		self.experiment = p_experiment
+#		self.dt   = self.experiment.getTimeStep()
+#		self.time = 0 | self.experiment.timeUnit
+
 def run_experiment(experiment):
     from amuse.support.units import units, nbody_system
     r    = 1 | units.parsec
@@ -57,13 +63,18 @@ def run_experiment(experiment):
     dt   = experiment.getTimeStep()
     tmax = experiment.stopTime
     
+    modules = [mod.result for mod in experiment.modules()]
+    particles = experiment.particles
+
+
     #Initialize Particles
     #Create Conversion Object
     convert_nbody = nbody_system.nbody_to_si(1|units.MSun,r)
     #Create Module Objects
     #Add Particles to Module
-    for module in experiment.modules:
+    for module in modules:
         module.particles.add_particles(experiment.particles)
+
     #Create channels Between Particles and Modules
     channels_to_module   = []
     channels_from_module = []
@@ -75,15 +86,16 @@ def run_experiment(experiment):
         #Evolve Modules
         for module in experiment.modules:
             module.evolve_model()
-        #Synchronize Particles Across Channels
-        for channel in channels_from_module:
-            channel.copy()
-        for channel in channels_to_module:
-            channel.copy()
+	if 0 and len(modules)-1: #Currently disabled
+	        #Synchronize Particles Across Channels
+	        for channel in channels_from_module:
+        	    channel.copy()
+	        for channel in channels_to_module:
+	            channel.copy()
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(None):
-                diagnostic.update(experiment.particles)
+                diagnostic.update(particles)
             
         #Run Logging Scripts
         for logger in experiment.loggers:
@@ -97,7 +109,7 @@ def run_experiment(experiment):
             diagnostic.update(experiment.particles)
     #Run Closing Logging Scripts
     for logger in experiment.loggers:
-        logger.logData(experiment.particles)
+         logger.logData(experiment.particles)
     #Stop Modules
     for module in experiment.modules:
         module.stop()
