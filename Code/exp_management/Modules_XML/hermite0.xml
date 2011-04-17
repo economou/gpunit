@@ -7,27 +7,66 @@
    <codeName>interface.py</codeName>
    <codeLocation>src/amuse/community/hermite0</codeLocation>
    <isParallel>true</isParallel>
-   <stoppingCondition>TIMEOUT</stoppingCondition>
-   <stoppingCondition>NUMBER_OF_STEPS</stoppingCondition>
-   <stoppingCondition>ESCAPER</stoppingCondition>
+   <stoppingConditions>56</stoppingConditions>
    <Parameter name="epsilon_squared">
    		<description>
 			Smoothing parameter for gravity calculations
 		</description>
-		<defaultValue>0.0</defaultValue>
+		<defaultValue>
+            0.0
+        </defaultValue>
 		<Units>
 			<description>length squared</description>
 			<symbolicDescription>length*length</description>
 			<Unit type="Length" exponent="2"/>
 		</Units>
    </Parameter>
-   <Parameter name="dt_Parameter">
-   		
+   <Parameter name="dt_param">
+   		<description>
+            Timestep scaling factor
+        </description>
+        <defaultValue>
+            0.03
+        </defaultValue>
+        <Units>
+            <description>none</description>
+            <Unit type="None" exponent="1"/>
+        </Units>
    </Parameter>
-   <Parameter>dt_dia</Parameter>
-   <Parameter>time</Parameter>
-   <Parameter>pair_factor</Parameter>
-   <Parameter>stopping_conditions_timeout</Parameter>
-   <Parameter>stopping_conditions_number_of_steps</Parameter>
-   <Parameter>stopping_conditions_out_of_box_size</Parameter>
+   <Parameter name="dt_dia">
+        <description>
+            Time interval between diagnostics output
+        </description>
+        <defaultValue>
+            1.0
+        </defaultValue>
+        <Units>
+            <description>time</description>
+            <Unit type="Time" exponent="1"/>
+        </Units>
+   </Parameter>
+   <Parameter name="time">
+        <description>
+            Current Simulation Time
+        </description>
+        <defaultValue>
+            0.0
+        </defaultValue>
+        <Units>
+            <description>time</description>
+            <Unit type="Time" exponent="1"/>
+        </Units>
+   </Parameter>
+   <Parameter name="pair_factor">
+        <description>
+            Radius factor for pair detection
+        </description>
+        <defaultValue>
+            1.0
+        </defaultValue>
+        <Units>
+            <description>none</description>
+            <Unit type="None" exponent="1"/>
+        </Units>
+   </Parameter>
 </Module>
