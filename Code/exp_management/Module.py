@@ -298,14 +298,22 @@ class Module:
 		  parameters -- A list of module parameters.'''
 		
 		self.parameters = parameters
-        
-
-    @property
-    def result(self):
-        '''Returns an instance of the value. Treats result as a 
+	@property
+	def result(self):
+		'''Returns an instance of the value. Treats result as a 
                     value rather than a function'''
-        
-        return None
+
+		'''
+		Working EXAMPLE:
+		Use this for finding absolute path os.path.expanduser("~/amuse-svn/src/amuse/community/")
+		example filename
+		sys.path.append("/home/cassini/tmcjilton/amuse-svn/src/amuse/community/")
+		from hermite0.interface import Hermite
+		'''
+		code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
+		sys.path.append(code_path[:-1])
+		exec("from "+code_path+".interface import "+self.classname)
+		return None
 
 class Parameter:
 	'''A parameter to an AMUSE module.
