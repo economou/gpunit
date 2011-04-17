@@ -58,8 +58,8 @@ class Module(QListWidgetItem, QTreeWidgetItem):
 
         # Set up the module's name so that it can be displayed in GUI list      
         # boxes.
-            QListWidgetItem.__init__(self)
-            self.setText(self.name)
+        QListWidgetItem.__init__(self)
+        self.setText(self.name)
     
     # Methods
     def toXml(self):
