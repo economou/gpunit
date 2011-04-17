@@ -12,8 +12,7 @@
 from InitialCondition import InitialCondition
 from amuse.ext.salpeter import SalpeterIMF 
 
-class SalpeterModel(InitialCondition):
-
+class SalpeterModel(MassDistribution):
     def __init__(self, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
         InitialCondition.__init__(self, "Saltpeter Model")
 
