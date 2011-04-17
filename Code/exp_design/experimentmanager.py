@@ -78,3 +78,19 @@ class ExperimentManager(QMainWindow):
     def showModuleEditor(self):
         if not self.editor.isVisible():
             self.editor.show()
+
+    @pyqtSlot()
+    def addInitCondition(self):
+        pass
+
+    @pyqtSlot()
+    def removeInitCondition(self):
+        pass
+
+    @pyqtSlot()
+    def addModule(self):
+        pass
+
+    @pyqtSlot()
+    def removeModule(self):
+        pass
