@@ -17,6 +17,7 @@ from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
 
+from exp_management.initialconditions import PlummerModel
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
     performed by the user in the GUI."""
@@ -80,17 +81,30 @@ class ExperimentManager(QMainWindow):
             self.editor.show()
 
     @pyqtSlot()
-    def addInitCondition(self, initcond = None):
-        print initcond
+    def addInitCondition(self, initCond = None):
+        self.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
-    def removeInitCondition(self):
-        pass
+    def removeInitCondition(self, initCond = None):
+        if initCond is not None:
+            return
+        else:
+            initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
+
+            self.experiment.initialConditions.remove(initCond)
+            self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
     def addModule(self, module = None):
-        print module
+        self.ui.moduleList.addItem(module)
+        self.experiment.modules.append(module)
 
     @pyqtSlot()
-    def removeModule(self):
-        pass
+    def removeModule(self, module = None):
+        if module is not None:
+            return
+        else:
+            module = self.ui.moduleList.takeItem(self.ui.moduleList.currentRow())
+
+            self.experiment.modules.remove(module)
+            self.ui.modulesToolbox.ui.moduleList.addItem(module)
