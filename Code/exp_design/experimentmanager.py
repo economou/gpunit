@@ -34,8 +34,15 @@ class ExperimentManager(QMainWindow):
         for i in range(30):
             self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
+        self.experiment = None
         self.dirty = False
         """Set to true if unsaved changes have been made."""
+
+    @pyqtSlot()
+    def setDirty(self):
+        """Sets the dirty flag to true, used whenever a piece of data is
+        modified."""
+        self.dirty = True
 
     @pyqtSlot()
     def newExperiment(self):
