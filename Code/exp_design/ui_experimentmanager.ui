@@ -344,7 +344,7 @@
   <customwidget>
    <class>ModulesToolbox</class>
    <extends>QWidget</extends>
-   <header>modulestoolbox</header>
+   <header>..modulestoolbox</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -446,6 +446,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>addInitButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>addInitCondition()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>311</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>removeInitButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>removeInitCondition()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addModuleButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>addModule()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>311</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>removeModuleButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>removeModule()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -454,5 +518,9 @@
   <slot>loadExperiment()</slot>
   <slot>saveExperiment()</slot>
   <slot>newExperiment()</slot>
+  <slot>addInitCondition()</slot>
+  <slot>addModule()</slot>
+  <slot>removeInitCondition()</slot>
+  <slot>removeModule()</slot>
  </slots>
 </ui>
