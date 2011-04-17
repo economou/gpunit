@@ -28,131 +28,38 @@
   <property name="currentIndex" stdset="0">
    <number>0</number>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="sizeConstraint">
-    <enum>QLayout::SetMinAndMaxSize</enum>
-   </property>
-   <item>
-    <widget class="QTreeWidget" name="treeWidget">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="sortingEnabled">
-      <bool>false</bool>
-     </property>
-     <attribute name="headerDefaultSectionSize">
-      <number>150</number>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Category</string>
-      </property>
-     </column>
-     <item>
-      <property name="text">
-       <string>Modules</string>
-      </property>
-      <item>
-       <property name="text">
-        <string>Stellar Evolution</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Stellar Evolution Module (Accurate)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Stellar Evolution Module (Fast)</string>
-        </property>
-       </item>
-      </item>
-      <item>
-       <property name="text">
-        <string>Radiative Transfer</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Radiative Transfer Module (Accurate)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Radiative Transfer Module (Fast)</string>
-        </property>
-       </item>
-      </item>
-      <item>
-       <property name="text">
-        <string>Hydrodynamics</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Hydrodynamics Module (Accurate)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Hydrodynamics Module (Fast)</string>
-        </property>
-       </item>
-      </item>
-      <item>
-       <property name="text">
-        <string>Gravitational Dynamics</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Gravitational Dynamics Module (Accurate)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Gravitational Dynamics Module (Fast)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Gravitational Dynamics Module (Tree)</string>
-        </property>
-       </item>
-      </item>
-     </item>
-     <item>
-      <property name="text">
-       <string>Initial Conditions</string>
-      </property>
-      <item>
-       <property name="text">
-        <string>Initial Condition Model #3</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Initial Condition Model #2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Initial Condition Model #1</string>
-       </property>
-      </item>
-     </item>
-    </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="1">
+    <widget class="QListWidget" name="moduleList"/>
    </item>
-   <item>
-    <widget class="QPushButton" name="addSelectedButton">
+   <item row="4" column="1">
+    <widget class="QListWidget" name="initCondList"/>
+   </item>
+   <item row="5" column="1">
+    <widget class="QPushButton" name="addInitialConditionButton">
      <property name="text">
       <string>---&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="addModuleButton">
+     <property name="text">
+      <string>---&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Modules:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Initial Conditions:</string>
      </property>
     </widget>
    </item>
@@ -161,10 +68,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>addSelectedButton</sender>
+   <sender>addInitialConditionButton</sender>
    <signal>clicked()</signal>
    <receiver>ModulesToolBox</receiver>
-   <slot>addButtonClicked()</slot>
+   <slot>addInitCond()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>99</x>
@@ -177,13 +84,13 @@
    </hints>
   </connection>
   <connection>
-   <sender>treeWidget</sender>
-   <signal>currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)</signal>
+   <sender>addModuleButton</sender>
+   <signal>clicked()</signal>
    <receiver>ModulesToolBox</receiver>
-   <slot>test(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+   <slot>addModule()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>99</x>
+     <x>139</x>
      <y>169</y>
     </hint>
     <hint type="destinationlabel">
@@ -194,8 +101,9 @@
   </connection>
  </connections>
  <slots>
-  <signal>itemAdded(object)</signal>
-  <slot>addButtonClicked()</slot>
-  <slot>test(QTreeWidgetItem*,QTreeWidgetItem*)</slot>
+  <signal>initCondAdded(PyQt_PyObject)</signal>
+  <signal>moduleAdded(PyQt_PyObject)</signal>
+  <slot>addInitCond()</slot>
+  <slot>addModule()</slot>
  </slots>
 </ui>
