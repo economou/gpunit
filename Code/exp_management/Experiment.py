@@ -13,8 +13,6 @@
 
 from amuse.support.units import units
 
-#Pretty sure sys is needed to write to files
-import sys
 #Need to document this dependency -- minidom
 from xml.dom import minidom
 

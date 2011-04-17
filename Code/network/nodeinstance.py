@@ -1,6 +1,13 @@
+#/usr/bin/python
+
+import sys
+import struct
+
 from threading import Thread
 from socket import *
-import struct
+
+import packet
+from packet import PacketFactory
 
 DEFAULT_MCAST_PORT = 3141
 
@@ -12,9 +19,11 @@ class NodeInstance(Thread):
         @type groupIP: string
         @param groupIP: multicast group IP to use for communication with
         control instances.
-        
+
         @type name: string
         @param name: the name of this node."""
+
+        Thread.__init__(self)
 
         self.groupIP = groupIP
         """Multicast group IP to use for communication with control
@@ -26,7 +35,14 @@ class NodeInstance(Thread):
         self.sock = None
         """A socket connected to the multicast group."""
 
-        self.joinGroup(groupIP)
+        self.packetHandlers = {
+                packet.STATUS_QUERY : self.handleStatusQuery,
+                packet.STATUS_RESPONSE : self.handleStatusResponse,
+                packet.CAPABILITY_QUERY : self.handleCapabilityQuery,
+                packet.CAPABILITY_RESPONSE : self.handleCapabilityResponse,
+                }
+
+        self.joinGroup()
 
     def joinGroup(self, port = DEFAULT_MCAST_PORT):
         self.sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)
@@ -43,4 +59,32 @@ class NodeInstance(Thread):
 
     def run(self):
         while True:
-            data = self.sock.recv(10240)
+            data = str(self.sock.recv(10240))
+            packet = PacketFactory.packetFromString(data)
+            self.packetHandlers[packet.header.type](packet)
+
+    def handleStatusQuery(self, packet):
+        print "Got StatusQueryPacket:", packet
+        self.leaveGroup()
+        exit(0)
+
+    def handleStatusResponse(self, packet):
+        pass
+
+    def handleCapabilityQuery(self, packet):
+        pass
+
+    def handleCapabilityResponse(self, packet):
+        pass
+
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print "Usage: nodeinstance MULTICAST_GROUP NODE_NAME"
+        sys.exit(1)
+    
+    ip = sys.argv[1]
+    name = sys.argv[2]
+
+    instance = NodeInstance(ip, name)
+    instance.start()
+    instance.join()
