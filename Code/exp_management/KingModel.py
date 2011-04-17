@@ -1,7 +1,6 @@
-#!/usr/bin/python
 #
 # KingModel.py
-#	Class holding a King Model for particle distribution.
+#    Class holding a King Model for particle distribution.
 #
 # Andrew Sherman
 # 3/11
@@ -10,59 +9,62 @@
 #
 #
 
+from InitialCondition import InitialCondition
 from amuse.ext.kingmodel import MakeKingModel
 
-class KingModel(object):
+class KingModel(InitialCondition):
 
-	def __init__(self, number_of_particles, W0, convert_nbody = None, do_scale = False, 
-			beta = 0.0, seed = None, verbose = False):
-		self.number_of_particles = number_of_particles
-		self.W0 = W0
-		self.convert_nbody = convert_nbody
-		self.do_scale = do_scale
-		self.beta = beta
-		self.seed = seed
-		self.verbose = verbose
+    def __init__(self, number_of_particles, W0, convert_nbody = None, do_scale = False, 
+            beta = 0.0, seed = None, verbose = False):
+        InitialCondition.__init__(self, "King Model")
 
-	def getParticleList(self):
-		'''Creates a particle list by making a new Plummer model. Note this will be
-		different every time this function is called in case any members have changed'''
-		return MakeKingModel(self.numParticles,self.W0,self.convert_nbody,
-			self.do_scale,self.beta,self.seed,self.verbose).result
+        self.number_of_particles = number_of_particles
+        self.W0 = W0
+        self.convert_nbody = convert_nbody
+        self.do_scale = do_scale
+        self.beta = beta
+        self.seed = seed
+        self.verbose = verbose
 
-	def getNumParticles(self):
-		return self.numParticles
+    def getParticleList(self):
+        '''Creates a particle list by making a new Plummer model. Note this will be
+        different every time this function is called in case any members have changed'''
+        return MakeKingModel(self.numParticles,self.W0,self.convert_nbody,
+            self.do_scale,self.beta,self.seed,self.verbose).result
 
-	def setNumParticles(self, numParticles):
-		self.numParticles = numParticles
+    def getNumParticles(self):
+        return self.numParticles
 
-	def getConvertNbody(self):
-		return self.convert_nbody
+    def setNumParticles(self, numParticles):
+        self.numParticles = numParticles
 
-	def setConvertNbody(self, convert_nbody):
-		self.convert_nbody = convert_nbody
+    def getConvertNbody(self):
+        return self.convert_nbody
 
-	def enableDoScale(self):
-		self.do_scale = True
+    def setConvertNbody(self, convert_nbody):
+        self.convert_nbody = convert_nbody
 
-	def disableDoScale(self):
-		self.do_scale = False
+    def enableDoScale(self):
+        self.do_scale = True
 
-	def getBeta(self):
-		return self.beta
+    def disableDoScale(self):
+        self.do_scale = False
 
-	def setBeta(self, beta):
-		self.beta = beta
+    def getBeta(self):
+        return self.beta
 
-	def getSeed(self):
-		return self.seed
+    def setBeta(self, beta):
+        self.beta = beta
 
-	def setSeed(self, seed):
-		self.seed = seed
+    def getSeed(self):
+        return self.seed
 
-	def enableVerbose(self):
-		self.verbose = True
+    def setSeed(self, seed):
+        self.seed = seed
 
-	def disableVerbose(self):
-		self.verbose = False
+    def enableVerbose(self):
+        self.verbose = True
+
+    def disableVerbose(self):
+        self.verbose = False
 
