@@ -14,7 +14,7 @@ from amuse.ext.salpeter import SalpeterIMF
 
 class SalpeterModel(MassDistribution):
     def __init__(self, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
-        InitialCondition.__init__(self, "Saltpeter Model")
+        MassDistribution.__init__(self, "Saltpeter Model")
 
         self.mass_min = mass_min
         self.mass_max = mass_max

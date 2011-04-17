@@ -16,7 +16,7 @@ class PlummerModel(ParticleDistribution):
 
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = None,
             mass_cutoff = None, do_scale = False, random_state = None):
-        InitialCondition.__init__(self, "Plummer Model")
+        ParticleDistribution.__init__(self, "Plummer Model")
 
         self.numParticles = int(numParticles)
         self.convert_nbody = convert_nbody
