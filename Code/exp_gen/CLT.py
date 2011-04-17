@@ -56,6 +56,27 @@ def parse_flags():
 #		self.dt   = self.experiment.getTimeStep()
 #		self.time = 0 | self.experiment.timeUnit
 
+def initialization(experiment):
+    '''
+       Takes in an experiment object, parses the initialization.
+       Take the initialization to initialize and return:
+            modules:       Actual objects ready to  use for evolve_model
+            particles:     AMUSE Particles class of all particles
+            convert_nbody: Used for converting between nbody units and regular units
+    '''
+    particles = experiment.particles
+    modules = [mod.result for mod in experiment.modules()]
+    total_mass = reduce(lambda x,y:x+y, particles.mass)
+    #Initialize Particles
+    #Create Conversion Object
+    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
+    #Create Module Objects
+    #Add Particles to Module
+    for module in modules:
+        module.particles.add_particles(experiment.particles)
+    
+    return modules, particles, convert_nbody
+
 def run_experiment(experiment):
     from amuse.support.units import units, nbody_system
     r    = 1 | units.parsec
@@ -63,17 +84,8 @@ def run_experiment(experiment):
     dt   = experiment.getTimeStep()
     tmax = experiment.stopTime
     
-    modules = [mod.result for mod in experiment.modules()]
-    particles = experiment.particles
 
-
-    #Initialize Particles
-    #Create Conversion Object
-    convert_nbody = nbody_system.nbody_to_si(1|units.MSun,r)
-    #Create Module Objects
-    #Add Particles to Module
-    for module in modules:
-        module.particles.add_particles(experiment.particles)
+    
 
     #Create channels Between Particles and Modules
     channels_to_module   = []
@@ -86,12 +98,12 @@ def run_experiment(experiment):
         #Evolve Modules
         for module in experiment.modules:
             module.evolve_model()
-	if 0 and len(modules)-1: #Currently disabled
-	        #Synchronize Particles Across Channels
-	        for channel in channels_from_module:
-        	    channel.copy()
-	        for channel in channels_to_module:
-	            channel.copy()
+    	if 0 and len(modules)-1: #Currently disabled
+    	        #Synchronize Particles Across Channels
+    	        for channel in channels_from_module:
+            	    channel.copy()
+    	        for channel in channels_to_module:
+    	            channel.copy()
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(None):
@@ -103,6 +115,7 @@ def run_experiment(experiment):
             
         #Increment Time
         time += dt
+        
     #Run Closing Diagnostic Scripts
     for diagnostic in experiment.diagnostics:
         if diagnostic.shouldUpdate(None):
