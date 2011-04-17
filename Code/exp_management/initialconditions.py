@@ -1,5 +1,7 @@
 from PyQt4.QtGui import QListWidgetItem 
 
+from amuse.support.units import units
+
 from amuse.ext.salpeter import SalpeterIMF 
 from amuse.ext.plummer import MakePlummerModel
 from amuse.ext.kingmodel import MakeKingModel
@@ -22,17 +24,16 @@ class ParticleDistribution(InitialCondition):
     pass
 
 class SalpeterModel(MassDistribution):
-    def __init__(self, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
+    def __init__(self, numParticles, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
         MassDistribution.__init__(self, "Saltpeter Model")
 
+        self.numParticles = numParticles
         self.mass_min = mass_min
         self.mass_max = mass_max
         self.alpha = alpha
 
-    def getScaledMass(self):
-        '''Creates a particle list by making a new Plummer model. Note this will be
-        different every time this function is called in case any members have changed'''
-        return SalpeterIMF(self.mass_min,self.mass_max,alpha)
+    def getMasses(self):
+        return SalpeterIMF(self.mass_min,self.mass_max,alpha).next_set(self.numParticles)
         
     def getMassMin(self):
         return self.mass_min
@@ -53,7 +54,6 @@ class SalpeterModel(MassDistribution):
         self.alpha = alpha
 
 class PlummerModel(ParticleDistribution):
-
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = None,
             mass_cutoff = None, do_scale = False, random_state = None):
         ParticleDistribution.__init__(self, "Plummer Model")
@@ -109,7 +109,7 @@ class PlummerModel(ParticleDistribution):
 
 class KingModel(ParticleDistribution):
 
-    def __init__(self, number_of_particles, W0, convert_nbody = None, do_scale = False, 
+    def __init__(self, number_of_particles, W0 = 0.0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
         ParticleDistribution.__init__(self, "King Model")
 
