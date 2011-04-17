@@ -6,7 +6,9 @@ from exp_management.initialconditions import *
 from gui.ui_modulestoolbox import Ui_ModulesToolBox
 
 initialConditions = {
-        "Plummer" : PlummerModel
+        "Plummer" : PlummerModel,
+        "King" : KingModel,
+        "Salpeter" : SalpeterModel,
         }
 
 class ModulesToolbox(QWidget):
@@ -17,12 +19,14 @@ class ModulesToolbox(QWidget):
         self.ui.setupUi(self)
 
         for initCond in initialConditions.values():
-            self.ui.initCondList.addItem(initCond())
+            self.ui.initCondList.addItem(initCond(1))
 
     @pyqtSlot()
     def addModule(self):
-        self.emit(SIGNAL("moduleAdded(PyQt_PyObject)"), self.ui.moduleList.currentItem())
+        module = self.ui.moduleList.takeItem(self.ui.moduleList.currentRow())
+        self.emit(SIGNAL("moduleAdded(PyQt_PyObject)"), module)
 
     @pyqtSlot()
     def addInitCond(self):
-        self.emit(SIGNAL("initCondAdded(PyQt_PyObject)"), self.ui.initCondList.currentItem())
+        initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
+        self.emit(SIGNAL("initCondAdded(PyQt_PyObject)"), initCond)
