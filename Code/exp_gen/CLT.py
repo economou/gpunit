@@ -12,6 +12,7 @@
 #
 
 from exp_management.Experiment import Experiment
+from exp_management.InitialCondition import MassDistribution, ParticleDistribution
 def parse_flags():
     import getopt
     import sys
@@ -64,20 +65,36 @@ def initialization(experiment):
             particles:     AMUSE Particles class of all particles
             convert_nbody: Used for converting between nbody units and regular units
     '''
+    r    = 1 | units.parsec #Placeholder till we do this right.
+    
     particle_sets = []
     last_set = None
+    #Loop through all Initial Conditions
     for ic in experiment.initial_conditions:
-        if ic isinstance(
-    particles = experiment.initial_conditions.get_particles()
-    if experiment.mass_distribution:
-        self.particles.mass = experiment.mass_distribution
+        #If Initial Conditionis Mass Distribution set last set to have this mass
+        if ic isinstance(MassDistribution):
+            last_set = MassDistribution
+            particle_sets[-1].mass = ic.getScaledMass()
+        #If Inititial Conditions is Particle Distribution append the new Particles object
+        else:
+            last_set = ParticleDistribution
+            particle_sets.append(ic.getParticleList())
+    
+    #union all of the Particles sets together
+    if len(particle_sets)-1:
+        for p in particle_set[1:]:
+            particle_set[0].add_particles(p)
+    particles = particle_set[0] 
         
+    #Get Modules actual class values
     modules = [mod.result for mod in experiment.modules()]
+    
+    #Total mass used for conversion object
     total_mass = reduce(lambda x,y:x+y, particles.mass)
-    #Initialize Particles
+    
     #Create Conversion Object
     convert_nbody = nbody_system.nbody_to_si(total_mass,r)
-    #Create Module Objects
+    
     #Add Particles to Module
     for module in modules:
         module.particles.add_particles(experiment.particles)
@@ -86,13 +103,12 @@ def initialization(experiment):
 
 def run_experiment(experiment):
     from amuse.support.units import units, nbody_system
-    r    = 1 | units.parsec
     time = 0 | experiment.timeUnit
     dt   = experiment.getTimeStep()
     tmax = experiment.stopTime
     
 
-    
+    modules, particles, convert_nbody = initialization(experiment)
 
     #Create channels Between Particles and Modules
     channels_to_module   = []
