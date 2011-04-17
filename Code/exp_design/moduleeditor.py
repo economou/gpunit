@@ -44,22 +44,30 @@ class ModuleEditor(QMainWindow):
         modified."""
         self.dirty = True
 
+    def showDirtySaveBox(self):
+        box = QMessageBox()
+        box.setText("The module has unsaved changes.")
+        box.setInformativeText("Do you want to save them?")
+        box.setStandardButtons(QMessagebox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        box.setDefaultButton(QMessageBox.save)
+        decision = box._exec()
+
+        if decision == QMessageBox.Save:
+            if self.saveModule():
+                return True
+            else:
+                return False
+        elif decision == QMessageBox.Cancel:
+            return False
+
+        return True
+
     @pyqtSlot()
     def openModule(self):
         if self.dirty:
-            box = QMessageBox()
-            box.setText("The module has unsaved changes.")
-            box.setInformativeText("Do you want to save them?")
-            box.setStandardButtons(QMessagebox.Save | QMessageBox.Discard | QMessageBox.Cancel)
-            box.setDefaultButton(QMessageBox.save)
-            decision = box._exec()
-
-            if decision == QMessageBox.Save:
-                self.saveModule()
-            elif decision == QMessageBox.Cancel:
+            success = showDirtySaveBox()
+            if not success:
                 return
-
-            self.dirty = False
 
         filename = QFileDialog.getOpenFileName(self, "Open module...")
         if filename == "":
@@ -72,27 +80,33 @@ class ModuleEditor(QMainWindow):
                 xml += line
             modFile.close()
 
-            self.module = Module.Module.fromXml(xml)
+            self.module = Module.Module.fromXML(xml)
             self.updateUiFromModule()
+            self.dirty = False
+            return True
         except IOError as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
+            return False
 
     @pyqtSlot()
     def saveModule(self):
         filename = QFileDialog.getSaveFileName(self, "Save module as...")
         if filename == "":
-            return
+            return False
 
         try:
-            #xml = self.module.toXml(filename)
+            #xml = self.module.toXML(filename)
             #modFile = open(filename, "w")
             #modFile.write(xml)
             #modFile.close()
             self.dirty = False
+            return True
         except IOError as err:
             QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
+            return False
+
     @pyqtSlot()
     def updateUiFromModule(self):
         self.enableUI()

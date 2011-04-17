@@ -12,7 +12,10 @@ import sys
 from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
 from PyQt4.QtCore import pyqtSlot
 
+from exp_management.Experiment import Experiment
+
 from gui.ui_experimentmanager import Ui_ExperimentManager
+
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
@@ -45,26 +48,69 @@ class ExperimentManager(QMainWindow):
         modified."""
         self.dirty = True
 
+    def showDirtySaveBox(self):
+        box = QMessageBox()
+        box.setText("The experiment has unsaved changes.")
+        box.setInformativeText("Do you want to save them?")
+        box.setStandardButtons(QMessagebox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        box.setDefaultButton(QMessageBox.save)
+        decision = box._exec()
+
+        if decision == QMessageBox.Save:
+            if self.saveExperiment():
+                return True
+            else:
+                return False
+        elif decision == QMessageBox.Cancel:
+            return False
+
+        return True
+
     @pyqtSlot()
     def newExperiment(self):
         pass
 
     @pyqtSlot()
     def openExperiment(self):
-        pass
+        if self.dirty:
+            success = showDirtySaveBox
+            if not success:
+                return
+
+        filename = QFileDialog.getOpenFileName(self, "Open experiment...")
+
+        if filename == "":
+            return False
+
+        try:
+            xml = ""
+            expFile = open(filename, "r")
+            for line in expFile:
+                xml += line
+
+            self.experiment = Experiment.fromXML(xml)
+            self.updateUiFromExperiment()
+            self.dirty = False
+            return True
+        except IOError as err:
+            QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
+                    )
+            return False
 
     @pyqtSlot()
     def saveExperiment(self):
         filename = QFileDialog.getSaveFileName(self, "Save experiment as...")
         if filename == "":
-            return
+            return False
 
         try:
-            #self.experiment.writeXMLFile(filename)
+            self.experiment.writeXMLFile(filename)
             self.dirty = False
+            return True
         except IOError as err:
             QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
+            return False
 
     def closeEvent(self, event):
         # TODO: Shutdown the network connections here.
@@ -81,30 +127,28 @@ class ExperimentManager(QMainWindow):
             self.editor.show()
 
     @pyqtSlot()
-    def addInitCondition(self, initCond = None):
+    def addInitCondition(self, initCond):
+        self.experiment.initialConditions(initCond)
         self.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
-    def removeInitCondition(self, initCond = None):
-        if initCond is not None:
-            return
-        else:
-            initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
+    def removeInitCondition(self):
+        initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
 
-            self.experiment.initialConditions.remove(initCond)
-            self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
+        self.experiment.initialConditions.remove(initCond)
+        self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
-    def addModule(self, module = None):
+    def addModule(self, module):
         self.ui.moduleList.addItem(module)
         self.experiment.modules.append(module)
 
     @pyqtSlot()
-    def removeModule(self, module = None):
-        if module is not None:
-            return
-        else:
-            module = self.ui.moduleList.takeItem(self.ui.moduleList.currentRow())
+    def removeModule(self):
+        module = self.ui.moduleList.takeItem(self.ui.moduleList.currentRow())
 
-            self.experiment.modules.remove(module)
-            self.ui.modulesToolbox.ui.moduleList.addItem(module)
+        self.experiment.modules.remove(module)
+        self.ui.modulesToolbox.ui.moduleList.addItem(module)
+
+    def updateUiFromExperiment(self):
+        pass

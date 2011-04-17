@@ -93,25 +93,6 @@
        <item row="1" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QToolButton" name="addInitButton">
-           <property name="minimumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>+</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QToolButton" name="removeInitButton">
            <property name="minimumSize">
             <size>
@@ -160,25 +141,6 @@
        </item>
        <item row="4" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QToolButton" name="addModuleButton">
-           <property name="minimumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>+</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QToolButton" name="removeModuleButton">
            <property name="minimumSize">
@@ -451,22 +413,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>addInitButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>addInitCondition()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>311</x>
-     <y>184</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>removeInitButton</sender>
    <signal>clicked()</signal>
    <receiver>ExperimentManager</receiver>
@@ -475,22 +421,6 @@
     <hint type="sourcelabel">
      <x>349</x>
      <y>184</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>addModuleButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>addModule()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>311</x>
-     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>344</x>
