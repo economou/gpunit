@@ -16,7 +16,7 @@ class KingModel(ParticleDistribution):
 
     def __init__(self, number_of_particles, W0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
-        InitialCondition.__init__(self, "King Model")
+        ParticleDistribution.__init__(self, "King Model")
 
         self.number_of_particles = number_of_particles
         self.W0 = W0
