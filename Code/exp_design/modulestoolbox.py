@@ -1,4 +1,4 @@
-from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtCore import pyqtSlot, SIGNAL
 from PyQt4.QtGui import QWidget
 
 from exp_management.PlummerModel import PlummerModel
@@ -10,17 +10,12 @@ class ModulesToolbox(QWidget):
 
         self.ui = Ui_ModulesToolBox()
         self.ui.setupUi(self)
+        self.ui.initCondList.addItem(PlummerModel(32))
 
     @pyqtSlot()
-    def test(self, item, i):
-        print "item:", item.text()
-        if i is not None:
-            print i.text()
-        print
-
-        item.addChild(PlummerModel(32))
+    def addModule(self):
+        self.emit(SIGNAL("moduleAdded"), self.ui.moduleList.currentItem())
 
     @pyqtSlot()
-    def addButtonClicked(self):
-        pass
-        #self.emit(itemAdded, self.ui.
+    def addInitCond(self):
+        self.emit(SIGNAL("initCondAdded"), self.ui.initCondList.currentItem())
