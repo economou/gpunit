@@ -64,7 +64,14 @@ def initialization(experiment):
             particles:     AMUSE Particles class of all particles
             convert_nbody: Used for converting between nbody units and regular units
     '''
-    particles = experiment.particles
+    particle_sets = []
+    last_set = None
+    for ic in experiment.initial_conditions:
+        if ic isinstance(
+    particles = experiment.initial_conditions.get_particles()
+    if experiment.mass_distribution:
+        self.particles.mass = experiment.mass_distribution
+        
     modules = [mod.result for mod in experiment.modules()]
     total_mass = reduce(lambda x,y:x+y, particles.mass)
     #Initialize Particles
