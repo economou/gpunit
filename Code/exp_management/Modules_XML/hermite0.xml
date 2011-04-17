@@ -1,0 +1,33 @@
+<Module name="hermite0">
+   <description>
+      Time-symmetric N-body integration module with shared but variable time step,
+      using the Hermite integration scheme
+   </description>
+   <domain>Stellar Dynamics</domain>
+   <codeName>interface.py</codeName>
+   <codeLocation>src/amuse/community/hermite0</codeLocation>
+   <isParallel>true</isParallel>
+   <stoppingCondition>TIMEOUT</stoppingCondition>
+   <stoppingCondition>NUMBER_OF_STEPS</stoppingCondition>
+   <stoppingCondition>ESCAPER</stoppingCondition>
+   <Parameter name="epsilon_squared">
+   		<description>
+			Smoothing parameter for gravity calculations
+		</description>
+		<defaultValue>0.0</defaultValue>
+		<Units>
+			<description>length squared</description>
+			<symbolicDescription>length*length</description>
+			<Unit type="Length" exponent="2"/>
+		</Units>
+   </Parameter>
+   <Parameter name="dt_Parameter">
+   		
+   </Parameter>
+   <Parameter>dt_dia</Parameter>
+   <Parameter>time</Parameter>
+   <Parameter>pair_factor</Parameter>
+   <Parameter>stopping_conditions_timeout</Parameter>
+   <Parameter>stopping_conditions_number_of_steps</Parameter>
+   <Parameter>stopping_conditions_out_of_box_size</Parameter>
+</Module>
