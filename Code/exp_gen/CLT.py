@@ -88,20 +88,22 @@ def initialization(experiment):
         for p in particle_sets[1:]:
             particle_sets[0].add_particles(p)
     particles = particle_sets[0] 
-        
-    #Get Modules actual class values
-    modules = [mod.result() for mod in experiment.modules]
     
     #Total mass used for conversion object
-#    total_mass = reduce(lambda x,y:x+y, particles.mass)
+    total_mass = reduce(lambda x,y:x+y, particles.mass)
     
     #Create Conversion Object
-#    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
+    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
+        
+    #Get Modules actual class values
+    modules = [mod.result(convert_nbody) for mod in experiment.modules]
+    
+    
     
     #Add Particles to Module
     for module in modules:
-        module.particles.add_particles(experiment.particles)
-    convert_nbody = None
+        module.particles.add_particles(particles)
+#    convert_nbody = None
     return modules, particles, convert_nbody
 
 def run_experiment(experiment):
@@ -112,24 +114,25 @@ def run_experiment(experiment):
     
 
     modules, particles, convert_nbody = initialization(experiment)
-
     #Create channels Between Particles and Modules
     channels_to_module   = []
     channels_from_module = []
-    for module in experiment.modules:
-        channels_to_module.append(experiment.particles.new_channel_to(module.particles))
-        channels_from_module.append(module.particles.new_channel_to(experiment.particles))
+    for module in modules:
+#        channels_from_module.append(module.particles.new_channel_to(particles))
+#        channels_to_module.append(particles.new_channel_to(module.particles))
+        module.particles.copy_values_of_state_attributes_to(particles)
 
     while time <= tmax:
         #Evolve Modules
-        for module in experiment.modules:
-            module.evolve_model()
-    	if 0 and len(modules)-1: #Currently disabled
+        for module in modules:
+            module.evolve_model(time)
+    	if len(channels_to_module)-1: #Currently disabled
     	        #Synchronize Particles Across Channels
     	        for channel in channels_from_module:
             	    channel.copy()
     	        for channel in channels_to_module:
     	            channel.copy()
+        module.particles.copy_values_of_state_attributes_to(particles)
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(time, particles):
@@ -150,7 +153,7 @@ def run_experiment(experiment):
     for logger in experiment.loggers:
          logger.logData(experiment.particles)
     #Stop Modules
-    for module in experiment.modules:
+    for module in modules:
         module.stop()
 
 if __name__ == "__main__":

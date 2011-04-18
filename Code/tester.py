@@ -18,11 +18,13 @@ class sunearth(ParticleDistribution):
         p_list[0].velocity = [0,0,0] | units.km/units.s
         p_list[1].velocity = [0,29.67,0] | units.km/units.s
         p_list.mass = [ 1. , 3.e-6 ] | units.MSun
+        p_list.radius = [ 0 , 0 ] | units.km
         return p_list
 if __name__ == '__main__':
     my_experiment = Experiment()
-    my_experiment.initialConditions.append(sunearth('2'))
-    my_experiment.diagnostics.append(EnergyLogger())
+    my_experiment.initialConditions[sunearth('2')]='2'
+    my_experiment.diagnostics[EnergyLogger()]='energylogger'
+
     module_str = '\n'.join(open('exp_management/Modules_XML/hermite0.xml','r').readlines())
 #    print module_str
     my_experiment.modules.append(Module.fromXML(module_str))
