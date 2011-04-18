@@ -14,12 +14,21 @@ class Diagnostic(QListWidgetItem):
     '''Abstract Diagnostic class. Objects of subclasses are added to the an
     Experiment object where it is updated.'''
 
-    def __init__(self, name = "Diagnostic Base") :
+    def __init__(self, name = "DiagnosticBase") :
         self.name = name
         self.conditions = []
 
         QListWidgetItem.__init__(self)
         self.setText(self.name)
+
+    def __reduce__(self):
+        """ Example format for reduce():
+        return (ClassName, (member1, member2, ..., memberN), self.__dict__)
+
+        Specific example:
+        return (OpenGLDiagnostic, (self.name, self.parent), self.__dict__)"""
+
+        raise NotImplementedError("You must implement __reduce__ in any custom diagnostic in order for it to be serialized.")
 
     def update(self, time, particles):
         '''This function needs to be overridden by subclasses'''
@@ -47,8 +56,6 @@ class Diagnostic(QListWidgetItem):
         '''Remove a condition.'''
         self.conditions.remove(condition)
 
-    def needsGUI(self):
-        return False
-
-    def setGUI(self, parent):
-        pass
+    def setName(self, name):
+        self.name = name
+        self.setText(name)
