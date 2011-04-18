@@ -4,8 +4,8 @@
       using the Hermite integration scheme
    </description>
    <domain>Stellar Dynamics</domain>
-   <codeName>interface.py</codeName>
-   <codeLocation>src/amuse/community/hermite0</codeLocation>
+   <codeLocation>amuse/community/hermite0/interface.py</codeLocation>
+   <className>Hermite</className>
    <isParallel>true</isParallel>
    <stoppingConditions>56</stoppingConditions>
    <Parameter name="epsilon_squared">
