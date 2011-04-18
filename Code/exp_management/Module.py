@@ -53,7 +53,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         self.isParallel = isParallel
         self.stoppingConditions = stoppingConditions
         self.parameters = parameters
-        self.className  = classname
+        self.className  = className
 
         # Set up the module's name so that it can be displayed in GUI list      
         # boxes.
