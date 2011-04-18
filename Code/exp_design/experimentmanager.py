@@ -104,9 +104,6 @@ class ExperimentManager(QMainWindow):
             return False
         
         try:
-            for ic in self.experiment.initialConditions:
-                self.experiment.initialConditionPaths.append(ic.name + ".pkl")
-
             self.experiment.writeXMLFile(filename)
             self.dirty = False
             return True
@@ -131,7 +128,8 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def addInitCondition(self, initCond):
-        self.experiment.initialConditions.append(initCond)
+        # TODO: this is wrong
+        self.experiment.initialConditions.append((initCond, initCond.name + ".pkl"))
         self.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
@@ -153,5 +151,17 @@ class ExperimentManager(QMainWindow):
         self.experiment.modules.remove(module)
         self.ui.modulesToolbox.ui.moduleList.addItem(module)
 
+    @pyqtSlot()
+    def nameChanged(self, newName):
+        self.experiment.name = newName
+
     def updateUiFromExperiment(self):
+        self.ui.nameText.setText(self.experiment.name)
+
+        for module in self.experiment.modules:
+            self.ui.moduleList.addItem(module)
+
+        for initCond in self.experiment.initialConditions:
+            self.ui.initCondList.addItem(initCond[0])
+
         pass
