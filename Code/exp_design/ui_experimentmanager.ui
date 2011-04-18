@@ -70,27 +70,27 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="1">
+       <item row="1" column="1">
         <widget class="QListWidget" name="initCondList"/>
        </item>
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="initCondLabel">
          <property name="text">
           <string>Initial Conditions:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QListWidget" name="moduleList"/>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="moduleLabel">
          <property name="text">
           <string>Modules:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QToolButton" name="removeInitButton">
@@ -139,7 +139,7 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QToolButton" name="removeModuleButton">
@@ -187,6 +187,16 @@
           </spacer>
          </item>
         </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="nameLabel">
+         <property name="text">
+          <string>Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="nameText"/>
        </item>
       </layout>
      </widget>
@@ -476,6 +486,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>nameText</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>nameChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>484</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -488,5 +514,6 @@
   <slot>addModule(PyQt_PyObject)</slot>
   <slot>removeInitCondition()</slot>
   <slot>removeModule()</slot>
+  <slot>nameChanged(string)</slot>
  </slots>
 </ui>
