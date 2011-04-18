@@ -48,8 +48,8 @@ class EnergyLogger(Diagnostic):
         self.fout.write("Time: %f\n"%time.number)
         self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
         self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
-        print particles
-        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
+#        print particles
+#        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
         
 
 	def shouldUpdate(state) :
