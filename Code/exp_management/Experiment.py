@@ -114,19 +114,21 @@ class Experiment :
         outFile = open(fileName, 'w')
         outFile.write(uglyXml.toprettyxml(encoding = XML_ENCODING))
 
-#---------------------------------------------------
-    def fromXML(self, XMLString) :
+    @staticmethod
+    def fromXML(XMLString) :
+        ret = Experiment()
+
         expElement = etree.fromstring(XMLString)
         
         # Extract Experiment's properties from XML attributes and sub-elements
-        self.name = expElement.get("name").strip()
-        self.stopIsEnabled = eval(expElement.get("stopEnabled").strip().title())
+        ret.name = expElement.get("name").strip()
+        ret.stopIsEnabled = eval(expElement.get("stopEnabled").strip().title())
         
-        timeElement        = expElement.find("time")
-        self.timeUnit      = eval(timeElement.get("units").strip())
-        self.startTime     = int(timeElement.get("start").strip()) | self.timeUnit
-        self.timeStep      = int(timeElement.get("step").strip()) | self.timeUnit
-        self.stopTime      = int(timeElement.get("end").strip()) | self.timeUnit
+        timeElement = expElement.find("time")
+        ret.timeUnit = eval(timeElement.get("units").strip())
+        ret.startTime = int(timeElement.get("start").strip()) | ret.timeUnit
+        ret.timeStep = int(timeElement.get("step").strip()) | ret.timeUnit
+        ret.stopTime = int(timeElement.get("end").strip()) | ret.timeUnit
 
         for moduleElement in expElement.findall("module"):
             moduleName = moduleElement.get("name").strip()
@@ -137,7 +139,7 @@ class Experiment :
                 xml += line
             modFile.close()
             module = Module.fromXML(xml)
-            self.modules.append(module)
+            ret.modules.append(module)
         
         for initialConditionElement in expElement.findall("initialCondition"):
             path = initialConditionElement.get("file").strip()
@@ -146,7 +148,7 @@ class Experiment :
             initCond = cPickle.load(initCondFile)
             initCondFile.close()
 
-            self.initialConditions[initCond] = path
+            ret.initialConditions[initCond] = path
         
         for loggerElement in expElement.findall("logger"):
             path = loggerElement.get("file").strip()
@@ -155,7 +157,7 @@ class Experiment :
             logger = cPickle.load(loggerFile)
             loggerFile.close()
 
-            self.loggers[logger] = path
+            ret.loggers[logger] = path
 
         for diagnosticElement in expElement.findall("diagnostic"):
             path = diagnosticElement.get("file").strip()
@@ -164,14 +166,14 @@ class Experiment :
             diag = cPickle.load(diagnosticFile)
             diagnosticFile.close()
 
-            self.diagnostics[diag] = path
+            ret.diagnostics[diag] = path
 
         particlesElement = expElement.find("particle")
         if particlesElement is not None:
-            self.particlesPath = particlesElement.get("file").strip()
-            self.particles = amuse.support.io.read_set_from_file(particlesPath, "hdf5")
+            ret.particlesPath = particlesElement.get("file").strip()
+            ret.particles = amuse.support.io.read_set_from_file(particlesPath, "hdf5")
 
-        return
+        return ret
         
 #---------------------------------------------------
         
