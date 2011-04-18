@@ -241,12 +241,11 @@ class PlummerModel(ParticleDistribution):
             self.radius_cutoff,self.mass_cutoff,self.do_scale,self.random_state).result
 
 class KingModel(ParticleDistribution):
-
-    def __init__(self, number_of_particles, W0 = 0.0, convert_nbody = None, do_scale = False, 
+    def __init__(self, numParticles, W0 = 0.0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
         ParticleDistribution.__init__(self, "KingModel")
 
-        self.number_of_particles = number_of_particles
+        self.numParticles = numParticles
         self.W0 = W0
         self.convert_nbody = convert_nbody
         self.do_scale = do_scale
