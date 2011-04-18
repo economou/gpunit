@@ -1,4 +1,4 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -284,7 +284,7 @@ High Level Architecture
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -332,17 +332,78 @@ Experiment
 \begin_inset Quotes erd
 \end_inset
 
- here includes all logging, diagnostics, and network control.
- This layer communicates to the python core scripts layer to run the created
- experiment(s).
- The python layer also handles all logging and diagnostics created in the
- user interface level.
- Then, the python core scripts layer communicates to the network layer to
- distribute simulation calculations.
- These updated calculations then get sent back to the python layer for logging
- and diagnostic purposes.
- After a simulation ends, all results are presented back to the user interface
- layer for user viewing.
+ here includes all logging, diagnostics, and module distribution.
+\end_layout
+
+\begin_layout Standard
+An experiment specification file is generated from the user's input to the
+ interface.
+ This file guides the code generation to produce code that will run the
+ experiment.
+\end_layout
+
+\begin_layout Standard
+This generated code will set up initial conditions of the system such as
+ initial position, velocity etc..., load and initialize the modules selected
+ by the user, and run the experiment.
+ Generated code will control the parallel execution of modules if this feature
+ is enabled.
+\end_layout
+
+\begin_layout Standard
+Custom logging and diagnostic code can be added to the generated code, and
+ the code comes with default diagnostics that are sufficient to reconstruct
+ a crashed/stopped experiment from scratch.
+ Diagnostic/logging output is stored in the experiment hierarchy which is
+ an opaque interface to a list of past runs of an experiment.
+ Storage implementations might include a database, directory structure,
+ or other persistence mechanism.
+\end_layout
+
+\begin_layout Standard
+The GUI will rely on the network to query the status of nodes in the cluster.
+ Any machine on the local network that is running the node management code
+ will be visible to the GUI.
+ From this status view, the user can assign modules in the experiment to
+ run on a specific machine in the cluster or view the running modules on
+ a node.
+\end_layout
+
+\begin_layout Standard
+Modules, units and parallelization are all facilitated through AMUSE library
+ calls.
+ AMUSE contains a complete system of units able to store and represent quantitie
+s in a human-readable fashion.
+ AMUSE provides a common interface to 
+\begin_inset Quotes eld
+\end_inset
+
+legacy
+\begin_inset Quotes erd
+\end_inset
+
+ modules, expert implementations of astrophysics simulation codes.
+ This interface is centered around the 
+\begin_inset Quotes eld
+\end_inset
+
+evolve_model
+\begin_inset Quotes erd
+\end_inset
+
+ call which advances the module's simulation one step into the future.
+ Parallelization is realized via the MPI interface enforced in AMUSE's legacy
+ module framework.
+ Users may specify a list of nodes as an argument to the 
+\begin_inset Quotes eld
+\end_inset
+
+mpirun
+\begin_inset Quotes erd
+\end_inset
+
+ command, and any subsequent calls to module methods will be automatically
+ distributed across the listed nodes.
 \end_layout
 
 \begin_layout Section
@@ -354,11 +415,12 @@ Overview
 \end_layout
 
 \begin_layout Standard
-The user interface will allow the user to create and manage experiments
- as described in the SRS.
- Much of the interface code is generated from the Qt Creator GUI development
- tools, however there are some support classes required for the GUI to interact
- with the network and the command line tools.
+The user interface allows the user to create and manage experiments as described
+ in the SRS.
+ Some of the interface code is generated from the Qt Designer GUI development
+ tool, however there are support classes required for the GUI to interact
+ with the network and experiment hierarchy.
+ These classes are detailed below.
 \end_layout
 
 \begin_layout Standard
@@ -11064,8 +11126,8 @@ SIPrefix type diagram
 \end_layout
 
 \begin_layout Standard
-When dealing with physical quantities, standard prefixes may be prepended
- to units to denote a given quantity's order of magnitude.
+When dealing with physical quantities, standard prefixes may be prependedprep
+ ended to units to denote a given quantity's order of magnitude.
  SIPrefix enumerates the possible unit prefixes.
 \end_layout
 
@@ -11356,6 +11418,67 @@ The Logger class takes care of selecting the required output option as the
 \end_layout
 
 \begin_layout Section
+Experiment Generation
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+Part of the framework includes generating the Python scripts that will run
+ the experiment.
+ Experiment generation by default will produce a script as defined in Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Command-Line-Tool"
+
+\end_inset
+
+.
+ The user may customize this generation process by providing custom code
+ that is run prior to module initialization, before, and after each timestep.
+ The user can also create custom Logging and Diagnostic modules which will
+ be run by the generated experiment.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UML/expgen.eps
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Experiment Generation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Command-Line-Tool"
@@ -11370,22 +11493,23 @@ Overview
 \end_layout
 
 \begin_layout Standard
-The command line tool (CLT) is used for the running of an experiment file.
- The CLT begins with parsing the experiment file.
- After parsing the experiment file the CLT takes the initialization parameters
- and loads them using the AMUSE framework.
- The CLT then takes the modules specified, searches through loaded AMUSE
- modules and initializes the modules.
- The CLT links the modules together to allow interaction and updating of
- the current state of the system using the AMUSE channels.
- The CLT then loads the Logging and Data Analysis scripts specified by the
- experiment file, linking it to the the particle array.
- The CLT then runs through the time specified in the experiment file, evolving
- all of the modules loaded at each time step.
- It will run the data analysis scripts as well as the logging on the intervals
+The command line tool (CLT) is used to run an experiment file.
+ The tool is the end result of the code generation process.
+ The CLT begins by parsing the experiment file.
+ After parsing the file, the CLT takes the initialization parameters and
+ loads them using the AMUSE framework.
+ The CLT then takes the modules specified, imports them from the available
+ AMUSE modules and initializes them.
+ The CLT then links the modules together to allow interaction and updating
+ of the current state of the system using AMUSE channels.
+ Next the CLT loads the Logging and Diagnostic scripts specified by the
+ experiment file, linking it to the the particle list.
+ The CLT then runs through the timesteps specified in the experiment file,
+ evolving all of the modules loaded at each time step.
+ It will run the diagnostic scripts as well as logging on the intervals
  specified.
- After the model is done evolving it will output using whatever data analysis
- script listed, in the file format specified.
+ After the model is done evolving it will output using whatever diagnostic
+ scripts listed, in the format specified by the script.
  
 \end_layout
 
@@ -11400,11 +11524,11 @@ Using the CLT
 \end_layout
 
 \begin_layout Standard
-The command line tool will primarily be used by the GUI to send out jobs
- and run them to make the user experience much more enjoyable and at ease.
+The command line tool can be used by either a user or the GUI to send out
+ jobs and run them.
  The command line tool though can be used with a basic experiment file with
- some on the fly modifications by using some flags.(Satisfies requirement
- 2.4.1)
+ some on the fly modifications by using some flags.
+ (Satisfies requirement 2.4.1)
 \end_layout
 
 \begin_layout Subsubsection
@@ -12015,69 +12139,6 @@ The modules are cleaned up after being run.
 stop()
 \emph default
  command.
-\end_layout
-
-\begin_layout Section
-Experiment Generation
-\end_layout
-
-\begin_layout Subsection
-Overview
-\end_layout
-
-\begin_layout Standard
-Part of the framework includes generating the Python scripts that will run
- the experiment.
- Experiment generation by default will produce a script as defined in Section
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Command-Line-Tool"
-
-\end_inset
-
-.
- The user may customize this generation process by providing custom code
- that is run prior to module initialization, before, and after each timestep.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename UML/expgen.eps
-	width 70col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Experiment Generation
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section

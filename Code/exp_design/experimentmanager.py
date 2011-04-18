@@ -1,59 +1,263 @@
-from PyQt4.QtGui import QMainWindow, QFileDialog
-from PyQt4.QtCore import pyqtSlot
+#
+# experimentmanager.py
+#
+# Gabriel Schwartz
+# 2/11
+#
+# Team GPUnit - Senior Design 2011
+#
 
-from ui_experimentmanager import Ui_ExperimentManager
+import sys
+
+from amuse.support.units.si import *
+from amuse.support.units.units import *
+
+from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
+from PyQt4.QtCore import Qt, pyqtSlot
+
+from exp_management.Experiment import Experiment
+
+from gui.ui_experimentmanager import Ui_ExperimentManager
+
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
+from node import Node
 
 class ExperimentManager(QMainWindow):
-    managers = []
-    """Stores a list of opened experiment manager windows."""
+    """The experiment manager implements the logic that handles actions
+    performed by the user in the GUI."""
 
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
 
         self.ui = Ui_ExperimentManager()
+        """GUI Implementation"""
+
         self.ui.setupUi(self)
 
         self.editor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
+        for i in range(30):
+            self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
-        ExperimentManager.managers.append(self)
+        self.experiment = Experiment()
+        self.dirty = False
+        """Set to true if unsaved changes have been made."""
 
     @pyqtSlot()
-    def openManager(self):
-        parent = self.parentWidget()
-        if parent is None:
-            parent = self
+    def touch(self):
+        """Sets the dirty flag to true, used whenever a piece of data is
+        modified."""
+        self.dirty = True
 
-        m = ExperimentManager(self)
-        m.show()
+    def showDirtySaveBox(self):
+        box = QMessageBox()
+        box.setText("The experiment has unsaved changes.")
+        box.setInformativeText("Do you want to save them?")
+        box.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        box.setDefaultButton(QMessageBox.Save)
+        decision = box.exec_()
+
+        if decision == QMessageBox.Save:
+            if self.saveExperiment():
+                return True
+            else:
+                return False
+        elif decision == QMessageBox.Cancel:
+            return False
+
+        return True
+
+    @pyqtSlot()
+    def newExperiment(self):
+        pass
+
+    @pyqtSlot()
+    def openExperiment(self):
+        if self.dirty:
+            success = self.showDirtySaveBox()
+            if not success:
+                return
+
+        filename = QFileDialog.getOpenFileName(self, "Open experiment...")
+
+        if filename == "":
+            return False
+
+        try:
+            xml = ""
+            expFile = open(filename, "r")
+            for line in expFile:
+                xml += line
+
+            self.experiment = Experiment.fromXML(xml)
+            self.updateUiFromExperiment()
+            self.dirty = False
+            return True
+        except IOError as err:
+            QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
+                    )
+            return False
 
     @pyqtSlot()
     def saveExperiment(self):
-        QFileDialog.getSaveFileName(self, "Save experiment as...")
+        filename = QFileDialog.getSaveFileName(self, "Save experiment as...")
+        if filename == "":
+            return False
+        
+        try:
+            # TODO: this is wrong.
+            self.experiment.particlesPath = "particles.hdf5"
+
+            self.experiment.writeXMLFile(filename)
+            self.dirty = False
+            return True
+        except IOError as err:
+            QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
+                    )
+            return False
 
     def closeEvent(self, event):
-        ExperimentManager.managers.remove(self)
+        success = True
 
-        # If this was the last window to close, then close, otherwise ignore
-        # the event and hide.
-        if len(ExperimentManager.managers) == 0:
-            event.accept()
-        else:
-            event.ignore()
-            self.hide()
+        if self.dirty:
+            success = self.showDirtySaveBox()
+            if not success:
+                event.ignore()
+                return
+
+        event.accept()
 
     @pyqtSlot()
-    def toggleClusterView(self):
+    def showClusterView(self):
         if not self.clusterView.isVisible():
             self.clusterView.show()
-        else:
-            self.clusterView.hide()
 
     @pyqtSlot()
-    def toggleModuleEditor(self):
+    def showModuleEditor(self):
         if not self.editor.isVisible():
             self.editor.show()
+
+    @pyqtSlot()
+    def addInitCondition(self, initCond):
+        # TODO: this is wrong
+        self.experiment.initialConditions[initCond] = initCond.name + ".pkl"
+        self.ui.initCondList.addItem(initCond)
+        self.touch()
+
+    @pyqtSlot()
+    def removeInitCondition(self):
+        initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
+
+        del self.experiment.initialConditions[initCond]
+        self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
+        self.touch()
+
+    @pyqtSlot()
+    def addModule(self, module):
+        self.ui.moduleList.addItem(module)
+        self.experiment.modules.append(module)
+        self.touch()
+
+    @pyqtSlot()
+    def removeModule(self):
+        module = self.ui.moduleList.takeItem(self.ui.moduleList.currentRow())
+
+        self.experiment.modules.remove(module)
+        self.ui.modulesToolbox.ui.moduleList.addItem(module)
+        self.touch()
+
+    @pyqtSlot()
+    def nameChanged(self):
+        newName = str(self.ui.nameText.text())
+        if newName != "":
+            self.experiment.name = newName
+            self.touch()
         else:
-            self.editor.hide()
+            self.ui.nameText.setText(self.experiment.name)
+
+    def resetUi(self):
+        self.ui.moduleList.clear()
+        self.ui.initCondList.clear()
+        self.ui.nameText.setText("")
+
+        self.ui.startText.setText("")
+        self.ui.stopText.setText("")
+        self.ui.stepText.setText("")
+
+        self.ui.modulesToolbox.resetUi()
+
+    def updateUiFromExperiment(self):
+        self.resetUi()
+        self.ui.nameText.setText(self.experiment.name)
+
+        for module in self.experiment.modules:
+            moduleList = self.ui.modulesToolbox.ui.moduleList
+
+            self.ui.moduleList.addItem(module)
+            matches = moduleList.findItems(module.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                moduleList.setCurrentItem(matches[0])
+                moduleList.takeItem(moduleList.currentRow())
+
+        for initCond in self.experiment.initialConditions:
+            initCondList = self.ui.modulesToolbox.ui.initCondList
+
+            self.ui.initCondList.addItem(initCond)
+            matches = initCondList.findItems(initCond.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                initCondList.setCurrentItem(matches[0])
+                initCondList.takeItem(initCondList.currentRow())
+
+        self.ui.startText.setText(str(self.experiment.startTime.number))
+        self.ui.stopText.setText(str(self.experiment.stopTime.number))
+        self.ui.stepText.setText(str(self.experiment.timeStep.number))
+
+        unitString = str(self.experiment.timeUnit.unit)
+
+        self.ui.unitsText.setText(str(self.experiment.timeUnit))
+
+    @pyqtSlot()
+    def initCondDoubleclick(self, index):
+        initCond = self.ui.initCondList.item(index.row())
+        initCond.showSettingsDialog()
+
+    @pyqtSlot()
+    def modulesDoubleclick(self, index):
+        module = self.ui.moduleList.item(index.row())
+
+    @pyqtSlot()
+    def startChanged(self):
+        try:
+            self.experiment.startTime = (float(str(self.ui.startText.text())) |
+                    self.experiment.timeUnit)
+            self.touch()
+        except ValueError:
+            self.ui.startText.setText(str(self.experiment.startTime.number))
+
+    @pyqtSlot()
+    def stopChanged(self):
+        try:
+            self.experiment.stopTime = (float(str(self.ui.stopText.text())) |
+                    self.experiment.timeUnit)
+            self.touch()
+        except ValueError:
+            self.ui.stopText.setText(str(self.experiment.stopTime.number))
+
+    @pyqtSlot()
+    def stepChanged(self):
+        try:
+            self.experiment.timeStep = (float(str(self.ui.stepText.text())) |
+                    self.experiment.timeUnit)
+            self.touch()
+        except ValueError:
+            self.ui.stepText.setText(str(self.experiment.timeStep.number))
+
+    @pyqtSlot()
+    def unitChanged(self):
+        try:
+            unit = eval(str(self.ui.unitsText.text()))
+            self.experiment.timeUnit = unit
+            self.touch()
+        except (RuntimeError, NameError, AttributeError, SyntaxError):
+            self.ui.unitsText.setText(str(self.experiment.timeUnit))
