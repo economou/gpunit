@@ -94,7 +94,7 @@ class ExperimentManager(QMainWindow):
             self.updateUiFromExperiment()
             self.dirty = False
             return True
-        except IError as err:
+        except IOError as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
             return False
@@ -169,7 +169,7 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def nameChanged(self):
-        newName = self.ui.nameText.text()
+        newName = str(self.ui.nameText.text())
         if newName != "":
             self.experiment.name = newName
             self.touch()
@@ -214,11 +214,8 @@ class ExperimentManager(QMainWindow):
         self.ui.stepText.setText(str(self.experiment.timeStep.number))
 
         unitString = str(self.experiment.timeUnit.unit)
-        prefix = unitString[0]
-        unit = unitString[1:]
 
-        self.ui.prefixCombo.setCurrentIndex(self.ui.prefixCombo.findText(prefix))
-        self.ui.unitsCombo.setCurrentIndex(self.ui.unitsCombo.findText(unit))
+        self.ui.unitsText.setText(str(self.experiment.timeUnit))
 
     @pyqtSlot()
     def initCondDoubleclick(self, index):
@@ -228,3 +225,39 @@ class ExperimentManager(QMainWindow):
     @pyqtSlot()
     def modulesDoubleclick(self, index):
         module = self.ui.moduleList.item(index.row())
+
+    @pyqtSlot()
+    def startChanged(self):
+        try:
+            self.experiment.startTime = (float(str(self.ui.startText.text())) |
+                    self.experiment.timeUnit)
+            self.touch()
+        except ValueError:
+            self.ui.startText.setText(str(self.experiment.startTime.number))
+
+    @pyqtSlot()
+    def stopChanged(self):
+        try:
+            self.experiment.stopTime = (float(str(self.ui.stopText.text())) |
+                    self.experiment.timeUnit)
+            self.touch()
+        except ValueError:
+            self.ui.stopText.setText(str(self.experiment.stopTime.number))
+
+    @pyqtSlot()
+    def stepChanged(self):
+        try:
+            self.experiment.timeStep = (float(str(self.ui.stepText.text())) |
+                    self.experiment.timeUnit)
+            self.touch()
+        except ValueError:
+            self.ui.stepText.setText(str(self.experiment.timeStep.number))
+
+    @pyqtSlot()
+    def unitChanged(self):
+        try:
+            unit = eval(str(self.ui.unitsText.text()))
+            self.experiment.timeUnit = unit
+            self.touch()
+        except (RuntimeError, NameError, AttributeError, SyntaxError):
+            self.ui.unitsText.setText(str(self.experiment.timeUnit))

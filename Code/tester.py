@@ -30,6 +30,7 @@ if __name__ == '__main__':
     my_experiment.modules.append(Module.fromXML(module_str))
 #    gravity=Hermite()
     run_experiment(my_experiment)
+    print my_experiment.particles
 #    my_experiment.
 #    my_experiment.particles = Particles(2)
 #    my_experiment.particles[0].position = [0,0,0] | units.km

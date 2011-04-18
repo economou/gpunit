@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>554</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
         <bool>false</bool>
        </property>
        <attribute name="headerDefaultSectionSize">
-        <number>125</number>
+        <number>100</number>
        </attribute>
        <attribute name="headerMinimumSectionSize">
         <number>24</number>
@@ -42,22 +42,42 @@
        </attribute>
        <column>
         <property name="text">
-         <string>Position (x)</string>
+         <string>pos_x</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Position (z)</string>
+         <string>pos_y</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Position (y)</string>
+         <string>pos_z</string>
         </property>
        </column>
        <column>
         <property name="text">
          <string>Position Unit</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>vel_x</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>vel_y</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>vel_z</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Velocity Unit</string>
         </property>
        </column>
        <column>
@@ -70,29 +90,6 @@
          <string>Mass Unit</string>
         </property>
        </column>
-       <item>
-        <property name="text">
-         <string>px</string>
-        </property>
-        <property name="text">
-         <string>py</string>
-        </property>
-        <property name="text">
-         <string>pz</string>
-        </property>
-        <property name="text">
-         <string>pc</string>
-        </property>
-        <property name="text">
-         <string>1</string>
-        </property>
-        <property name="text">
-         <string>msun</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>
@@ -116,7 +113,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="removeParticle">
+      <widget class="QPushButton" name="removeParticleButton">
        <property name="maximumSize">
         <size>
          <width>32</width>
@@ -140,6 +137,27 @@
         </size>
        </property>
       </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Storage File:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="pathText">
+       <property name="text">
+        <string>customParticles.hdf5</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

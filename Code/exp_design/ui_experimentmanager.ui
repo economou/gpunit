@@ -302,50 +302,6 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Prefix:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="prefixCombo">
-          <property name="currentIndex">
-           <number>4</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>n</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>u</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>m</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>K</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>M</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>G</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item>
          <widget class="QLabel" name="unitsLabel">
           <property name="text">
            <string>Units:</string>
@@ -353,33 +309,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="unitsCombo">
-          <item>
-           <property name="text">
-            <string>yr</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>day</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>hr</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>min</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>s</string>
-           </property>
-          </item>
-         </widget>
+         <widget class="QLineEdit" name="unitsText"/>
         </item>
        </layout>
       </item>
@@ -393,7 +323,7 @@
      <x>0</x>
      <y>0</y>
      <width>690</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -690,7 +620,7 @@
    <sender>startText</sender>
    <signal>editingFinished()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>touch()</slot>
+   <slot>startChanged()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>219</x>
@@ -706,7 +636,7 @@
    <sender>stopText</sender>
    <signal>editingFinished()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>touch()</slot>
+   <slot>stopChanged()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>299</x>
@@ -722,42 +652,10 @@
    <sender>stepText</sender>
    <signal>editingFinished()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>touch()</slot>
+   <slot>stepChanged()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>378</x>
-     <y>370</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>prefixCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>touch()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>496</x>
-     <y>370</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>unitsCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>touch()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>631</x>
      <y>370</y>
     </hint>
     <hint type="destinationlabel">
@@ -798,6 +696,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>unitsText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>unitChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>623</x>
+     <y>375</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -814,5 +728,10 @@
   <slot>touch()</slot>
   <slot>initCondDoubleclick(QModelIndex)</slot>
   <slot>modulesDoubleclick(QModelIndex)</slot>
+  <slot>startChanged()</slot>
+  <slot>stopChanged()</slot>
+  <slot>stepChanged()</slot>
+  <slot>prefixChanged()</slot>
+  <slot>unitChanged()</slot>
  </slots>
 </ui>

@@ -45,7 +45,7 @@ class Experiment :
     '''Experiment class holds all relevant experiment data
     for an AMUSE simulation'''
 
-    def __init__(self, name = None) :
+    def __init__(self, name = "") :
         #Constructor initializes the experiment to default values
         self.name = name
         self.stopIsEnabled = True
@@ -126,9 +126,9 @@ class Experiment :
         
         timeElement = expElement.find("time")
         ret.timeUnit = eval(timeElement.get("units").strip())
-        ret.startTime = int(timeElement.get("start").strip()) | ret.timeUnit
-        ret.timeStep = int(timeElement.get("step").strip()) | ret.timeUnit
-        ret.stopTime = int(timeElement.get("end").strip()) | ret.timeUnit
+        ret.startTime = float(timeElement.get("start").strip()) | ret.timeUnit
+        ret.timeStep = float(timeElement.get("step").strip()) | ret.timeUnit
+        ret.stopTime = float(timeElement.get("end").strip()) | ret.timeUnit
 
         for moduleElement in expElement.findall("module"):
             moduleName = moduleElement.get("name").strip()
