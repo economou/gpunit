@@ -243,6 +243,12 @@
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="startBox">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="maximum">
            <double>1000000000.000000000000000</double>
           </property>
@@ -273,6 +279,12 @@
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="stopBox">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="maximum">
            <double>1000000000.000000000000000</double>
           </property>
@@ -303,6 +315,12 @@
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="stepBox">
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="maximum">
            <double>1000000000.000000000000000</double>
           </property>
@@ -728,6 +746,54 @@
     <hint type="sourcelabel">
      <x>378</x>
      <y>279</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>startChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stepBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>stepChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>513</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>stopChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>370</y>
     </hint>
     <hint type="destinationlabel">
      <x>344</x>
