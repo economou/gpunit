@@ -322,8 +322,10 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         '''
         filename = re.search("(?<=/)[\da-zA-Z]*\.py$",self.codeLocation).group(0)
 #        code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
+        print self.codeLocation
         if self.codeLocation[:5] == 'amuse':
             path = ".".join(self.codeLocation.split("/")[:-1])
+            print path,self.className
             exec("from "+path+" import "+self.className)
         else:
             sys.path.append(self.codeLocation.rstrip(filename))
