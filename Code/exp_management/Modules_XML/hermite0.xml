@@ -4,7 +4,7 @@
       using the Hermite integration scheme
    </description>
    <domain>Stellar Dynamics</domain>
-   <codeLocation>src/amuse/community/hermite0/interface.py</codeLocation>
+   <codeLocation>amuse/community/hermite0/interface.py</codeLocation>
    <className>Hermite</className>
    <isParallel>true</isParallel>
    <stoppingConditions>56</stoppingConditions>
