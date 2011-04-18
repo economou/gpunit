@@ -95,7 +95,7 @@ class ExperimentManager(QMainWindow):
 
             # TODO: THIS IS A BETA ONLY THING
             # NEED TO IMPLEMENT DIAGNOSTICS LIST
-            self.experiment.diagnostics[OpenGLDiagnostic("OpenGLDiagnostic", self)] = "GLDiagnostic.pkl"
+            #self.experiment.diagnostics[OpenGLDiagnostic("OpenGLDiagnostic")] = "GLDiagnostic.pkl"
 
             self.updateUiFromExperiment()
             self.dirty = False
@@ -187,9 +187,9 @@ class ExperimentManager(QMainWindow):
         self.ui.initCondList.clear()
         self.ui.nameText.setText("")
 
-        self.ui.startText.setText("")
-        self.ui.stopText.setText("")
-        self.ui.stepText.setText("")
+        self.ui.startBox.setValue(0.0)
+        self.ui.stopBox.setValue(0.0)
+        self.ui.stepBox.setValue(0.0)
 
         self.ui.modulesToolbox.resetUi()
 
@@ -215,49 +215,56 @@ class ExperimentManager(QMainWindow):
                 initCondList.setCurrentItem(matches[0])
                 initCondList.takeItem(initCondList.currentRow())
 
-        self.ui.startText.setText(str(self.experiment.startTime.number))
-        self.ui.stopText.setText(str(self.experiment.stopTime.number))
-        self.ui.stepText.setText(str(self.experiment.timeStep.number))
+        self.ui.startBox.setValue(self.experiment.startTime.number)
+        self.ui.stopBox.setValue(self.experiment.stopTime.number)
+        self.ui.stepBox.setValue(self.experiment.timeStep.number)
 
         unitString = str(self.experiment.timeUnit.unit)
 
         self.ui.unitsText.setText(str(self.experiment.timeUnit))
 
     @pyqtSlot()
-    def initCondDoubleclick(self, index):
-        initCond = self.ui.initCondList.item(index.row())
-        initCond.showSettingsDialog()
+    def initCondSettings(self, index = None):
+        if index is not None:
+            initCond = self.ui.initCondList.item(index.row())
+            initCond.showSettingsDialog()
+        else:
+            self.ui.initCondList.currentItem().showSettingsDialog()
 
     @pyqtSlot()
-    def modulesDoubleclick(self, index):
-        module = self.ui.moduleList.item(index.row())
+    def moduleSettings(self, index = None):
+        if index is not None:
+            module = self.ui.moduleList.item(index.row())
+            module.showSettingsDialog()
+        else:
+            self.ui.moduleList.currentItem().showSettingsDialog()
 
     @pyqtSlot()
     def startChanged(self):
         try:
-            self.experiment.startTime = (float(str(self.ui.startText.text())) |
+            self.experiment.startTime = (self.ui.startBox.value() |
                     self.experiment.timeUnit)
             self.touch()
         except ValueError:
-            self.ui.startText.setText(str(self.experiment.startTime.number))
+            self.ui.startBox.setValue(self.experiment.startTime.number)
 
     @pyqtSlot()
     def stopChanged(self):
         try:
-            self.experiment.stopTime = (float(str(self.ui.stopText.text())) |
+            self.experiment.stopTime = (self.ui.stopBox.value() |
                     self.experiment.timeUnit)
             self.touch()
         except ValueError:
-            self.ui.stopText.setText(str(self.experiment.stopTime.number))
+            self.ui.stopBox.setValue(self.experiment.stopTime.number)
 
     @pyqtSlot()
     def stepChanged(self):
         try:
-            self.experiment.timeStep = (float(str(self.ui.stepText.text())) |
+            self.experiment.timeStep = (self.ui.stepBox.value() |
                     self.experiment.timeUnit)
             self.touch()
         except ValueError:
-            self.ui.stepText.setText(str(self.experiment.timeStep.number))
+            self.ui.stepBox.setValue(self.experiment.timeStep.number)
 
     @pyqtSlot()
     def unitChanged(self):
