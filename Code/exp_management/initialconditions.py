@@ -1,6 +1,8 @@
+from PyQt4.QtCore import SIGNAL, SLOT, pyqtSlot, Qt
 from PyQt4.QtGui import QListWidgetItem 
 
 from amuse.support.units import units
+from amuse.support.data.core import Particles
 
 from amuse.ext.salpeter import SalpeterIMF 
 from amuse.ext.plummer import MakePlummerModel
@@ -17,9 +19,15 @@ class InitialCondition(QListWidgetItem):
         self.name = name
         self.setText(self.name)
 
+    def showSettingsDialog(self):
+        pass
+
 class MassDistribution(InitialCondition):
     def __init__(self, name):
         InitialCondition.__init__(self, name)
+
+    def getMassList(self):
+        pass
 
     def __reduce__(self):
         return (MassDistribution, (self.name,), self.__dict__)
@@ -28,19 +36,59 @@ class ParticleDistribution(InitialCondition):
     def __init__(self, name):
         InitialCondition.__init__(self, name)
 
+    def getParticleList(self):
+        pass
+
     def __reduce__(self):
         return (ParticleDistribution, (self.name,), self.__dict__)
 
+from exp_design.gui.ui_particlesettings import Ui_ParticleSettingsDialog
+from PyQt4.QtGui import QDialog, QTreeWidgetItem
+
+class CustomParticles(ParticleDistribution):
+    def __init__(self, numParticles, particles = None):
+        ParticleDistribution.__init__(self, "CustomParticles")
+
+        self.dialog = QDialog()
+        self.ui = Ui_ParticleSettingsDialog()
+        self.ui.setupUi(self.dialog)
+
+        self.dialog.connect(self.ui.particlesTree, SIGNAL("doubleClicked(QModelIndex)"), self.treeDblClick)
+
+        if particles is None:
+            self.particles = Particles(0)
+        else:
+            self.particles = particles
+
+    @pyqtSlot()
+    def treeDblClick(self, index):
+        item = self.ui.particlesTree.itemFromIndex(index)
+        self.ui.particlesTree.editItem(item, index.column())
+
+    def setupDialog(self):
+        item = QTreeWidgetItem(("1", "2", "3", "4", "5", "6"))
+        item.setFlags(item.flags() | Qt.ItemIsEditable)
+        self.ui.particlesTree.addTopLevelItem(item)
+
+    def showSettingsDialog(self):
+        self.setupDialog()
+
+        original = self.particles.copy()
+
+        result = self.dialog.exec_()
+        if result == QDialog.Rejected:
+            self.particles = original
+
 class SalpeterModel(MassDistribution):
     def __init__(self, numParticles, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
-        MassDistribution.__init__(self, "Saltpeter Model")
+        MassDistribution.__init__(self, "SaltpeterModel")
 
         self.numParticles = numParticles
         self.mass_min = mass_min
         self.mass_max = mass_max
         self.alpha = alpha
 
-    def getMasses(self):
+    def getMassList(self):
         return SalpeterIMF(self.mass_min,self.mass_max,alpha).next_set(self.numParticles)
         
     def getMassMin(self):
@@ -64,7 +112,7 @@ class SalpeterModel(MassDistribution):
 class PlummerModel(ParticleDistribution):
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = None,
             mass_cutoff = None, do_scale = False, random_state = None):
-        ParticleDistribution.__init__(self, "Plummer Model")
+        ParticleDistribution.__init__(self, "PlummerModel")
 
         self.numParticles = numParticles
         self.convert_nbody = convert_nbody
@@ -79,47 +127,11 @@ class PlummerModel(ParticleDistribution):
         return MakePlummerModel(self.numParticles,self.convert_nbody,
             self.radius_cutoff,self.mass_cutoff,self.do_scale,self.random_state).result
 
-    def getNumParticles(self):
-        return self.numParticles
-
-    def setNumParticles(self, numParticles):
-        self.numParticles = numParticles
-
-    def getConvertNbody(self):
-        return self.convert_nbody
-
-    def setConvertNbody(self, convert_nbody):
-        self.convert_nbody = convert_nbody
-
-    def getRadiusCutoff(self):
-        return self.radius_cutoff
-
-    def setRadiusCutoff(self, radius_cutoff):
-        self.radius_cutoff = radius_cutoff
-
-    def getMassCutoff(self):
-        return self.mass_cutoff
-
-    def setMassCutoff(self, mass_cutoff):
-        self.mass_cutoff = mass_cutoff
-
-    def getDoScale(self):
-        return self.do_scale
-
-    def setDoScale(self, do_scale):
-        self.do_scale = do_scale
-
-    def getRandomState(self):
-        return self.random_state
-
-    def setRandomState(self, random_state):
-        self.random_state = random_state
-
 class KingModel(ParticleDistribution):
 
     def __init__(self, number_of_particles, W0 = 0.0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
-        ParticleDistribution.__init__(self, "King Model")
+        ParticleDistribution.__init__(self, "KingModel")
 
         self.number_of_particles = number_of_particles
         self.W0 = W0
@@ -135,39 +147,8 @@ class KingModel(ParticleDistribution):
         return MakeKingModel(self.numParticles,self.W0,self.convert_nbody,
             self.do_scale,self.beta,self.seed,self.verbose).result
 
-    def getNumParticles(self):
-        return self.numParticles
-
-    def setNumParticles(self, numParticles):
-        self.numParticles = numParticles
-
-    def getConvertNbody(self):
-        return self.convert_nbody
-
-    def setConvertNbody(self, convert_nbody):
-        self.convert_nbody = convert_nbody
-
-    def enableDoScale(self):
-        self.do_scale = True
-
-    def disableDoScale(self):
-        self.do_scale = False
-
-    def getBeta(self):
-        return self.beta
-
-    def setBeta(self, beta):
-        self.beta = beta
-
-    def getSeed(self):
-        return self.seed
-
-    def setSeed(self, seed):
-        self.seed = seed
-
     def enableVerbose(self):
         self.verbose = True
 
     def disableVerbose(self):
         self.verbose = False
-
