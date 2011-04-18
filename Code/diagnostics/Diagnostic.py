@@ -27,7 +27,7 @@ class Diagnostic :
 		'''Gets the name of the Diagnostic.'''
 		return self.name
 
-	def shouldUpdate(state) :
+	def shouldUpdate(time,state) :
 		'''Returns a boolean indicating whether this diagnostic should
 		be updated given the current experiment state.'''
 		bUpdate = True

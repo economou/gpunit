@@ -72,7 +72,7 @@ def initialization(experiment):
     #Loop through all Initial Conditions
     for ic in experiment.initial_conditions:
         #If Initial Conditionis Mass Distribution set last set to have this mass
-        if ic isinstance(MassDistribution):
+        if isinstance(ic, MassDistribution):
             last_set = MassDistribution
             particle_sets[-1].mass = ic.getScaledMass()
         #If Inititial Conditions is Particle Distribution append the new Particles object
@@ -129,8 +129,8 @@ def run_experiment(experiment):
     	            channel.copy()
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
-            if diagnostic.shouldUpdate(None):
-                diagnostic.update(particles)
+            if diagnostic.shouldUpdate(particles):
+                diagnostic.update(time,particles)
             
         #Run Logging Scripts
         for logger in experiment.loggers:
