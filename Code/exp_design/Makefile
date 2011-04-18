@@ -11,6 +11,7 @@ PY_UI_FILES = gui/ui_modulestoolbox.py \
 		  gui/ui_experimentmanager.py \
 		  gui/ui_moduleeditor.py \
 		  gui/ui_nodeinfodialog.py \
+		  gui/ui_particlesettings.py \
 		  gui/ui_node.py
 
 all : $(PY_UI_FILES) $(PY_FILES)

@@ -99,6 +99,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>initCondList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ModulesToolBox</receiver>
+   <slot>addInitCond()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>90</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>moduleList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ModulesToolBox</receiver>
+   <slot>addModule()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>initCondAdded(PyQt_PyObject)</signal>
