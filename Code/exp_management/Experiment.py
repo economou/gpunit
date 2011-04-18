@@ -19,6 +19,8 @@ import cPickle
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
 
+import amuse.support.io
+from amuse.support.data.core import Particles
 from amuse.support.units import units
 from amuse.support.units.si import *
 from amuse.support.units.units import *
@@ -48,7 +50,7 @@ class Experiment :
         self.name = name
         self.stopIsEnabled = True
         self.modules = []
-        self.particles = None
+        self.particles = Particles(0)
         self.particlesPath = ""
         self.diagnostics = []
         self.loggers = []
@@ -59,7 +61,6 @@ class Experiment :
         self.timeStep  = defaultTimeStep  | self.timeUnit
 
     def writeXMLFile(self,fileName) :
-    
         # Create <experiment> XML element and set its attributes
         experiment = etree.Element("experiment", attrib = {"name" : self.name, "stopEnabled" : str(self.stopIsEnabled)})
         
@@ -83,10 +84,9 @@ class Experiment :
 
             etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic[1]})
 
-        etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
-        particlesFile = open(self.particlesPath, "w")
-        cPickle.dump(self.particles, particlesFile)
-        particlesFile.close()
+        if len(self.particles) > 0:
+            etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
+            amuse.support.io.write_set_to_file(self.particles, self.particlesPath, "hdf5")
 
         for diag in self.diagnostics :
             etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag[1]})
@@ -155,10 +155,7 @@ class Experiment :
         particlesElement = expElement.find("particle")
         if particlesElement is not None:
             self.particlesPath = particlesElement.get("file").strip()
-
-            particlesFile = open(self.particlesPath, 'r')
-            self.particles = cPickle.load(particlesFile)
-            particlesFile.close()
+            self.particles = amuse.support.io.read_set_from_file(particlesPath, "hdf5")
 
         return
         
@@ -213,7 +210,7 @@ class Experiment :
 
     def addParticle(self, particle) :
         #Adds the given particle to the particle list
-        self.particles.append(particle)
+        self.particles.add_particle(particle)
 
     def removeParticle(self, particle) :
         #Removes the given particle from the particle list
