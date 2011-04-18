@@ -202,7 +202,7 @@ class SalpeterModel(MassDistribution):
         self.alpha = alpha
 
     def getMassList(self):
-        return SalpeterIMF(self.mass_min,self.mass_max,alpha).next_set(self.numParticles)
+        return SalpeterIMF(self.mass_min, self.mass_max, self.alpha).next_set(self.numParticles)
         
     def getMassMin(self):
         return self.mass_min
@@ -223,8 +223,8 @@ class SalpeterModel(MassDistribution):
         self.alpha = alpha
 
 class PlummerModel(ParticleDistribution):
-    def __init__(self, numParticles, convert_nbody = None, radius_cutoff = None,
-            mass_cutoff = None, do_scale = False, random_state = None):
+    def __init__(self, numParticles, convert_nbody = None, radius_cutoff = 1.0,
+            mass_cutoff = 1.0, do_scale = False, random_state = None):
         ParticleDistribution.__init__(self, "PlummerModel")
 
         self.numParticles = numParticles
