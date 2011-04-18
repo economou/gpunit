@@ -12,7 +12,10 @@
 #
 
 from exp_management.Experiment import Experiment
-from exp_management.InitialCondition import MassDistribution, ParticleDistribution
+
+from amuse.support.units import nbody_system
+from amuse.support.units import units 
+from exp_management.initialconditions import MassDistribution, ParticleDistribution
 def parse_flags():
     import getopt
     import sys
@@ -70,7 +73,7 @@ def initialization(experiment):
     particle_sets = []
     last_set = None
     #Loop through all Initial Conditions
-    for ic in experiment.initial_conditions:
+    for ic in experiment.initialConditions:
         #If Initial Conditionis Mass Distribution set last set to have this mass
         if isinstance(ic, MassDistribution):
             last_set = MassDistribution
@@ -82,23 +85,23 @@ def initialization(experiment):
     
     #union all of the Particles sets together
     if len(particle_sets)-1:
-        for p in particle_set[1:]:
-            particle_set[0].add_particles(p)
-    particles = particle_set[0] 
+        for p in particle_sets[1:]:
+            particle_sets[0].add_particles(p)
+    particles = particle_sets[0] 
         
     #Get Modules actual class values
-    modules = [mod.result for mod in experiment.modules()]
+    modules = [mod.result() for mod in experiment.modules]
     
     #Total mass used for conversion object
-    total_mass = reduce(lambda x,y:x+y, particles.mass)
+#    total_mass = reduce(lambda x,y:x+y, particles.mass)
     
     #Create Conversion Object
-    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
+#    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
     
     #Add Particles to Module
     for module in modules:
         module.particles.add_particles(experiment.particles)
-    
+    convert_nbody = None
     return modules, particles, convert_nbody
 
 def run_experiment(experiment):
@@ -129,20 +132,20 @@ def run_experiment(experiment):
     	            channel.copy()
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
-            if diagnostic.shouldUpdate(particles):
+            if diagnostic.shouldUpdate(time, particles):
                 diagnostic.update(time,particles)
             
         #Run Logging Scripts
         for logger in experiment.loggers:
-            logger.logData(experiment.particles)
+            logger.logData(particles)
             
         #Increment Time
         time += dt
         
     #Run Closing Diagnostic Scripts
     for diagnostic in experiment.diagnostics:
-        if diagnostic.shouldUpdate(None):
-            diagnostic.update(experiment.particles)
+        if diagnostic.shouldUpdate(time,particles):
+            diagnostic.update(time,particles)
     #Run Closing Logging Scripts
     for logger in experiment.loggers:
          logger.logData(experiment.particles)

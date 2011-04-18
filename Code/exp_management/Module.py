@@ -32,29 +32,28 @@ class Module(QListWidgetItem, QTreeWidgetItem):
     interface.'''
     
     # Constructor
-    def __init__(self, name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, parameters,classname = None):
+    def __init__(self, name, description, domain, className, codeLocation, isParallel, stoppingConditions, parameters,classname = None):
         '''Initializes a new Module with the given instance data.
         
         Parameters:
           name -- The full name of the module.
           description -- A description of the module's purpose (in other words, the calculations performed by the module).
           domain -- The astrophysical domain into which the module has been sorted.
-          codeName -- The name of the AMUSE class containing the module code.
+          className -- The name of the AMUSE class containing the module code.
           codeLocation -- The location of the AMUSE module code.
           isParallel -- Whether the module's calculations can be parallelized across multiple workers by MPI.
           stoppingConditions -- The condition(s) under which the module may stop executing prematurely.
           parameters -- The module parameters.  These module-specific values may be modified prior to running the experiment in order to fine-tune the module's behavior.
           classname -- The name of the class inside the AMUSE module one will be using.'''
-        
+
         self.name = name
         self.description = description
         self.domain = domain
-        self.codeName = codeName
         self.codeLocation = codeLocation
         self.isParallel = isParallel
         self.stoppingConditions = stoppingConditions
         self.parameters = parameters
-        self.className  = classname
+        self.className  = className
 
         # Set up the module's name so that it can be displayed in GUI list      
         # boxes.
@@ -73,11 +72,11 @@ class Module(QListWidgetItem, QTreeWidgetItem):
           <domain>
             Stellar Dynamics
           </domain>
-          <codeName>
-            example.py
-          </codeName>
+          <className>
+            Example
+          </className>
           <codeLocation>
-            src/amuse/community/example
+            src/amuse/community/example/example.py
           </codeLocation>
           <isParallel>
             false
@@ -104,8 +103,8 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         domain = etree.SubElement(module, "domain")
         domain.text = self.domain
         
-        codeName = etree.SubElement(module, "codeName")
-        codeName.text = self.codeName
+        className = etree.SubElement(module, "className")
+        className.text = self.className
         
         codeLocation = etree.SubElement(module, "codeLocation")
         codeLocation.text = self.codeLocation
@@ -143,13 +142,13 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         
         description        = moduleElement.find("description").text.strip()
         domain             = moduleElement.find("domain").text.strip()
-        codeName           = moduleElement.find("codeName").text.strip()
+        className          = moduleElement.find("className").text.strip()
         codeLocation       = moduleElement.find("codeLocation").text.strip()
         isParallel         = eval(moduleElement.find("isParallel").text.strip().title())  # Evaluate string as boolean
         stoppingConditions = int(moduleElement.find("stoppingConditions").text.strip())  # Parse integer from string.
         
         # Create the Module
-        module = Module(name, description, domain, codeName, codeLocation, isParallel, stoppingConditions, [])
+        module = Module(name, description, domain, className, codeLocation, isParallel, stoppingConditions, [])
         
         # Iterate through Parameter elements and add Parameters to the Module
         for parameterElement in moduleElement.findall("Parameter"):
@@ -230,21 +229,21 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         
         self.domain = domain
     
-    def getCodeName(self):
+    def getClassName(self):
         '''Returns the name of the module's associated AMUSE class.
         
         Output:
           The name of the AMUSE class containing this module's code.'''
         
-        return self.codeName
+        return self.className
     
-    def setCodeName(self, codeName):
+    def setClassName(self, className):
         '''Updates this module's code reference to the given argument.
         
         Parameters:
-          codeName -- The name of an AMUSE class containing this module's code.'''
+          className -- The name of an AMUSE class containing this module's code.'''
         
-        self.codeName = codeName
+        self.className = className
     
     def getCodeLocation(self):
         '''Returns the location of the module's AMUSE code.
@@ -323,9 +322,16 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         '''
         filename = re.search("(?<=/)[\da-zA-Z]*\.py$",self.codeLocation).group(0)
 #        code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
-        sys.path.append(self.codeLocation.rstrip(filename))
-        exec("from "+filename.rstrip(".py")+" import "+self.className)
-        
+        print self.codeLocation
+        if self.codeLocation[:5] == 'amuse':
+            path = ".".join(self.codeLocation.split("/"))[:-3]
+            print path,self.className
+            exec("from "+path+" import "+self.className)
+            print 
+        else:
+            sys.path.append(self.codeLocation.rstrip(filename))
+            exec("from "+filename.rstrip(".py")+" import "+self.className)
+            
         exec("r_val = %s"%str(self.className))
         return r_val
 
