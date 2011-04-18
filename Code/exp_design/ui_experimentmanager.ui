@@ -34,7 +34,13 @@
      <number>5</number>
     </property>
     <item>
-     <widget class="ModulesToolbox" name="widget" native="true">
+     <widget class="ModulesToolbox" name="modulesToolbox" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>150</width>
@@ -50,69 +56,264 @@
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="frame">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="rightMargin">
+       <number>10</number>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="1">
-        <widget class="QListWidget" name="listWidget">
-         <item>
-          <property name="text">
-           <string>Initial Condition Model #1</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Initial Conditions:</string>
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QListWidget" name="listWidget_2">
-         <item>
-          <property name="text">
-           <string>Hydrodynamics Module (Fast)</string>
-          </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="nameLabel">
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
          </item>
-         <item>
-          <property name="text">
-           <string>Stellar Evolution Module (Fast)</string>
-          </property>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="nameText"/>
          </item>
-         <item>
-          <property name="text">
-           <string>Gravitational Dynamics Module (Tree)</string>
-          </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="initCondLabel">
+           <property name="text">
+            <string>Initial Conditions:</string>
+           </property>
+          </widget>
          </item>
-         <item>
-          <property name="text">
-           <string>Radiative Transfer Module (Fast)</string>
-          </property>
+         <item row="1" column="1">
+          <widget class="QListWidget" name="initCondList"/>
          </item>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Modules:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QToolButton" name="removeInitButton">
+             <property name="minimumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="initSettingsButton">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Settings...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="moduleLabel">
+           <property name="text">
+            <string>Modules:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QListWidget" name="moduleList"/>
+         </item>
+         <item row="5" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QToolButton" name="removeModuleButton">
+             <property name="minimumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="moduleSettingsButton">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Settings...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="startLabel">
+          <property name="text">
+           <string>Start:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="startText">
+          <property name="maximumSize">
+           <size>
+            <width>64</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="stopLabel">
+          <property name="text">
+           <string>Stop:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="stopText">
+          <property name="maximumSize">
+           <size>
+            <width>64</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="stepLabel">
+          <property name="text">
+           <string>Step:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="stepText">
+          <property name="maximumSize">
+           <size>
+            <width>64</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="unitsLabel">
+          <property name="text">
+           <string>Units:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="unitsText"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -122,13 +323,14 @@
      <x>0</x>
      <y>0</y>
      <width>690</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionNew_Experiment"/>
     <addaction name="actionOpen_Experiment"/>
     <addaction name="actionSave_Experiment"/>
@@ -139,13 +341,14 @@
    </widget>
    <widget class="QMenu" name="menuRun">
     <property name="title">
-     <string>Run</string>
+     <string>&amp;Run</string>
     </property>
+    <addaction name="actionView_Cluster"/>
     <addaction name="actionRun_Experiment"/>
    </widget>
    <widget class="QMenu" name="menuModules">
     <property name="title">
-     <string>Modules</string>
+     <string>&amp;Modules</string>
     </property>
     <addaction name="actionImport_Module"/>
     <addaction name="actionEdit_Modules"/>
@@ -157,7 +360,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen_Experiment">
    <property name="text">
-    <string>Open Experiment...</string>
+    <string>&amp;Open Experiment...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -168,7 +371,7 @@
   </action>
   <action name="actionNew_Experiment">
    <property name="text">
-    <string>New Experiment...</string>
+    <string>&amp;New Experiment...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -176,7 +379,7 @@
   </action>
   <action name="actionSave_Experiment">
    <property name="text">
-    <string>Save Experiment</string>
+    <string>&amp;Save Experiment</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -184,7 +387,7 @@
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>Close</string>
+    <string>&amp;Close</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
@@ -192,7 +395,7 @@
   </action>
   <action name="actionRun_Experiment">
    <property name="text">
-    <string>Run Experiment</string>
+    <string>&amp;Run Experiment</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -200,7 +403,7 @@
   </action>
   <action name="actionExport_experiment">
    <property name="text">
-    <string>Export Experiment...</string>
+    <string>E&amp;xport Experiment...</string>
    </property>
   </action>
   <action name="actionImport_Module">
@@ -216,14 +419,23 @@
     <string>Ctrl+M</string>
    </property>
   </action>
+  <action name="actionView_Cluster">
+   <property name="text">
+    <string>&amp;View Cluster...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>ModulesToolbox</class>
    <extends>QWidget</extends>
-   <header>modulestoolbox</header>
+   <header>..modulestoolbox</header>
    <container>1</container>
+   <slots>
+    <signal>initCondAdded(PyQt_PyObject)</signal>
+    <signal>moduleAdded(PyQt_PyObject)</signal>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -248,7 +460,7 @@
    <sender>actionOpen_Experiment</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>openManager()</slot>
+   <slot>openExperiment()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -261,10 +473,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionRun_Experiment</sender>
+   <sender>actionView_Cluster</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>toggleClusterView()</slot>
+   <slot>showClusterView()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -280,7 +492,7 @@
    <sender>actionEdit_Modules</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
-   <slot>toggleModuleEditor()</slot>
+   <slot>showModuleEditor()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -292,10 +504,234 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSave_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>saveExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNew_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>newExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>removeInitButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>removeInitCondition()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>removeModuleButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>removeModule()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modulesToolbox</sender>
+   <signal>moduleAdded(PyQt_PyObject)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>addModule(PyQt_PyObject)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modulesToolbox</sender>
+   <signal>initCondAdded(PyQt_PyObject)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>addInitCondition(PyQt_PyObject)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>nameText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>nameChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>484</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>startChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>stopChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>299</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stepText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>stepChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>378</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>initCondList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>initCondDoubleclick(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>moduleList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>modulesDoubleclick(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>unitsText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>unitChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>623</x>
+     <y>375</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>openManager()</slot>
-  <slot>toggleClusterView()</slot>
-  <slot>toggleModuleEditor()</slot>
+  <slot>openExperiment()</slot>
+  <slot>showClusterView()</slot>
+  <slot>showModuleEditor()</slot>
+  <slot>loadExperiment()</slot>
+  <slot>saveExperiment()</slot>
+  <slot>newExperiment()</slot>
+  <slot>addInitCondition(PyQt_PyObject)</slot>
+  <slot>addModule(PyQt_PyObject)</slot>
+  <slot>removeInitCondition()</slot>
+  <slot>removeModule()</slot>
+  <slot>nameChanged()</slot>
+  <slot>touch()</slot>
+  <slot>initCondDoubleclick(QModelIndex)</slot>
+  <slot>modulesDoubleclick(QModelIndex)</slot>
+  <slot>startChanged()</slot>
+  <slot>stopChanged()</slot>
+  <slot>stepChanged()</slot>
+  <slot>prefixChanged()</slot>
+  <slot>unitChanged()</slot>
  </slots>
 </ui>
