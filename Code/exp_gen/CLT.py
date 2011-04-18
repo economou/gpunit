@@ -77,7 +77,7 @@ def initialization(experiment):
         #If Initial Conditionis Mass Distribution set last set to have this mass
         if isinstance(ic, MassDistribution):
             last_set = MassDistribution
-            particle_sets[-1].mass = ic.getScaledMass()
+            particle_sets[-1].mass = ic.getMassList()
         #If Inititial Conditions is Particle Distribution append the new Particles object
         else:
             last_set = ParticleDistribution
