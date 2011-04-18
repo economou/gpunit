@@ -17,7 +17,7 @@
         </defaultValue>
 		<Units>
 			<description>length squared</description>
-			<symbolicDescription>length*length</description>
+			<symbolicDescription>length*length</symbolicDescription>
 			<Unit type="Length" exponent="2"/>
 		</Units>
    </Parameter>
@@ -30,6 +30,7 @@
         </defaultValue>
         <Units>
             <description>none</description>
+            <symbolicDescription>none</symbolicDescription>
             <Unit type="None" exponent="1"/>
         </Units>
    </Parameter>
@@ -42,6 +43,7 @@
         </defaultValue>
         <Units>
             <description>time</description>
+            <symbolicDescription>time</symbolicDescription>
             <Unit type="Time" exponent="1"/>
         </Units>
    </Parameter>
@@ -54,6 +56,7 @@
         </defaultValue>
         <Units>
             <description>time</description>
+            <symbolicDescription>time</symbolicDescription>
             <Unit type="Time" exponent="1"/>
         </Units>
    </Parameter>
@@ -66,6 +69,7 @@
         </defaultValue>
         <Units>
             <description>none</description>
+            <symbolicDescription>none</symbolicDescription>
             <Unit type="None" exponent="1"/>
         </Units>
    </Parameter>
