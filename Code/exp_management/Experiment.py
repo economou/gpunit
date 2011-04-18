@@ -146,12 +146,13 @@ class Experiment :
             self.diagnosticPaths.append(path)
             self.diagnostics.append(diag)
 
-        particlesElement = expElement.findall("particle")[0]
-        self.particlesPath = particlesElement.get("file").strip()
+        particlesElement = expElement.find("particle")
+        if particlesElement is not None:
+            self.particlesPath = particlesElement.get("file").strip()
 
-        particlesFile = open(self.particlesPath, 'r')
-        self.particles = cPickle.load(particlesFile)
-        particlesFile.close()
+            particlesFile = open(self.particlesPath, 'r')
+            self.particles = cPickle.load(particlesFile)
+            particlesFile.close()
 
         return
         
