@@ -64,10 +64,13 @@ class CustomParticles(ParticleDistribution):
             self.particles = Particles(0)
         else:
             self.particles = read_set_from_file(particlesPath, "hdf5")
+            self.numParticles = len(self.particles)
             self.particlesPath = particlesPath
             self.ui.pathText.setText(self.particlesPath)
 
     def __reduce__(self):
+        write_set_to_file(self.particles, self.particlesPath, "hdf5")
+
         pickleDict = self.__dict__.copy()
 
         del pickleDict["particles"]
@@ -82,7 +85,27 @@ class CustomParticles(ParticleDistribution):
     def __setstate__(self, state):
         self.__dict__ = dict(self.__dict__, **state)
 
-        self.particles = read_set_from_file(self.particlesPath, "hdf5")
+        particles = read_set_from_file(self.particlesPath, "hdf5")
+        self.particles = Particles(len(particles))
+        self.numParticles = len(particles)
+
+        try:
+            positionUnit = eval(self.positionUnit)
+            massUnit = eval(self.massUnit)
+            radiusUnit = eval(self.radiusUnit)
+            velUnit = eval(self.velUnit)
+        except AttributeError:
+            positionUnit = AU
+            massUnit = MSun
+            radiusUnit = AU
+            velUnit = km/s
+
+        for i in range(len(particles)):
+            self.particles[i].position = particles[i].position.as_quantity_in(positionUnit)
+            self.particles[i].mass = particles[i].mass.as_quantity_in(massUnit)
+            self.particles[i].velocity = particles[i].velocity.as_quantity_in(velUnit)
+            self.particles[i].radius = particles[i].radius.as_quantity_in(radiusUnit)
+
         self.ui.pathText.setText(self.particlesPath)
 
     @pyqtSlot()
@@ -187,7 +210,12 @@ class CustomParticles(ParticleDistribution):
         if(allGood):
             del self.particles
             self.particles = newParticles
-            write_set_to_file(self.particles, self.particlesPath, "hdf5")
+
+            self.positionUnit = posUnit
+            self.massUnit = massUnit
+            self.radiusUnit = radiusUnit
+            self.velUnit = velUnit
+
             self.numParticles = len(self.particles)
 
         self.ui.particlesTree.clear()
