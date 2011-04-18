@@ -52,9 +52,9 @@ class Experiment :
         self.modules = []
         self.particles = Particles(0)
         self.particlesPath = ""
-        self.diagnostics = []
-        self.loggers = []
-        self.initialConditions = []
+        self.diagnostics = {}
+        self.loggers = {}
+        self.initialConditions = {}
         self.timeUnit  = defaultTimeUnit
         self.startTime = defaultStartTime | self.timeUnit
         self.stopTime  = defaultStopTime  | self.timeUnit
@@ -77,22 +77,36 @@ class Experiment :
         for module in self.modules :
             etree.SubElement(experiment, "module", attrib = {"name" : module.name})
 
-        for ic in self.initialConditions :
-            icFile = open(ic[1], "w")
-            cPickle.dump(ic[0], icFile)
+        for ic in self.initialConditions:
+            path = self.initialConditions[ic]
+
+            icFile = open(path, "w")
+            cPickle.dump(ic, icFile)
             icFile.close()
 
-            etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic[1]})
+            etree.SubElement(experiment, "initialCondition", attrib = {"file" : path})
 
         if len(self.particles) > 0:
             etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
             amuse.support.io.write_set_to_file(self.particles, self.particlesPath, "hdf5")
 
-        for diag in self.diagnostics :
-            etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag[1]})
+        for diag in self.diagnostics:
+            path = self.diagnostics[diag]
 
-        for logger in self.loggers :
-            etree.SubElement(experiment, "logger", attrib = {"file" : logger[1]})
+            diagFile = open(path, "w")
+            cPickle.dump(diag, diagFile)
+            diagFile.close()
+
+            etree.SubElement(experiment, "diagnostic", attrib = {"file" : path})
+
+        for logger in self.loggers:
+            path = self.loggers[logger]
+
+            loggerFile = open(path, "w")
+            cPickle.dump(diag, loggerFile)
+            loggerFile.close()
+
+            etree.SubElement(experiment, "logger", attrib = {"file" : path})
         
         uglyXml = xml.dom.minidom.parseString(etree.tostring(experiment, encoding = XML_ENCODING))
         
@@ -132,7 +146,7 @@ class Experiment :
             initCond = cPickle.load(initCondFile)
             initCondFile.close()
 
-            self.initialConditions.append((initCond, path))
+            self.initialConditions[initCond] = path
         
         for loggerElement in expElement.findall("logger"):
             path = loggerElement.get("file").strip()
@@ -141,7 +155,7 @@ class Experiment :
             logger = cPickle.load(loggerFile)
             loggerFile.close()
 
-            self.loggers.append((logger, path))
+            self.loggers[logger] = path
 
         for diagnosticElement in expElement.findall("diagnostic"):
             path = diagnosticElement.get("file").strip()
@@ -150,7 +164,7 @@ class Experiment :
             diag = cPickle.load(diagnosticFile)
             diagnosticFile.close()
 
-            self.diagnostics.append((diag, path))
+            self.diagnostics[diag] = path
 
         particlesElement = expElement.find("particle")
         if particlesElement is not None:
