@@ -92,7 +92,11 @@ class ExperimentManager(QMainWindow):
                 xml += line
 
             self.experiment = Experiment.fromXML(xml)
+
+            # TODO: THIS IS A BETA ONLY THING
+            # NEED TO IMPLEMENT DIAGNOSTICS LIST
             self.experiment.diagnostics[OpenGLDiagnostic("OpenGLDiagnostic", self)] = "GLDiagnostic.pkl"
+
             self.updateUiFromExperiment()
             self.dirty = False
             return True
@@ -266,9 +270,4 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def runExperiment(self):
-        #self.experiment.particles = self.experiment.initialConditions.keys()[0].getParticleList()
-
-        key = self.experiment.diagnostics.keys()[0]
-        key.update(0,self.experiment.particles)
-
         run_experiment(self.experiment)
