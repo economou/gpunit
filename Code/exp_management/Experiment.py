@@ -84,8 +84,9 @@ class Experiment :
 
             etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic[1]})
 
-        etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
-        amuse.support.io.write_set_to_file(self.particles, self.particlesPath, "hdf5")
+        if len(self.particles) > 0:
+            etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
+            amuse.support.io.write_set_to_file(self.particles, self.particlesPath, "hdf5")
 
         for diag in self.diagnostics :
             etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag[1]})
