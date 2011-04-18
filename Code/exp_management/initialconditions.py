@@ -1,12 +1,15 @@
 from PyQt4.QtCore import SIGNAL, SLOT, pyqtSlot, Qt
 from PyQt4.QtGui import QListWidgetItem 
 
-from amuse.support.units import units
-from amuse.support.data.core import Particles
+from amuse.support.units.generic_unit_converter import ConvertBetweenGenericAndSiUnits
+from amuse.support.units.units import *
+from amuse.support.units.si import *
+from amuse.support.data.core import Particle, Particles, ParticlesWithUnitsConverted
 
 from amuse.ext.salpeter import SalpeterIMF 
 from amuse.ext.plummer import MakePlummerModel
 from amuse.ext.kingmodel import MakeKingModel
+from amuse.support.io import write_set_to_file, read_set_from_file
 
 class InitialCondition(QListWidgetItem):
     def __init__(self, name):
@@ -43,44 +46,125 @@ class ParticleDistribution(InitialCondition):
         return (ParticleDistribution, (self.name,), self.__dict__)
 
 from exp_design.gui.ui_particlesettings import Ui_ParticleSettingsDialog
-from PyQt4.QtGui import QDialog, QTreeWidgetItem
+from PyQt4.QtGui import QDialog, QTreeWidgetItem, QTreeWidgetItemIterator
+from amuse.support.units import units
 
 class CustomParticles(ParticleDistribution):
-    def __init__(self, numParticles, particles = None):
+    def __init__(self, numParticles, particlesPath = None):
         ParticleDistribution.__init__(self, "CustomParticles")
 
         self.dialog = QDialog()
         self.ui = Ui_ParticleSettingsDialog()
         self.ui.setupUi(self.dialog)
 
-        self.dialog.connect(self.ui.particlesTree, SIGNAL("doubleClicked(QModelIndex)"), self.treeDblClick)
+        self.dialog.connect(self.ui.addParticleButton, SIGNAL("clicked()"), self.treeAddParticle)
+        self.dialog.connect(self.ui.removeParticleButton, SIGNAL("clicked()"), self.treeRemoveParticle)
 
-        if particles is None:
+        if particlesPath is None:
             self.particles = Particles(0)
         else:
-            self.particles = particles
+            self.particles = read_set_from_file(particlesPath, "hdf5")
+            self.particlesPath = particlesPath
+            self.ui.pathText.setText(self.particlesPath)
+
+    def __reduce__(self):
+        pickleDict = self.__dict__.copy()
+
+        del pickleDict["particles"]
+        del pickleDict["dialog"]
+        del pickleDict["ui"]
+
+        return (CustomParticles, (self.numParticles, ), pickleDict)
+
+    def __setstate__(self, state):
+        self.__dict__ = dict(self.__dict__, **state)
+
+        self.particles = read_set_from_file(self.particlesPath, "hdf5")
+        self.ui.pathText.setText(self.particlesPath)
 
     @pyqtSlot()
-    def treeDblClick(self, index):
-        item = self.ui.particlesTree.itemFromIndex(index)
-        self.ui.particlesTree.editItem(item, index.column())
-
-    def setupDialog(self):
-        item = QTreeWidgetItem(("1", "2", "3", "4", "5", "6"))
+    def treeAddParticle(self):
+        item = QTreeWidgetItem(("0.0", "0.0", "0.0", "AU", "0.0", "0.0", "0.0", "km/s","0.0", "MSun"))
         item.setFlags(item.flags() | Qt.ItemIsEditable)
         self.ui.particlesTree.addTopLevelItem(item)
 
+    def treeRemoveParticle(self):
+        item = self.ui.particlesTree.currentItem()
+        index = self.ui.particlesTree.indexFromItem(item)
+
+        self.ui.particlesTree.takeTopLevelItem(index.row())
+
+    def setupDialog(self):
+        for particle in self.particles:
+            pos = particle.position.number
+            vel = particle.velocity.number
+            mass = particle.mass.number
+
+            item = QTreeWidgetItem((
+                str(pos[0]), str(pos[1]), str(pos[2]), str(particle.position.unit),
+                str(vel[0]), str(vel[1]), str(vel[2]), str(particle.velocity.unit),
+                str(mass), str(particle.mass.unit)))
+            item.setFlags(item.flags() | Qt.ItemIsEditable)
+            self.ui.particlesTree.addTopLevelItem(item)
+
     def showSettingsDialog(self):
         self.setupDialog()
-
-        original = self.particles.copy()
-
         result = self.dialog.exec_()
-        if result == QDialog.Rejected:
-            self.particles = original
+        self.particlesPath = str(self.ui.pathText.text())
+
+        allGood = False
+
+        if result == QDialog.Accepted:
+            allGood = True
+            i = 0
+            it = QTreeWidgetItemIterator(self.ui.particlesTree)
+
+            newParticles = Particles(self.ui.particlesTree.topLevelItemCount())
+
+            while it.value() is not None:
+                posX, pXGood = it.value().data(0, Qt.DisplayRole).toFloat()
+                posY, pYGood = it.value().data(1, Qt.DisplayRole).toFloat()
+                posZ, pZGood = it.value().data(2, Qt.DisplayRole).toFloat()
+
+                posUnit = str(it.value().data(3, Qt.DisplayRole).toString())
+                posUnitGood = (posUnit in units.__dict__)
+
+                velX, vXGood = it.value().data(4, Qt.DisplayRole).toFloat()
+                velY, vYGood = it.value().data(5, Qt.DisplayRole).toFloat()
+                velZ, vZGood = it.value().data(6, Qt.DisplayRole).toFloat()
+
+                velUnit = str(it.value().data(7, Qt.DisplayRole).toString())
+                velUnitGood = (
+                        (velUnit.split("/")[0] in units.__dict__) and
+                        (velUnit.split("/")[1] in units.__dict__))
+
+                mass, massGood = it.value().data(8, Qt.DisplayRole).toFloat()
+
+                massUnit = str(it.value().data(9, Qt.DisplayRole).toString())
+                massUnitGood = (massUnit in units.__dict__)
+
+                checks = (pXGood, pYGood, pZGood, posUnitGood, vXGood, vYGood,
+                        vZGood, velUnitGood, massGood, massUnitGood)
+                allGood = reduce(lambda x,y: x and y, checks, allGood)
+
+                if allGood:
+                    newParticles[i].position = [posX, posY, posZ] | eval(posUnit)
+                    newParticles[i].velocity = [velX, velY, velZ] | eval(velUnit)
+                    newParticles[i].mass = mass | eval(massUnit)
+
+                it += 1
+                i += 1
+
+        if(allGood):
+            del self.particles
+            self.particles = newParticles
+            write_set_to_file(self.particles, self.particlesPath, "hdf5")
+            self.numParticles = len(self.particles)
+
+        self.ui.particlesTree.clear()
 
 class SalpeterModel(MassDistribution):
-    def __init__(self, numParticles, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
+    def __init__(self, numParticles, mass_min = 0.1 | MSun, mass_max = 125 | MSun, alpha = -2.35):
         MassDistribution.__init__(self, "SaltpeterModel")
 
         self.numParticles = numParticles
