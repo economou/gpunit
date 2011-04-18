@@ -45,7 +45,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
           stoppingConditions -- The condition(s) under which the module may stop executing prematurely.
           parameters -- The module parameters.  These module-specific values may be modified prior to running the experiment in order to fine-tune the module's behavior.
           classname -- The name of the class inside the AMUSE module one will be using.'''
-        
+
         self.name = name
         self.description = description
         self.domain = domain
@@ -53,7 +53,7 @@ class Module(QListWidgetItem, QTreeWidgetItem):
         self.isParallel = isParallel
         self.stoppingConditions = stoppingConditions
         self.parameters = parameters
-        self.className  = classname
+        self.className  = className
 
         # Set up the module's name so that it can be displayed in GUI list      
         # boxes.
@@ -324,9 +324,10 @@ class Module(QListWidgetItem, QTreeWidgetItem):
 #        code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
         print self.codeLocation
         if self.codeLocation[:5] == 'amuse':
-            path = ".".join(self.codeLocation.split("/")[:-1])
+            path = ".".join(self.codeLocation.split("/"))[:-3]
             print path,self.className
             exec("from "+path+" import "+self.className)
+            print 
         else:
             sys.path.append(self.codeLocation.rstrip(filename))
             exec("from "+filename.rstrip(".py")+" import "+self.className)

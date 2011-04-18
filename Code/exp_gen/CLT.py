@@ -90,7 +90,7 @@ def initialization(experiment):
     particles = particle_sets[0] 
         
     #Get Modules actual class values
-    modules = [mod.result for mod in experiment.modules]
+    modules = [mod.result() for mod in experiment.modules]
     
     #Total mass used for conversion object
 #    total_mass = reduce(lambda x,y:x+y, particles.mass)
