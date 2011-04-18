@@ -27,7 +27,7 @@ class ModulesToolbox(QWidget):
         self.ui.moduleList.clear()
 
         for initCond in initialConditions:
-            self.ui.initCondList.addItem(initCond(1))
+            self.ui.initCondList.addItem(initCond(20))
 
         for path in ModulePaths.values():
             xml = ""
