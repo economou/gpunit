@@ -112,7 +112,7 @@ class ExperimentManager(QMainWindow):
             return False
         
         try:
-            # TODO: this is wrong.
+            # TODO: this will be replaced by a query to the parent hierarchy
             self.experiment.particlesPath = "particles.hdf5"
 
             self.experiment.writeXMLFile(filename)
@@ -146,7 +146,7 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def addInitCondition(self, initCond):
-        # TODO: this is wrong
+        # TODO: this will be replaced by a query to the parent hierarchy
         self.experiment.initialConditions[initCond] = initCond.name + ".pkl"
         self.ui.initCondList.addItem(initCond)
         self.touch()
