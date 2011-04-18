@@ -17,17 +17,17 @@ class Diagnostic :
 		self.name = "Abstract Diagnostic base class"
 		self.conditions = []
 
-	def update(particles) :
+	def update(self, particles) :
 		'''This function needs to be overridden by subclasses'''
 		# update the diagnostic
 		# this method is supposed to be implemented by subclasses
 		return False
 
-	def name() :
+	def name(self) :
 		'''Gets the name of the Diagnostic.'''
 		return self.name
 
-	def shouldUpdate(time,state) :
+	def shouldUpdate(self, time,state) :
 		'''Returns a boolean indicating whether this diagnostic should
 		be updated given the current experiment state.'''
 		bUpdate = True
@@ -35,19 +35,19 @@ class Diagnostic :
 			bUpdate = bUpdate and condition.shouldUpdate(state)
 		return bUpdate
 
-	def addCondition(condition) :
+	def addCondition(self, condition) :
 		'''Add a condition.'''
 		self.conditions.append(condition)
 
-	def addConditions(conditions) :
+	def addConditions(self, conditions) :
 		'''Add a list of conditions.'''
 		self.conditions.extend(conditions)
 
-	def removeCondition(condition) :
+	def removeCondition(self, condition) :
 		'''Remove a condition.'''
 		self.conditions.remove(condition)
 	
-	def toXml() :
+	def toXml(self) :
 		'''Get a xml string representation.'''
 		# TODO: implement
 		return ""
