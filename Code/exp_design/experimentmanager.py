@@ -46,7 +46,7 @@ class ExperimentManager(QMainWindow):
         """Set to true if unsaved changes have been made."""
 
     @pyqtSlot()
-    def setDirty(self):
+    def touch(self):
         """Sets the dirty flag to true, used whenever a piece of data is
         modified."""
         self.dirty = True
@@ -55,9 +55,10 @@ class ExperimentManager(QMainWindow):
         box = QMessageBox()
         box.setText("The experiment has unsaved changes.")
         box.setInformativeText("Do you want to save them?")
-        box.setStandardButtons(QMessagebox.Save | QMessageBox.Discard | QMessageBox.Cancel)
-        box.setDefaultButton(QMessageBox.save)
-        decision = box._exec()
+        box.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        box.setDefaultButton(QMessageBox.Save)
+        decision = box.exec_()
+        self.setFocus()
 
         if decision == QMessageBox.Save:
             if self.saveExperiment():
@@ -76,7 +77,7 @@ class ExperimentManager(QMainWindow):
     @pyqtSlot()
     def openExperiment(self):
         if self.dirty:
-            success = showDirtySaveBox
+            success = self.showDirtySaveBox()
             if not success:
                 return
 
@@ -91,11 +92,11 @@ class ExperimentManager(QMainWindow):
             for line in expFile:
                 xml += line
 
-            self.experiment.fromXML(xml)
+            self.experiment = Experiment.fromXML(xml)
             self.updateUiFromExperiment()
             self.dirty = False
             return True
-        except IOError as err:
+        except IError as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
             return False
@@ -119,8 +120,15 @@ class ExperimentManager(QMainWindow):
             return False
 
     def closeEvent(self, event):
-        # TODO: Shutdown the network connections here.
-        pass
+        success = True
+
+        if self.dirty:
+            success = self.showDirtySaveBox()
+            if not success:
+                event.ignore()
+                return
+
+        event.accept()
 
     @pyqtSlot()
     def showClusterView(self):
@@ -137,6 +145,7 @@ class ExperimentManager(QMainWindow):
         # TODO: this is wrong
         self.experiment.initialConditions[initCond] = initCond.name + ".pkl"
         self.ui.initCondList.addItem(initCond)
+        self.touch()
 
     @pyqtSlot()
     def removeInitCondition(self):
@@ -144,11 +153,13 @@ class ExperimentManager(QMainWindow):
 
         del self.experiment.initialConditions[initCond]
         self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
+        self.touch()
 
     @pyqtSlot()
     def addModule(self, module):
         self.ui.moduleList.addItem(module)
         self.experiment.modules.append(module)
+        self.touch()
 
     @pyqtSlot()
     def removeModule(self):
@@ -156,12 +167,30 @@ class ExperimentManager(QMainWindow):
 
         self.experiment.modules.remove(module)
         self.ui.modulesToolbox.ui.moduleList.addItem(module)
+        self.touch()
 
     @pyqtSlot()
-    def nameChanged(self, newName):
-        self.experiment.name = newName
+    def nameChanged(self):
+        newName = self.ui.nameText.text()
+        if newName != "":
+            self.experiment.name = newName
+            self.touch()
+        else:
+            self.ui.nameText.setText(self.experiment.name)
+
+    def resetUi(self):
+        self.ui.moduleList.clear()
+        self.ui.initCondList.clear()
+        self.ui.nameText.setText("")
+
+        self.ui.startText.setText("")
+        self.ui.stopText.setText("")
+        self.ui.stepText.setText("")
+
+        self.ui.modulesToolbox.resetUi()
 
     def updateUiFromExperiment(self):
+        self.resetUi()
         self.ui.nameText.setText(self.experiment.name)
 
         for module in self.experiment.modules:

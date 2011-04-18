@@ -672,13 +672,93 @@
   </connection>
   <connection>
    <sender>nameText</sender>
-   <signal>textChanged(QString)</signal>
+   <signal>editingFinished()</signal>
    <receiver>ExperimentManager</receiver>
    <slot>nameChanged()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>484</x>
      <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>touch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>touch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>299</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stepText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>touch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>378</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>prefixCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>touch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>496</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>unitsCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>touch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>631</x>
+     <y>370</y>
     </hint>
     <hint type="destinationlabel">
      <x>344</x>
@@ -698,6 +778,7 @@
   <slot>addModule(PyQt_PyObject)</slot>
   <slot>removeInitCondition()</slot>
   <slot>removeModule()</slot>
-  <slot>nameChanged(string)</slot>
+  <slot>nameChanged()</slot>
+  <slot>touch()</slot>
  </slots>
 </ui>

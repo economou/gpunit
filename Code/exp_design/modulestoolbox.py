@@ -19,6 +19,11 @@ class ModulesToolbox(QWidget):
 
         self.ui = Ui_ModulesToolBox()
         self.ui.setupUi(self)
+        self.resetUi()
+
+    def resetUi(self):
+        self.ui.initCondList.clear()
+        self.ui.moduleList.clear()
 
         for initCond in initialConditions.values():
             self.ui.initCondList.addItem(initCond(1))
