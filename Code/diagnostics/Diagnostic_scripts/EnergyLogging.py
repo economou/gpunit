@@ -4,7 +4,7 @@
 #	Introductory Logging of Time, the Energies, and the Virial Ratio
 #	Experiment object where it is updated.
 #
-# 3/1 - Dan Bagnell - created Diagnostic class.
+# 4/17 - Tim McJilton - created EnergyLogger class.
 #
 # Team GPUnit - Senior Design 2011
 #
