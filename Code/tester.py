@@ -3,7 +3,7 @@ from amuse.support.units import nbody_system
 from amuse.support.units import units
 
 from diagnostics.Diagnostic_scripts.EnergyLogging import EnergyLogger
-
+from diagnostics.Diagnostic_scripts.vis_py_viewr import VPyView
 from exp_management.Experiment import Experiment
 
 from exp_management.initialconditions import ParticleDistribution
@@ -26,6 +26,7 @@ if __name__ == '__main__':
     my_experiment = Experiment()
     my_experiment.initialConditions[sunearth('2')]='2'
     my_experiment.diagnostics[EnergyLogger()]='energylogger'
+    my_experiment.diagnostics[VPyView()]='visual python viewer'
 
     module_str = '\n'.join(open('exp_management/Modules_XML/hermite0.xml','r').readlines())
 #    print module_str
