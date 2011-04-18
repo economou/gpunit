@@ -22,14 +22,14 @@ class MassDistribution(InitialCondition):
         InitialCondition.__init__(self, name)
 
     def __reduce__(self):
-        return ("MassDistribution", (self.name,), self.__dict__)
+        return (MassDistribution, (self.name,), self.__dict__)
 
 class ParticleDistribution(InitialCondition):
     def __init__(self, name):
         InitialCondition.__init__(self, name)
 
     def __reduce__(self):
-        return ("ParticleDistribution", (self.name,), self.__dict__)
+        return (ParticleDistribution, (self.name,), self.__dict__)
 
 class SalpeterModel(MassDistribution):
     def __init__(self, numParticles, mass_min = 0.1 | units.MSun, mass_max = 125 | units.MSun, alpha = -2.35):
