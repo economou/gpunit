@@ -19,6 +19,7 @@ import cPickle
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
 
+from amuse.support.data.core import Particles
 from amuse.support.units import units
 from amuse.support.units.si import *
 from amuse.support.units.units import *
@@ -48,7 +49,7 @@ class Experiment :
         self.name = name
         self.stopIsEnabled = True
         self.modules = []
-        self.particles = None
+        self.particles = Particles(0)
         self.particlesPath = ""
         self.diagnostics = []
         self.loggers = []
@@ -213,7 +214,7 @@ class Experiment :
 
     def addParticle(self, particle) :
         #Adds the given particle to the particle list
-        self.particles.append(particle)
+        self.particles.add_particle(particle)
 
     def removeParticle(self, particle) :
         #Removes the given particle from the particle list
