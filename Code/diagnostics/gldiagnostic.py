@@ -13,15 +13,21 @@ from Diagnostic import Diagnostic
 from PyQt4.QtCore import QCoreApplication
 
 class OpenGLDiagnostic(Diagnostic):
-    def __init__(self, name = "OpenGLDiagnostic", parent = None):
+    def __init__(self, name = "OpenGLDiagnostic", dim = (512, 512)):
         Diagnostic.__init__(self, name)
-        self.window = GLDiagnosticWindow()
 
-    def needsGUI(self):
-        return True
+        self.width, self.height = dim
+        self.window = GLDiagnosticWindow(self.width, self.height)
 
-    def setGUI(self, parent):
-        self.window.setParent(parent)
+    def __reduce__(self):
+        newDict = self.__dict__.copy()
+        del newDict["window"]
+
+        return (OpenGLDiagnostic, (self.name, ), newDict)
+
+    def setSize(self, dim):
+        self.width, self.height = dim
+        self.window.setSize(dim)
 
     def update(self, time, particles):
         self.window.particles = particles
@@ -40,8 +46,12 @@ class OpenGLDiagnostic(Diagnostic):
         return True
 
 class GLDiagnosticWindow(QGLWidget):
-    def __init__(self, parent = None):
+    def __init__(self, width, height, parent = None):
         QGLWidget.__init__(self, QGLFormat(QGL.DepthBuffer | QGL.DoubleBuffer), parent)
+
+        self.width_ = width
+        self.height_ = height
+
         self.particles = Particles(0)
 
     def initializeGL(self):
@@ -58,17 +68,21 @@ class GLDiagnosticWindow(QGLWidget):
                 0, 0, 0,
                 0, 0, 1);
 
+    def setSize(self, dim):
+        self.width_, self.height_ = dim
+        self.resizeGL(self.width_, self.height_)
+
     def resizeGL(self, width, height):
-        self.resize(512, 512)
+        self.resize(self.width_, self.height_)
 
     def maximumSizeHint(self):
-        return QSize(512, 512);
+        return QSize(self.width_, self.height_);
 
     def minimumSizeHint(self):
-        return QSize(512, 512);
+        return QSize(self.width_, self.height_);
 
     def sizeHint(self):
-        return QSize(512, 512);
+        return QSize(self.width_, self.height_);
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
