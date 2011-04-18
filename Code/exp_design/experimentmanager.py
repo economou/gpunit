@@ -23,7 +23,6 @@ from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
 
-from exp_management.initialconditions import PlummerModel
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
     performed by the user in the GUI."""
@@ -58,7 +57,6 @@ class ExperimentManager(QMainWindow):
         box.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
         box.setDefaultButton(QMessageBox.Save)
         decision = box.exec_()
-        self.setFocus()
 
         if decision == QMessageBox.Save:
             if self.saveExperiment():
@@ -221,3 +219,12 @@ class ExperimentManager(QMainWindow):
 
         self.ui.prefixCombo.setCurrentIndex(self.ui.prefixCombo.findText(prefix))
         self.ui.unitsCombo.setCurrentIndex(self.ui.unitsCombo.findText(unit))
+
+    @pyqtSlot()
+    def initCondDoubleclick(self, index):
+        initCond = self.ui.initCondList.item(index.row())
+        initCond.showSettingsDialog()
+
+    @pyqtSlot()
+    def modulesDoubleclick(self, index):
+        module = self.ui.moduleList.item(index.row())

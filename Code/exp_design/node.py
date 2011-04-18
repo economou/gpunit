@@ -1,4 +1,3 @@
-from PyQt4.QtCore import SIGNAL, SLOT
 from PyQt4.QtGui import QWidget, QPushButton, QProgressBar, QHBoxLayout, QDialog
 from PyQt4.QtCore import pyqtSlot
 
@@ -33,7 +32,7 @@ class Node(QWidget):
     @pyqtSlot()
     def showInfo(self):
         self.updateDialog()
-        self.infoDialog.show()
+        result = self.infoDialog.exec_()
 
     def updateDialog(self):
         self.dialogUi.nodeNameLabel.setText(str(self.name))

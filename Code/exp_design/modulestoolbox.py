@@ -7,11 +7,12 @@ from exp_management.initialconditions import *
 
 from gui.ui_modulestoolbox import Ui_ModulesToolBox
 
-initialConditions = {
-        "Plummer" : PlummerModel,
-        "King" : KingModel,
-        "Salpeter" : SalpeterModel,
-        }
+initialConditions = (
+        CustomParticles,
+        PlummerModel,
+        KingModel,
+        SalpeterModel,
+        )
 
 class ModulesToolbox(QWidget):
     def __init__(self, parent = None):
@@ -25,7 +26,7 @@ class ModulesToolbox(QWidget):
         self.ui.initCondList.clear()
         self.ui.moduleList.clear()
 
-        for initCond in initialConditions.values():
+        for initCond in initialConditions:
             self.ui.initCondList.addItem(initCond(1))
 
         for path in ModulePaths.values():

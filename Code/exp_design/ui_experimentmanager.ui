@@ -766,6 +766,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>initCondList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>initCondDoubleclick(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>moduleList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>modulesDoubleclick(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -780,5 +812,7 @@
   <slot>removeModule()</slot>
   <slot>nameChanged()</slot>
   <slot>touch()</slot>
+  <slot>initCondDoubleclick(QModelIndex)</slot>
+  <slot>modulesDoubleclick(QModelIndex)</slot>
  </slots>
 </ui>
