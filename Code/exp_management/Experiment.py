@@ -21,6 +21,7 @@ import xml.dom.minidom
 
 from amuse.support.units import units
 from amuse.support.units.si import *
+from amuse.support.units.units import *
 
 from Module import Module
 
@@ -76,9 +77,16 @@ class Experiment :
             etree.SubElement(experiment, "module", attrib = {"name" : module.name})
 
         for ic in self.initialConditions :
+            icFile = open(ic[1], "w")
+            cPickle.dump(ic[0], icFile)
+            icFile.close()
+
             etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic[1]})
 
         etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
+        particlesFile = open(self.particlesPath, "w")
+        cPickle.dump(self.particles, particlesFile)
+        particlesFile.close()
 
         for diag in self.diagnostics :
             etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag[1]})
