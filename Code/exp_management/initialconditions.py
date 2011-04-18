@@ -139,21 +139,31 @@ class CustomParticles(ParticleDistribution):
                 posZ, pZGood = it.value().data(2, Qt.DisplayRole).toFloat()
 
                 posUnit = str(it.value().data(3, Qt.DisplayRole).toString())
-                posUnitGood = (posUnit in units.__dict__)
+                try:
+                    eval(posUnit)
+                    posUnitGood = True
+                except (SyntaxError, AttributeError, RuntimeError):
+                    posUnitGood = False
 
                 velX, vXGood = it.value().data(4, Qt.DisplayRole).toFloat()
                 velY, vYGood = it.value().data(5, Qt.DisplayRole).toFloat()
                 velZ, vZGood = it.value().data(6, Qt.DisplayRole).toFloat()
 
                 velUnit = str(it.value().data(7, Qt.DisplayRole).toString())
-                velUnitGood = (
-                        (velUnit.split("/")[0] in units.__dict__) and
-                        (velUnit.split("/")[1] in units.__dict__))
+                try:
+                    eval(velUnit)
+                    velUnitGood = True
+                except (SyntaxError, AttributeError, RuntimeError):
+                    velUnitGood = False
 
                 mass, massGood = it.value().data(8, Qt.DisplayRole).toFloat()
 
                 massUnit = str(it.value().data(9, Qt.DisplayRole).toString())
-                massUnitGood = (massUnit in units.__dict__)
+                try:
+                    eval(massUnit)
+                    massUnitGood = True
+                except (SyntaxError, AttributeError, RuntimeError):
+                    massUnitGood = False
 
                 radius, radiusGood = it.value().data(10, Qt.DisplayRole).toFloat()
 
@@ -162,6 +172,7 @@ class CustomParticles(ParticleDistribution):
 
                 checks = (pXGood, pYGood, pZGood, posUnitGood, vXGood, vYGood,
                         vZGood, velUnitGood, massGood, massUnitGood)
+
                 allGood = reduce(lambda x,y: x and y, checks, allGood)
 
                 if allGood:
