@@ -1,0 +1,5 @@
+<experiment name="testExperiment" stopEnabled="false">
+    <time units="units.Myr" start="0" step="10" end="100"/>
+    <module name="hermite0"/>
+    <initialCondition name="King"/>
+</experiment>
