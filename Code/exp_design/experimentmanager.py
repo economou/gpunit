@@ -104,6 +104,9 @@ class ExperimentManager(QMainWindow):
             return False
         
         try:
+            # TODO: this is wrong.
+            self.experiment.particlesPath = "particles.hdf5"
+
             self.experiment.writeXMLFile(filename)
             self.dirty = False
             return True
