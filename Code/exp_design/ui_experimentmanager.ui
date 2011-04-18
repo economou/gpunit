@@ -712,6 +712,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionRun_Experiment</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>runExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -731,7 +747,7 @@
   <slot>startChanged()</slot>
   <slot>stopChanged()</slot>
   <slot>stepChanged()</slot>
-  <slot>prefixChanged()</slot>
   <slot>unitChanged()</slot>
+  <slot>runExperiment()</slot>
  </slots>
 </ui>

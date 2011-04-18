@@ -76,6 +76,9 @@ class CustomParticles(ParticleDistribution):
 
         return (CustomParticles, (self.numParticles, ), pickleDict)
 
+    def getParticleList(self):
+        return self.particles
+
     def __setstate__(self, state):
         self.__dict__ = dict(self.__dict__, **state)
 
@@ -84,7 +87,12 @@ class CustomParticles(ParticleDistribution):
 
     @pyqtSlot()
     def treeAddParticle(self):
-        item = QTreeWidgetItem(("0.0", "0.0", "0.0", "AU", "0.0", "0.0", "0.0", "km/s","0.0", "MSun"))
+        item = QTreeWidgetItem(
+                ("0.0", "0.0", "0.0", "AU",
+                    "0.0", "0.0", "0.0", "km/s",
+                    "0.0", "MSun",
+                    "0.0", "km"
+                    ))
         item.setFlags(item.flags() | Qt.ItemIsEditable)
         self.ui.particlesTree.addTopLevelItem(item)
 
@@ -99,11 +107,15 @@ class CustomParticles(ParticleDistribution):
             pos = particle.position.number
             vel = particle.velocity.number
             mass = particle.mass.number
+            radius = particle.radius.number
 
             item = QTreeWidgetItem((
                 str(pos[0]), str(pos[1]), str(pos[2]), str(particle.position.unit),
                 str(vel[0]), str(vel[1]), str(vel[2]), str(particle.velocity.unit),
-                str(mass), str(particle.mass.unit)))
+                str(mass), str(particle.mass.unit),
+                str(radius), str(particle.radius.unit)
+                ))
+
             item.setFlags(item.flags() | Qt.ItemIsEditable)
             self.ui.particlesTree.addTopLevelItem(item)
 
@@ -143,6 +155,11 @@ class CustomParticles(ParticleDistribution):
                 massUnit = str(it.value().data(9, Qt.DisplayRole).toString())
                 massUnitGood = (massUnit in units.__dict__)
 
+                radius, radiusGood = it.value().data(10, Qt.DisplayRole).toFloat()
+
+                radiusUnit = str(it.value().data(11, Qt.DisplayRole).toString())
+                radiusUnitGood = (radiusUnit in units.__dict__)
+
                 checks = (pXGood, pYGood, pZGood, posUnitGood, vXGood, vYGood,
                         vZGood, velUnitGood, massGood, massUnitGood)
                 allGood = reduce(lambda x,y: x and y, checks, allGood)
@@ -151,6 +168,7 @@ class CustomParticles(ParticleDistribution):
                     newParticles[i].position = [posX, posY, posZ] | eval(posUnit)
                     newParticles[i].velocity = [velX, velY, velZ] | eval(velUnit)
                     newParticles[i].mass = mass | eval(massUnit)
+                    newParticles[i].radius = radius | eval(radiusUnit)
 
                 it += 1
                 i += 1

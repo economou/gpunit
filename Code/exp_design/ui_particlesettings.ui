@@ -90,6 +90,16 @@
          <string>Mass Unit</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>Radius</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Radius Unit</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>

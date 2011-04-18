@@ -19,6 +19,8 @@ class sunearth(ParticleDistribution):
         p_list[1].velocity = [0,29.67,0] | units.km/units.s
         p_list.mass = [ 1. , 3.e-6 ] | units.MSun
         p_list.radius = [ 0 , 0 ] | units.km
+        print "PL:",p_list
+        exit(0)
         return p_list
 if __name__ == '__main__':
     my_experiment = Experiment()

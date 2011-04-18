@@ -15,7 +15,8 @@ State:
 # TODO: Enforce type safety?
 # TODO: Implement enumerations?  If so, to what degree?
 
-from PyQt4.QtGui import QListWidgetItem, QTreeWidgetItem
+from PyQt4.QtGui import QListWidgetItem
+
 import xml.etree.ElementTree as etree
 import xml.dom.minidom
 import re
@@ -24,7 +25,7 @@ import sys
 
 XML_ENCODING = "UTF-8"
 
-class Module(QListWidgetItem, QTreeWidgetItem):
+class Module(QListWidgetItem):
     '''A particular AMUSE module, providing an interface between GPUnit and
     the AMUSE code. The members of the Module class are used by GPUnit to
     properly locate and initialize an AMUSE module, as well as display a
