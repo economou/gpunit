@@ -9,8 +9,11 @@
 
 import sys
 
+from amuse.support.units.si import *
+from amuse.support.units.units import *
+
 from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
-from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtCore import Qt, pyqtSlot
 
 from exp_management.Experiment import Experiment
 
@@ -132,14 +135,14 @@ class ExperimentManager(QMainWindow):
     @pyqtSlot()
     def addInitCondition(self, initCond):
         # TODO: this is wrong
-        self.experiment.initialConditions.append((initCond, initCond.name + ".pkl"))
+        self.experiment.initialConditions[initCond] = initCond.name + ".pkl"
         self.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
     def removeInitCondition(self):
         initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
 
-        self.experiment.initialConditions.remove(initCond)
+        del self.experiment.initialConditions[initCond]
         self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()
@@ -162,9 +165,30 @@ class ExperimentManager(QMainWindow):
         self.ui.nameText.setText(self.experiment.name)
 
         for module in self.experiment.modules:
+            moduleList = self.ui.modulesToolbox.ui.moduleList
+
             self.ui.moduleList.addItem(module)
+            matches = moduleList.findItems(module.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                moduleList.setCurrentItem(matches[0])
+                moduleList.takeItem(moduleList.currentRow())
 
         for initCond in self.experiment.initialConditions:
-            self.ui.initCondList.addItem(initCond[0])
+            initCondList = self.ui.modulesToolbox.ui.initCondList
 
-        pass
+            self.ui.initCondList.addItem(initCond)
+            matches = initCondList.findItems(initCond.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                initCondList.setCurrentItem(matches[0])
+                initCondList.takeItem(initCondList.currentRow())
+
+        self.ui.startText.setText(str(self.experiment.startTime.number))
+        self.ui.stopText.setText(str(self.experiment.stopTime.number))
+        self.ui.stepText.setText(str(self.experiment.timeStep.number))
+
+        unitString = str(self.experiment.timeUnit.unit)
+        prefix = unitString[0]
+        unit = unitString[1:]
+
+        self.ui.prefixCombo.setCurrentIndex(self.ui.prefixCombo.findText(prefix))
+        self.ui.unitsCombo.setCurrentIndex(self.ui.unitsCombo.findText(unit))
