@@ -340,22 +340,18 @@ class Parameter:
     physical quantity, flag, or other value.'''
     
     # Constructor
-    def __init__(self, name, description, defaultValue, minValue, maxValue, units):
+    def __init__(self, name, description, defaultValue, units):
         '''Initializes a new Parameter with the given instance data.
         
         Parameters:
           name -- The brief, descriptive name of the parameter.
           description -- A description of the parameter's meaning and effects.
           defaultValue -- The parameter's default value.
-          minValue -- A lower bound on the range of valid parameter values.
-          maxValue -- An upper bound on the range of valid parameter values.
           units -- The physical unit(s) associated with the parameter's value.'''
         
         self.name = name
         self.description = description
         self.defaultValue = defaultValue
-        self.minValue = minValue
-        self.maxValue = maxValue
         self.units = units
     
     # Methods
@@ -370,12 +366,6 @@ class Parameter:
           <defaultValue>
             0.88
           </defaultValue>
-          <minValue>
-            0
-          </minValue>
-          <maxValue>
-            1
-          </maxValue>
           <Units ...>
             ...
           </Units>
@@ -393,12 +383,6 @@ class Parameter:
         
         defaultValue = etree.SubElement(parameter, "defaultValue")
         defaultValue.text = str(self.defaultValue)  # Convert numbers to strings for serialization
-        
-        minValue = etree.SubElement(parameter, "minValue")
-        minValue.text = str(self.minValue)
-        
-        maxValue = etree.SubElement(parameter, "maxValue")
-        maxValue.text = str(self.maxValue)
         
         parameter.append(etree.fromstring(self.units.toXML()))
         
@@ -425,15 +409,13 @@ class Parameter:
         
         description  = parameterElement.find("description").text.strip()
         defaultValue = eval(parameterElement.find("defaultValue").text.strip())  # Evaluate strings as numbers
-        minValue     = eval(parameterElement.find("minValue").text.strip())
-        maxValue     = eval(parameterElement.find("maxValue").text.strip())
         
         # Read Units sub-element into a CompoundUnit instance
         unitsElement = parameterElement.find("Units")
         units        = CompoundUnit.fromXML(etree.tostring(unitsElement, encoding = XML_ENCODING))
         
         # Create the Parameter
-        parameter = Parameter(name, description, defaultValue, minValue, maxValue, units)
+        parameter = Parameter(name, description, defaultValue, units)
         
         return parameter
     
@@ -485,38 +467,6 @@ class Parameter:
           defaultValue -- A new default value for this parameter.'''
         
         self.defaultValue = defaultValue
-    
-    def getMinValue(self):
-        '''Returns the minimal allowed value for this parameter.
-        
-        Output:
-          The parameter's minimum valid value.'''
-        
-        return self.minValue
-    
-    def setMinValue(self, minValue):
-        '''Updates this parameter's minimum value to the given argument.
-        
-        Parameters:
-          minValue -- A new lower bound on this parameter's range of possible values.'''
-        
-        self.minValue = minValue
-    
-    def getMaxValue(self, ):
-        '''Returns the maximal allowed value for this parameter.
-        
-        Output:
-          The parameter's maximum valid value.'''
-        
-        return self.maxValue
-    
-    def setMaxValue(self, maxValue):
-        '''Updates this parameter's maximum value to the given argument.
-        
-        Parameters:
-          axValue -- A new upper bound on this parameter's range of possible values.'''
-        
-        self.maxValue = maxValue
     
     def getUnits(self):
         '''Returns an object containing the units associated with this parameter.
