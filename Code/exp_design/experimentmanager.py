@@ -38,7 +38,7 @@ class ExperimentManager(QMainWindow):
         for i in range(30):
             self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
-        self.experiment = None
+        self.experiment = Experiment()
         self.dirty = False
         """Set to true if unsaved changes have been made."""
 
@@ -88,7 +88,7 @@ class ExperimentManager(QMainWindow):
             for line in expFile:
                 xml += line
 
-            self.experiment = Experiment.fromXML(xml)
+            self.experiment.fromXML(xml)
             self.updateUiFromExperiment()
             self.dirty = False
             return True
@@ -102,8 +102,11 @@ class ExperimentManager(QMainWindow):
         filename = QFileDialog.getSaveFileName(self, "Save experiment as...")
         if filename == "":
             return False
-
+        
         try:
+            for ic in self.experiment.initialConditions:
+                self.experiment.initialConditionPaths.append(ic.name + ".pkl")
+
             self.experiment.writeXMLFile(filename)
             self.dirty = False
             return True
@@ -128,7 +131,7 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def addInitCondition(self, initCond):
-        self.experiment.initialConditions(initCond)
+        self.experiment.initialConditions.append(initCond)
         self.ui.initCondList.addItem(initCond)
 
     @pyqtSlot()

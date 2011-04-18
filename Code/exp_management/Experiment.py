@@ -20,16 +20,21 @@ import xml.etree.ElementTree as etree
 import xml.dom.minidom
 
 from amuse.support.units import units
+from amuse.support.units.si import *
+
+from Module import Module
 
 defaultTimeStep = 1
 defaultStartTime = 0
 defaultStopTime = 100
 
+XML_ENCODING = "UTF-8"
+
 #Modified code to allow Use AMUSE units
 defaultTimeUnit = units.yr #UnitType.yr
 
 ModulePaths = {
-    "hermite0" : "exp_management/ModulesXML"
+    "hermite0" : "exp_management/Modules_XML/hermite0.xml"
 }
 '''File paths for Module XML file definitions'''
 
@@ -37,7 +42,7 @@ class Experiment :
     '''Experiment class holds all relevant experiment data
     for an AMUSE simulation'''
 
-    def __init__(self, name) :
+    def __init__(self, name = None) :
         #Constructor initializes the experiment to default values
         self.name = name
         self.stopIsEnabled = True
@@ -45,11 +50,8 @@ class Experiment :
         self.particles = None
         self.particlesPath = ""
         self.diagnostics = []
-        self.diagnosticPaths = []
         self.loggers = []
-        self.loggerPaths = []
         self.initialConditions = []
-        self.initialConditionPaths = []
         self.timeUnit  = defaultTimeUnit
         self.startTime = defaultStartTime | self.timeUnit
         self.stopTime  = defaultStopTime  | self.timeUnit
@@ -63,28 +65,27 @@ class Experiment :
         # Append sub-elements
         etree.SubElement(experiment, "time",
             attrib = {
-                "units" : self.timeUnit._name_,
+                "units" : str(self.timeUnit),
                 "start" : str(self.startTime.number),
-                "step"  : str(self.timeStep.getValue()),
-                "end"   : str(self.stopTime.number)    
+                "step"  : str(self.timeStep.number),
+                "end"   : str(self.stopTime.number)
             }
         )
         
         for module in self.modules :
             etree.SubElement(experiment, "module", attrib = {"name" : module.name})
 
-        for ic in self.initialConditionPaths :
-            etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic})    
+        for ic in self.initialConditions :
+            etree.SubElement(experiment, "initialCondition", attrib = {"file" : ic[1]})
 
         etree.SubElement(experiment, "particles", attrib = {"file" : self.particlesPath})
 
-        for diag in self.diagnosticPaths :
-            etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag})
+        for diag in self.diagnostics :
+            etree.SubElement(experiment, "diagnostic", attrib = {"file" : diag[1]})
 
-        for logger in self.loggerPaths :
-            etree.SubElement(experiment, "logger", attrib = {"file" : logger})
+        for logger in self.loggers :
+            etree.SubElement(experiment, "logger", attrib = {"file" : logger[1]})
         
-        # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(experiment, encoding = XML_ENCODING))
         
       #Write it to the given file 
@@ -93,14 +94,14 @@ class Experiment :
 
 #---------------------------------------------------
     def fromXML(self, XMLString) :
-        expElement = etree.fromstring(element)
+        expElement = etree.fromstring(XMLString)
         
         # Extract Experiment's properties from XML attributes and sub-elements
         self.name = expElement.get("name").strip()
         self.stopIsEnabled = eval(expElement.get("stopEnabled").strip().title())
         
         timeElement        = expElement.find("time")
-        self.timeUnit      = timeElement.get("units").strip()
+        self.timeUnit      = eval(timeElement.get("units").strip())
         self.startTime     = int(timeElement.get("start").strip()) | self.timeUnit
         self.timeStep      = int(timeElement.get("step").strip()) | self.timeUnit
         self.stopTime      = int(timeElement.get("end").strip()) | self.timeUnit
@@ -113,7 +114,7 @@ class Experiment :
             for line in modFile:
                 xml += line
             modFile.close()
-            module = Module.Module.fromXml(xml)
+            module = Module.fromXML(xml)
             self.modules.append(module)
         
         for initialConditionElement in expElement.findall("initialCondition"):
@@ -123,8 +124,7 @@ class Experiment :
             initCond = cPickle.load(initCondFile)
             initCondFile.close()
 
-            self.initialConditionPaths.append(path)
-            self.initialConditions.append(initCond)
+            self.initialConditions.append((initCond, path))
         
         for loggerElement in expElement.findall("logger"):
             path = loggerElement.get("file").strip()
@@ -133,8 +133,7 @@ class Experiment :
             logger = cPickle.load(loggerFile)
             loggerFile.close()
 
-            self.loggerPaths.append(path)
-            self.loggers.append(logger)
+            self.loggers.append((logger, path))
 
         for diagnosticElement in expElement.findall("diagnostic"):
             path = diagnosticElement.get("file").strip()
@@ -143,8 +142,7 @@ class Experiment :
             diag = cPickle.load(diagnosticFile)
             diagnosticFile.close()
 
-            self.diagnosticPaths.append(path)
-            self.diagnostics.append(diag)
+            self.diagnostics.append((diag, path))
 
         particlesElement = expElement.find("particle")
         if particlesElement is not None:
