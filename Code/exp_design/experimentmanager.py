@@ -13,15 +13,16 @@ from amuse.support.units.si import *
 from amuse.support.units.units import *
 
 from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
-from PyQt4.QtCore import Qt, pyqtSlot
+from PyQt4.QtCore import Qt, pyqtSlot, QThread
 
 from exp_management.Experiment import Experiment
-
+from exp_gen.CLT import run_experiment
 from gui.ui_experimentmanager import Ui_ExperimentManager
 
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
+from diagnostics.gldiagnostic import OpenGLDiagnostic
 
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
@@ -91,6 +92,7 @@ class ExperimentManager(QMainWindow):
                 xml += line
 
             self.experiment = Experiment.fromXML(xml)
+            self.experiment.diagnostics[OpenGLDiagnostic("OpenGLDiagnostic", self)] = "GLDiagnostic.pkl"
             self.updateUiFromExperiment()
             self.dirty = False
             return True
@@ -261,3 +263,12 @@ class ExperimentManager(QMainWindow):
             self.touch()
         except (RuntimeError, NameError, AttributeError, SyntaxError):
             self.ui.unitsText.setText(str(self.experiment.timeUnit))
+
+    @pyqtSlot()
+    def runExperiment(self):
+        #self.experiment.particles = self.experiment.initialConditions.keys()[0].getParticleList()
+
+        key = self.experiment.diagnostics.keys()[0]
+        key.update(0,self.experiment.particles)
+
+        run_experiment(self.experiment)

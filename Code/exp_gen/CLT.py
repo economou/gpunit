@@ -97,19 +97,17 @@ def initialization(experiment):
         
     #Get Modules actual class values
     modules = [mod.result(convert_nbody) for mod in experiment.modules]
-    
-    
-    
+
     #Add Particles to Module
     for module in modules:
         module.particles.add_particles(particles)
-#    convert_nbody = None
+
     return modules, particles, convert_nbody
 
 def run_experiment(experiment):
     from amuse.support.units import units, nbody_system
-    time = 0 | experiment.timeUnit
-    dt   = experiment.getTimeStep()
+    time = experiment.startTime
+    dt   = experiment.timeStep
     tmax = experiment.stopTime
     
 
@@ -149,9 +147,11 @@ def run_experiment(experiment):
     for diagnostic in experiment.diagnostics:
         if diagnostic.shouldUpdate(time,particles):
             diagnostic.update(time,particles)
+
     #Run Closing Logging Scripts
     for logger in experiment.loggers:
          logger.logData(experiment.particles)
+
     #Stop Modules
     for module in modules:
         module.stop()
@@ -159,5 +159,3 @@ def run_experiment(experiment):
 if __name__ == "__main__":
     my_experiment = parse_flags()
     run_experiment(my_experiment)
-    
-    
