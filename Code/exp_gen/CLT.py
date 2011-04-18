@@ -130,7 +130,7 @@ def run_experiment(experiment):
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(particles):
-                diagnostic.update(particles)
+                diagnostic.update(time,particles)
             
         #Run Logging Scripts
         for logger in experiment.loggers:
