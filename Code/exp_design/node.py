@@ -1,8 +1,8 @@
 from PyQt4.QtGui import QWidget, QPushButton, QProgressBar, QHBoxLayout, QDialog
 from PyQt4.QtCore import pyqtSlot
 
-from gui.ui_node import Ui_Node
-from gui.ui_nodeinfodialog import Ui_NodeInfoDialog
+from gui.node_ui import Ui_Node
+from gui.nodeinfodialog_ui import Ui_NodeInfoDialog
 
 class Node(QWidget):
     def __init__(self, parent = None, name = "Node"):

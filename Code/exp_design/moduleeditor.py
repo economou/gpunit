@@ -1,6 +1,6 @@
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import QMainWindow, QFileDialog, QMessageBox, QCheckBox
-from gui.ui_moduleeditor import Ui_ModuleEditor
+from gui.moduleeditor_ui import Ui_ModuleEditor
 
 from exp_management import Module
 

@@ -45,7 +45,7 @@ class ParticleDistribution(InitialCondition):
     def __reduce__(self):
         return (ParticleDistribution, (self.name,), self.__dict__)
 
-from exp_design.gui.ui_particlesettings import Ui_ParticleSettingsDialog
+from exp_design.gui.particlesettings_ui import Ui_ParticleSettingsDialog
 from PyQt4.QtGui import QDialog, QTreeWidgetItem, QTreeWidgetItemIterator
 from amuse.support.units import units
 
