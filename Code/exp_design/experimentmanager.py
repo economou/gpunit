@@ -103,7 +103,7 @@ class ExperimentManager(QMainWindow):
             self.updateUiFromExperiment()
             self.dirty = False
             return True
-        except IOError as err:
+        except (AttributeError, IOError) as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
             self.resetUI()
@@ -123,7 +123,7 @@ class ExperimentManager(QMainWindow):
             self.experiment.writeXMLFile(filename)
             self.dirty = False
             return True
-        except IOError as err:
+        except (AttributeError, IOError) as err:
             QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
             return False
