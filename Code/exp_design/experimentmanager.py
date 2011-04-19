@@ -35,7 +35,7 @@ class ExperimentManager(QMainWindow):
 
         self.ui.setupUi(self)
 
-        self.editor = ModuleEditor(self)
+        self.moduleEditor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
         for i in range(30):
             self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
@@ -43,6 +43,7 @@ class ExperimentManager(QMainWindow):
         self.experiment = Experiment()
         self.dirty = False
         """Set to true if unsaved changes have been made."""
+        self.ui.centralWidget.setEnabled(False)
 
     @pyqtSlot()
     def touch(self):
@@ -70,7 +71,7 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def newExperiment(self):
-        pass
+        self.resetUI()
 
     @pyqtSlot()
     def openExperiment(self):
@@ -85,6 +86,8 @@ class ExperimentManager(QMainWindow):
             return False
 
         try:
+            self.enableUI()
+
             xml = ""
             expFile = open(filename, "r")
             for line in expFile:
@@ -102,6 +105,8 @@ class ExperimentManager(QMainWindow):
         except IOError as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
+            self.resetUI()
+            self.disableUI()
             return False
 
     @pyqtSlot()
@@ -140,8 +145,8 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def showModuleEditor(self):
-        if not self.editor.isVisible():
-            self.editor.show()
+        if not self.moduleEditor.isVisible():
+            self.moduleEditor.show()
 
     @pyqtSlot()
     def addInitCondition(self, initCond):
@@ -173,6 +178,35 @@ class ExperimentManager(QMainWindow):
         self.touch()
 
     @pyqtSlot()
+    def addDiagnostic(self, diagnostic):
+        # TODO: this will be replaced by a query to the parent hierarchy
+        self.experiment.diagnostics[diagnostic] = diagnostic.name + ".pkl"
+        self.ui.diagnosticList.addItem(diagnostic)
+        self.touch()
+
+    @pyqtSlot()
+    def removeDiagnostic(self):
+        diagnostic = self.ui.diagnosticList.takeItem(self.ui.diagnosticList.currentRow())
+
+        del self.experiment.diagnostics[diagnostic]
+        self.ui.diagnosticsToolbox.ui.diagnosticList.addItem(diagnostic)
+        self.touch()
+
+    @pyqtSlot()
+    def addLogger(self, logger):
+        self.ui.loggerList.addItem(logger)
+        self.experiment.logger.append(logger)
+        self.touch()
+
+    @pyqtSlot()
+    def removeLogger(self):
+        logger = self.ui.loggerList.takeItem(self.ui.loggerList.currentRow())
+
+        self.experiment.loggers.remove(logger)
+        self.ui.diagnosticsToolbox.ui.loggerList.addItem(logger)
+        self.touch()
+
+    @pyqtSlot()
     def nameChanged(self):
         newName = str(self.ui.nameText.text())
         if newName != "":
@@ -181,19 +215,32 @@ class ExperimentManager(QMainWindow):
         else:
             self.ui.nameText.setText(self.experiment.name)
 
-    def resetUi(self):
-        self.ui.moduleList.clear()
+    def enableUI(self):
+        self.ui.centralWidget.setEnabled(True)
+
+    def disableUI(self):
+        self.ui.centralWidget.setEnabled(False)
+
+    def resetUI(self):
         self.ui.initCondList.clear()
+        self.ui.moduleList.clear()
+        self.ui.diagnosticList.clear()
+        #self.ui.loggerList.clear()
+
         self.ui.nameText.setText("")
 
         self.ui.startBox.setValue(0.0)
         self.ui.stopBox.setValue(0.0)
         self.ui.stepBox.setValue(0.0)
 
-        self.ui.modulesToolbox.resetUi()
+        self.ui.modulesToolbox.resetUI()
+        self.clusterView.resetUI()
+        self.moduleEditor.resetUI()
+
+        self.dirty = False
 
     def updateUiFromExperiment(self):
-        self.resetUi()
+        self.resetUI()
         self.ui.nameText.setText(self.experiment.name)
 
         for module in self.experiment.modules:
@@ -214,8 +261,14 @@ class ExperimentManager(QMainWindow):
                 initCondList.setCurrentItem(matches[0])
                 initCondList.takeItem(initCondList.currentRow())
 
-        for diag in self.experiment.diagnostics:
-            self.ui.diagnosticList.addItem(diag)
+        for diagnostic in self.experiment.diagnostics:
+            diagnosticList = self.ui.diagnosticsToolbox.ui.diagnosticList
+
+            self.ui.diagnosticList.addItem(diagnostic)
+            matches = diagnosticList.findItems(diagnostic.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                diagnosticList.setCurrentItem(matches[0])
+                diagnosticList.takeItem(diagnosticList.currentRow())
 
         self.ui.startBox.setValue(self.experiment.startTime.number)
         self.ui.stopBox.setValue(self.experiment.stopTime.number)

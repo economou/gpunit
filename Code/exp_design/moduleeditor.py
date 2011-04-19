@@ -32,10 +32,17 @@ class ModuleEditor(QMainWindow):
         self.dirty = False
         self.module = None
         self.resetUI()
+        self.disableUI()
 
     @pyqtSlot()
     def close(self):
+        if self.dirty:
+            success = self.showDirtySaveBox()
+            if not success:
+                return
+
         self.resetUI()
+        self.disableUI()
         QMainWindow.close(self)
 
     @pyqtSlot()
@@ -81,6 +88,7 @@ class ModuleEditor(QMainWindow):
             modFile.close()
 
             self.module = module.Module.fromXML(xml)
+            self.enableUI()
             self.updateUiFromModule()
             self.dirty = False
             return True
@@ -96,10 +104,10 @@ class ModuleEditor(QMainWindow):
             return False
 
         try:
-            #xml = self.module.toXML(filename)
-            #modFile = open(filename, "w")
-            #modFile.write(xml)
-            #modFile.close()
+            xml = self.module.toXML()
+            modFile = open(filename, "w")
+            modFile.write(xml)
+            modFile.close()
             self.dirty = False
             return True
         except IOError as err:
@@ -109,14 +117,14 @@ class ModuleEditor(QMainWindow):
 
     @pyqtSlot()
     def updateUiFromModule(self):
-        self.enableUI()
+        self.resetUI()
 
         self.ui.moduleNameText.setText(self.module.name)
         self.ui.descriptionText.setText(self.module.description)
         self.ui.domainCombo.setCurrentIndex(
                 self.ui.domainCombo.findText(self.module.domain))
 
-        self.ui.classNameText.setText(self.module.codeName)
+        self.ui.classNameText.setText(self.module.className)
         self.ui.codeLocationText.setText(self.module.codeLocation)
 
         self.ui.parallelCheck.setChecked(self.module.isParallel)
@@ -126,16 +134,16 @@ class ModuleEditor(QMainWindow):
                 self.checkboxMap[cond].setChecked(True)
 
     def enableUI(self):
-        self.ui.moduleNameText.setEnabled(True)
-        self.ui.descriptionText.setEnabled(True)
-        self.ui.classNameText.setEnabled(True)
-        self.ui.codeLocationText.setEnabled(True)
-        self.ui.domainCombo.setEnabled(True)
-        self.ui.parallelCheck.setEnabled(True)
+        self.ui.centralWidget.setEnabled(True)
 
         for box in self.checkboxMap.values():
-            box.setChecked(False)
             box.setEnabled(True)
+
+    def disableUI(self):
+        self.ui.centralWidget.setEnabled(False)
+
+        for box in self.checkboxMap.values():
+            box.setEnabled(False)
 
     def resetUI(self):
         self.ui.moduleNameText.setText("")
@@ -143,13 +151,5 @@ class ModuleEditor(QMainWindow):
         self.ui.classNameText.setText("")
         self.ui.codeLocationText.setText("")
 
-        self.ui.moduleNameText.setEnabled(False)
-        self.ui.descriptionText.setEnabled(False)
-        self.ui.classNameText.setEnabled(False)
-        self.ui.codeLocationText.setEnabled(False)
-        self.ui.domainCombo.setEnabled(False)
-        self.ui.parallelCheck.setEnabled(False)
-
         for box in self.checkboxMap.values():
             box.setChecked(False)
-            box.setEnabled(False)
