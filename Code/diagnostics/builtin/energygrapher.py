@@ -122,13 +122,3 @@ class EnergyGrapher(Diagnostic):
         del newDict['p1']
         del newDict['p2']
         return (EnergyGrapher, (self.name, ), newDict)
-
-<<<<<<< local
-	def shouldUpdate(time,state) :
-		return True
-
-
-    
-=======
->>>>>>> other
-#    experiment = Experiment.fromXML("\n".join(open("test.xml",'r').readlines()))
