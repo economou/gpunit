@@ -25,7 +25,7 @@ from amuse.support.units import units
 from amuse.support.units.si import *
 from amuse.support.units.units import *
 
-from Module import Module
+from module import Module
 
 defaultTimeStep = .1
 defaultStartTime = 0

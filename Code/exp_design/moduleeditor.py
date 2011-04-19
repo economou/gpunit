@@ -2,7 +2,7 @@ from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import QMainWindow, QFileDialog, QMessageBox, QCheckBox
 from gui.moduleeditor_ui import Ui_ModuleEditor
 
-from exp_management import Module
+from exp_management import module
 
 STOPCOND_GRID_WIDTH = 3
 """Number of entries per row of checkboxes for stopping conditions."""
@@ -14,13 +14,13 @@ class ModuleEditor(QMainWindow):
         self.ui = Ui_ModuleEditor()
         self.ui.setupUi(self)
 
-        for domain in sorted(Module.AstrophysicalDomain, key=lambda k: Module.AstrophysicalDomain[k]):
-            self.ui.domainCombo.addItem(domain, Module.AstrophysicalDomain[domain])
+        for domain in sorted(module.AstrophysicalDomain, key=lambda k: module.AstrophysicalDomain[k]):
+            self.ui.domainCombo.addItem(domain, module.AstrophysicalDomain[domain])
 
         numConds = 0
         self.checkboxMap = {}
 
-        for condition in sorted(Module.StoppingConditions, key=lambda k: Module.StoppingConditions[k]):
+        for condition in sorted(module.StoppingConditions, key=lambda k: module.StoppingConditions[k]):
             row = numConds // STOPCOND_GRID_WIDTH
             col = numConds % STOPCOND_GRID_WIDTH
             numConds += 1
@@ -80,7 +80,7 @@ class ModuleEditor(QMainWindow):
                 xml += line
             modFile.close()
 
-            self.module = Module.Module.fromXML(xml)
+            self.module = module.Module.fromXML(xml)
             self.updateUiFromModule()
             self.dirty = False
             return True
@@ -121,8 +121,8 @@ class ModuleEditor(QMainWindow):
 
         self.ui.parallelCheck.setChecked(self.module.isParallel)
 
-        for cond in Module.StoppingConditions:
-            if self.module.stoppingConditions & Module.StoppingConditions[cond]:
+        for cond in module.StoppingConditions:
+            if self.module.stoppingConditions & module.StoppingConditions[cond]:
                 self.checkboxMap[cond].setChecked(True)
 
     def enableUI(self):

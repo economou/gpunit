@@ -11,11 +11,12 @@
 #
 #
 
-from exp_management.Experiment import Experiment
-
 from amuse.support.units import nbody_system
 from amuse.support.units import units 
+
+from exp_management.experiment import Experiment
 from exp_management.initialconditions import MassDistribution, ParticleDistribution
+
 def parse_flags():
     import getopt
     import sys

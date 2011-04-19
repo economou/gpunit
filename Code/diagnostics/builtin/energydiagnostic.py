@@ -9,7 +9,7 @@
 # Team GPUnit - Senior Design 2011
 #
 
-from diagnostics.Diagnostic import Diagnostic
+from diagnostics.diagnostic import Diagnostic
 import numpy as np
 from math import sqrt
 
