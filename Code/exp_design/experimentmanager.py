@@ -15,7 +15,7 @@ from amuse.support.units.units import *
 from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
 from PyQt4.QtCore import Qt, pyqtSlot, QThread
 
-from exp_management.Experiment import Experiment
+from exp_management.experiment import Experiment
 from exp_gen.CLT import run_experiment
 from gui.experimentmanager_ui import Ui_ExperimentManager
 

@@ -8,7 +8,7 @@ from PyQt4.QtCore import QSize
 
 from amuse.support.data.core import Particle, Particles
 
-from diagnostics.Diagnostic import Diagnostic
+from diagnostics.diagnostic import Diagnostic
 
 from PyQt4.QtCore import QCoreApplication
 

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Diagnostic.py
+# diagnostic.py
 #    Abstract Diagnostic class. Objects of subclasses are added to the an
 #    Experiment object where it is updated.
 #
