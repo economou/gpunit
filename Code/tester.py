@@ -2,8 +2,9 @@ from amuse.support.data.core import Particles
 from amuse.support.units import nbody_system
 from amuse.support.units import units
 
-from diagnostics.Diagnostic_scripts.EnergyLogging import EnergyLogger
-from diagnostics.Diagnostic_scripts.vis_py_viewr import VPyView
+from diagnostics.builtin.EnergyLogging import EnergyLogger
+# TODO: Tim needs to add this
+#from diagnostics.builtin.vis_py_viewr import VPyView
 from exp_management.Experiment import Experiment
 
 from exp_management.initialconditions import ParticleDistribution

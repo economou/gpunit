@@ -1,4 +1,4 @@
-cdiagnostics.gldiagnostic
+cdiagnostics.builtin.gldiagnostic
 OpenGLDiagnostic
 p1
 (S'OpenGLDiagnostic'

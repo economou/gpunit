@@ -22,7 +22,6 @@ from gui.experimentmanager_ui import Ui_ExperimentManager
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
-from diagnostics.gldiagnostic import OpenGLDiagnostic
 
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
