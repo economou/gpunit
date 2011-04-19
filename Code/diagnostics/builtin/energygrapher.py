@@ -8,7 +8,7 @@
 #
 # Team GPUnit - Senior Design 2011
 #
-from diagnostics.Diagnostic import Diagnostic
+from diagnostics.diagnostic import Diagnostic
 from PyQt4 import QtCore
 import numpy as np
 from math import sqrt
@@ -123,4 +123,12 @@ class EnergyGrapher(Diagnostic):
         del newDict['p2']
         return (EnergyGrapher, (self.name, ), newDict)
 
+<<<<<<< local
+	def shouldUpdate(time,state) :
+		return True
+
+
+    
+=======
+>>>>>>> other
 #    experiment = Experiment.fromXML("\n".join(open("test.xml",'r').readlines()))
