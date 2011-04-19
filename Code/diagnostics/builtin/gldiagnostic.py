@@ -42,9 +42,6 @@ class OpenGLDiagnostic(Diagnostic):
         QCoreApplication.processEvents()
         return True
 
-    def shouldUpdate(self, time, particles):
-        return True
-
 class GLDiagnosticWindow(QGLWidget):
     def __init__(self, width, height, parent = None):
         QGLWidget.__init__(self, QGLFormat(QGL.DepthBuffer | QGL.DoubleBuffer), parent)
