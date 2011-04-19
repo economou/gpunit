@@ -1,8 +1,8 @@
 from PyQt4.QtCore import pyqtSlot, SIGNAL
 from PyQt4.QtGui import QWidget
 
-from exp_management.Module import Module
-from exp_management.Experiment import ModulePaths
+from exp_management.module import Module
+from exp_management.experiment import ModulePaths
 from exp_management.initialconditions import *
 
 from gui.modulestoolbox_ui import Ui_ModulesToolBox

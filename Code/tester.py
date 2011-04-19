@@ -5,12 +5,14 @@ from amuse.support.units import units
 from diagnostics.builtin.energydiagnostic import EnergyDiagnostic
 # TODO: Tim needs to add this
 #from diagnostics.builtin.vis_py_viewr import VPyView
-from exp_management.Experiment import Experiment
+from exp_management.experiment import Experiment
 
 from exp_management.initialconditions import ParticleDistribution
-from exp_management.Module import Module
+from exp_management.module import Module
+
 from exp_gen.CLT import run_experiment
 from amuse.community.hermite0.interface import Hermite
+
 class sunearth(ParticleDistribution):
     def getParticleList(self):
         p_list = Particles(2)
