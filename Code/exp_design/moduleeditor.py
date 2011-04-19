@@ -1,4 +1,4 @@
-from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtCore import pyqtSlot, SIGNAL, SLOT
 from PyQt4.QtGui import QMainWindow, QFileDialog, QMessageBox, QCheckBox
 from gui.moduleeditor_ui import Ui_ModuleEditor
 
@@ -28,22 +28,32 @@ class ModuleEditor(QMainWindow):
             condBox = QCheckBox(condition, self)
             self.ui.stopcondGrid.addWidget(condBox, row, col)
             self.checkboxMap[condition] = condBox
+            self.connect(condBox, SIGNAL("stateChanged(int)"), self.stopCondChanged)
 
         self.dirty = False
+        self.ignoreUIChange = False
+
         self.module = None
         self.resetUI()
         self.disableUI()
 
     @pyqtSlot()
-    def close(self):
+    def touch(self):
+        """Sets the dirty flag to true, used whenever a piece of data is
+        modified."""
+        self.dirty = True
+
+    def closeEvent(self, event):
         if self.dirty:
             success = self.showDirtySaveBox()
             if not success:
+                event.ignore()
                 return
 
         self.resetUI()
         self.disableUI()
-        QMainWindow.close(self)
+        self.module = None
+        event.accept()
 
     @pyqtSlot()
     def setDirty(self):
@@ -55,9 +65,10 @@ class ModuleEditor(QMainWindow):
         box = QMessageBox()
         box.setText("The module has unsaved changes.")
         box.setInformativeText("Do you want to save them?")
-        box.setStandardButtons(QMessagebox.Save | QMessageBox.Discard | QMessageBox.Cancel)
-        box.setDefaultButton(QMessageBox.save)
-        decision = box._exec()
+        box.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        box.setDefaultButton(QMessageBox.Save)
+        box.setIcon(QMessageBox.Warning)
+        decision = box.exec_()
 
         if decision == QMessageBox.Save:
             if self.saveModule():
@@ -119,8 +130,10 @@ class ModuleEditor(QMainWindow):
     def updateUiFromModule(self):
         self.resetUI()
 
+        self.ignoreUIChange = True
+
         self.ui.moduleNameText.setText(self.module.name)
-        self.ui.descriptionText.setText(self.module.description)
+        self.ui.descriptionText.setPlainText(self.module.description)
         self.ui.domainCombo.setCurrentIndex(
                 self.ui.domainCombo.findText(self.module.domain))
 
@@ -132,6 +145,8 @@ class ModuleEditor(QMainWindow):
         for cond in module.StoppingConditions:
             if self.module.stoppingConditions & module.StoppingConditions[cond]:
                 self.checkboxMap[cond].setChecked(True)
+
+        self.ignoreUIChange = False
 
     def enableUI(self):
         self.ui.centralWidget.setEnabled(True)
@@ -146,10 +161,68 @@ class ModuleEditor(QMainWindow):
             box.setEnabled(False)
 
     def resetUI(self):
+        self.ignoreUIChange = True
+
         self.ui.moduleNameText.setText("")
-        self.ui.descriptionText.setText("")
+        self.ui.descriptionText.setPlainText("")
         self.ui.classNameText.setText("")
         self.ui.codeLocationText.setText("")
 
         for box in self.checkboxMap.values():
-            box.setChecked(False)
+            continue
+            #box.setChecked(False)
+
+        self.ignoreUIChange = False
+
+    @pyqtSlot()
+    def nameChanged(self):
+        if self.ignoreUIChange:
+            return
+
+        self.module.name = str(self.ui.moduleNameText.text())
+        self.touch()
+
+    @pyqtSlot()
+    def descriptionChanged(self):
+        if self.ignoreUIChange:
+            return
+
+        self.module.description = str(self.ui.descriptionText.document().toPlainText())
+        self.touch()
+
+    @pyqtSlot()
+    def classNameChanged(self):
+        if self.ignoreUIChange:
+            return
+
+        self.module.className = str(self.ui.classNameText.text())
+        self.touch()
+
+    @pyqtSlot()
+    def codeLocationChanged(self):
+        if self.ignoreUIChange:
+            return
+
+        self.module.codeLocation = str(self.ui.codeLocationText.text())
+        self.touch()
+
+    @pyqtSlot()
+    def stopCondChanged(self):
+        if self.ignoreUIChange:
+            return
+
+        newCond = 0
+        for name in self.checkboxMap:
+            if self.checkboxMap[name].isChecked():
+                newCond = (newCond | module.StoppingConditions[name])
+
+        self.module.stoppingConditions = newCond
+        self.touch()
+
+    @pyqtSlot()
+    def isParallelChanged(self):
+        if self.ignoreUIChange:
+            return
+
+        self.module.isParallel = str(self.ui.parallelCheck.isChecked())
+        self.touch()
