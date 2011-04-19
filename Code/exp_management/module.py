@@ -119,6 +119,7 @@ class Module(QListWidgetItem):
         # Iterate through parameters and append them as sub-elements
         for parameter in self.parameters:
             module.append(etree.fromstring(parameter.toXML()))
+            print parameter.toXML()
 
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(module, encoding = XML_ENCODING))
@@ -322,7 +323,6 @@ class Module(QListWidgetItem):
         from hermite0.interface import Hermite
         '''
         filename = re.search("(?<=/)[\da-zA-Z]*\.py$",self.codeLocation).group(0)
-#        code_path = filter(lambda x: x <> "", self.codeLocation.split(os.sep))
         print self.codeLocation
         if self.codeLocation[:5] == 'amuse':
             path = ".".join(self.codeLocation.split("/"))[:-3]
@@ -548,8 +548,6 @@ class CompoundUnit:
 
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(units, encoding = XML_ENCODING))
-
-        print "Unit XML:", uglyXml.toprettyxml(encoding = XML_ENCODING)
         return uglyXml.toprettyxml(encoding = XML_ENCODING)
 
     @staticmethod
@@ -683,7 +681,15 @@ class Unit:
           A string containing an XML representation of the Unit.'''
 
         # Create <Unit> XML element and set its attributes
-        unit = etree.Element("Unit", attrib = {"type" : self.utype, "prefix" : self.prefix, "exponent" : self.exponent})
+        attrDict = {}
+        if self.utype is not None:
+            attrDict["type"] = self.utype
+        if self.prefix is not None:
+            attrDict["prefix"] = self.prefix
+        if self.exponent is not None:
+            attrDict["exponent"] = self.exponent
+
+        unit = etree.Element("Unit", attrib = attrDict)
 
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(unit, encoding = XML_ENCODING))
@@ -706,12 +712,6 @@ class Unit:
         utype    = unitElement.get("type")
         prefix   = unitElement.get("prefix")
         exponent = unitElement.get("exponent")
-
-        if prefix is None:
-            prefix = ""
-
-        if exponent is None:
-            exponent = ""
 
         # Create the Parameter
         unit = Unit(utype, prefix, exponent)
