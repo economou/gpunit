@@ -183,9 +183,95 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>descriptionText</sender>
+   <signal>textChanged()</signal>
+   <receiver>ModuleEditor</receiver>
+   <slot>descriptionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>moduleNameText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ModuleEditor</receiver>
+   <slot>nameChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>classNameText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ModuleEditor</receiver>
+   <slot>classNameChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>340</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>codeLocationText</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ModuleEditor</receiver>
+   <slot>codeLocationChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>373</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>parallelCheck</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ModuleEditor</receiver>
+   <slot>isParallelChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>403</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openModule()</slot>
   <slot>saveModule()</slot>
+  <slot>descriptionChanged()</slot>
+  <slot>nameChanged()</slot>
+  <slot>classNameChanged()</slot>
+  <slot>codeLocationChanged()</slot>
+  <slot>isParallelChanged()</slot>
+  <slot>stopCondChanged()</slot>
  </slots>
 </ui>
