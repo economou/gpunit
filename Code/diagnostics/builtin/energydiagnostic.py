@@ -1,16 +1,18 @@
 #!/usr/bin/python
 #
-# EnergyLogging.py
-#	Introductory Logging of Time, the Energies, and the Virial Ratio
-#	Experiment object where it is updated.
+# energydiagnostic.py
+#    Introductory diagnostic for Time, the Energies, and the Virial Ratio
+#    Experiment object where it is updated.
 #
-# 4/17 - Tim McJilton - created EnergyLogger class.
+# 4/17 - Tim McJilton - created EnergyDiagnostic class.
 #
 # Team GPUnit - Senior Design 2011
 #
+
 from diagnostics.Diagnostic import Diagnostic
 import numpy as np
 from math import sqrt
+
 def get_kinetic(particles):
 #    particles = gravity.particles
 #    k = 0.
@@ -34,11 +36,11 @@ def get_potential(particles):
                 u += -(p.mass * p2.mass / r).number
     u /= 2
     return u
-class EnergyLogger(Diagnostic):
 
-    def __init__(self) :
-        self.name = "Energy Logger File"
-        self.conditions = []
+class EnergyDiagnostic(Diagnostic):
+    def __init__(self, name = "EnergyDiagnostic") :
+        Diagnostic.__init__(self, name)
+
         self.fout = open("Energy.log",'w')
 
     def update(self, time, particles) :
@@ -52,7 +54,5 @@ class EnergyLogger(Diagnostic):
 #        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
         
 
-	def shouldUpdate(state) :
-		return True
-
-
+    def shouldUpdate(state) :
+        return True
