@@ -9,6 +9,7 @@
 # Team GPUnit - Senior Design 2011
 #
 from diagnostics.Diagnostic import Diagnostic
+from PyQt4 import QtCore
 import numpy as np
 from math import sqrt
 import pylab
@@ -69,7 +70,6 @@ class EnergyGrapher(Diagnostic):
             self.p2min = min(self.TE[-1]-1,self.VR[-1]-1)
             self.p2max = max(self.TE[-1]+1,self.VR[-1]+1)
             pylab.show()
-            self.figure.show()
         
     def update(self, time, particles) :
         '''This function needs to be overridden by subclasses'''
@@ -105,9 +105,8 @@ class EnergyGrapher(Diagnostic):
         self.p2.set_xlim(self.time[0],self.time[-1])
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
         
-        
         pylab.draw()
-        pylab.show()
+        QtCore.QEventLoop().processEvents()
 #        self.fout.write("Time: %f\n"%time.number)
 #        self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
 #        self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
@@ -124,9 +123,4 @@ class EnergyGrapher(Diagnostic):
         del newDict['p2']
         return (EnergyGrapher, (self.name, ), newDict)
 
-	def shouldUpdate(state) :
-		return True
-
-
-    
 #    experiment = Experiment.fromXML("\n".join(open("test.xml",'r').readlines()))

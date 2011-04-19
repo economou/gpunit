@@ -14,12 +14,6 @@ class Condition :
     def __init__(self) :
         #TODO: implement
 
-    def shouldUpdate(state) :
+    def shouldUpdate(self, time, particles) :
         #TODO: implement
         return True
-
-    def toXml() :
-        #TODO: implement
-        return ""
-
-
