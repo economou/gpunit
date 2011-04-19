@@ -69,7 +69,7 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-12</y>
+           <y>0</y>
            <width>495</width>
            <height>435</height>
           </rect>
@@ -550,7 +550,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="gui/imgres.qrc"/>
+  <include location="imgres.qrc"/>
  </resources>
  <connections>
   <connection>
