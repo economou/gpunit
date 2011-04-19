@@ -67,7 +67,7 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>32</width>
+       <width>24</width>
        <height>16</height>
       </size>
      </property>
@@ -91,7 +91,7 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>32</width>
+       <width>24</width>
        <height>16</height>
       </size>
      </property>
@@ -128,6 +128,38 @@
     <hint type="sourcelabel">
      <x>99</x>
      <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addInitialConditionButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ModulesToolBox</receiver>
+   <slot>addInitCond()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addModuleButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ModulesToolBox</receiver>
+   <slot>addModule()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>350</y>
     </hint>
     <hint type="destinationlabel">
      <x>99</x>
