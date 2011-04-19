@@ -34,14 +34,14 @@ class Diagnostic(QListWidgetItem):
         '''This function needs to be overridden by subclasses'''
         # update the diagnostic
         # this method is supposed to be implemented by subclasses
-        return False
+        raise NotImplementedError("You must implement update in any custom diagnostic in order for it to be updated.")
 
     def shouldUpdate(self, time, particles) :
         '''Returns a boolean indicating whether this diagnostic should
         be updated given the current experiment state.'''
         bUpdate = True
         for condition in self.conditions :
-            bUpdate = bUpdate and condition.shouldUpdate(particles)
+            bUpdate = bUpdate and condition.shouldUpdate(time, particles)
         return bUpdate
 
     def addCondition(self, condition) :
