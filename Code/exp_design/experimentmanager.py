@@ -57,6 +57,7 @@ class ExperimentManager(QMainWindow):
         box.setInformativeText("Do you want to save them?")
         box.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
         box.setDefaultButton(QMessageBox.Save)
+        box.setIcon(QMessageBox.Warning)
         decision = box.exec_()
 
         if decision == QMessageBox.Save:
@@ -128,8 +129,6 @@ class ExperimentManager(QMainWindow):
             return False
 
     def closeEvent(self, event):
-        success = True
-
         if self.dirty:
             success = self.showDirtySaveBox()
             if not success:
