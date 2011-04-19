@@ -2,7 +2,7 @@ from amuse.support.data.core import Particles
 from amuse.support.units import nbody_system
 from amuse.support.units import units
 
-from diagnostics.builtin.EnergyLogging import EnergyLogger
+from diagnostics.builtin.energydiagnostic import EnergyDiagnostic
 # TODO: Tim needs to add this
 #from diagnostics.builtin.vis_py_viewr import VPyView
 from exp_management.Experiment import Experiment
@@ -26,7 +26,7 @@ class sunearth(ParticleDistribution):
 if __name__ == '__main__':
     my_experiment = Experiment()
     my_experiment.initialConditions[sunearth('2')]='2'
-    my_experiment.diagnostics[EnergyLogger()]='energylogger'
+    my_experiment.diagnostics[EnergyDiagnostic()]='energylogger'
     my_experiment.diagnostics[VPyView()]='visual python viewer'
 
     module_str = '\n'.join(open('exp_management/Modules_XML/hermite0.xml','r').readlines())
