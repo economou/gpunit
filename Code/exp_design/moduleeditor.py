@@ -103,7 +103,7 @@ class ModuleEditor(QMainWindow):
             self.updateUiFromModule()
             self.dirty = False
             return True
-        except IOError as err:
+        except (AttributeError, IOError) as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
                     )
             return False
