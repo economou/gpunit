@@ -1,0 +1,13 @@
+<experiment name="myExperiment" stopEnabled="true">
+   <time units="Myr" start="0" step="300" end="900"/>
+   <module type="BHtree">
+      <param name="use_self_gravity" value="0"/>
+      <stopCondition type="COLLISION_DETECTION"/>
+   <module/>
+   <particle radius="6371|km" mass="5.9736e4|kg" position="[1,0,0]|AU" velocity="[0.0,29783,0.0]|ms"/>
+   <particle radius="1|RSun" mass="1|MSun" position="[0,0,0]|m" velocity="[0.0,0.0,0.0]|ms"/>
+   <diagnostic name="massStats" file="massDiag.py"/>
+   <diagnostic name="velocityStats" file="vDiag.py"/>
+   <logger name="stateUpdates" file="stateUpdates.py"/>
+   <logger name="timeSteps" file="timeSteps.py"/>
+</experiment>
