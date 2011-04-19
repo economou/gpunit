@@ -17,7 +17,7 @@ from PyQt4.QtCore import Qt, pyqtSlot, QThread
 
 from exp_management.Experiment import Experiment
 from exp_gen.CLT import run_experiment
-from gui.ui_experimentmanager import Ui_ExperimentManager
+from gui.experimentmanager_ui import Ui_ExperimentManager
 
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
@@ -214,6 +214,9 @@ class ExperimentManager(QMainWindow):
             if len(matches) > 0:
                 initCondList.setCurrentItem(matches[0])
                 initCondList.takeItem(initCondList.currentRow())
+
+        for diag in self.experiment.diagnostics:
+            self.ui.diagnosticList.addItem(diag)
 
         self.ui.startBox.setValue(self.experiment.startTime.number)
         self.ui.stopBox.setValue(self.experiment.stopTime.number)

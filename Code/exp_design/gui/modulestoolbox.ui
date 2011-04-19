@@ -32,13 +32,6 @@
    <item row="4" column="1">
     <widget class="QListWidget" name="moduleList"/>
    </item>
-   <item row="5" column="1">
-    <widget class="QPushButton" name="addModuleButton">
-     <property name="text">
-      <string>---&gt;</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="1">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -57,48 +50,59 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QPushButton" name="addInitialConditionButton">
+    <widget class="QToolButton" name="addInitialConditionButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>---&gt;</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normalon>:/buttons/images/right-arrow.png</normalon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>16</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QToolButton" name="addModuleButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>---&gt;</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normalon>:/buttons/images/right-arrow.png</normalon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>16</height>
+      </size>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="imgres.qrc"/>
+ </resources>
  <connections>
-  <connection>
-   <sender>addInitialConditionButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ModulesToolBox</receiver>
-   <slot>addInitCond()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>99</x>
-     <y>349</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>99</x>
-     <y>185</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>addModuleButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ModulesToolBox</receiver>
-   <slot>addModule()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>139</x>
-     <y>169</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>99</x>
-     <y>185</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>initCondList</sender>
    <signal>doubleClicked(QModelIndex)</signal>

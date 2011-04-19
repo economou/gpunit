@@ -5,7 +5,7 @@ from exp_management.Module import Module
 from exp_management.Experiment import ModulePaths
 from exp_management.initialconditions import *
 
-from gui.ui_modulestoolbox import Ui_ModulesToolBox
+from gui.modulestoolbox_ui import Ui_ModulesToolBox
 
 initialConditions = (
         CustomParticles,
