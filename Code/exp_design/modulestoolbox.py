@@ -20,9 +20,9 @@ class ModulesToolbox(QWidget):
 
         self.ui = Ui_ModulesToolBox()
         self.ui.setupUi(self)
-        self.resetUi()
+        self.resetUI()
 
-    def resetUi(self):
+    def resetUI(self):
         self.ui.initCondList.clear()
         self.ui.moduleList.clear()
 

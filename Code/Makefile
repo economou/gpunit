@@ -5,6 +5,7 @@ GUI_PATH = exp_design/gui
 PY_RC_FILES = $(GUI_PATH)/imgres_rc.py
 
 PY_UI_FILES = $(GUI_PATH)/modulestoolbox_ui.py \
+		  $(GUI_PATH)/diagnosticstoolbox_ui.py \
 		  $(GUI_PATH)/clusterview_ui.py \
 		  $(GUI_PATH)/experimentmanager_ui.py \
 		  $(GUI_PATH)/moduleeditor_ui.py \

@@ -1,47 +1,37 @@
 from PyQt4.QtCore import pyqtSlot, SIGNAL
 from PyQt4.QtGui import QWidget
 
-from exp_management.module import Module
-from diagnostics.diagnostic import ModulePaths
-from exp_management.initialconditions import *
+from diagnostics.builtin.gldiagnostic import *
+from diagnostics.builtin.energydiagnostic import *
 
-from gui.modulestoolbox_ui import Ui_ModulesToolBox
+from gui.diagnosticstoolbox_ui import Ui_DiagnosticsToolBox
 
-initialConditions = (
-        CustomParticles,
-        PlummerModel,
-        KingModel,
-        SalpeterModel,
+diagnostics = (
+        OpenGLDiagnostic,
+        EnergyDiagnostic,
         )
 
-class ModulesToolbox(QWidget):
+class DiagnosticsToolbox(QWidget):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
 
-        self.ui = Ui_ModulesToolBox()
+        self.ui = Ui_DiagnosticsToolBox()
         self.ui.setupUi(self)
         self.resetUi()
 
     def resetUi(self):
-        self.ui.initCondList.clear()
-        self.ui.moduleList.clear()
+        self.ui.diagnosticList.clear()
+        self.ui.loggerList.clear()
 
-        for initCond in initialConditions:
-            self.ui.initCondList.addItem(initCond(20))
-
-        for path in ModulePaths.values():
-            xml = ""
-            xmlFile = open(path, "r")
-            for line in xmlFile:
-                xml += line
-            self.ui.moduleList.addItem(Module.fromXML(xml))
+        for diag in diagnostics:
+            self.ui.diagnosticList.addItem(diag())
 
     @pyqtSlot()
-    def addModule(self):
-        module = self.ui.moduleList.takeItem(self.ui.moduleList.currentRow())
-        self.emit(SIGNAL("moduleAdded(PyQt_PyObject)"), module)
+    def addDiagnostic(self):
+        diagnostic = self.ui.diagnosticList.takeItem(self.ui.diagnosticList.currentRow())
+        self.emit(SIGNAL("diagnosticAdded(PyQt_PyObject)"), diagnostic)
 
     @pyqtSlot()
-    def addInitCond(self):
-        initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
-        self.emit(SIGNAL("initCondAdded(PyQt_PyObject)"), initCond)
+    def addLogger(self):
+        logger = self.ui.loggerList.takeItem(self.ui.loggerList.currentRow())
+        self.emit(SIGNAL("loggerAdded(PyQt_PyObject)"), initCond)

@@ -1,3 +1,4 @@
+from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import QMainWindow
 from gui.clusterview_ui import Ui_ClusterView
 
@@ -14,6 +15,11 @@ class ClusterView(QMainWindow):
         self.nodes = []
         """List of nodes monitored by this ClusterView window."""
 
+    def resetUI(self):
+        for node in self.nodes: self.removeNode(node)
+        self.nodes = []
+
+    @pyqtSlot()
     def addNode(self, node):
         if node not in self.nodes:
             row = len(self.nodes) // MAX_NODE_COLS
@@ -23,6 +29,7 @@ class ClusterView(QMainWindow):
             self.ui.gridLayout.addWidget(node, row, col)
             self.update()
 
+    @pyqtSlot()
     def removeNode(self, node):
         if node in self.nodes:
             self.nodes.remove(node)

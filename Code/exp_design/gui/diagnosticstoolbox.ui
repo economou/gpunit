@@ -62,7 +62,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normalon>:/buttons/images/right-arrow.png</normalon>
+       <normalon>:/buttons/images/left-arrow.png</normalon>
       </iconset>
      </property>
      <property name="iconSize">
@@ -86,7 +86,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normalon>:/buttons/images/right-arrow.png</normalon>
+       <normalon>:/buttons/images/left-arrow.png</normalon>
       </iconset>
      </property>
      <property name="iconSize">
