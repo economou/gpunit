@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Condition.py
+# condition.py
 #    Condition to be satisfied for a Diagnostic to be updated.
 #
 # 3/1 - Dan Bagnell - created Condition class
