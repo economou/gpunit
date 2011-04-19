@@ -52,3 +52,4 @@ class EnergyDiagnostic(Diagnostic):
         self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
 #        print particles
 #        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
+
