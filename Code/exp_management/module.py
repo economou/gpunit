@@ -119,7 +119,6 @@ class Module(QListWidgetItem):
         # Iterate through parameters and append them as sub-elements
         for parameter in self.parameters:
             module.append(etree.fromstring(parameter.toXML()))
-            print parameter.toXML()
 
         # Prettify the XML
         uglyXml = xml.dom.minidom.parseString(etree.tostring(module, encoding = XML_ENCODING))
