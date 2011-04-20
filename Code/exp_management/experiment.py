@@ -115,6 +115,15 @@ class Experiment :
         outFile.write(uglyXml.toprettyxml(encoding = XML_ENCODING))
 
     @staticmethod
+    def fromFile(filename):
+        xml = ""
+        expFile = open(filename, "r")
+        for line in expFile:
+            xml += line
+
+        return Experiment.fromXML(xml)
+
+    @staticmethod
     def fromXML(XMLString) :
         ret = Experiment()
 

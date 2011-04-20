@@ -5,8 +5,12 @@ from PyQt4.QtGui import QApplication
 from exp_design.experimentmanager import ExperimentManager
 
 if __name__ == "__main__":
-    a = QApplication(sys.argv)
-    w = ExperimentManager()
+    expFilename = None
+    if len(sys.argv) > 1:
+        expFilename = sys.argv[1]
+
+    app = QApplication(sys.argv)
+    w = ExperimentManager(filename = expFilename)
     w.show()
 
-    exit(a.exec_())
+    exit(app.exec_())

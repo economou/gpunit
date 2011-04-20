@@ -57,7 +57,8 @@ class OpenGLDiagnostic(Diagnostic):
             self.widget = GLDiagnosticWidget(self.width, self.height, None)
 
     def cleanup(self):
-        self.widget.close()
+        if self.widget is not None:
+            self.widget.close()
 
 class GLDiagnosticWidget(QGLWidget):
     def __init__(self, width, height, parent = None):
