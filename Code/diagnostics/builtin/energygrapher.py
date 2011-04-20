@@ -12,7 +12,11 @@ from diagnostics.diagnostic import Diagnostic
 from PyQt4 import QtCore
 import numpy as np
 from math import sqrt
+
+import matplotlib
+matplotlib.use("Qt4Agg")
 import pylab
+
 def get_kinetic(particles):
 #    particles = gravity.particles
 #    k = 0.
@@ -37,9 +41,9 @@ def get_potential(particles):
     u /= 2
     return u
 class EnergyGrapher(Diagnostic):
-
     def __init__(self, name = "Energy Grapher") :
         Diagnostic.__init__(self, name)
+
         self.name = name
         self.time = []
         self.KE = []
@@ -57,6 +61,14 @@ class EnergyGrapher(Diagnostic):
         self.p1max =  1
         self.p2min = -1
         self.p2max =  1
+
+    def needsGUI(self):
+        return True
+
+    def setupGUI(self, parent):
+        self.parent = parent
+        self.initialize_graphs()
+
     def initialize_graphs(self):
             self.figure = pylab.figure(1)
             self.p1   = pylab.subplot(211)
@@ -65,30 +77,26 @@ class EnergyGrapher(Diagnostic):
             self.p2   = pylab.subplot(212)
             self.pTE, = pylab.plot(self.time,self.TE)
             self.pVR, = pylab.plot(self.time,self.VR)
-            self.p1min = min(self.PE[-1]-1,self.KE[-1]-1)
-            self.p1max = max(self.PE[-1]+1,self.KE[-1]+1)
-            self.p2min = min(self.TE[-1]-1,self.VR[-1]-1)
-            self.p2max = max(self.TE[-1]+1,self.VR[-1]+1)
+            self.p1min = 1000#min(self.PE[-1]-1,self.KE[-1]-1)
+            self.p1max = -1000#max(self.PE[-1]+1,self.KE[-1]+1)
+            self.p2min = 1000#min(self.TE[-1]-1,self.VR[-1]-1)
+            self.p2max = -1000#max(self.TE[-1]+1,self.VR[-1]+1)
             pylab.show()
         
     def update(self, time, particles) :
         '''This function needs to be overridden by subclasses'''
-        
         self.time.append(time.number)
         self.KE.append( get_kinetic( particles ) )
         self.PE.append( get_potential(particles) )
         self.TE.append( self.KE[-1] + self.PE[-1] )
         self.VR.append( self.KE[-1] / self.PE[-1] )
         
-        
-        if not self.pKE:
-            self.initialize_graphs()
-
         #Add xdata
         self.pKE.set_xdata(self.time)
         self.pPE.set_xdata(self.time)
         self.pTE.set_xdata(self.time)
         self.pVR.set_xdata(self.time)
+
         #Add ydata
         self.pKE.set_ydata(self.KE)
         self.pPE.set_ydata(self.PE)
@@ -99,18 +107,23 @@ class EnergyGrapher(Diagnostic):
         self.p1max = max(self.p1max,self.PE[-1],self.KE[-1])
         self.p2min = min(self.p1min,self.TE[-1],self.VR[-1])
         self.p2max = max(self.p1max,self.TE[-1],self.VR[-1])
+
         #Set the Limits
         self.p1.set_xlim(self.time[0],self.time[-1])
         self.p1.set_ylim(self.p1min*1.1,self.p1max*1.1)
         self.p2.set_xlim(self.time[0],self.time[-1])
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
         
-        pylab.draw()
+        #pylab.draw()
+        self.parent.diagnosticUpdated.emit()
 #        self.fout.write("Time: %f\n"%time.number)
 #        self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
 #        self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
 #        print particles
 #        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
+
+    def redraw(self):
+        pylab.draw()
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
@@ -122,6 +135,3 @@ class EnergyGrapher(Diagnostic):
         del newDict['p1']
         del newDict['p2']
         return (EnergyGrapher, (self.name, ), newDict)
-
-    def needsGUI(self):
-        return False
