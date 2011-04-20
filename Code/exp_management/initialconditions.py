@@ -94,7 +94,7 @@ class CustomParticles(ParticleDistribution):
             massUnit = eval(self.massUnit)
             radiusUnit = eval(self.radiusUnit)
             velUnit = eval(self.velUnit)
-        except AttributeError:
+        except:
             positionUnit = AU
             massUnit = MSun
             radiusUnit = AU
@@ -165,7 +165,7 @@ class CustomParticles(ParticleDistribution):
                 try:
                     eval(posUnit)
                     posUnitGood = True
-                except (SyntaxError, AttributeError, RuntimeError):
+                except:
                     posUnitGood = False
 
                 velX, vXGood = it.value().data(4, Qt.DisplayRole).toFloat()
@@ -176,7 +176,7 @@ class CustomParticles(ParticleDistribution):
                 try:
                     eval(velUnit)
                     velUnitGood = True
-                except (SyntaxError, AttributeError, RuntimeError):
+                except:
                     velUnitGood = False
 
                 mass, massGood = it.value().data(8, Qt.DisplayRole).toFloat()
@@ -185,7 +185,7 @@ class CustomParticles(ParticleDistribution):
                 try:
                     eval(massUnit)
                     massUnitGood = True
-                except (SyntaxError, AttributeError, RuntimeError):
+                except:
                     massUnitGood = False
 
                 radius, radiusGood = it.value().data(10, Qt.DisplayRole).toFloat()
