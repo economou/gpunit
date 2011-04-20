@@ -126,6 +126,15 @@ class Module(QListWidgetItem):
         return uglyXml.toprettyxml(encoding = XML_ENCODING)
 
     @staticmethod
+    def fromFile(filename):
+        xml = ""
+        modFile = open(filename, "r")
+        for line in modFile:
+            xml += line
+
+        return Module.fromXML(xml)
+
+    @staticmethod
     def fromXML(element):
         '''Recreates a Module from its XML specification.
 
