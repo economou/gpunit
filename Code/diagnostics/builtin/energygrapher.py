@@ -106,12 +106,12 @@ class EnergyGrapher(Diagnostic):
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
         
         pylab.draw()
-        QtCore.QEventLoop().processEvents()
 #        self.fout.write("Time: %f\n"%time.number)
 #        self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
 #        self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
 #        print particles
 #        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
+
     def __reduce__(self):
         newDict = self.__dict__.copy()
         del newDict['figure']
@@ -122,3 +122,6 @@ class EnergyGrapher(Diagnostic):
         del newDict['p1']
         del newDict['p2']
         return (EnergyGrapher, (self.name, ), newDict)
+
+    def needsGUI(self):
+        return False

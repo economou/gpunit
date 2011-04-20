@@ -12,8 +12,8 @@ import sys
 from amuse.support.units.si import *
 from amuse.support.units.units import *
 
-from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QListWidgetItem
-from PyQt4.QtCore import Qt, pyqtSlot, QThread
+from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QLineEdit
+from PyQt4.QtCore import Qt, pyqtSlot, pyqtSignal, QThread
 
 from exp_management.experiment import Experiment
 from exp_gen.CLT import run_experiment
@@ -26,6 +26,10 @@ from node import Node
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
     performed by the user in the GUI."""
+
+    # These must be declared here in the class body and not in __init__.
+    diagnosticUpdated = pyqtSignal()
+    runComplete = pyqtSignal()
 
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
@@ -42,8 +46,11 @@ class ExperimentManager(QMainWindow):
 
         self.experiment = Experiment()
         self.dirty = False
-        """Set to true if unsaved changes have been made."""
-        self.ui.centralWidget.setEnabled(False)
+        self.disableUI()
+        self.isRunning = False
+
+        self.diagnosticUpdated.connect(self.redrawDiagnosticWindows)
+        self.runComplete.connect(self.runCompleted)
 
     @pyqtSlot()
     def touch(self):
@@ -72,7 +79,21 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def newExperiment(self):
+        if self.dirty:
+            success = self.showDirtySaveBox()
+            if not success:
+                return
+
+        newName, accepted = QInputDialog.getText( self, "Experiment Name", "New experiment name:")
+        if not accepted:
+            return
+
         self.resetUI()
+        self.enableUI()
+
+        self.experiment = Experiment()
+        self.ui.nameText.setText(newName)
+        self.experiment.name = newName
 
     @pyqtSlot()
     def openExperiment(self):
@@ -95,11 +116,6 @@ class ExperimentManager(QMainWindow):
                 xml += line
 
             self.experiment = Experiment.fromXML(xml)
-
-            # TODO: THIS IS A BETA ONLY THING
-            # NEED TO IMPLEMENT DIAGNOSTICS LIST
-            #self.experiment.diagnostics[OpenGLDiagnostic("OpenGLDiagnostic")] = "GLDiagnostic.pkl"
-
             self.updateUiFromExperiment()
             self.dirty = False
             return True
@@ -135,6 +151,10 @@ class ExperimentManager(QMainWindow):
                 event.ignore()
                 return
 
+        for diagnostic in self.experiment.diagnostics:
+            if diagnostic.needsGUI():
+                diagnostic.cleanup()
+
         event.accept()
 
     @pyqtSlot()
@@ -146,6 +166,75 @@ class ExperimentManager(QMainWindow):
     def showModuleEditor(self):
         if not self.moduleEditor.isVisible():
             self.moduleEditor.show()
+
+    def enableUI(self):
+        self.ui.centralWidget.setEnabled(True)
+        self.ui.menuRun.setEnabled(True)
+
+    def disableUI(self):
+        self.ui.centralWidget.setEnabled(False)
+        self.ui.menuRun.setEnabled(False)
+
+    def resetUI(self):
+        self.ui.initCondList.clear()
+        self.ui.moduleList.clear()
+        self.ui.diagnosticList.clear()
+        #self.ui.loggerList.clear()
+
+        self.ui.nameText.setText("")
+
+        self.ui.startBox.setValue(0.0)
+        self.ui.stopBox.setValue(0.0)
+        self.ui.stepBox.setValue(0.0)
+
+        self.ui.modulesToolbox.resetUI()
+        self.clusterView.resetUI()
+        self.moduleEditor.resetUI()
+
+        self.dirty = False
+
+    def updateUiFromExperiment(self):
+        self.resetUI()
+        self.ui.nameText.setText(self.experiment.name)
+
+        for module in self.experiment.modules:
+            moduleList = self.ui.modulesToolbox.ui.moduleList
+
+            self.ui.moduleList.addItem(module)
+            matches = moduleList.findItems(module.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                moduleList.setCurrentItem(matches[0])
+                moduleList.takeItem(moduleList.currentRow())
+
+        for initCond in self.experiment.initialConditions:
+            initCondList = self.ui.modulesToolbox.ui.initCondList
+
+            self.ui.initCondList.addItem(initCond)
+            matches = initCondList.findItems(initCond.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                initCondList.setCurrentItem(matches[0])
+                initCondList.takeItem(initCondList.currentRow())
+
+        for diagnostic in self.experiment.diagnostics:
+            diagnosticList = self.ui.diagnosticsToolbox.ui.diagnosticList
+
+            self.ui.diagnosticList.addItem(diagnostic)
+            matches = diagnosticList.findItems(diagnostic.name, Qt.MatchExactly)
+            if len(matches) > 0:
+                diagnosticList.setCurrentItem(matches[0])
+                diagnosticList.takeItem(diagnosticList.currentRow())
+
+        self.ui.startBox.setValue(self.experiment.startTime.number)
+        self.ui.stopBox.setValue(self.experiment.stopTime.number)
+        self.ui.stepBox.setValue(self.experiment.timeStep.number)
+
+        unitString = str(self.experiment.timeUnit.unit)
+
+        self.ui.unitsText.setText(str(self.experiment.timeUnit))
+
+    #
+    # GUI Change Handler Slots
+    #
 
     @pyqtSlot()
     def addInitCondition(self, initCond):
@@ -214,69 +303,6 @@ class ExperimentManager(QMainWindow):
         else:
             self.ui.nameText.setText(self.experiment.name)
 
-    def enableUI(self):
-        self.ui.centralWidget.setEnabled(True)
-
-    def disableUI(self):
-        self.ui.centralWidget.setEnabled(False)
-
-    def resetUI(self):
-        self.ui.initCondList.clear()
-        self.ui.moduleList.clear()
-        self.ui.diagnosticList.clear()
-        #self.ui.loggerList.clear()
-
-        self.ui.nameText.setText("")
-
-        self.ui.startBox.setValue(0.0)
-        self.ui.stopBox.setValue(0.0)
-        self.ui.stepBox.setValue(0.0)
-
-        self.ui.modulesToolbox.resetUI()
-        self.clusterView.resetUI()
-        self.moduleEditor.resetUI()
-
-        self.dirty = False
-
-    def updateUiFromExperiment(self):
-        self.resetUI()
-        self.ui.nameText.setText(self.experiment.name)
-
-        for module in self.experiment.modules:
-            moduleList = self.ui.modulesToolbox.ui.moduleList
-
-            self.ui.moduleList.addItem(module)
-            matches = moduleList.findItems(module.name, Qt.MatchExactly)
-            if len(matches) > 0:
-                moduleList.setCurrentItem(matches[0])
-                moduleList.takeItem(moduleList.currentRow())
-
-        for initCond in self.experiment.initialConditions:
-            initCondList = self.ui.modulesToolbox.ui.initCondList
-
-            self.ui.initCondList.addItem(initCond)
-            matches = initCondList.findItems(initCond.name, Qt.MatchExactly)
-            if len(matches) > 0:
-                initCondList.setCurrentItem(matches[0])
-                initCondList.takeItem(initCondList.currentRow())
-
-        for diagnostic in self.experiment.diagnostics:
-            diagnosticList = self.ui.diagnosticsToolbox.ui.diagnosticList
-
-            self.ui.diagnosticList.addItem(diagnostic)
-            matches = diagnosticList.findItems(diagnostic.name, Qt.MatchExactly)
-            if len(matches) > 0:
-                diagnosticList.setCurrentItem(matches[0])
-                diagnosticList.takeItem(diagnosticList.currentRow())
-
-        self.ui.startBox.setValue(self.experiment.startTime.number)
-        self.ui.stopBox.setValue(self.experiment.stopTime.number)
-        self.ui.stepBox.setValue(self.experiment.timeStep.number)
-
-        unitString = str(self.experiment.timeUnit.unit)
-
-        self.ui.unitsText.setText(str(self.experiment.timeUnit))
-
     @pyqtSlot()
     def initCondSettings(self, index = None):
         if index is not None:
@@ -329,6 +355,54 @@ class ExperimentManager(QMainWindow):
         except (RuntimeError, NameError, AttributeError, SyntaxError):
             self.ui.unitsText.setText(str(self.experiment.timeUnit))
 
+    #
+    # Experiment Running Methods and Classes
+    #
+
+    @pyqtSlot()
+    def redrawDiagnosticWindows(self):
+        for diagnostic in self.experiment.diagnostics:
+            if diagnostic.needsGUI():
+                diagnostic.redraw()
+
+    @pyqtSlot()
+    def runCompleted(self):
+        self.isRunning = False
+        self.enableUI()
+
     @pyqtSlot()
     def runExperiment(self):
+        """Spawns a thread to run the experiment.""" 
+
+        if self.isRunning:
+            return
+
+        self.isRunning = True
+        self.disableUI()
+
+        try:
+            del self.runner
+        except AttributeError:
+            pass
+
+        self.runner = ExperimentRunner(self.experiment, self)
+        self.runner.start()
+
+class ExperimentRunner(QThread):
+    """A custom thread class used to run the experiment while the GUI renders
+    itself."""
+
+    def __init__(self, experiment, parent):
+        QThread.__init__(self, parent)
+        self.experiment = experiment
+
+        for diagnostic in self.experiment.diagnostics:
+            if diagnostic.needsGUI():
+                diagnostic.setupGUI(parent)
+
+    def run(self):
+        """Runs the experiment and then signals the GUI that the run
+        finished."""
+
         run_experiment(self.experiment)
+        self.parent().runComplete.emit()

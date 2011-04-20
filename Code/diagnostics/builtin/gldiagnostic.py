@@ -4,7 +4,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 from PyQt4.QtOpenGL import QGL, QGLFormat, QGLWidget
-from PyQt4.QtCore import QSize
+from PyQt4.QtCore import QSize, SIGNAL, SLOT
 
 from amuse.support.data.core import Particle, Particles
 
@@ -13,36 +13,53 @@ from diagnostics.diagnostic import Diagnostic
 from PyQt4.QtCore import QCoreApplication
 
 class OpenGLDiagnostic(Diagnostic):
-    def __init__(self, name = "OpenGLDiagnostic", dim = (512, 512)):
+    def __init__(self, name = "OpenGLDiagnostic", width = 512, height = 512):
         Diagnostic.__init__(self, name)
 
-        self.width, self.height = dim
-        self.window = GLDiagnosticWindow(self.width, self.height)
+        self.width, self.height = width, height
+        self.widget = None
+        self.parent = None
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
+
+        # Remove un-serializable references from the class dictionary.
+        # (GUI objects usually).
         del newDict["window"]
+        del newDict["parent"]
 
         return (OpenGLDiagnostic, (self.name, ), newDict)
 
-    def setSize(self, dim):
-        self.width, self.height = dim
-        self.window.setSize(dim)
-
     def update(self, time, particles):
-        self.window.particles = particles
+        if self.parent is None or self.widget is None:
+            return True
 
-        if not self.window.isVisible():
-            self.window.show()
+        self.widget.particles = particles
+        self.parent.diagnosticUpdated.emit()
 
-        self.window.update()
-        self.window.paintGL()
+        sleep(15.0/1000.0)
 
-        # TODO: THIS IS REALLY BAD.
-        QCoreApplication.processEvents()
         return True
 
-class GLDiagnosticWindow(QGLWidget):
+    def redraw(self):
+        if not self.widget.isVisible():
+            self.widget.show()
+
+        self.widget.update()
+
+    def needsGUI(self):
+        return True
+
+    def setupGUI(self, parent):
+        self.parent = parent
+
+        if self.widget is None:
+            self.widget = GLDiagnosticWidget(self.width, self.height, None)
+
+    def cleanup(self):
+        self.widget.close()
+
+class GLDiagnosticWidget(QGLWidget):
     def __init__(self, width, height, parent = None):
         QGLWidget.__init__(self, QGLFormat(QGL.DepthBuffer | QGL.DoubleBuffer), parent)
 
@@ -64,10 +81,6 @@ class GLDiagnosticWindow(QGLWidget):
         gluLookAt(5, 5, 5,
                 0, 0, 0,
                 0, 0, 1);
-
-    def setSize(self, dim):
-        self.width_, self.height_ = dim
-        self.resizeGL(self.width_, self.height_)
 
     def resizeGL(self, width, height):
         self.resize(self.width_, self.height_)

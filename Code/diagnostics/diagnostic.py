@@ -14,48 +14,50 @@ class Diagnostic(QListWidgetItem):
     '''Abstract Diagnostic class. Objects of subclasses are added to the an
     Experiment object where it is updated.'''
 
-    def __init__(self, name = "DiagnosticBase") :
-        self.name = name
-        self.conditions = []
-
+    def __init__(self, name = "DiagnosticBase"):
         QListWidgetItem.__init__(self)
-        self.setText(self.name)
+
+        self.conditions = []
+        self.setName(name)
 
     def __reduce__(self):
-        """ Example format for reduce():
-        return (ClassName, (member1, member2, ..., memberN), self.__dict__)
+        """__reduce__ should return a tuple containing the class object, a list
+        of arguments to pass to the object upon construction, and a dictionary
+        to use as the reconstructed class's member dictionary.
 
-        Specific example:
-        return (OpenGLDiagnostic, (self.name, self.parent), self.__dict__)"""
+        The dictionary returned should be self.__dict__ unless your diagnostic
+        requires GUI elements such as windows. In that case you must copy the
+        dict and remove (del) any references to GUI objects.
 
-        raise NotImplementedError("You must implement __reduce__ in any custom diagnostic in order for it to be serialized.")
+        Example:
+            newDict = self.__dict__
+            del newDict["guiwindowname"]
+
+            return (OpenGLDiagnostic, (self.name, self.parent), newDict)"""
+        return (Diagnostic, [], {"name":self.name, "conditions":self.conditions})
 
     def update(self, time, particles):
-        '''This function needs to be overridden by subclasses'''
-        # update the diagnostic
-        # this method is supposed to be implemented by subclasses
+        """Updates the status of the diagnostic based on the current timestep
+        and particle state."""
+
         raise NotImplementedError("You must implement update in any custom diagnostic in order for it to be updated.")
 
     def shouldUpdate(self, time, particles) :
         '''Returns a boolean indicating whether this diagnostic should
         be updated given the current experiment state.'''
+
         bUpdate = True
         for condition in self.conditions :
             bUpdate = bUpdate and condition.shouldUpdate(time, particles)
         return bUpdate
 
-    def addCondition(self, condition) :
-        '''Add a condition.'''
-        self.conditions.append(condition)
-
-    def addConditions(self, conditions) :
-        '''Add a list of conditions.'''
-        self.conditions.extend(conditions)
-
-    def removeCondition(self, condition) :
-        '''Remove a condition.'''
-        self.conditions.remove(condition)
-
     def setName(self, name):
+        """Sets the name and text for display in GUI lists."""
         self.name = name
         self.setText(name)
+
+    def needsGUI(self):
+        return False
+
+    def cleanup(self):
+        pass
