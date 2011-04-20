@@ -1,0 +1,63 @@
+<Module name="ph4">
+   <description>
+      Parallel, GPU-accelerated, N-body integration module with block
+      time steps, using a 4th-order Hermite integration scheme.
+   </description>
+   <domain>Stellar Dynamics</domain>
+   <codeLocation>amuse/community/ph4/interface.py</codeLocation>
+   <className>ph4</className>
+   <isParallel>true</isParallel>
+    <stoppingConditions>0</stoppingConditions>
+   <Parameter name="epsilon_squared">
+   		<description>
+			Smoothing parameter for gravity calculations
+		</description>
+		<defaultValue>
+            0.0001
+        </defaultValue>
+		<Units>
+			<description>length squared</description>
+			<symbolicDescription>length*length</symbolicDescription>
+			<Unit type="Length" exponent="2"/>
+		</Units>
+   </Parameter>
+   <Parameter name="timestep_parameter">
+   		<description>
+            Timestep
+        </description>
+        <defaultValue>
+            0.14
+        </defaultValue>
+        <Units>
+            <description>none</description>
+            <symbolicDescription>none</symbolicDescription>
+            <Unit type="None" exponent="1"/>
+        </Units>
+   </Parameter>
+   <Parameter name="time">
+        <description>
+            Current Simulation Time
+        </description>
+        <defaultValue>
+            0.0
+        </defaultValue>
+        <Units>
+            <description>time</description>
+            <symbolicDescription>time</symbolicDescription>
+            <Unit type="Time" exponent="1"/>
+        </Units>
+   </Parameter>
+   <Parameter name="use_gpu">
+        <description>
+            Set true to use a GPU
+        </description>
+        <defaultValue>
+            true
+        </defaultValue>
+        <Units>
+            <description>none</description>
+            <symbolicDescription>none</symbolicDescription>
+            <Unit type="None" exponent="1"/>
+        </Units>
+   </Parameter>
+</Module>
