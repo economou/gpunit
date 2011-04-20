@@ -16,6 +16,8 @@ from math import sqrt
 import matplotlib
 matplotlib.use("Qt4Agg")
 import pylab
+from time import sleep
+
 
 def get_kinetic(particles):
 #    particles = gravity.particles
@@ -83,11 +85,11 @@ class EnergyGrapher(Diagnostic):
             self.p2max = -1000#max(self.TE[-1]+1,self.VR[-1]+1)
             pylab.show()
         
-    def update(self, time, particles) :
+    def update(self, time, modules) :
         '''This function needs to be overridden by subclasses'''
         self.time.append(time.number)
-        self.KE.append( get_kinetic( particles ) )
-        self.PE.append( get_potential(particles) )
+        self.KE.append( modules[0].kinetic_energy.number )   #get_kinetic( particles ) )
+        self.PE.append( modules[0].potential_energy.number ) #.get_potential(particles) )
         self.TE.append( self.KE[-1] + self.PE[-1] )
         self.VR.append( self.KE[-1] / self.PE[-1] )
         
@@ -113,6 +115,7 @@ class EnergyGrapher(Diagnostic):
         self.p1.set_ylim(self.p1min*1.1,self.p1max*1.1)
         self.p2.set_xlim(self.time[0],self.time[-1])
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
+        sleep(15.0/1000.0)
         
         #pylab.draw()
         self.parent.diagnosticUpdated.emit()

@@ -36,19 +36,19 @@ class Diagnostic(QListWidgetItem):
             return (OpenGLDiagnostic, (self.name, self.parent), newDict)"""
         return (Diagnostic, [], {"name":self.name, "conditions":self.conditions})
 
-    def update(self, time, particles):
+    def update(self, time, modules):
         """Updates the status of the diagnostic based on the current timestep
         and particle state."""
 
         raise NotImplementedError("You must implement update in any custom diagnostic in order for it to be updated.")
 
-    def shouldUpdate(self, time, particles) :
+    def shouldUpdate(self, time, modules) :
         '''Returns a boolean indicating whether this diagnostic should
         be updated given the current experiment state.'''
 
         bUpdate = True
         for condition in self.conditions :
-            bUpdate = bUpdate and condition.shouldUpdate(time, particles)
+            bUpdate = bUpdate and condition.shouldUpdate(time, modules)
         return bUpdate
 
     def setName(self, name):

@@ -30,11 +30,11 @@ class OpenGLDiagnostic(Diagnostic):
 
         return (OpenGLDiagnostic, (self.name, ), newDict)
 
-    def update(self, time, particles):
+    def update(self, time, modules):
         if self.parent is None or self.widget is None:
             return True
 
-        self.widget.particles = particles
+        self.widget.particles = modules[0].particles
         self.parent.diagnosticUpdated.emit()
 
         sleep(15.0/1000.0)

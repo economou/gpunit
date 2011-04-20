@@ -131,11 +131,12 @@ def run_experiment(experiment):
             	    channel.copy()
     	        for channel in channels_to_module:
     	            channel.copy()
-        module.particles.copy_values_of_state_attributes_to(particles)
+        for module in modules:
+            module.particles.copy_values_of_state_attributes_to(particles)
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
-            if diagnostic.shouldUpdate(time, particles):
-                diagnostic.update(time,particles)
+            if diagnostic.shouldUpdate(time, modules):
+                diagnostic.update(time,modules)
             
         #Run Logging Scripts
         for logger in experiment.loggers:
@@ -146,8 +147,8 @@ def run_experiment(experiment):
         
     #Run Closing Diagnostic Scripts
     for diagnostic in experiment.diagnostics:
-        if diagnostic.shouldUpdate(time,particles):
-            diagnostic.update(time,particles)
+        if diagnostic.shouldUpdate(time,modules):
+            diagnostic.update(time,modules)
 
     #Run Closing Logging Scripts
     for logger in experiment.loggers:
