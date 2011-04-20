@@ -31,7 +31,7 @@ class ExperimentManager(QMainWindow):
     diagnosticUpdated = pyqtSignal()
     runComplete = pyqtSignal()
 
-    def __init__(self, parent = None):
+    def __init__(self, filename = None, parent = None):
         QMainWindow.__init__(self, parent)
 
         self.ui = Ui_ExperimentManager()
@@ -41,12 +41,20 @@ class ExperimentManager(QMainWindow):
 
         self.moduleEditor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
+
+        # TODO: replace with real networking.
         for i in range(30):
             self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
-        self.experiment = Experiment()
+        if filename is not None:
+            self.enableUI()
+            self.experiment = Experiment.fromFile(filename)
+            self.updateUiFromExperiment()
+        else:
+            self.experiment = Experiment()
+            self.disableUI()
+
         self.dirty = False
-        self.disableUI()
         self.isRunning = False
 
         self.diagnosticUpdated.connect(self.redrawDiagnosticWindows)
@@ -110,12 +118,7 @@ class ExperimentManager(QMainWindow):
         try:
             self.enableUI()
 
-            xml = ""
-            expFile = open(filename, "r")
-            for line in expFile:
-                xml += line
-
-            self.experiment = Experiment.fromXML(xml)
+            self.experiment = Experiment.fromFile(filename)
             self.updateUiFromExperiment()
             self.dirty = False
             return True
@@ -404,5 +407,13 @@ class ExperimentRunner(QThread):
         """Runs the experiment and then signals the GUI that the run
         finished."""
 
-        run_experiment(self.experiment)
+        try:
+            run_experiment(self.experiment)
+        except:
+            box = QMessageBox()
+            box.setText("The experiment failed to run.")
+            box.setStandardButtons(QMessageBox.Ok)
+            box.setDefaultButton(QMessageBox.Ok)
+            box.setIcon(QMessageBox.Error)
+            box.show()
         self.parent().runComplete.emit()

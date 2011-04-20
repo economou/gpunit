@@ -92,13 +92,7 @@ class ModuleEditor(QMainWindow):
             return
 
         try:
-            modFile = open(filename, "r")
-            xml = ""
-            for line in modFile:
-                xml += line
-            modFile.close()
-
-            self.module = module.Module.fromXML(xml)
+            self.module = module.Module.fromFile(filename)
             self.enableUI()
             self.updateUiFromModule()
             self.dirty = False
