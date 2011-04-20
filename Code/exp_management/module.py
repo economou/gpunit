@@ -12,9 +12,6 @@ Date:
 State:
   Preliminary'''
 
-# TODO: Enforce type safety?
-# TODO: Implement enumerations?  If so, to what degree?
-
 from PyQt4.QtGui import QListWidgetItem
 
 import xml.etree.ElementTree as etree
@@ -33,7 +30,7 @@ class Module(QListWidgetItem):
     interface.'''
 
     # Constructor
-    def __init__(self, name, description, domain, className, codeLocation, isParallel, stoppingConditions, parameters,classname = None):
+    def __init__(self, name, description, domain, className, codeLocation, isParallel, stoppingConditions, parameters, classname = None):
         '''Initializes a new Module with the given instance data.
 
         Parameters:
@@ -56,8 +53,7 @@ class Module(QListWidgetItem):
         self.parameters = parameters
         self.className  = className
 
-        # Set up the module's name so that it can be displayed in GUI list      
-        # boxes.
+        # Set up the module's name so that it can be displayed in GUI list boxes
         QListWidgetItem.__init__(self)
         self.setText(self.name)
 
@@ -311,28 +307,28 @@ class Module(QListWidgetItem):
         self.parameters = parameters
     @property
     def result(self):
-        '''Returns an instance of the value. Treats result as a 
-                    value rather than a function'''
+        '''Returns an instance of the value. Treats result as a value rather
+        than a function.
 
-        '''
         Working EXAMPLE:
         Use this for finding absolute path os.path.expanduser("~/amuse-svn/src/amuse/community/")
         example filename
         sys.path.append("/home/cassini/tmcjilton/amuse-svn/src/amuse/community/")
         from hermite0.interface import Hermite
         '''
-        filename = re.search("(?<=/)[\da-zA-Z]*\.py$",self.codeLocation).group(0)
+        filename = re.search("(?<=/)[\da-zA-Z]*\.py$", self.codeLocation).group(0)
         print self.codeLocation
         if self.codeLocation[:5] == 'amuse':
             path = ".".join(self.codeLocation.split("/"))[:-3]
-            print path,self.className
+            print path, self.className
             exec("from "+path+" import "+self.className)
             print 
         else:
             sys.path.append(self.codeLocation.rstrip(filename))
-            exec("from "+filename.rstrip(".py")+" import "+self.className)
+            exec("from " + filename.rstrip(".py") + " import " + self.className)
 
-        exec("r_val = %s"%str(self.className))
+        exec("r_val = %s" % str(self.className))
+
         return r_val
 
 class Parameter:
@@ -392,9 +388,7 @@ class Parameter:
 
         parameter.append(etree.fromstring(self.units.toXML()))
 
-        # Prettify the XML
-        uglyXml = xml.dom.minidom.parseString(etree.tostring(parameter, encoding = XML_ENCODING))
-        return uglyXml.toprettyxml(encoding = XML_ENCODING)
+        return etree.tostring(parameter, encoding = XML_ENCODING)
 
     @staticmethod
     def fromXML(element):
@@ -545,9 +539,7 @@ class CompoundUnit:
         for unit in self.units:
             units.append(etree.fromstring(unit.toXML()))
 
-        # Prettify the XML
-        uglyXml = xml.dom.minidom.parseString(etree.tostring(units, encoding = XML_ENCODING))
-        return uglyXml.toprettyxml(encoding = XML_ENCODING)
+        return etree.tostring(units, encoding = XML_ENCODING)
 
     @staticmethod
     def fromXML(element):
@@ -686,13 +678,11 @@ class Unit:
         if self.prefix is not None:
             attrDict["prefix"] = self.prefix
         if self.exponent is not None:
-            attrDict["exponent"] = self.exponent
+            attrDict["exponent"] = str(self.exponent)  # Convert integer to string for serialization
 
         unit = etree.Element("Unit", attrib = attrDict)
 
-        # Prettify the XML
-        uglyXml = xml.dom.minidom.parseString(etree.tostring(unit, encoding = XML_ENCODING))
-        return uglyXml.toprettyxml(encoding = XML_ENCODING)
+        return etree.tostring(unit, encoding = XML_ENCODING)
 
     @staticmethod
     def fromXML(element):
@@ -710,7 +700,7 @@ class Unit:
         # Extract Unit's properties from XML attributes
         utype    = unitElement.get("type")
         prefix   = unitElement.get("prefix")
-        exponent = unitElement.get("exponent")
+        exponent = eval(unitElement.get("exponent"))  # Evaluate string as integer
 
         # Create the Parameter
         unit = Unit(utype, prefix, exponent)
