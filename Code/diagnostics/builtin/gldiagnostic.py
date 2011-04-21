@@ -6,6 +6,7 @@ from OpenGL.GLU import *
 from PyQt4.QtOpenGL import QGL, QGLFormat, QGLWidget
 from PyQt4.QtCore import QSize, SIGNAL, SLOT
 
+from amuse.support.units.units import *
 from amuse.support.data.core import Particle, Particles
 
 from diagnostics.diagnostic import Diagnostic
@@ -54,29 +55,29 @@ class OpenGLDiagnostic(Diagnostic):
         self.parent = parent
 
         if self.widget is None:
-            self.widget = GLDiagnosticWidget(self.width, self.height, None)
+            self.widget = GLDiagnosticWidget(self.width, self.height)
 
     def cleanup(self):
         if self.widget is not None:
             self.widget.close()
 
 class GLDiagnosticWidget(QGLWidget):
-    def __init__(self, width, height, parent = None):
+    def __init__(self, width, height, distanceUnits = AU, parent = None):
         QGLWidget.__init__(self, QGLFormat(QGL.DepthBuffer | QGL.DoubleBuffer), parent)
 
         self.width_ = width
         self.height_ = height
+        self.distanceUnits = distanceUnits
 
         self.particles = Particles(0)
 
     def initializeGL(self):
-        glClearColor(0,0,0,1.0)
+        glClearColor(1,1,1,1.0)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glPointSize(2.0)
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        #glOrtho(-2, 2, -2, 2, -2, 2)
         gluPerspective(45.0, 1.0, 0.5, 200);
         glMatrixMode(GL_MODELVIEW)
         gluLookAt(5, 5, 5,
@@ -117,8 +118,12 @@ class GLDiagnosticWidget(QGLWidget):
         # TOOD: THIS IS SLOW! Use A VBO or vertex array.
         glColor3f(1,1,1)
 
+        # TODO: figure out why this ever happens.
+        if not isinstance(self.particles, Particles):
+            return
+
         glBegin(GL_POINTS)
         for particle in self.particles:
-            pos = particle.position.number
+            pos = particle.position.value_in(self.distanceUnits)
             glVertex3f(pos[0], pos[1], pos[2])
         glEnd()
