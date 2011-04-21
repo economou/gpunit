@@ -416,7 +416,7 @@ class Parameter:
         name = parameterElement.get("name")
 
         description  = parameterElement.find("description").text.strip()
-        defaultValue = eval(parameterElement.find("defaultValue").text.strip())  # Evaluate strings as numbers
+        defaultValue = eval(parameterElement.find("defaultValue").text.title().strip())  # Evaluate strings as numbers
 
         # Read Units sub-element into a CompoundUnit instance
         unitsElement = parameterElement.find("Units")

@@ -49,10 +49,10 @@
    </Parameter>
    <Parameter name="use_gpu">
         <description>
-            Set true to use a GPU
+            Set to 1 to use a GPU, 0 otherwise.
         </description>
         <defaultValue>
-            true
+            1
         </defaultValue>
         <Units>
             <description>none</description>
