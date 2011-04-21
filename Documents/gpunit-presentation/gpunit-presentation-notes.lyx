@@ -1,0 +1,412 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{beamerthemesplit}
+\end_preamble
+\options blue
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout BeginFrame
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+AMUSE Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Astrophysical Multipurpose Software Environment (AMUSE)
+\end_layout
+
+\begin_layout Itemize
+Start with modules, move upwards -> MPI -> AMUSE python code.
+\end_layout
+
+\begin_layout Itemize
+AMUSE is state of the art for software for simulation of HUGE stellar systems,
+ emphasize this (millions of stars in the galaxy or gas cloud).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename amuse-overview.png
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AMUSE-Architecture"
+
+\end_inset
+
+AMUSE Architecture
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+State of AMUSE
+\end_layout
+
+\begin_layout Itemize
+Partnership between Drexel and the Leiden Observatory in the Netherlands,
+ sponsored by NOVA.
+\end_layout
+
+\begin_layout Itemize
+NOVA = Netherlands Research School for Astronomy AMUSE
+\end_layout
+
+\begin_layout Itemize
+mention large scale again
+\end_layout
+
+\begin_layout Itemize
+written by hand = hard to share
+\end_layout
+
+\begin_layout Itemize
+waste of work to replicate someone else's diagnostics to fit your exact
+ circumstances.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Purpose
+\end_layout
+
+\begin_layout Subsection
+Purpose of GPUnit
+\end_layout
+
+\begin_layout BeginFrame
+Purpose of GPUnit
+\end_layout
+
+\begin_layout Itemize
+Ease the creation, execution, and analysis of experiments with AMUSE
+\end_layout
+
+\begin_layout Itemize
+Create experiments with minimal to no programming
+\end_layout
+
+\begin_layout Itemize
+Repeatability
+\end_layout
+
+\begin_layout Itemize
+Sharing Experiments
+\end_layout
+
+\begin_layout Itemize
+Results/ Diagnostics
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Target Audiences
+\end_layout
+
+\begin_layout BeginFrame
+Target Audiences
+\end_layout
+
+\begin_layout Itemize
+Physics Student
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A user with minimal to no programming experience and minimal knowledge of
+ astronomy
+\end_layout
+
+\begin_layout Itemize
+Has an interest in learning, performing, and observing experiments
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Observational Astrophysicists
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Little programming experience
+\end_layout
+
+\begin_layout Itemize
+High understanding of astronomy Interested in specific experiments and calculati
+ons
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Theoretical Astrophysicists
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Large programming experience
+\end_layout
+
+\begin_layout Itemize
+High understanding of astronomy
+\end_layout
+
+\begin_layout Itemize
+Interested in creating own experiments with custom diagnostic tools
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Components and Features
+\end_layout
+
+\begin_layout Subsection
+Experiment Management
+\end_layout
+
+\begin_layout BeginFrame
+Experiment Management
+\end_layout
+
+\begin_layout Itemize
+Diagnostics on next slide.
+\end_layout
+
+\begin_layout Itemize
+Initial conditions control the state of the stellar system before the experiment
+ starts.
+\end_layout
+
+\begin_layout Itemize
+Logging: what modules are running, when a timestep is taken, how long the
+ timestep took.
+\end_layout
+
+\begin_layout Itemize
+Diagnostics: periodic output of the physical state of the stellar system
+ ex: mass, velocity, position etc...
+ 
+\end_layout
+
+\begin_layout Itemize
+User configures how often logs are written, what kind of output is generated
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Diagnostics
+\end_layout
+
+\begin_layout BeginFrame
+Diagnostics
+\end_layout
+
+\begin_layout Itemize
+Visual diagnostics accomplished through plugins, uses OpenGL
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Command Line Interface
+\end_layout
+
+\begin_layout BeginFrame
+Command Line Interface
+\end_layout
+
+\begin_layout Itemize
+small changes via flags 
+\end_layout
+
+\begin_layout Itemize
+headless = without X windows
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Parallelism and Distribution
+\end_layout
+
+\begin_layout BeginFrame
+Parallelism and Distribution
+\end_layout
+
+\begin_layout Itemize
+Modules have a list of parts of the model that they modify, there should
+ be no overlap.
+\end_layout
+
+\begin_layout Itemize
+After the time interval ends, modules send their results back to the central
+ model where they are merged.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+User Interface
+\end_layout
+
+\begin_layout BeginFrame
+User Interface
+\end_layout
+
+\begin_layout Itemize
+Modules are defined by specification files, as are initial condition models.
+\end_layout
+
+\begin_layout Itemize
+There are categories of modules, an experiment can have at most one of each
+ category of module.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Cluster Control
+\end_layout
+
+\begin_layout Itemize
+Nodes are detected automatically so long as they are running a small piece
+ of network code.
+\end_layout
+
+\begin_layout Itemize
+Node usage is polled periodically.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Final Goals
+\end_layout
+
+\begin_layout BeginFrame
+Final Goals
+\end_layout
+
+\begin_layout Itemize
+Integration into AMUSE
+\end_layout
+
+\begin_layout Itemize
+Users can download AMUSE and create/run experiments right away.
+\end_layout
+
+\begin_layout Itemize
+Open AMUSE up for use by a non-programmer audience.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document
