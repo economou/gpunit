@@ -9,6 +9,11 @@ from socket import *
 import packet
 from packet import PacketFactory
 
+try
+    import pycuda.autoinit
+except ImportError:
+    numGPUs = 0
+
 DEFAULT_MCAST_PORT = 3141
 
 class NodeInstance(Thread):
