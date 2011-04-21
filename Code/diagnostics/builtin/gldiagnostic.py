@@ -26,7 +26,7 @@ class OpenGLDiagnostic(Diagnostic):
 
         # Remove un-serializable references from the class dictionary.
         # (GUI objects usually).
-        del newDict["window"]
+        del newDict["widget"]
         del newDict["parent"]
 
         return (OpenGLDiagnostic, (self.name, ), newDict)
