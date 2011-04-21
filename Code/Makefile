@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean psutil
 
 GUI_PATH = exp_design/gui
 
@@ -13,13 +13,17 @@ PY_UI_FILES = $(GUI_PATH)/modulestoolbox_ui.py \
 		  $(GUI_PATH)/particlesettings_ui.py \
 		  $(GUI_PATH)/node_ui.py
 
-all : $(PY_UI_FILES) $(PY_RC_FILES)
+all : $(PY_UI_FILES) $(PY_RC_FILES) psutil
 
 $(GUI_PATH)/%_ui.py : $(GUI_PATH)/%.ui
 	pyuic4 $^ -o $@
 
 $(GUI_PATH)/%_rc.py : $(GUI_PATH)/%.qrc
 	pyrcc4 $^ -o $@
+
+psutil:
+	cd network/psutil-src && python setup.py build
+	mv network/psutil-src/build/lib.linux-x86_64-2.6/* ./
 
 clean:
 	-rm $(PY_UI_FILES)
