@@ -115,7 +115,7 @@ class EnergyGrapher(Diagnostic):
         self.p1.set_ylim(self.p1min*1.1,self.p1max*1.1)
         self.p2.set_xlim(self.time[0],self.time[-1])
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
-        sleep(15.0/1000.0)
+        sleep(33.0/1000.0)
         
         #pylab.draw()
         self.parent.diagnosticUpdated.emit()
