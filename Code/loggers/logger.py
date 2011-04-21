@@ -28,29 +28,3 @@ def toXml() :
 		'''Get a xml string representation.'''
 		# TODO: implement
 		return ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
