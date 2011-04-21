@@ -410,10 +410,7 @@ class ExperimentRunner(QThread):
         try:
             run_experiment(self.experiment)
         except:
-            box = QMessageBox()
-            box.setText("The experiment failed to run.")
-            box.setStandardButtons(QMessageBox.Ok)
-            box.setDefaultButton(QMessageBox.Ok)
-            box.setIcon(QMessageBox.Error)
-            box.show()
+            # TODO: Signal this to GUI to pop up a box.
+            print "ERROR RUNNING EXP. TODO: SIGNAL THIS FOR GUI."
+            pass
         self.parent().runComplete.emit()
