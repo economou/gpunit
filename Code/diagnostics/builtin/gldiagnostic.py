@@ -58,6 +58,7 @@ class OpenGLDiagnostic(Diagnostic):
             self.widget = GLDiagnosticWidget(self.width, self.height)
 
     def cleanup(self):
+        self.particles = None
         if self.widget is not None:
             self.widget.close()
 
@@ -114,12 +115,15 @@ class GLDiagnosticWidget(QGLWidget):
         glVertex3f(0,0,1)
         glEnd()
 
+        if self.particles is None:
+            return
+
         # Draw the points.
         # TOOD: THIS IS SLOW! Use A VBO or vertex array.
         glColor3f(1,1,1)
 
-        # TODO: figure out why this ever happens.
-        if not isinstance(self.particles, Particles):
+        # TODO: investigate this?
+        if not isinstance(self.particles, Particles) or len(self.particles) < 1:
             return
 
         glBegin(GL_POINTS)
