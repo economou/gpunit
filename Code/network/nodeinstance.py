@@ -6,10 +6,11 @@ import struct
 from threading import Thread
 from socket import *
 
+import psutil
 import packet
 from packet import PacketFactory
 
-try
+try:
     import pycuda.autoinit
 except ImportError:
     numGPUs = 0
@@ -69,15 +70,16 @@ class NodeInstance(Thread):
             self.packetHandlers[packet.header.type](packet)
 
     def handleStatusQuery(self, packet):
-        print "Got StatusQueryPacket:", packet
-        self.leaveGroup()
-        exit(0)
+        cpuUsage = psutil.cpu_percent()
+        usedMem = psutil.used_phymem()
+        simsRunning = 0
 
     def handleStatusResponse(self, packet):
         pass
 
     def handleCapabilityQuery(self, packet):
-        pass
+        numCPUs = psutil.NUM_CPUS
+        totalMem = psutil.TOTAL_PHYMEM
 
     def handleCapabilityResponse(self, packet):
         pass
