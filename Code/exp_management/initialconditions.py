@@ -270,6 +270,9 @@ class PlummerModel(ParticleDistribution):
         return MakePlummerModel(self.numParticles,self.convert_nbody,
             self.radius_cutoff,self.mass_cutoff,self.do_scale,self.random_state).result
 
+    def showSettingsDialog(self):
+        self.numParticles, _ = QInputDialog.getInt(None, "Number of Particles", "Particles:", self.numParticles, 1)
+
 class KingModel(ParticleDistribution):
     def __init__(self, numParticles, W0 = 0.0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
