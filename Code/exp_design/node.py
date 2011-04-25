@@ -61,7 +61,7 @@ class Node(QWidget):
         self.updateDialog()
         self.update()
 
-    def setFreeMemory(self, usedmem):
+    def setUsedMemory(self, usedmem):
         self.memoryUsed = usedmem
 
         self.updateDialog()
