@@ -1,4 +1,4 @@
-.PHONY: all clean psutil
+.PHONY: all clean
 
 GUI_PATH = exp_design/gui
 
@@ -22,10 +22,11 @@ $(GUI_PATH)/%_rc.py : $(GUI_PATH)/%.qrc
 	pyrcc4 $^ -o $@
 
 psutil:
-	cd network/psutil-src && python setup.py build
-	mv network/psutil-src/build/lib.linux-x86_64-2.6/* ./
+	cd psutil-src && python setup.py build
+	mv psutil-src/build/lib.linux-x86_64-2.6/* ./
 
 clean:
 	-rm $(PY_UI_FILES)
 	-rm $(PY_RC_FILES)
 	-rm $(GUI_PATH)/*.pyc
+	-rm -r psutil _psutil_linux.so  _psutil_posix.so
