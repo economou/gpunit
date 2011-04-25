@@ -1,10 +1,9 @@
 from PyQt4.QtCore import SIGNAL, SLOT, pyqtSlot, Qt
-from PyQt4.QtGui import QListWidgetItem 
+from PyQt4.QtGui import QListWidgetItem, QInputDialog
 
-from amuse.support.units.generic_unit_converter import ConvertBetweenGenericAndSiUnits
 from amuse.support.units.units import *
 from amuse.support.units.si import *
-from amuse.support.data.core import Particle, Particles, ParticlesWithUnitsConverted
+from amuse.support.data.core import Particle, Particles
 
 from amuse.ext.salpeter import SalpeterIMF 
 from amuse.ext.plummer import MakePlummerModel
@@ -249,6 +248,9 @@ class SalpeterModel(MassDistribution):
 
     def setAlpha(self, alpha):
         self.alpha = alpha
+
+    def showSettingsDialog(self):
+        self.numParticles, _ = QInputDialog.getInt(None, "Number of Particles", "Particles:", self.numParticles, 1)
 
 class PlummerModel(ParticleDistribution):
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = 1.0,
