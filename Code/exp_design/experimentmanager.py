@@ -370,6 +370,10 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def runCompleted(self):
+        for diagnostic in self.experiment.diagnostics:
+            if diagnostic.needsGUI():
+                diagnostic.cleanup()
+
         self.isRunning = False
         self.enableUI()
 
