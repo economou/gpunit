@@ -37,7 +37,8 @@ XML_ENCODING = "UTF-8"
 defaultTimeUnit = units.yr #UnitType.yr
 
 ModulePaths = {
-    "hermite0" : "exp_management/Modules_XML/hermite0.xml"
+    "hermite0" : "exp_management/Modules_XML/hermite0.xml",
+    "ph4" : "exp_management/Modules_XML/ph4.xml",
 }
 '''File paths for Module XML file definitions'''
 
