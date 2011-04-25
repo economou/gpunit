@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>792</width>
+    <width>809</width>
     <height>514</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>441</width>
+           <width>458</width>
            <height>435</height>
           </rect>
          </property>
@@ -425,7 +425,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>792</width>
+     <width>809</width>
      <height>25</height>
     </rect>
    </property>
@@ -490,10 +490,13 @@
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>&amp;Close</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+W</string>
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
    </property>
   </action>
   <action name="actionRun_Experiment">
