@@ -73,14 +73,23 @@ def initialization(experiment):
     
     particle_sets = []
     last_set = None
+    
+    total_mass = 1000 | units.MSun
+    
+    #Create Conversion Object
+    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
+    print experiment.initialConditions.keys()
     #Loop through all Initial Conditions
     for ic in experiment.initialConditions:
+        print ic,particle_sets
         #If Initial Conditionis Mass Distribution set last set to have this mass
         if isinstance(ic, MassDistribution):
             last_set = MassDistribution
             particle_sets[-1].mass = ic.getMassList()
         #If Inititial Conditions is Particle Distribution append the new Particles object
         else:
+            ic.convert_nbody = convert_nbody
+
             last_set = ParticleDistribution
             particle_sets.append(ic.getParticleList())
     
@@ -90,11 +99,9 @@ def initialization(experiment):
             particle_sets[0].add_particles(p)
     particles = particle_sets[0] 
     
-    #Total mass used for conversion object
-    total_mass = reduce(lambda x,y:x+y, particles.mass)
+#    #Total mass used for conversion object
+#    total_mass = reduce(lambda x,y:x+y, particles.mass)
     
-    #Create Conversion Object
-    convert_nbody = nbody_system.nbody_to_si(total_mass,r)
         
     #Get Modules actual class values
     modules = [mod.result(convert_nbody) for mod in experiment.modules]
