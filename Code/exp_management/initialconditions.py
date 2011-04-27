@@ -40,9 +40,9 @@ class ParticleDistribution(InitialCondition):
 
     def getParticleList(self):
         pass
-
+        
     def __reduce__(self):
-        return (ParticleDistribution, (self.name,), self.__dict__)
+        return (self.__class__, (self.name,), self.__dict__)
 
 from exp_design.gui.particlesettings_ui import Ui_ParticleSettingsDialog
 from PyQt4.QtGui import QDialog, QTreeWidgetItem, QTreeWidgetItemIterator
@@ -263,10 +263,10 @@ class PlummerModel(ParticleDistribution):
         self.mass_cutoff = mass_cutoff
         self.do_scale = do_scale
         self.random_state = random_state
-
     def getParticleList(self):
         '''Creates a particle list by making a new Plummer model. Note this will be
         different every time this function is called in case any members have changed'''
+
         return MakePlummerModel(self.numParticles,self.convert_nbody,
             self.radius_cutoff,self.mass_cutoff,self.do_scale,self.random_state).result
 
