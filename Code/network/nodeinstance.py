@@ -2,11 +2,15 @@
 
 import sys
 import struct
+from time import sleep
 
 from threading import Thread
 from socket import *
 
 import psutil
+
+import network
+import threads
 import packet
 from packet import PacketFactory
 
@@ -14,8 +18,6 @@ try:
     import pycuda.autoinit
 except ImportError:
     numGPUs = 0
-
-DEFAULT_MCAST_PORT = 3141
 
 class NodeInstance(Thread):
     def __init__(self, groupIP, name):
@@ -38,36 +40,31 @@ class NodeInstance(Thread):
         self.name = name
         """The name of this node."""
 
-        self.sock = None
-        """A socket connected to the multicast group."""
-
-        self.packetHandlers = {
+        self.transmissionThread = threads.TransmissionThread()
+        self.receivingThread = threads.ReceivingThread(mcast = True, groupIP)
+        self.receivingThread.packetHandlers = {
                 packet.STATUS_QUERY : self.handleStatusQuery,
                 packet.STATUS_RESPONSE : self.handleStatusResponse,
                 packet.CAPABILITY_QUERY : self.handleCapabilityQuery,
                 packet.CAPABILITY_RESPONSE : self.handleCapabilityResponse,
                 }
 
-        self.joinGroup()
-
-    def joinGroup(self, port = DEFAULT_MCAST_PORT):
-        self.sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)
-        self.sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-        self.sock.bind(("", port))
-
-        mreq = struct.pack("=4sl", inet_aton(self.groupIP), INADDR_ANY)
-        self.sock.setsockopt(IPPROTO_IP, IP_ADD_MEMBERSHIP, mreq)
-
-    def leaveGroup(self):
-        mreq = struct.pack("=4sl", inet_aton(self.groupIP), INADDR_ANY)
-        self.sock.setsockopt(IPPROTO_IP, IP_DROP_MEMBERSHIP, mreq)
-        self.sock.close()
+        self.receivingThread.start()
+        self.transmissionThread.start()
 
     def run(self):
-        while True:
-            data = str(self.sock.recv(10240))
-            packet = PacketFactory.packetFromString(data)
-            self.packetHandlers[packet.header.type](packet)
+        self.done = False
+        while not self.done:
+            try:
+                sleep(1.0)
+            except:
+                print "Shutting down..."
+                self.receivingThread.shutdown()
+                self.transmissionThread.shutdown()
+
+                self.receivingThread.join()
+                self.transmissionThread.join()
+                break
 
     def handleStatusQuery(self, packet):
         cpuUsage = psutil.cpu_percent()
