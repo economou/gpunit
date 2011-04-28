@@ -148,6 +148,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename nbody1k.png
 	scale 30
@@ -329,7 +330,7 @@ Experiments include a specification for:
 
 \begin_deeper
 \begin_layout Itemize
-Initial Conditions, Variables
+Initial Conditions
 \end_layout
 
 \begin_layout Itemize
@@ -380,7 +381,7 @@ Sensible default diagnostics provided
 \end_layout
 
 \begin_layout Itemize
-An interface to create custom diagnostics
+An API for custom diagnostics
 \end_layout
 
 \end_deeper
@@ -388,40 +389,6 @@ An interface to create custom diagnostics
 Diagnostics can include a visual display of the system state.
 \end_layout
 
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Subsection
-Command Line Interface
-\end_layout
-
-\begin_layout BeginFrame
-Command Line Interface
-\end_layout
-
-\begin_layout Itemize
-The command line interface gives the user ability to:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Make small changes to the experiment before running
-\end_layout
-
-\begin_layout Itemize
-Run headless experiments
-\end_layout
-
-\begin_layout Itemize
-Control experiment distribution across a cluster
-\end_layout
-
-\begin_layout Itemize
-Easily repeat experiments
-\end_layout
-
-\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -443,7 +410,7 @@ No need to share data until the end of a time interval.
 \end_layout
 
 \begin_layout Itemize
-Some exceptions if a special event occurs
+Some exceptions if a special event occurs.
 \end_layout
 
 \begin_layout Itemize
@@ -606,23 +573,57 @@ Module Editor
 \end_layout
 
 \begin_layout Section
-Final Goals
+Testing
 \end_layout
 
 \begin_layout BeginFrame
-Final Goals
+Tests
 \end_layout
 
-\begin_layout Itemize
-Integration into AMUSE
+\begin_layout EndFrame
+
 \end_layout
 
-\begin_layout Itemize
-Users can download AMUSE and create/run experiments right away.
+\begin_layout BeginFrame
+Commit History
 \end_layout
 
-\begin_layout Itemize
-Open AMUSE up for use by a non-programmer audience.
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /home/hape/gpunit/activity.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Commit History
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout EndFrame

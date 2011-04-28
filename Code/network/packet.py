@@ -30,10 +30,10 @@ class PacketHeader:
         self.type = int(fields[0])
         self.length = long(fields[1])
         self.sourceIp = str(fields[2])
-        self.destIp = str(fields[3])
+        self.destIP = str(fields[3])
 
     def __str__(self):
-        return SEP.join([str(f) for f in [self.type, self.length, self.sourceIp, self.destIp]])
+        return SEP.join([str(f) for f in [self.type, self.length, self.sourceIp, self.destIP]])
 
 class Packet:
     def __init__(self, fields):
