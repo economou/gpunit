@@ -1,5 +1,5 @@
 from PyQt4.QtCore import pyqtSlot
-from PyQt4.QtGui import QMainWindow
+from PyQt4.QtGui import QMainWindow, QPushButton
 from gui.clusterview_ui import Ui_ClusterView
 
 MAX_NODE_COLS = 3
@@ -25,7 +25,7 @@ class ClusterView(QMainWindow):
             row = len(self.nodes) // MAX_NODE_COLS
             col = len(self.nodes) % MAX_NODE_COLS
 
-            self.nodes.append(node)
+            #self.nodes.append(button)
             self.ui.gridLayout.addWidget(node, row, col)
             self.update()
 
