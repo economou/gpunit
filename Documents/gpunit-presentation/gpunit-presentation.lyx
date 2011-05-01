@@ -1,25 +1,34 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass beamer
 \begin_preamble
 \usepackage{beamerthemesplit}
+\setbeamertemplate{footline}[page number]
 \end_preamble
 \options blue
 \use_default_options true
+\maintain_unincluded_children false
 \language english
+\language_package default
 \inputencoding auto
+\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize 10
 \spacing single
 \use_hyperref false
@@ -27,21 +36,31 @@
 \use_geometry true
 \use_amsmath 1
 \use_esint 1
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
-\defskip medskip
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
 \end_header
 
 \begin_body
@@ -227,10 +246,6 @@ AMUSE Architecture
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -284,6 +299,10 @@ Create/Design/Modify experiments
 Select, configure, swap out modules and initial conditions
 \end_layout
 
+\begin_layout Itemize
+Store and restore progress of running experiments.
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -316,113 +335,44 @@ Theoretical Astrophysicists
 Components and Features
 \end_layout
 
-\begin_layout Subsection
-Experiment Management
-\end_layout
-
 \begin_layout BeginFrame
-Experiment Management
+Features and Design
 \end_layout
 
 \begin_layout Itemize
-Experiments include a specification for:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Initial Conditions
+Configurable experiments that can be saved and shared.
 \end_layout
 
 \begin_layout Itemize
-Module Selection
+Diagnostic tools that compute useful metrics.
 \end_layout
 
 \begin_layout Itemize
-Logging
+Storage of experiment state in case of crashes.
 \end_layout
 
 \begin_layout Itemize
-Diagnostics
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Allows experiments to be repeated and shared.
+Interface for custom diagnostics and code.
 \end_layout
 
 \begin_layout EndFrame
 
 \end_layout
 
-\begin_layout Subsection
-Diagnostics
-\end_layout
-
 \begin_layout BeginFrame
-Diagnostics
+Features and Design
 \end_layout
 
 \begin_layout Itemize
-Diagnostics read the state of the system while it is computing, and output
- selected metrics.
+Written in Python using the PyQt4 GUI toolkit.
 \end_layout
 
 \begin_layout Itemize
-Features include:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Configurable output data formats
+AMUSE is written in Python, improves interaction.
 \end_layout
 
 \begin_layout Itemize
-Sensible default diagnostics provided
-\end_layout
-
-\begin_layout Itemize
-An API for custom diagnostics
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Diagnostics can include a visual display of the system state.
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Subsection
-Parallelism and Distribution
-\end_layout
-
-\begin_layout BeginFrame
-Parallelism and Distribution
-\end_layout
-
-\begin_layout Itemize
-Modules are independent, can run at the same time.
-\end_layout
-
-\begin_layout Itemize
-No need to share data until the end of a time interval.
-\end_layout
-
-\begin_layout Itemize
-Some exceptions if a special event occurs.
-\end_layout
-
-\begin_layout Itemize
-User interaction can be required.
-\end_layout
-
-\begin_layout Itemize
-GUI will provide a display of all nodes on the cluster.
-\end_layout
-
-\begin_layout Itemize
-Command line provides a list of free nodes if desired.
+Provides a display of cluster usage to aid in scheduling.
 \end_layout
 
 \begin_layout EndFrame
@@ -434,7 +384,7 @@ User Interface
 \end_layout
 
 \begin_layout Subsection
-Cluster Control
+Experiment Editor
 \end_layout
 
 \begin_layout BeginFrame
@@ -448,9 +398,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename exp-control.png
-	scale 40
+	width 80col%
 
 \end_inset
 
@@ -466,10 +417,6 @@ Experiment Editor
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -542,9 +489,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename module-editor.png
-	scale 40
+	width 60col%
 
 \end_inset
 
@@ -563,10 +511,6 @@ Module Editor
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -578,6 +522,42 @@ Testing
 
 \begin_layout BeginFrame
 Tests
+\end_layout
+
+\begin_layout Itemize
+Table of tests that pass.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Team Management
+\end_layout
+
+\begin_layout Itemize
+Used Mercurial as our version control system.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Distributed, allows offline commits.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Team met weekly.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Once to plan work, once to code.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Bi-weekly advisor meetings.
 \end_layout
 
 \begin_layout EndFrame
@@ -617,13 +597,37 @@ Commit History
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Demo
+\end_layout
+
+\begin_layout BeginFrame
+Demo
+\end_layout
+
+\begin_layout Itemize
+Demonstrate a simulation from start to finish here.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Questions
+\end_layout
+
+\begin_layout Itemize
+Questions?
 \end_layout
 
 \begin_layout EndFrame
