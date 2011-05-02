@@ -70,7 +70,7 @@ class Experiment:
         self.timeStep  = defaultTimeStep  | self.timeUnit
 
     def copy(self):
-        ret = experiment(self.name)
+        ret = Experiment(self.name)
 
         ret.stopIsEnabled = self.stopIsEnabled
         ret.modules = self.modules[:]
@@ -91,6 +91,8 @@ class Experiment:
         ret.startTime = self.startTime
         ret.stopTime  = self.stopTime
         ret.timeStep  = self.timeStep
+
+        return ret
 
     def toXML(self):
         # Create <experiment> XML element and set its attributes
