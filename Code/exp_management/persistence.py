@@ -91,6 +91,7 @@ class FileStorage(ExperimentStorage):
 
         self.setPaths(experiment)
         run_experiment(experiment)
+        self.save()
 
         for diagnostic in experiment.diagnostics:
             diagnostic.cleanup()
