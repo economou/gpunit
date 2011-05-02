@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<experiment name="Beta Demo Experiment" stopEnabled="True">
-	<time end="365.0" start="1.0" step="1.0" units="day"/>
-	<module name="hermite0"/>
-	<initialCondition file="CustomParticles.pkl"/>
-	<diagnostic file="GLDiagnostic.pkl"/>
-</experiment>
