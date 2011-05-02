@@ -59,18 +59,24 @@ class Diagnostic(QListWidgetItem):
     def needsGUI(self):
         return False
 
-    def setupGUI(self):
+    def setupGUI(self, parent):
         if self.needsGUI():
-            raise NotImplementedError("Diagnostics that require the GUI must implement setupGUI.")
+            raise NotImplementedError("Diagnostics that require the GUI must implement setupGUI().")
+        else:
+            pass
+
+    def redraw(self):
+        if self.needsGUI():
+            raise NotImplementedError("Diagnostics that require the GUI must implement redraw().")
         else:
             pass
 
     def needsFile(self):
         return False
 
-    def setupFile(self):
+    def setupFile(self, filename):
         if self.needsGUI():
-            raise NotImplementedError("Diagnostics that require file output must implement setupFile.")
+            raise NotImplementedError("Diagnostics that require file output must implement setupFile().")
         else:
             pass
 
