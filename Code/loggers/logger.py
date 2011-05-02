@@ -18,6 +18,26 @@ class Logger :
     def selectoutput(self,outputmode) :
         '''select output mode for logger '''
         self.outputmode.extend(outputmode)
+  
+   def needsGUI(self):
+        return False
+
+    def setupGUI(self, parent):
+        if self.needsGUI():
+            raise NotImplementedError("Logger that require the GUI must implement setupGUI().")
+        else:
+            pass
+
+def needsFile(self):
+        return False
+
+    def setupFile(self, filename):
+        if self.needsGUI():
+            raise NotImplementedError("Logger that require file output must implement setupFile().")
+        else:
+            pass
+
+
 
     def logdata(self,particle) :
         '''gets data from experiment for logger'''
