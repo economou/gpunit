@@ -14,7 +14,7 @@ class Diagnostic(QListWidgetItem):
     '''Abstract Diagnostic class. Objects of subclasses are added to the an
     Experiment object where it is updated.'''
 
-    def __init__(self, name = "DiagnosticBase"):
+    def __init__(self, name = "BaseDiagnostic"):
         QListWidgetItem.__init__(self)
 
         self.conditions = []
@@ -58,6 +58,21 @@ class Diagnostic(QListWidgetItem):
 
     def needsGUI(self):
         return False
+
+    def setupGUI(self):
+        if self.needsGUI():
+            raise NotImplementedError("Diagnostics that require the GUI must implement setupGUI.")
+        else:
+            pass
+
+    def needsFile(self):
+        return False
+
+    def setupFile(self):
+        if self.needsGUI():
+            raise NotImplementedError("Diagnostics that require file output must implement setupFile.")
+        else:
+            pass
 
     def cleanup(self):
         pass
