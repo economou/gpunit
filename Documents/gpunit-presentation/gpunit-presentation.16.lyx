@@ -422,9 +422,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename cluster-control.png
-	scale 50
+	width 80col%
 
 \end_inset
 

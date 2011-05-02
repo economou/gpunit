@@ -6,16 +6,16 @@ S'basePath'
 p3
 S'/home/hape/gpunit/Code/demo-experiment'
 p4
-sS'runs'
-p5
-I0
 sS'base'
-p6
+p5
 (iexp_management.experiment
 Experiment
+p6
+S'<?xml version="1.0" encoding="UTF-8"?>\n<experiment name="Demo Experiment" stopEnabled="True">\n\t<time end="365.0" start="0.0" step="1.0" units="day"/>\n\t<module name="hermite0"/>\n\t<initialCondition file="/home/hape/gpunit/Code/demo-experiment/2/objects/CustomParticles.init"/>\n\t<diagnostic file="/home/hape/gpunit/Code/demo-experiment/2/objects/OpenGLDiagnostic.diag"/>\n</experiment>\n'
+bsS'runs'
 p7
-S'<?xml version="1.0" encoding="UTF-8"?>\n<experiment name="Demo Experiment" stopEnabled="True">\n\t<time end="365.0" start="0" step="1.0" units="day"/>\n\t<module name="hermite0"/>\n\t<initialCondition file="/home/hape/gpunit/Code/demo-experiment/0/objects/CustomParticles.init"/>\n\t<diagnostic file="/home/hape/gpunit/Code/demo-experiment/0/objects/OpenGLDiagnostic.diag"/>\n</experiment>\n'
-bsS'name'
+I2
+sS'name'
 p8
 S'Demo Experiment'
 p9
