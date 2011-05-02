@@ -410,7 +410,7 @@ class ExperimentRunner(QThread):
         finished."""
 
         #try:
-        self.storage.run()
+        self.parent().storage.run()
         #except:
         #    # TODO: use GUI signals here to show a box.
         #    print "ERROR RUNNING EXPERIMENT. TODO: SIGNAL GUI HERE."
