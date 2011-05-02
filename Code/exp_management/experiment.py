@@ -42,7 +42,7 @@ ModulePaths = {
 }
 '''File paths for Module XML file definitions'''
 
-class Experiment :
+class Experiment:
     '''Experiment class holds all relevant experiment data
     for an AMUSE simulation'''
 
@@ -92,7 +92,7 @@ class Experiment :
         ret.stopTime  = self.stopTime
         ret.timeStep  = self.timeStep
 
-    def writeXMLFile(self,fileName) :
+    def toXML(self):
         # Create <experiment> XML element and set its attributes
         experiment = etree.Element("experiment", attrib = {"name" : self.name, "stopEnabled" : str(self.stopIsEnabled)})
         
@@ -140,11 +140,12 @@ class Experiment :
 
             etree.SubElement(experiment, "logger", attrib = {"file" : path})
         
-        uglyXml = xml.dom.minidom.parseString(etree.tostring(experiment, encoding = XML_ENCODING))
-        
-      #Write it to the given file 
+        return xml.dom.minidom.parseString(etree.tostring(experiment, encoding = XML_ENCODING)).toprettyxml(encoding = XML_ENCODING)
+
+    def writeXMLFile(self, filename):
+        #Write th to the given file 
         outFile = open(fileName, 'w')
-        outFile.write(uglyXml.toprettyxml(encoding = XML_ENCODING))
+        outFile.write(self.toXML())
 
     @staticmethod
     def fromFile(filename):
@@ -245,3 +246,10 @@ class Experiment :
         if init in self.initialCondition:
             self.initialConditions.remove(init)
             del self.initialConditionPaths[init]
+
+    def __getstate__(self):
+        return self.toXML()
+
+    def __setstate__(self, state):
+        exp = Experiment.fromXML(state)
+        self.__dict__ = exp.__dict__.copy()
