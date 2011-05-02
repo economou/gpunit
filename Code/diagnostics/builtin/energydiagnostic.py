@@ -43,8 +43,7 @@ class EnergyDiagnostic(Diagnostic):
     def cleanup(self):
         self.fout.close()
 
-    def update(self, time, particles) :
-        '''This function needs to be overridden by subclasses'''
+    def update(self, time, particles, modules) :
         KE = get_kinetic(particles)
         PE = get_potential(particles)
 

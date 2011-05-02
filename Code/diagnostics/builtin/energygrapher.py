@@ -85,7 +85,7 @@ class EnergyGrapher(Diagnostic):
             self.p2max = -1000#max(self.TE[-1]+1,self.VR[-1]+1)
             pylab.show()
         
-    def update(self, time, modules) :
+    def update(self, time, particles, modules) :
         '''This function needs to be overridden by subclasses'''
         self.time.append(time.number)
         self.KE.append( modules[0].kinetic_energy.number )   #get_kinetic( particles ) )

@@ -31,11 +31,11 @@ class OpenGLDiagnostic(Diagnostic):
 
         return (OpenGLDiagnostic, (self.name, ), newDict)
 
-    def update(self, time, modules):
+    def update(self, time, particles, modules):
         if self.parent is None or self.widget is None:
             return True
 
-        self.widget.particles = modules[0].particles
+        self.widget.particles = particles
         self.parent.diagnosticUpdated.emit()
 
         sleep(15.0/1000.0)
@@ -58,9 +58,8 @@ class OpenGLDiagnostic(Diagnostic):
             self.widget = GLDiagnosticWidget(self.width, self.height)
 
     def cleanup(self):
-        self.particles = None
         if self.widget is not None:
-            self.widget.close()
+            self.widget.setVisible(False)
 
 class GLDiagnosticWidget(QGLWidget):
     def __init__(self, width, height, distanceUnits = AU, parent = None):

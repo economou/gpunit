@@ -143,7 +143,7 @@ def run_experiment(experiment):
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(time, modules):
-                diagnostic.update(time,modules)
+                diagnostic.update(time,particles,modules)
 
         #Run Logging Scripts
         for logger in experiment.loggers:
@@ -155,7 +155,7 @@ def run_experiment(experiment):
     #Run Closing Diagnostic Scripts
     for diagnostic in experiment.diagnostics:
         if diagnostic.shouldUpdate(time,modules):
-            diagnostic.update(time,modules)
+            diagnostic.update(time,particles,modules)
 
     #Run Closing Logging Scripts
     for logger in experiment.loggers:
