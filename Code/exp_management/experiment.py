@@ -51,15 +51,46 @@ class Experiment :
         self.name = name
         self.stopIsEnabled = True
         self.modules = []
+
         self.particles = Particles(0)
         self.particlesPath = ""
-        self.diagnostics = {}
-        self.loggers = {}
-        self.initialConditions = {}
+
+        self.diagnostics = []
+        self.diagnosticPaths = {}
+
+        self.loggers = []
+        self.loggerPaths = {}
+
+        self.initialConditions = []
+        self.initialConditionPaths = {}
+
         self.timeUnit  = defaultTimeUnit
         self.startTime = defaultStartTime | self.timeUnit
         self.stopTime  = defaultStopTime  | self.timeUnit
         self.timeStep  = defaultTimeStep  | self.timeUnit
+
+    def copy(self):
+        ret = experiment(self.name)
+
+        ret.stopIsEnabled = self.stopIsEnabled
+        ret.modules = self.modules[:]
+
+        ret.particles = self.particles.copy()
+        ret.particlesPath = self.particlesPath
+
+        ret.diagnostics = self.diagnostics[:]
+        ret.diagnosticPaths = self.diagnosticPaths.copy()
+
+        ret.loggers = self.loggers[:]
+        ret.loggerPaths = self.loggerPaths.copy()
+
+        ret.initialConditions = self.initialConditions[:]
+        ret.initialConditionPaths = self.initialConditionPaths.copy()
+
+        ret.timeUnit  = self.timeUnit
+        ret.startTime = self.startTime
+        ret.stopTime  = self.stopTime
+        ret.timeStep  = self.timeStep
 
     def writeXMLFile(self,fileName) :
         # Create <experiment> XML element and set its attributes
@@ -184,90 +215,30 @@ class Experiment :
             ret.particles = amuse.support.io.read_set_from_file(particlesPath, "hdf5")
 
         return ret
-        
-#---------------------------------------------------
-        
 
-    def getCurrentState(self) :
-        #returns the list of particles to read their states
-        return self.particles
+    def addDiagnostic(self, diag, filename = ""):
+        self.diagnostics.append(diag)
+        self.diagnosticPaths[diag] = filename
 
-#---------------------------------------------------
-#Maybe this evolve method isn't needed?
-#    def evolveState() :
-        #Evolve the simulation
-#---------------------------------------------------
-
-    def setName(self, name) :
-        #Sets the name of the experiment to the given value
-        self.name = name
-
-    def getName(self) :
-        #Returns the name of the experiment
-        return self.name
-
-    def setTimeStep(self,timeStep) :
-        #Sets the timestep to the given value
-        self.timeStep = timeStep|self.timeUnit
-
-    def getTimeStep(self) :
-        #Returns the experiment's timeStep
-        return self.timeStep
-
-    def disableStopConditions(self) :
-        #Disables the stopping conditions
-        self.stopIsEnabled = False
-
-    def enableStopConditions(self) :
-        #Enables the stopping conditions
-        self.stopIsEnabled = True
-
-    def addModule(self, module) :
-        #Adds the given module to the module list
-        self.modules.append(module)
-
-    def removeModule(self, module) :
-        #Removes the given module from the module list
-        self.modules.remove(module)
-
-    def addModules(self, modules) :
-        #Adds the given modules to the module list
-        self.modules.extend(modules)
-
-    def addParticle(self, particle) :
-        #Adds the given particle to the particle list
-        self.particles.add_particle(particle)
-
-    def removeParticle(self, particle) :
-        #Removes the given particle from the particle list
-        self.particles.remove(particle)
-
-    def addParticles(self, particles) :
-        #Adds the given particles to the particle list
-        self.particles.extend(particles)
-
-    def addDiagnostic(self, diagnostic) :
-        #Adds the given diagnostic to the diagnostic list
-        self.diagnostics.append(diagnostic)
-
-    def removeDiagnostic(self, diagnostic) :
-        #Removes the given diagnostic from the diagnostic list
-        self.diagnostics.remove(diagnostic)
-
-    def addDiagnostics(self, diagnostics) :
-        #Adds the given diagnostics to the diagnostic list
-        self.diagnostics.extend(diagnostics)
-
-    def addLogger(self, logger) :
-        #Adds the given logger to the logger list
+    def addLogger(self, logger, filename = ""):
         self.loggers.append(logger)
+        self.loggerPaths[logger] = filename
 
-    def removeLogger(self, logger) :
-        #Removes the given logger from the logger list
-        self.loggers.remove(logger)
+    def addInitialCondition(self, init, filename = ""):
+        self.initialConditions.append(init)
+        self.initialConditionPaths[init] = filename
 
-    def addLoggers(self, loggers) :
-        #Adds the given loggers to the logger list
-        self.loggers.extend(loggers)
+    def removeDiagnostic(self, diag):
+        if diag in self.diagnostics:
+            self.diagnostics.remove(diag)
+            del self.diagnosticPaths[diag]
 
+    def removeLogger(self, logger):
+        if logger in self.loggers:
+            self.loggers.remove(logger)
+            del self.loggerPaths[logger]
 
+    def removeInitialCondition(self, init):
+        if init in self.initialCondition:
+            self.initialConditions.remove(init)
+            del self.initialConditionPaths[init]
