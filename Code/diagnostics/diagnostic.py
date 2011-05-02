@@ -34,7 +34,7 @@ class Diagnostic(QListWidgetItem):
             del newDict["guiwindowname"]
 
             return (OpenGLDiagnostic, (self.name, self.parent), newDict)"""
-        return (Diagnostic, [], {"name":self.name, "conditions":self.conditions})
+        return (self.__class__, (self.name,), {"name":self.name, "conditions":self.conditions})
 
     def update(self, time, modules):
         """Updates the status of the diagnostic based on the current timestep
