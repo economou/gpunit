@@ -78,8 +78,24 @@ def initialization(experiment):
 
     #Create Conversion Object
     convert_nbody = nbody_system.nbody_to_si(total_mass,r)
-
-    #Loop through all Initial Conditions
+    particle_sets = []
+    #Loop through all particle distributions
+    for pd in filter(lambda x: isinstance(x, ParticleDistribution),experiment.initialConditions):
+        pd.convert_nbody=convert_nbody
+        particle_sets.append(pd.getParticleList())
+        
+    if len(particle_sets)-1:
+        for p in particle_sets[1:]:
+            particle_sets[0].add_particles(p)
+    particles = particle_sets[0] 
+    masses = []
+    for md in filter(lambda x: isinstance(x, MassDistribution),experiment.initialConditions):
+        masses.append( md.getMassList()[1])
+    for i in masses[1:]:
+        masses[0].extend(i)
+    masses = masses[0]
+    print masses
+    '''
     for ic in experiment.initialConditions:
         print ic,particle_sets
         #If Initial Conditionis Mass Distribution set last set to have this mass
@@ -92,7 +108,7 @@ def initialization(experiment):
 
         last_set = ParticleDistribution
         particle_sets.append(ic.getParticleList())
-
+    '''
     #union all of the Particles sets together
     if len(particle_sets)-1:
         for p in particle_sets[1:]:
