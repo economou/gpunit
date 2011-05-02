@@ -24,6 +24,9 @@ class InitialCondition(QListWidgetItem):
     def showSettingsDialog(self):
         pass
 
+    def setStoragePath(self, path):
+        pass
+
 class MassDistribution(InitialCondition):
     def __init__(self, name):
         InitialCondition.__init__(self, name)
@@ -32,7 +35,7 @@ class MassDistribution(InitialCondition):
         pass
 
     def __reduce__(self):
-        return (MassDistribution, (self.name,), self.__dict__)
+        return (self.__class__, (self.name,), self.__dict__)
 
 class ParticleDistribution(InitialCondition):
     def __init__(self, name):
@@ -49,7 +52,7 @@ from PyQt4.QtGui import QDialog, QTreeWidgetItem, QTreeWidgetItemIterator
 from amuse.support.units import units
 
 class CustomParticles(ParticleDistribution):
-    def __init__(self, numParticles, particlesPath = None):
+    def __init__(self, numParticles, particlesPath = None, storageFilename = None):
         ParticleDistribution.__init__(self, "CustomParticles")
 
         self.dialog = QDialog()
@@ -59,16 +62,22 @@ class CustomParticles(ParticleDistribution):
         self.dialog.connect(self.ui.addParticleButton, SIGNAL("clicked()"), self.treeAddParticle)
         self.dialog.connect(self.ui.removeParticleButton, SIGNAL("clicked()"), self.treeRemoveParticle)
 
-        if particlesPath is None:
+        if storageFilename is None:
             self.particles = Particles(0)
         else:
-            self.particles = read_set_from_file(particlesPath, "hdf5")
+            self.particles = read_set_from_file(particlesPath + storageFilename, "hdf5")
             self.numParticles = len(self.particles)
+
+            self.storageFilename = storageFilename
             self.particlesPath = particlesPath
-            self.ui.pathText.setText(self.particlesPath)
+
+            self.ui.pathText.setText(self.storageFilename)
+
+    def setStoragePath(self, path):
+        self.particlesPath = path
 
     def __reduce__(self):
-        write_set_to_file(self.particles, self.particlesPath, "hdf5")
+        write_set_to_file(self.particles, self.particlesPath + self.storageFilename, "hdf5")
 
         pickleDict = self.__dict__.copy()
 
@@ -76,7 +85,7 @@ class CustomParticles(ParticleDistribution):
         del pickleDict["dialog"]
         del pickleDict["ui"]
 
-        return (CustomParticles, (self.numParticles, ), pickleDict)
+        return (CustomParticles, (self.numParticles,), pickleDict)
 
     def getParticleList(self):
         return self.particles
@@ -84,7 +93,7 @@ class CustomParticles(ParticleDistribution):
     def __setstate__(self, state):
         self.__dict__ = dict(self.__dict__, **state)
 
-        particles = read_set_from_file(self.particlesPath, "hdf5")
+        particles = read_set_from_file(self.particlesPath + self.storageFilename, "hdf5")
         self.particles = Particles(len(particles))
         self.numParticles = len(particles)
 
@@ -144,7 +153,7 @@ class CustomParticles(ParticleDistribution):
     def showSettingsDialog(self):
         self.setupDialog()
         result = self.dialog.exec_()
-        self.particlesPath = str(self.ui.pathText.text())
+        self.storageFilename = str(self.ui.pathText.text())
 
         allGood = False
 
