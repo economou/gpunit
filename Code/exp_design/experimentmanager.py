@@ -7,7 +7,7 @@
 # Team GPUnit - Senior Design 2011
 #
 
-import sys
+import sys, os
 
 from amuse.support.units.si import *
 from amuse.support.units.units import *
@@ -16,6 +16,7 @@ from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QLi
 from PyQt4.QtCore import Qt, pyqtSlot, pyqtSignal, QThread
 
 from exp_management.experiment import Experiment
+from exp_management.persistence import FileStorage
 from exp_gen.CLT import run_experiment
 from gui.experimentmanager_ui import Ui_ExperimentManager
 
@@ -48,7 +49,8 @@ class ExperimentManager(QMainWindow):
 
         if filename is not None:
             self.enableUI()
-            self.experiment = Experiment.fromFile(filename)
+            self.storage = FileStorage.load(filename)
+            self.experiment = self.storage.base
             self.updateUiFromExperiment()
         else:
             self.experiment = Experiment()
@@ -92,16 +94,23 @@ class ExperimentManager(QMainWindow):
             if not success:
                 return
 
-        newName, accepted = QInputDialog.getText( self, "Experiment Name", "New experiment name:")
+        basePath = str(QFileDialog.getExistingDirectory(self, "New experiment storage path:"))
+        if basePath == "":
+            return
+
+        name, accepted = QInputDialog.getText( self, "Experiment Name", "New experiment name:")
         if not accepted:
             return
+
+        name = str(name)
 
         self.resetUI()
         self.enableUI()
 
-        self.experiment = Experiment()
-        self.ui.nameText.setText(newName)
-        self.experiment.name = newName
+        self.storage = FileStorage(name, basePath)
+        self.experiment = self.storage.base
+
+        self.ui.nameText.setText(name)
 
     @pyqtSlot()
     def openExperiment(self):
@@ -110,7 +119,7 @@ class ExperimentManager(QMainWindow):
             if not success:
                 return
 
-        filename = QFileDialog.getOpenFileName(self, "Open experiment...")
+        filename = str(QFileDialog.getOpenFileName(self, "Open experiment..."))
 
         if filename == "":
             return False
@@ -118,7 +127,8 @@ class ExperimentManager(QMainWindow):
         try:
             self.enableUI()
 
-            self.experiment = Experiment.fromFile(filename)
+            self.storage = FileStorage.load(filename)
+            self.experiment = self.storage.base
             self.updateUiFromExperiment()
             self.dirty = False
             return True
@@ -131,19 +141,12 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def saveExperiment(self):
-        filename = QFileDialog.getSaveFileName(self, "Save experiment as...")
-        if filename == "":
-            return False
-        
         try:
-            # TODO: this will be replaced by a query to the parent hierarchy
-            self.experiment.particlesPath = "particles.hdf5"
-
-            self.experiment.writeXMLFile(filename)
+            self.storage.save()
             self.dirty = False
             return True
         except (AttributeError, IOError) as err:
-            QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
+            QMessageBox.critical(self, "Error Saving", "There was an error saving the experiment.\nError:\n\n" + str(err),
                     )
             return False
 
@@ -237,8 +240,7 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def addInitCondition(self, initCond):
-        # TODO: this will be replaced by a query to the parent hierarchy
-        self.experiment.initialConditions[initCond] = initCond.name + ".pkl"
+        self.experiment.addInitialCondition(initCond)
         self.ui.initCondList.addItem(initCond)
         self.touch()
 
@@ -246,7 +248,7 @@ class ExperimentManager(QMainWindow):
     def removeInitCondition(self):
         initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
 
-        del self.experiment.initialConditions[initCond]
+        self.experiment.removeInitCondition(initCond)
         self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
         self.touch()
 
@@ -267,7 +269,7 @@ class ExperimentManager(QMainWindow):
     @pyqtSlot()
     def addDiagnostic(self, diagnostic):
         # TODO: this will be replaced by a query to the parent hierarchy
-        self.experiment.diagnostics[diagnostic] = diagnostic.name + ".pkl"
+        self.experiment.addDiagnostic(diagnostic)
         self.ui.diagnosticList.addItem(diagnostic)
         self.touch()
 
@@ -275,21 +277,21 @@ class ExperimentManager(QMainWindow):
     def removeDiagnostic(self):
         diagnostic = self.ui.diagnosticList.takeItem(self.ui.diagnosticList.currentRow())
 
-        del self.experiment.diagnostics[diagnostic]
+        self.experiment.removeDiagnostic(diagnostic)
         self.ui.diagnosticsToolbox.ui.diagnosticList.addItem(diagnostic)
         self.touch()
 
     @pyqtSlot()
     def addLogger(self, logger):
+        self.experiment.addLogger(logger)
         self.ui.loggerList.addItem(logger)
-        self.experiment.logger.append(logger)
         self.touch()
 
     @pyqtSlot()
     def removeLogger(self):
         logger = self.ui.loggerList.takeItem(self.ui.loggerList.currentRow())
 
-        self.experiment.loggers.remove(logger)
+        self.experiment.removeLogger(logger)
         self.ui.diagnosticsToolbox.ui.loggerList.addItem(logger)
         self.touch()
 
@@ -408,7 +410,7 @@ class ExperimentRunner(QThread):
         finished."""
 
         #try:
-        run_experiment(self.experiment)
+        self.storage.run()
         #except:
         #    # TODO: use GUI signals here to show a box.
         #    print "ERROR RUNNING EXPERIMENT. TODO: SIGNAL GUI HERE."
