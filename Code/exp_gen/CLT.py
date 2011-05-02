@@ -36,7 +36,7 @@ def parse_flags():
     except getopt.GetoptError,err:
         print str(err)
         sys.exit(1)
-    
+
     experiment.loadXMLFile( filter(lambda x:x[0] == '-f',opts)[-1][1] )
     for (flag,value) in filter(lambda x:x[0] <> '-f',opts):
         print flag,value
@@ -49,11 +49,11 @@ def parse_flags():
             experiment.setTimeStep(float(value))
         elif flag == '-r':
             pass
-            #experiment.setRadius(float(value))
+        #experiment.setRadius(float(value))
     print experiment.getTimeStep()
 
 
-    
+
     return experiment
 #class ModuleRunner:
 #	def __init__(self, p_experiment):
@@ -70,15 +70,15 @@ def initialization(experiment):
             convert_nbody: Used for converting between nbody units and regular units
     '''
     r    = 1 | units.parsec #Placeholder till we do this right.
-    
+
     particle_sets = []
     last_set = None
-    
+
     total_mass = 1000 | units.MSun
-    
+
     #Create Conversion Object
     convert_nbody = nbody_system.nbody_to_si(total_mass,r)
-    print experiment.initialConditions.keys()
+
     #Loop through all Initial Conditions
     for ic in experiment.initialConditions:
         print ic,particle_sets
@@ -87,22 +87,22 @@ def initialization(experiment):
             last_set = MassDistribution
             particle_sets[-1].mass = ic.getMassList()
         #If Inititial Conditions is Particle Distribution append the new Particles object
-        else:
-            ic.convert_nbody = convert_nbody
+    else:
+        ic.convert_nbody = convert_nbody
 
-            last_set = ParticleDistribution
-            particle_sets.append(ic.getParticleList())
-    
+        last_set = ParticleDistribution
+        particle_sets.append(ic.getParticleList())
+
     #union all of the Particles sets together
     if len(particle_sets)-1:
         for p in particle_sets[1:]:
             particle_sets[0].add_particles(p)
     particles = particle_sets[0] 
-    
+
 #    #Total mass used for conversion object
 #    total_mass = reduce(lambda x,y:x+y, particles.mass)
-    
-        
+
+
     #Get Modules actual class values
     modules = [mod.result(convert_nbody) for mod in experiment.modules]
 
@@ -117,14 +117,14 @@ def run_experiment(experiment):
     time = experiment.startTime
     dt   = experiment.timeStep
     tmax = experiment.stopTime
-    
+
 
     modules, particles, convert_nbody = initialization(experiment)
     #Create channels Between Particles and Modules
     channels_to_module   = []
     channels_from_module = []
     for module in modules:
-#        channels_from_module.append(module.particles.new_channel_to(particles))
+        #        channels_from_module.append(module.particles.new_channel_to(particles))
 #        channels_to_module.append(particles.new_channel_to(module.particles))
         module.particles.copy_values_of_state_attributes_to(particles)
 
@@ -132,26 +132,26 @@ def run_experiment(experiment):
         #Evolve Modules
         for module in modules:
             module.evolve_model(time)
-    	if len(channels_to_module)-1: #Currently disabled
-    	        #Synchronize Particles Across Channels
-    	        for channel in channels_from_module:
-            	    channel.copy()
-    	        for channel in channels_to_module:
-    	            channel.copy()
+        if len(channels_to_module)-1: #Currently disabled
+            #Synchronize Particles Across Channels
+                for channel in channels_from_module:
+                    channel.copy()
+                for channel in channels_to_module:
+                    channel.copy()
         for module in modules:
             module.particles.copy_values_of_state_attributes_to(particles)
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(time, modules):
                 diagnostic.update(time,modules)
-            
+
         #Run Logging Scripts
         for logger in experiment.loggers:
             logger.logData(particles)
-            
+
         #Increment Time
         time += dt
-        
+
     #Run Closing Diagnostic Scripts
     for diagnostic in experiment.diagnostics:
         if diagnostic.shouldUpdate(time,modules):
@@ -159,7 +159,7 @@ def run_experiment(experiment):
 
     #Run Closing Logging Scripts
     for logger in experiment.loggers:
-         logger.logData(experiment.particles)
+        logger.logData(experiment.particles)
 
     #Stop Modules
     for module in modules:
