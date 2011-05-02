@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DiagnosticsToolBox</class>
+ <widget class="QWidget" name="DiagnosticsToolBox">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>200</width>
+    <height>372</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>150</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>200</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>ToolBox</string>
+  </property>
+  <property name="currentIndex" stdset="0">
+   <number>0</number>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="1">
+    <widget class="QListWidget" name="loggerList"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Loggers:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QListWidget" name="diagnosticList"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Diagnostics:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QToolButton" name="addDiagnosticButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>---&gt;</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normalon>:/buttons/images/left-arrow.png</normalon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>16</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QToolButton" name="addLoggerButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>---&gt;</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normalon>:/buttons/images/left-arrow.png</normalon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>16</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="imgres.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>diagnosticList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>DiagnosticsToolBox</receiver>
+   <slot>addDiagnostic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>90</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loggerList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>DiagnosticsToolBox</receiver>
+   <slot>addLogger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addDiagnosticButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DiagnosticsToolBox</receiver>
+   <slot>addDiagnostic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addLoggerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DiagnosticsToolBox</receiver>
+   <slot>addLogger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>350</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>diagnosticAdded(PyQt_PyObject)</signal>
+  <signal>loggerAdded(PyQt_PyObject)</signal>
+  <slot>addDiagnostic()</slot>
+  <slot>addLogger()</slot>
+ </slots>
+</ui>
