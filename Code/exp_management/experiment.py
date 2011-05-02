@@ -109,12 +109,12 @@ class Experiment :
         for module in self.modules :
             etree.SubElement(experiment, "module", attrib = {"name" : module.name})
 
-        for ic in self.initialConditions:
-            path = self.initialConditions[ic]
+        for init in self.initialConditions:
+            path = self.initialConditionPaths[init]
 
-            icFile = open(path, "w")
-            cPickle.dump(ic, icFile)
-            icFile.close()
+            initFile = open(path, "w")
+            cPickle.dump(init, initFile)
+            initFile.close()
 
             etree.SubElement(experiment, "initialCondition", attrib = {"file" : path})
 
@@ -123,7 +123,7 @@ class Experiment :
             amuse.support.io.write_set_to_file(self.particles, self.particlesPath, "hdf5")
 
         for diag in self.diagnostics:
-            path = self.diagnostics[diag]
+            path = self.diagnosticPaths[diag]
 
             diagFile = open(path, "w")
             cPickle.dump(diag, diagFile)
@@ -132,7 +132,7 @@ class Experiment :
             etree.SubElement(experiment, "diagnostic", attrib = {"file" : path})
 
         for logger in self.loggers:
-            path = self.loggers[logger]
+            path = self.loggerPaths[logger]
 
             loggerFile = open(path, "w")
             cPickle.dump(diag, loggerFile)
@@ -189,7 +189,8 @@ class Experiment :
             initCond = cPickle.load(initCondFile)
             initCondFile.close()
 
-            ret.initialConditions[initCond] = path
+            ret.initialConditions.append(initCond)
+            ret.initialConditionPaths[initCond] = path
         
         for loggerElement in expElement.findall("logger"):
             path = loggerElement.get("file").strip()
@@ -198,7 +199,8 @@ class Experiment :
             logger = cPickle.load(loggerFile)
             loggerFile.close()
 
-            ret.loggers[logger] = path
+            ret.loggers.append(logger)
+            ret.loggerPaths[logger] = path
 
         for diagnosticElement in expElement.findall("diagnostic"):
             path = diagnosticElement.get("file").strip()
@@ -207,7 +209,8 @@ class Experiment :
             diag = cPickle.load(diagnosticFile)
             diagnosticFile.close()
 
-            ret.diagnostics[diag] = path
+            ret.diagnostics.append(diag)
+            ret.diagnosticPaths[diag] = path
 
         particlesElement = expElement.find("particle")
         if particlesElement is not None:
