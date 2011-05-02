@@ -16,8 +16,9 @@ class ClusterView(QMainWindow):
         """List of nodes monitored by this ClusterView window."""
 
     def resetUI(self):
-        for node in self.nodes: self.removeNode(node)
-        self.nodes = []
+        #for node in self.nodes: self.ui.gridLayout.removeWidget(node)
+        #del self.nodes[:]
+        pass
 
     @pyqtSlot()
     def addNode(self, node):
@@ -25,7 +26,7 @@ class ClusterView(QMainWindow):
             row = len(self.nodes) // MAX_NODE_COLS
             col = len(self.nodes) % MAX_NODE_COLS
 
-            #self.nodes.append(button)
+            self.nodes.append(node)
             self.ui.gridLayout.addWidget(node, row, col)
             self.update()
 
