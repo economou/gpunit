@@ -28,7 +28,7 @@ class Logger :
         else:
             pass
 
-def needsFile(self):
+    def needsFile(self):
         return False
 
     def setupFile(self, filename):
@@ -36,8 +36,6 @@ def needsFile(self):
             raise NotImplementedError("Logger that require file output must implement setupFile().")
         else:
             pass
-
-
 
     def logdata(self,particle) :
         '''gets data from experiment for logger'''
@@ -47,3 +45,8 @@ def needsFile(self):
         '''Get a xml string representation.'''
         # TODO: implement
         return ""
+
+# Add FileLogger, ConsoleLogger
+# Console logging: uses print
+# File logging: outputFile = open(filename, 'w')
+# outputFile.write(data string)
