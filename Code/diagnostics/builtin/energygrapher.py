@@ -17,6 +17,7 @@ import matplotlib
 matplotlib.use("Qt4Agg")
 import pylab
 from time import sleep
+from time import time as gettime
 
 
 def get_kinetic(particles):
@@ -47,6 +48,7 @@ class EnergyGrapher(Diagnostic):
         Diagnostic.__init__(self, name)
 
         self.name = name
+        self.parent = None
         self.time = []
         self.KE = []
         self.PE = []
@@ -59,6 +61,8 @@ class EnergyGrapher(Diagnostic):
         self.p2   = None #pylab.subplot(212)
         self.pTE  = None #pylab.plot(self.TE)
         self.pVR  = None #pylab.plot(self.VR)
+        self.lasttime  = -1
+        self.interval = 4
         self.p1min = -1
         self.p1max =  1
         self.p2min = -1
@@ -115,18 +119,38 @@ class EnergyGrapher(Diagnostic):
         self.p1.set_ylim(self.p1min*1.1,self.p1max*1.1)
         self.p2.set_xlim(self.time[0],self.time[-1])
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
-        sleep(33.0/1000.0)
+        #sleep(33.0/1000.0)
         
         #pylab.draw()
-        self.parent.diagnosticUpdated.emit()
-#        self.fout.write("Time: %f\n"%time.number)
-#        self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
-#        self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
-#        print particles
-#        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
+        curt = gettime()
+        if(curt > self.lasttime+self.interval):
+            self.parent.diagnosticUpdated.emit()
 
     def redraw(self):
-        pylab.draw()
+        curt = gettime()
+        if(curt > self.lasttime+self.interval):
+            pylab.draw()
+            self.lasttime = curt
+            
+    def cleanup(self):
+        self.time = []
+        self.KE = []
+        self.PE = []
+        self.TE = []
+        self.VR = []
+        self.figure = None 
+        self.p1   = None #pylab.subplot(211)
+        self.pKE  = None #pylab.plot(self.KE)
+        self.pPE  = None #pylab.plot(self.PE)
+        self.p2   = None #pylab.subplot(212)
+        self.pTE  = None #pylab.plot(self.TE)
+        self.pVR  = None #pylab.plot(self.VR)
+        self.lasttime  = -1
+        self.interval = 4
+        self.p1min = -1
+        self.p1max =  1
+        self.p2min = -1
+        self.p2max =  1
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
@@ -137,4 +161,5 @@ class EnergyGrapher(Diagnostic):
         del newDict['pVR']
         del newDict['p1']
         del newDict['p2']
+        del newDict['parent']
         return (EnergyGrapher, (self.name, ), newDict)
