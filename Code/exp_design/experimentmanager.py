@@ -154,10 +154,6 @@ class ExperimentManager(QMainWindow):
                 event.ignore()
                 return
 
-        for diagnostic in self.experiment.diagnostics:
-            if diagnostic.needsGUI():
-                diagnostic.cleanup()
-
         event.accept()
 
     @pyqtSlot()
@@ -411,9 +407,9 @@ class ExperimentRunner(QThread):
         """Runs the experiment and then signals the GUI that the run
         finished."""
 
-        try:
-            run_experiment(self.experiment)
-        except:
-            # TODO: use GUI signals here to show a box.
-            print "ERROR RUNNING EXPERIMENT. TODO: SIGNAL GUI HERE."
+        #try:
+        run_experiment(self.experiment)
+        #except:
+        #    # TODO: use GUI signals here to show a box.
+        #    print "ERROR RUNNING EXPERIMENT. TODO: SIGNAL GUI HERE."
         self.parent().runComplete.emit()
