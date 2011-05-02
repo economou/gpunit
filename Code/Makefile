@@ -23,7 +23,7 @@ $(GUI_PATH)/%_rc.py : $(GUI_PATH)/%.qrc
 
 psutil:
 	cd psutil-src && python setup.py build
-	mv psutil-src/build/lib.linux-x86_64-2.6/* ./
+	mv psutil-src/build/lib.linux-x86_64-2.7/* ./
 
 clean:
 	-rm $(PY_UI_FILES)
