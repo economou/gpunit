@@ -11,6 +11,12 @@ def __init__(self) :
        self.name = " ExperimentHandler baseclass "
        self.loggers = []
 
+def setName(self, name):
+        """Sets the name and text for display in GUI lists."""
+        self.name = name
+        self.setText(name)
+
+
 def addLogger(logger) :
 		'''Adds a logger'''
 		self.loggers.append(logger)
