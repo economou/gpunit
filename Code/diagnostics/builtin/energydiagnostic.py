@@ -14,14 +14,6 @@ import numpy as np
 from math import sqrt
 
 def get_kinetic(particles):
-#    particles = gravity.particles
-#    k = 0.
-#    uc = gravity.unit_converter.to_nbody
-#    for p in particles:
-#        k += 0.5 * uc(p.mass).number * (
-#            uc(reduce(lambda x,y: x+y, map(lambda (x,y):x*y,zip(p.velocity,p.velocity)))
-#                   )).number
-
     return np.sum(particles.mass*np.sum(particles.velocity*particles.velocity,1)).number/2
 
 def get_potential(particles):
@@ -40,16 +32,22 @@ def get_potential(particles):
 class EnergyDiagnostic(Diagnostic):
     def __init__(self, name = "EnergyDiagnostic") :
         Diagnostic.__init__(self, name)
+        self.fout = None
 
-        self.fout = open("Energy.log",'w')
+    def needsFile(self):
+        return True
+
+    def setupFile(self, filename = "Energy.log"):
+        self.fout = open(filename,'w')
+
+    def cleanup(self):
+        self.fout.close()
 
     def update(self, time, particles) :
         '''This function needs to be overridden by subclasses'''
         KE = get_kinetic(particles)
         PE = get_potential(particles)
+
         self.fout.write("Time: %f\n"%time.number)
         self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
         self.fout.write("Total Energy: %f\tVirial Ratio: %f\n"%(KE+PE,-2.*KE/PE))
-#        print particles
-#        self.fout.write("%f %f %f %f %f %f %f"%tuple([time.number]+list(particles[0].position.number)+list(particles[1].position.number)))
-
