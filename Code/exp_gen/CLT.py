@@ -93,8 +93,9 @@ def initialization(experiment):
         masses.append( md.getMassList()[1])
     for i in masses[1:]:
         masses[0].extend(i)
-    masses = masses[0]
-    print masses
+    particles.mass = masses[0]
+    print particles
+    print len(particles)
     '''
     for ic in experiment.initialConditions:
         print ic,particle_sets
@@ -109,11 +110,6 @@ def initialization(experiment):
         last_set = ParticleDistribution
         particle_sets.append(ic.getParticleList())
     '''
-    #union all of the Particles sets together
-    if len(particle_sets)-1:
-        for p in particle_sets[1:]:
-            particle_sets[0].add_particles(p)
-    particles = particle_sets[0] 
 
 #    #Total mass used for conversion object
 #    total_mass = reduce(lambda x,y:x+y, particles.mass)
@@ -121,11 +117,12 @@ def initialization(experiment):
 
     #Get Modules actual class values
     modules = [mod.result(convert_nbody) for mod in experiment.modules]
+    #Temporary add to check something interesting
+    particles.scale_to_standard(convert_nbody)
 
     #Add Particles to Module
     for module in modules:
         module.particles.add_particles(particles)
-
     return modules, particles, convert_nbody
 
 def run_experiment(experiment):
@@ -143,7 +140,8 @@ def run_experiment(experiment):
         #        channels_from_module.append(module.particles.new_channel_to(particles))
 #        channels_to_module.append(particles.new_channel_to(module.particles))
         module.particles.copy_values_of_state_attributes_to(particles)
-
+    for diagnostic in experiment.diagnostics:
+        diagnostic.convert_nbody = convert_nbody
     while time <= tmax:
         #Evolve Modules
         for module in modules:
