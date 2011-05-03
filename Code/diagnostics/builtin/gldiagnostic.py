@@ -46,7 +46,6 @@ class OpenGLDiagnostic(Diagnostic):
 
     def redraw(self):
         if not self.widget.isVisible():
-            print "Showing."
             self.widget.show()
 
         self.widget.update()
