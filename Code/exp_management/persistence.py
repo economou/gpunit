@@ -17,7 +17,6 @@ class ExperimentStorage:
         pass
 
     def __init__(self, name):
-        self.name = name
         self.runs = 0
 
         self.base = Experiment(name)
@@ -25,7 +24,6 @@ class ExperimentStorage:
     def setBase(self, base):
         self.base = base
         self.runs = 0
-        self.name = base.name
 
     def save(self, location):
         pass
@@ -45,8 +43,20 @@ class FileStorage(ExperimentStorage):
         return storage
 
     def save(self):
-        outFile = open(self.basePath + os.sep + self.name + ".exp", 'w')
+        outFile = open(self.basePath + os.sep + self.base.name + ".exp", 'w')
         self.setPaths(self.base)
+
+        objectsDir = self.basePath + os.sep + "objects"
+        tryCreateDirs(objectsDir)
+
+        for init in self.base.initialConditions:
+            self.base.initialConditionPaths[init] = objectsDir + os.sep + init.name + ".init"
+            init.setStoragePath(objectsDir + os.sep)
+
+        for diag in self.base.diagnostics:
+            self.base.diagnosticPaths[diag] = objectsDir + os.sep + diag.name + ".diag"
+
+        self.base.particlesPath = objectsDir + os.sep + self.base.name + ".particles"
 
         cPickle.dump(self, outFile)
         outFile.close()
@@ -61,22 +71,13 @@ class FileStorage(ExperimentStorage):
 
         diagnosticsDir = outputDir + os.sep + "diagnostics"
         loggingDir = outputDir + os.sep + "logs"
-        objectsDir = outputDir + os.sep + "objects"
 
         tryCreateDirs(diagnosticsDir)
         tryCreateDirs(loggingDir)
-        tryCreateDirs(objectsDir)
 
         # Set up filenames for this run's output (diagnostics, logging,
         # particles etc...)
-        experiment.particlesPath = objectsDir + os.sep + experiment.name + ".particles"
-
-        for init in experiment.initialConditions:
-            experiment.initialConditionPaths[init] = objectsDir + os.sep + init.name + ".init"
-            init.setStoragePath(objectsDir + os.sep)
-
         for diag in experiment.diagnostics:
-            experiment.diagnosticPaths[diag] = objectsDir + os.sep + diag.name + ".diag"
             if diag.needsFile():
                 diag.setupFile(diagnosticsDir + os.sep + diag.name + ".out")
 
