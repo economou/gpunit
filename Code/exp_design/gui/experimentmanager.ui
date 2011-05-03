@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
+    <width>814</width>
     <height>514</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>458</width>
+           <width>463</width>
            <height>435</height>
           </rect>
          </property>
@@ -266,7 +266,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="diagnosticSettingsButton">
               <property name="text">
                <string>Settings...</string>
               </property>
@@ -425,7 +425,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>809</width>
+     <width>814</width>
      <height>25</height>
     </rect>
    </property>
@@ -926,6 +926,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>diagnosticSettingsButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>diagnosticSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>573</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>406</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>diagnosticList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>diagnosticSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>406</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -951,5 +983,6 @@
   <slot>addLogger(PyQt_PyObject)</slot>
   <slot>removeDiagnostic()</slot>
   <slot>removeLogger()</slot>
+  <slot>diagnosticSettings()</slot>
  </slots>
 </ui>
