@@ -7,21 +7,21 @@ from OpenGL.GLU import *
 
 from PyQt4.QtOpenGL import QGL, QGLFormat, QGLWidget
 from PyQt4.QtCore import QSize, SIGNAL, SLOT
+from PyQt4.QtGui import QInputDialog
 
 from amuse.support.units.units import *
 from amuse.support.data.core import Particle, Particles
 
 from diagnostics.diagnostic import Diagnostic
 
-from PyQt4.QtCore import QCoreApplication
-
 class OpenGLDiagnostic(Diagnostic):
-    def __init__(self, name = "OpenGLDiagnostic", width = 512, height = 512):
+    def __init__(self, name = "OpenGLDiagnostic", width = 512, height = 512, scaleFactor = 1.0):
         Diagnostic.__init__(self, name)
 
         self.width, self.height = width, height
         self.widget = None
         self.parent = None
+        self.scaleFactor = scaleFactor
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
@@ -31,7 +31,7 @@ class OpenGLDiagnostic(Diagnostic):
         del newDict["widget"]
         del newDict["parent"]
 
-        return (OpenGLDiagnostic, (self.name, ), newDict)
+        return (OpenGLDiagnostic, (self.name, self.width, self.height, self.scaleFactor), newDict)
 
     def update(self, time, particles, modules):
         if self.parent is None or self.widget is None:
@@ -46,6 +46,7 @@ class OpenGLDiagnostic(Diagnostic):
 
     def redraw(self):
         if not self.widget.isVisible():
+            print "Showing."
             self.widget.show()
 
         self.widget.update()
@@ -64,13 +65,20 @@ class OpenGLDiagnostic(Diagnostic):
         #if self.widget is not None:
            #self.widget.setVisible(False)
 
+    def showSettingsDialog(self):
+        scaleFactor, _ = QInputDialog.getDouble(None, "Scale Factor", "Scale Factor:", self.scaleFactor, -2147483647, 2147483647, 10)
+
+        self.scaleFactor = float(scaleFactor)
+        self.widget.scaleFactor = self.scaleFactor
+
 class GLDiagnosticWidget(QGLWidget):
-    def __init__(self, width, height, distanceUnits = AU, parent = None):
+    def __init__(self, width, height, distanceUnits = AU, scaleFactor = 1.0, parent = None):
         QGLWidget.__init__(self, QGLFormat(QGL.DepthBuffer | QGL.DoubleBuffer), parent)
 
         self.width_ = width
         self.height_ = height
         self.distanceUnits = distanceUnits
+        self.scaleFactor = scaleFactor
 
         self.particles = Particles(0)
 
@@ -124,14 +132,8 @@ class GLDiagnosticWidget(QGLWidget):
         # TOOD: THIS IS SLOW! Use A VBO or vertex array.
         glColor3f(1,1,1)
 
-        # TODO: Replace this with constant, user-defined scale factor. 
-        maxPoint = np.array((-1e20,-1e20,-1e20))
-        for particle in self.particles:
-            pos = particle.position.value_in(self.distanceUnits)
-            maxPoint = np.maximum(maxPoint, pos)
-
         glBegin(GL_POINTS)
         for particle in self.particles:
-            pos = np.array(particle.position.value_in(self.distanceUnits)) / maxPoint
+            pos = np.array(particle.position.value_in(self.distanceUnits)) * self.scaleFactor
             glVertex3f(pos[0], pos[1], pos[2])
         glEnd()
