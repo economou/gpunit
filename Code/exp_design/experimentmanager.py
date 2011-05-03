@@ -248,7 +248,7 @@ class ExperimentManager(QMainWindow):
     def removeInitCondition(self):
         initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
 
-        self.experiment.removeInitCondition(initCond)
+        self.experiment.removeInitialCondition(initCond)
         self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
         self.touch()
 
@@ -411,6 +411,7 @@ class ExperimentRunner(QThread):
 
         #try:
         self.parent().storage.run()
+
         #except:
         #    # TODO: use GUI signals here to show a box.
         #    print "ERROR RUNNING EXPERIMENT. TODO: SIGNAL GUI HERE."
