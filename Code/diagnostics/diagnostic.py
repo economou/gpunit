@@ -83,3 +83,6 @@ class Diagnostic(QListWidgetItem):
 
     def cleanup(self):
         pass
+
+    def showSettingsDialog(self):
+        pass
