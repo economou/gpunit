@@ -1,14 +1,21 @@
+import os, shutil
 import cPickle
 
 from experiment import Experiment
 from exp_gen.CLT import run_experiment
 
-def tryCreateDirs(path):
+def tryMkdirs(path):
     """Attempts to create a hierarchy of directories, doing nothing if they
     exist."""
 
     if not os.path.exists(path):
         os.makedirs(path)
+
+def tryRmdir(path):
+    """Attempts to remove a directory, doing nothing if it does not exist."""
+
+    if os.path.exists(path):
+        shutil.rmtree(path)
 
 class ExperimentStorage:
 
@@ -31,6 +38,9 @@ class ExperimentStorage:
     def run(self):
         pass
 
+    def reset(self):
+        pass
+
 import os
 
 class FileStorage(ExperimentStorage):
@@ -47,7 +57,7 @@ class FileStorage(ExperimentStorage):
         self.setPaths(self.base)
 
         objectsDir = self.basePath + os.sep + "objects"
-        tryCreateDirs(objectsDir)
+        tryMkdirs(objectsDir)
 
         for init in self.base.initialConditions:
             self.base.initialConditionPaths[init] = objectsDir + os.sep + init.name + ".init"
@@ -72,8 +82,8 @@ class FileStorage(ExperimentStorage):
         diagnosticsDir = outputDir + os.sep + "diagnostics"
         loggingDir = outputDir + os.sep + "logs"
 
-        tryCreateDirs(diagnosticsDir)
-        tryCreateDirs(loggingDir)
+        tryMkdirs(diagnosticsDir)
+        tryMkdirs(loggingDir)
 
         # Set up filenames for this run's output (diagnostics, logging,
         # particles etc...)
@@ -96,3 +106,10 @@ class FileStorage(ExperimentStorage):
 
         for diagnostic in experiment.diagnostics:
             diagnostic.cleanup()
+
+    def reset(self):
+        for run in range(self.runs):
+            runPath = self.basePath + os.sep + str(run)
+            tryRmdir(runPath)
+
+        self.runs = 0
