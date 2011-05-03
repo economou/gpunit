@@ -88,7 +88,7 @@ class CustomParticles(ParticleDistribution):
         return (CustomParticles, (self.numParticles,), pickleDict)
 
     def getParticleList(self):
-        return self.particles
+        return self.particles.copy()
 
     def __setstate__(self, state):
         self.__dict__ = dict(self.__dict__, **state)
