@@ -101,6 +101,7 @@ def initialization(experiment):
 
     print particles
     print len(particles)
+
     '''
     for ic in experiment.initialConditions:
         print ic,particle_sets
@@ -132,33 +133,41 @@ def initialization(experiment):
 
 def run_experiment(experiment):
     from amuse.support.units import units, nbody_system
+
     time = experiment.startTime
     dt   = experiment.timeStep
     tmax = experiment.stopTime
 
-
     modules, particles, convert_nbody = initialization(experiment)
+
     #Create channels Between Particles and Modules
     channels_to_module   = []
     channels_from_module = []
+
     for module in modules:
-        #        channels_from_module.append(module.particles.new_channel_to(particles))
-#        channels_to_module.append(particles.new_channel_to(module.particles))
+        #channels_from_module.append(module.particles.new_channel_to(particles))
+        #channels_to_module.append(particles.new_channel_to(module.particles))
         module.particles.copy_values_of_state_attributes_to(particles)
+
     for diagnostic in experiment.diagnostics:
         diagnostic.convert_nbody = convert_nbody
+
+    
     while time <= tmax:
         #Evolve Modules
         for module in modules:
             module.evolve_model(time)
+
         if len(channels_to_module)-1: #Currently disabled
             #Synchronize Particles Across Channels
                 for channel in channels_from_module:
                     channel.copy()
                 for channel in channels_to_module:
                     channel.copy()
+
         for module in modules:
             module.particles.copy_values_of_state_attributes_to(particles)
+
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(time, modules):
