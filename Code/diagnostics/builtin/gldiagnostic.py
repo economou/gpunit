@@ -1,5 +1,7 @@
 from time import sleep
 
+import numpy as np
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
@@ -58,8 +60,9 @@ class OpenGLDiagnostic(Diagnostic):
             self.widget = GLDiagnosticWidget(self.width, self.height)
 
     def cleanup(self):
-        if self.widget is not None:
-            self.widget.setVisible(False)
+        pass
+        #if self.widget is not None:
+           #self.widget.setVisible(False)
 
 class GLDiagnosticWidget(QGLWidget):
     def __init__(self, width, height, distanceUnits = AU, parent = None):
@@ -121,12 +124,14 @@ class GLDiagnosticWidget(QGLWidget):
         # TOOD: THIS IS SLOW! Use A VBO or vertex array.
         glColor3f(1,1,1)
 
-        # TODO: investigate this?
-        if not isinstance(self.particles, Particles) or len(self.particles) < 1:
-            return
+        # TODO: Replace this with constant, user-defined scale factor. 
+        maxPoint = np.array((-1e20,-1e20,-1e20))
+        for particle in self.particles:
+            pos = particle.position.value_in(self.distanceUnits)
+            maxPoint = np.maximum(maxPoint, pos)
 
         glBegin(GL_POINTS)
         for particle in self.particles:
-            pos = particle.position.value_in(self.distanceUnits)
+            pos = np.array(particle.position.value_in(self.distanceUnits)) / maxPoint
             glVertex3f(pos[0], pos[1], pos[2])
         glEnd()
