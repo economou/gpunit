@@ -41,7 +41,9 @@ def parse_flags():
     for (flag,value) in filter(lambda x:x[0] <> '-f',opts):
         print flag,value
         if flag == '-n':
-            pass #Experiment needs the ability to have a number of particles for init conditions#            experiment.set
+            pass
+        # Experiment needs the ability to have a number of particles for init
+        # conditions set.
         elif flag == '-t':
             #experiment.setEndTime(float(opts))
             pass #Need something for setting end time
@@ -52,14 +54,12 @@ def parse_flags():
         #experiment.setRadius(float(value))
     print experiment.getTimeStep()
 
-
-
     return experiment
 #class ModuleRunner:
-#	def __init__(self, p_experiment):
-#		self.experiment = p_experiment
-#		self.dt   = self.experiment.getTimeStep()
-#		self.time = 0 | self.experiment.timeUnit
+#    def __init__(self, p_experiment):
+#        self.experiment = p_experiment
+#        self.dt   = self.experiment.getTimeStep()
+#        self.time = 0 | self.experiment.timeUnit
 
 def initialization(experiment):
     '''
@@ -88,12 +88,17 @@ def initialization(experiment):
         for p in particle_sets[1:]:
             particle_sets[0].add_particles(p)
     particles = particle_sets[0] 
+
     masses = []
     for md in filter(lambda x: isinstance(x, MassDistribution),experiment.initialConditions):
-        masses.append( md.getMassList()[1])
+        masses.append(md.getMassList()[1])
+
     for i in masses[1:]:
         masses[0].extend(i)
-    particles.mass = masses[0]
+
+    if len(masses) > 0:
+        particles.mass = masses[0]
+
     print particles
     print len(particles)
     '''
