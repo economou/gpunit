@@ -1,0 +1,18 @@
+(iexp_management.persistence
+FileStorage
+p1
+(dp2
+S'runs'
+p3
+I0
+sS'base'
+p4
+(iexp_management.experiment
+Experiment
+p5
+S'<?xml version="1.0" encoding="UTF-8"?>\n<experiment name="DemoExperiment" stopEnabled="True">\n\t<time end="365.0" start="0" step="1.0" units="day"/>\n\t<module name="hermite0"/>\n\t<initialCondition file="/home/hape/gpunit/Code/demo-experiment/objects/CustomParticles.init"/>\n\t<diagnostic file="/home/hape/gpunit/Code/demo-experiment/objects/OpenGLDiagnostic.diag"/>\n</experiment>\n'
+bsS'basePath'
+p6
+S'/home/hape/gpunit/Code/demo-experiment'
+p7
+sb.
