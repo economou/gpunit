@@ -245,7 +245,7 @@ class Experiment:
             del self.loggerPaths[logger]
 
     def removeInitialCondition(self, init):
-        if init in self.initialCondition:
+        if init in self.initialConditions:
             self.initialConditions.remove(init)
             del self.initialConditionPaths[init]
 
