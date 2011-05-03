@@ -92,10 +92,11 @@ class EnergyGrapher(Diagnostic):
     def update(self, time, particles, modules) :
         '''This function needs to be overridden by subclasses'''
         self.time.append(time.number)
-        self.KE.append( modules[0].kinetic_energy.number )   #get_kinetic( particles ) )
-        self.PE.append( modules[0].potential_energy.number ) #.get_potential(particles) )
+        self.KE.append( self.convert_nbody.to_nbody(modules[0].kinetic_energy).number )   #get_kinetic( particles ) )
+        self.PE.append( self.convert_nbody.to_nbody(modules[0].potential_energy).number ) #.get_potential(particles) )
         self.TE.append( self.KE[-1] + self.PE[-1] )
         self.VR.append( self.KE[-1] / self.PE[-1] )
+        print time, modules[0].kinetic_energy
         
         #Add xdata
         self.pKE.set_xdata(self.time)
@@ -119,7 +120,7 @@ class EnergyGrapher(Diagnostic):
         self.p1.set_ylim(self.p1min*1.1,self.p1max*1.1)
         self.p2.set_xlim(self.time[0],self.time[-1])
         self.p2.set_ylim(self.p2min*1.1,self.p2max*1.1)
-        #sleep(33.0/1000.0)
+        sleep(33.0/1000.0)
         
         #pylab.draw()
         curt = gettime()
