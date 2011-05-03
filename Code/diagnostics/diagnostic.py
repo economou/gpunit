@@ -19,6 +19,7 @@ class Diagnostic(QListWidgetItem):
 
         self.conditions = []
         self.setName(name)
+        self.convert_nbody = None
 
     def __reduce__(self):
         """__reduce__ should return a tuple containing the class object, a list
