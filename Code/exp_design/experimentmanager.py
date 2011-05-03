@@ -52,6 +52,10 @@ class ExperimentManager(QMainWindow):
             self.storage = FileStorage.load(filename)
             self.experiment = self.storage.base
             self.updateUiFromExperiment()
+
+            for diagnostic in self.experiment.diagnostics:
+                if diagnostic.needsGUI():
+                    diagnostic.setupGUI(self)
         else:
             self.experiment = Experiment()
             self.disableUI()
@@ -130,6 +134,11 @@ class ExperimentManager(QMainWindow):
             self.storage = FileStorage.load(filename)
             self.experiment = self.storage.base
             self.updateUiFromExperiment()
+
+            for diagnostic in self.experiment.diagnostics:
+                if diagnostic.needsGUI():
+                    diagnostic.setupGUI(self)
+
             self.dirty = False
             return True
         except (AttributeError, IOError) as err:
@@ -268,9 +277,12 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def addDiagnostic(self, diagnostic):
-        # TODO: this will be replaced by a query to the parent hierarchy
         self.experiment.addDiagnostic(diagnostic)
         self.ui.diagnosticList.addItem(diagnostic)
+
+        if diagnostic.needsGUI():
+            diagnostic.setupGUI(self)
+
         self.touch()
 
     @pyqtSlot()
@@ -319,6 +331,14 @@ class ExperimentManager(QMainWindow):
             module.showSettingsDialog()
         else:
             self.ui.moduleList.currentItem().showSettingsDialog()
+
+    @pyqtSlot()
+    def diagnosticSettings(self, index = None):
+        if index is not None:
+            diag = self.ui.diagnosticList.item(index.row())
+            diag.showSettingsDialog()
+        else:
+            self.ui.diagnosticList.currentItem().showSettingsDialog()
 
     @pyqtSlot()
     def startChanged(self):
@@ -400,10 +420,6 @@ class ExperimentRunner(QThread):
     def __init__(self, experiment, parent):
         QThread.__init__(self, parent)
         self.experiment = experiment
-
-        for diagnostic in self.experiment.diagnostics:
-            if diagnostic.needsGUI():
-                diagnostic.setupGUI(parent)
 
     def run(self):
         """Runs the experiment and then signals the GUI that the run
