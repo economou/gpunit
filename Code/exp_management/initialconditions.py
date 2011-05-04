@@ -10,6 +10,8 @@ from amuse.ext.plummer import MakePlummerModel
 from amuse.ext.kingmodel import MakeKingModel
 from amuse.support.io import write_set_to_file, read_set_from_file
 
+from exp_design.settings import SettingsDialog
+
 class InitialCondition(QListWidgetItem):
     def __init__(self, name):
         QListWidgetItem.__init__(self)
@@ -237,6 +239,10 @@ class SalpeterModel(MassDistribution):
         self.mass_max = mass_max
         self.alpha = alpha
 
+        self.settings = SettingsDialog(
+                inputs = {"Particles" : "int:1:"},
+                defaults = {"Particles" : 1})
+
     def getMassList(self):
         return SalpeterIMF(self.mass_min, self.mass_max, self.alpha).next_set(self.numParticles)
         
@@ -259,7 +265,9 @@ class SalpeterModel(MassDistribution):
         self.alpha = alpha
 
     def showSettingsDialog(self):
-        self.numParticles, _ = QInputDialog.getInt(None, "Number of Particles", "Particles:", self.numParticles, 1)
+        results = self.settings.getValues()
+        if len(results) > 0:
+            self.numParticles= results["Particles:"]
 
 class PlummerModel(ParticleDistribution):
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = 1.0,
@@ -272,6 +280,11 @@ class PlummerModel(ParticleDistribution):
         self.mass_cutoff = mass_cutoff
         self.do_scale = do_scale
         self.random_state = random_state
+
+        self.settings = SettingsDialog(
+                inputs = {"Particles" : "int:1:"},
+                defaults = {"Particles" : 1})
+
     def getParticleList(self):
         '''Creates a particle list by making a new Plummer model. Note this will be
         different every time this function is called in case any members have changed'''
@@ -280,7 +293,9 @@ class PlummerModel(ParticleDistribution):
             self.radius_cutoff,self.mass_cutoff,self.do_scale,self.random_state).result
 
     def showSettingsDialog(self):
-        self.numParticles, _ = QInputDialog.getInt(None, "Number of Particles", "Particles:", self.numParticles, 1)
+        results = self.settings.getValues()
+        if len(results) > 0:
+            self.numParticles= results["Particles:"]
 
 class KingModel(ParticleDistribution):
     def __init__(self, numParticles, W0 = 0.0, convert_nbody = None, do_scale = False, 
@@ -295,6 +310,10 @@ class KingModel(ParticleDistribution):
         self.seed = seed
         self.verbose = verbose
 
+        self.settings = SettingsDialog(
+                inputs = {"Particles" : "int:1:"},
+                defaults = {"Particles" : 1})
+
     def getParticleList(self):
         '''Creates a particle list by making a new Plummer model. Note this will be
         different every time this function is called in case any members have changed'''
@@ -306,3 +325,8 @@ class KingModel(ParticleDistribution):
 
     def disableVerbose(self):
         self.verbose = False
+
+    def showSettingsDialog(self):
+        results = self.settings.getValues()
+        if len(results) > 0:
+            self.numParticles= results["Particles:"]
