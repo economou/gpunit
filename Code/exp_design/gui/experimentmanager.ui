@@ -456,8 +456,15 @@
     <addaction name="actionImport_Module"/>
     <addaction name="actionEdit_Modules"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>&amp;Settings</string>
+    </property>
+    <addaction name="actionScale_to_Standard"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuModules"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuRun"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -528,6 +535,14 @@
   <action name="actionView_Cluster">
    <property name="text">
     <string>&amp;View Cluster...</string>
+   </property>
+  </action>
+  <action name="actionScale_to_Standard">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Scale to Standard</string>
    </property>
   </action>
  </widget>
