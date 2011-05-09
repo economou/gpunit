@@ -5,7 +5,7 @@ from gui.node_ui import Ui_Node
 from gui.nodeinfodialog_ui import Ui_NodeInfoDialog
 
 class Node(QWidget):
-    def __init__(self, parent = None, name = "Node"):
+    def __init__(self, parent = None, name = ""):
         QWidget.__init__(self, parent)
 
         self.ui = Ui_Node()
@@ -36,6 +36,8 @@ class Node(QWidget):
 
     def updateDialog(self):
         self.dialogUi.nodeNameLabel.setText(str(self.name))
+        self.dialogUi.ipLabel.setText(str(self.ipAddress))
+
         self.dialogUi.memBar.setValue(100.0 * float(self.memoryUsed) / float(self.totalMemory))
         self.dialogUi.usageBar.setValue(self.cpuUsage)
         self.dialogUi.totalMemText.setText(str(int(self.totalMemory)))
@@ -69,6 +71,15 @@ class Node(QWidget):
 
     def setTotalMemory(self, totalmem):
         self.totalMemory = totalmem
+
+        self.updateDialog()
+        self.update()
+
+    def setIpAddress(self, ip):
+        self.ipAddress = str(ip)
+
+        if self.name == "":
+            self.name = str(ip)
 
         self.updateDialog()
         self.update()
