@@ -1,4 +1,4 @@
-p#!/usr/bin/python
+#!/usr/bin/python
 #
 # CLT.py
 #    The CLT is used for running of an experiment file for
