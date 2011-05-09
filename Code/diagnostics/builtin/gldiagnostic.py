@@ -23,9 +23,11 @@ class OpenGLDiagnostic(Diagnostic):
         self.widget = None
         self.parent = None
 
+        self.scaleFactor = scaleFactor
+
         self.settings = SettingsDialog(
                 inputs = {"Scale Factor:" : "float"},
-                defaults = {"Scale Factor:" : 1.0})
+                defaults = {"Scale Factor:" : self.scaleFactor})
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
@@ -34,6 +36,7 @@ class OpenGLDiagnostic(Diagnostic):
         # (GUI objects usually).
         del newDict["widget"]
         del newDict["parent"]
+        del newDict["settings"]
 
         return (OpenGLDiagnostic, (self.name, self.width, self.height), newDict)
 
