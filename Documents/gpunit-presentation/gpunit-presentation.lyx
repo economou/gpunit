@@ -65,6 +65,10 @@
 
 \begin_body
 
+\begin_layout Section
+Introduction
+\end_layout
+
 \begin_layout Title
 GPUnit
 \end_layout
@@ -136,44 +140,17 @@ LatexCommand tableofcontents
 
 \end_layout
 
-\begin_layout Section
-Introduction
-\end_layout
-
 \begin_layout BeginFrame
 Motivation
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{columns}
-\end_layout
-
-\end_inset
-
+\begin_layout Columns
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{7cm}
-\end_layout
-
-\end_inset
-
-
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -193,36 +170,8 @@ Every star pulls on all of the others:
 Stars evolve over time, mass and size changes.
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{5cm}
-\end_layout
-
-\end_inset
-
-
+\begin_layout Column
+5cm
 \end_layout
 
 \begin_layout Standard
@@ -235,38 +184,7 @@ begin{column}{5cm}
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{columns}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -304,6 +222,10 @@ status open
 
 \end_layout
 
+\begin_layout Standard
+http://www.amusecode.org
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -312,36 +234,13 @@ status open
 State of AMUSE
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{columns}
-\end_layout
-
-\end_inset
-
+\begin_layout Columns
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{7cm}
-\end_layout
-
-\end_inset
-
-
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -356,36 +255,12 @@ Scripts, diagnostics, logging are all written by hand.
 AMUSE API/programming knowledge is required to create experiments.
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
+\begin_layout Itemize
+Still better than separated and opaque FORTRAN codes.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{5cm}
-\end_layout
-
-\end_inset
-
-
+\begin_layout Column
+5cm
 \end_layout
 
 \begin_layout Standard
@@ -398,38 +273,7 @@ begin{column}{5cm}
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{columns}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -444,6 +288,15 @@ Purpose of GPUnit
 
 \begin_layout BeginFrame
 Purpose of GPUnit
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -462,6 +315,25 @@ Select, configure, swap out modules and initial conditions
 Store and restore progress of running experiments.
 \end_layout
 
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename exp-control.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -474,36 +346,13 @@ Target Audiences
 Target Audiences
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{columns}
-\end_layout
-
-\end_inset
-
+\begin_layout Columns
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{5cm}
-\end_layout
-
-\end_inset
-
-
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -518,38 +367,22 @@ Observational Astrophysicists
 Theoretical Astrophysicists
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
+\begin_layout Column
+5cm
 \end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename telescope.jpg
+	width 100col%
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{7cm}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\begin_deeper
 \begin_layout Standard
 \begin_inset Graphics
 	filename lagrange.gif
@@ -560,38 +393,7 @@ begin{column}{7cm}
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{columns}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -602,6 +404,15 @@ Features and Design
 
 \begin_layout BeginFrame
 Features
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -624,6 +435,21 @@ Custom diagnostics and code generation.
 Provides a display of cluster usage to aid in scheduling.
 \end_layout
 
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename tesla.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -632,36 +458,13 @@ Provides a display of cluster usage to aid in scheduling.
 Design
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{columns}
-\end_layout
-
-\end_inset
-
+\begin_layout Columns
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{9cm}
-\end_layout
-
-\end_inset
-
-
+\begin_deeper
+\begin_layout Column
+9cm
 \end_layout
 
 \begin_layout Itemize
@@ -700,36 +503,8 @@ Experiments can be stored in a file structure, a remote DB etc...
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{3cm}
-\end_layout
-
-\end_inset
-
-
+\begin_layout Column
+3cm
 \end_layout
 
 \begin_layout Standard
@@ -752,140 +527,13 @@ begin{column}{3cm}
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{columns}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
 
 \begin_layout Section
-User Interface
-\end_layout
-
-\begin_layout Subsection
-Experiment Editor
-\end_layout
-
-\begin_layout BeginFrame
-Experiment Editor
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename exp-control.png
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Experiment Editor
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Subsection
-Cluster Control
-\end_layout
-
-\begin_layout BeginFrame
-Cluster Control
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename cluster-control.png
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Cluster View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Section
-Testing
+Software Engineering
 \end_layout
 
 \begin_layout BeginFrame
@@ -901,39 +549,73 @@ Table of tests that pass.
 \end_layout
 
 \begin_layout BeginFrame
+User Testing
+\end_layout
+
+\begin_layout Itemize
+Tested with customers (Steve/Tim)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Project Plan
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Itemize
+Mostly waterfall design process.
+\end_layout
+
+\begin_layout Itemize
+Initial phases were spent learning the domain (Physics/AMUSE).
+\end_layout
+
+\begin_layout Itemize
+Needed more knowledge before making a plan.
+\end_layout
+
+\begin_layout Column
+7cm
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename gantt.png
+	lyxscale 10
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
 Team Management
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{columns}
-\end_layout
-
-\end_inset
-
+\begin_layout Columns
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{6cm}
-\end_layout
-
-\end_inset
-
-
+\begin_deeper
+\begin_layout Column
+6cm
 \end_layout
 
 \begin_layout Itemize
@@ -960,36 +642,8 @@ Once to plan work, once to code.
 Bi-weekly advisor meetings.
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{column}{7cm}
-\end_layout
-
-\end_inset
-
-
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Standard
@@ -1004,38 +658,7 @@ begin{column}{7cm}
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{column}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{columns}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
