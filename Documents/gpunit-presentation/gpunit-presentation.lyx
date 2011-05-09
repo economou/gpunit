@@ -193,35 +193,42 @@ Stars evolve over time, mass and size changes.
 Astrophysical Multipurpose Software Environment (AMUSE)
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
+\begin_layout Columns
 
-\begin_layout Plain Layout
-\align center
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+4cm
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename amuse-overview.png
-	width 30col%
+	lyxscale 30
+	width 100col%
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Column
+8cm
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename /home/hape/gpunit/Documents/design-doc/arch-diagram.eps
-	width 70col%
+	lyxscale 30
+	width 100col%
 
 \end_inset
 
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout Standard
 http://www.amusecode.org
 \end_layout
