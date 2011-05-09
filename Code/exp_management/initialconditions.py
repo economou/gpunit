@@ -269,6 +269,12 @@ class SalpeterModel(MassDistribution):
         if len(results) > 0:
             self.numParticles= results["Particles:"]
 
+    def __reduce__(self):
+        pickleDict = self.__dict__.copy()
+        del pickleDict["settings"]
+
+        return (SalpeterModel, (self.numParticles,), pickleDict)
+
 class PlummerModel(ParticleDistribution):
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = 1.0,
             mass_cutoff = 1.0, do_scale = False, random_state = None):
@@ -296,6 +302,12 @@ class PlummerModel(ParticleDistribution):
         results = self.settings.getValues()
         if len(results) > 0:
             self.numParticles= results["Particles:"]
+
+    def __reduce__(self):
+        pickleDict = self.__dict__.copy()
+        del pickleDict["settings"]
+
+        return (PlummerModel, (self.numParticles,), pickleDict)
 
 class KingModel(ParticleDistribution):
     def __init__(self, numParticles, W0 = 0.0, convert_nbody = None, do_scale = False, 
@@ -330,3 +342,9 @@ class KingModel(ParticleDistribution):
         results = self.settings.getValues()
         if len(results) > 0:
             self.numParticles= results["Particles:"]
+
+    def __reduce__(self):
+        pickleDict = self.__dict__.copy()
+        del pickleDict["settings"]
+
+        return (KingModel, (self.numParticles,self.w0, self.convert_nbody, self.do_scale), pickleDict)
