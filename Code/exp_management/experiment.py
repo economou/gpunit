@@ -109,7 +109,9 @@ class Experiment:
         )
         
         for module in self.modules :
-            etree.SubElement(experiment, "module", attrib = {"name" : module.name})
+            modAttr = etree.SubElement(experiment, "module", attrib = {"name" : module.name})
+            for parameter in module.parameters:
+                modAttr.append(etree.fromstring(parameter.toXML())) 
 
         for init in self.initialConditions:
             path = self.initialConditionPaths[init]
