@@ -351,19 +351,21 @@ class Parameter:
     physical quantity, flag, or other value.'''
 
     # Constructor
-    def __init__(self, name, description, defaultValue, units):
+    def __init__(self, name, description, defaultValue, units, value=None):
         '''Initializes a new Parameter with the given instance data.
 
         Parameters:
           name -- The brief, descriptive name of the parameter.
           description -- A description of the parameter's meaning and effects.
           defaultValue -- The parameter's default value.
-          units -- The physical unit(s) associated with the parameter's value.'''
+          units -- The physical unit(s) associated with the parameter's value.
+          value -- The parameter's actual value.'''
 
         self.name = name
         self.description = description
         self.defaultValue = defaultValue
         self.units = units
+        self.value = value
 
     # Methods
     def toXML(self):
@@ -377,6 +379,9 @@ class Parameter:
           <defaultValue>
             0.88
           </defaultValue>
+          <value>
+            0.90
+          </value>
           <Units ...>
             ...
           </Units>
@@ -394,6 +399,9 @@ class Parameter:
 
         defaultValue = etree.SubElement(parameter, "defaultValue")
         defaultValue.text = str(self.defaultValue)  # Convert numbers to strings for serialization
+
+        value = etree.SubElement(parameter, "value")
+        value.text = str(self.value)  # Convert numbers to strings for serialization
 
         parameter.append(etree.fromstring(self.units.toXML()))
 
@@ -418,12 +426,15 @@ class Parameter:
         description  = parameterElement.find("description").text.strip()
         defaultValue = eval(parameterElement.find("defaultValue").text.title().strip())  # Evaluate strings as numbers
 
+        value = None
+        value = eval(parameterElement.find("value").text.title().strip())  # Evaluate strings as numbers
+
         # Read Units sub-element into a CompoundUnit instance
         unitsElement = parameterElement.find("Units")
         units        = CompoundUnit.fromXML(etree.tostring(unitsElement, encoding = XML_ENCODING))
 
         # Create the Parameter
-        parameter = Parameter(name, description, defaultValue, units)
+        parameter = Parameter(name, description, defaultValue, units, value)
 
         return parameter
 
