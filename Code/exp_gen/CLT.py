@@ -1,4 +1,4 @@
-#!/usr/bin/python
+p#!/usr/bin/python
 #
 # CLT.py
 #    The CLT is used for running of an experiment file for
@@ -99,8 +99,7 @@ def initialization(experiment):
     if len(masses) > 0:
         particles.mass = masses[0]
 
-    print particles
-    print len(particles)
+    
 
     '''
     for ic in experiment.initialConditions:
