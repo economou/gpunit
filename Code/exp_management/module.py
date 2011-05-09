@@ -426,8 +426,9 @@ class Parameter:
         description  = parameterElement.find("description").text.strip()
         defaultValue = eval(parameterElement.find("defaultValue").text.title().strip())  # Evaluate strings as numbers
 
-        value = None
-        value = eval(parameterElement.find("value").text.title().strip())  # Evaluate strings as numbers
+        value = parameterElement.find("value")
+        if value!=None:
+            eval(value.text.title().strip())
 
         # Read Units sub-element into a CompoundUnit instance
         unitsElement = parameterElement.find("Units")
