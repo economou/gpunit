@@ -43,6 +43,10 @@
 
 \begin_body
 
+\begin_layout Section
+Introduction
+\end_layout
+
 \begin_layout Title
 GPUnit
 \end_layout
@@ -114,16 +118,45 @@ LatexCommand tableofcontents
 
 \end_layout
 
-\begin_layout Section
-Introduction
-\end_layout
-
 \begin_layout BeginFrame
 Motivation
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{column}{7cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Itemize
-Astrophysics researchers need to simulate star clusters and galaxies.
+Astrophysics researchers need to simulate movement and evolution of star
+ clusters and galaxies.
 \end_layout
 
 \begin_layout Itemize
@@ -131,35 +164,64 @@ Every star pulls on all of the others:
 \begin_inset Formula $O\left(n^{2}\right)$
 \end_inset
 
- for the naive case.
+ for the simplest algorithm.
 \end_layout
 
 \begin_layout Itemize
-Stars evolve over time, mass changes.
+Stars evolve over time, mass and size changes.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-\align center
+
+
+\backslash
+end{column}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{column}{5cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename nbody1k.png
-	scale 30
+	width 100col%
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption
+\begin_layout Standard
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
-N-Body Simulation: 1024 Stars
+
+
+\backslash
+end{column}
 \end_layout
 
 \end_inset
@@ -167,14 +229,15 @@ N-Body Simulation: 1024 Stars
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\size tiny
-http://www.sns.ias.edu/~starlab/animations/
-\end_layout
+\begin_layout Standard
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
 
+
+\backslash
+end{columns}
 \end_layout
 
 \end_inset
@@ -197,27 +260,17 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename amuse-overview.png
-	scale 30
+	width 30col%
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:AMUSE-Architecture"
-
-\end_inset
-
-AMUSE Architecture
-\end_layout
+\begin_inset Graphics
+	filename /home/hape/gpunit/Documents/design-doc/arch-diagram.eps
+	width 70col%
 
 \end_inset
 
@@ -227,6 +280,10 @@ AMUSE Architecture
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+http://www.amusecode.org
 \end_layout
 
 \begin_layout EndFrame
@@ -235,6 +292,15 @@ AMUSE Architecture
 
 \begin_layout BeginFrame
 State of AMUSE
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -249,6 +315,25 @@ Scripts, diagnostics, logging are all written by hand.
 AMUSE API/programming knowledge is required to create experiments.
 \end_layout
 
+\begin_layout Itemize
+Still better than separated and opaque FORTRAN codes.
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename amuse-exp.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -263,6 +348,15 @@ Purpose of GPUnit
 
 \begin_layout BeginFrame
 Purpose of GPUnit
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -281,6 +375,25 @@ Select, configure, swap out modules and initial conditions
 Store and restore progress of running experiments.
 \end_layout
 
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename exp-control.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -291,6 +404,15 @@ Target Audiences
 
 \begin_layout BeginFrame
 Target Audiences
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -305,16 +427,52 @@ Observational Astrophysicists
 Theoretical Astrophysicists
 \end_layout
 
+\begin_layout Column
+5cm
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename telescope.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename lagrange.gif
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
 
 \begin_layout Section
-Components and Features
+Features and Design
 \end_layout
 
 \begin_layout BeginFrame
-Features and Design
+Features
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
 \end_layout
 
 \begin_layout Itemize
@@ -330,15 +488,43 @@ Storage of experiment state in case of crashes.
 \end_layout
 
 \begin_layout Itemize
-Interface for custom diagnostics and code.
+Custom diagnostics and code generation.
 \end_layout
 
+\begin_layout Itemize
+Provides a display of cluster usage to aid in scheduling.
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename tesla.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
 
 \begin_layout BeginFrame
-Features and Design
+Design
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+9cm
 \end_layout
 
 \begin_layout Itemize
@@ -346,157 +532,68 @@ Written in Python using the PyQt4 GUI toolkit.
 \end_layout
 
 \begin_layout Itemize
-AMUSE is written in Python, improves interaction.
+AMUSE is written in Python, streamlines interaction.
 \end_layout
 
 \begin_layout Itemize
-Provides a display of cluster usage to aid in scheduling.
+C++ was considered as it supports Qt as well.
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Communication w/AMUSE would be cumbersome.
+\end_layout
+
+\begin_layout Itemize
+AMUSE would be in a separate process.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Designed APIs for diagnostics, logging and experiment persistence.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Users can create new diagnostics easily.
+\end_layout
+
+\begin_layout Itemize
+Experiments can be stored in a file structure, a remote DB etc...
+\end_layout
+
+\end_deeper
+\begin_layout Column
+3cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename qt-logo.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename open-mpi-logo.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
 
 \begin_layout Section
-User Interface
-\end_layout
-
-\begin_layout Subsection
-Experiment Editor
-\end_layout
-
-\begin_layout BeginFrame
-Experiment Editor
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename exp-control.png
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Experiment Editor
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Subsection
-Cluster Control
-\end_layout
-
-\begin_layout BeginFrame
-Cluster Control
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename cluster-control.png
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Cluster View
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Subsection
-Module Specification
-\end_layout
-
-\begin_layout BeginFrame
-Module Specification
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename module-editor.png
-	width 60col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Module Editor
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Testing
+Software Engineering
 \end_layout
 
 \begin_layout BeginFrame
@@ -512,7 +609,73 @@ Table of tests that pass.
 \end_layout
 
 \begin_layout BeginFrame
+User Testing
+\end_layout
+
+\begin_layout Itemize
+Tested with customers (Steve/Tim)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Project Plan
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Itemize
+Mostly waterfall design process.
+\end_layout
+
+\begin_layout Itemize
+Initial phases were spent learning the domain (Physics/AMUSE).
+\end_layout
+
+\begin_layout Itemize
+Needed more knowledge before making a plan.
+\end_layout
+
+\begin_layout Column
+7cm
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename gantt.png
+	lyxscale 10
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
 Team Management
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+6cm
 \end_layout
 
 \begin_layout Itemize
@@ -521,7 +684,7 @@ Used Mercurial as our version control system.
 
 \begin_deeper
 \begin_layout Itemize
-Distributed, allows offline commits.
+Distributed, allows off-line commits.
 \end_layout
 
 \end_deeper
@@ -539,46 +702,33 @@ Once to plan work, once to code.
 Bi-weekly advisor meetings.
 \end_layout
 
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename ../../activity.png
+	lyxscale 50
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
 
+\begin_layout Section
+Impact
+\end_layout
+
 \begin_layout BeginFrame
-Commit History
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename ../../activity.png
-	scale 50
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Commit History
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+Potential Benefits
 \end_layout
 
 \begin_layout EndFrame
@@ -594,7 +744,7 @@ Demo
 \end_layout
 
 \begin_layout Itemize
-Demonstrate a simulation from start to finish here.
+Demonstration of a simulation.
 \end_layout
 
 \begin_layout EndFrame
