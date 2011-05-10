@@ -76,7 +76,7 @@ class Diagnostic(QListWidgetItem):
         return False
 
     def setupFile(self, filename):
-        if self.needsGUI():
+        if self.needsFile():
             raise NotImplementedError("Diagnostics that require file output must implement setupFile().")
         else:
             pass
@@ -85,4 +85,6 @@ class Diagnostic(QListWidgetItem):
         pass
 
     def showSettingsDialog(self):
+        pass
+    def preRunInitialize(self):
         pass
