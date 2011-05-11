@@ -1,4 +1,4 @@
-#LyX 2.0.0rc3 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -18,6 +18,7 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \paperfontsize default
 \spacing single
@@ -32,12 +33,14 @@
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
+\defskip medskip
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
+\author "" 
 \end_header
 
 \begin_body
@@ -175,7 +178,8 @@ A user with minimal to no programming experience and minimal knowledge of
 \end_layout
 
 \begin_layout Itemize
-Has an interest in learning, performing, and observing experiments
+Has an interest in doing simulations to learn and understand basic concepts
+ in astronomy
 \end_layout
 
 \end_deeper
@@ -193,7 +197,7 @@ High understanding of astronomy
 \end_layout
 
 \begin_layout Itemize
-Interested in specific experiments and calculations
+Interested in simulating specific cluster of stars to compare to real data
 \end_layout
 
 \end_deeper
@@ -211,7 +215,8 @@ High understanding of astronomy
 \end_layout
 
 \begin_layout Itemize
-Interested in creating own experiments with custom diagnostic tools 
+Interested in creating own simulation with custom diagnostics and custom
+ initial conditions
 \end_layout
 
 \end_deeper
