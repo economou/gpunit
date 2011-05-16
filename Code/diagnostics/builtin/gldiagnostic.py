@@ -64,7 +64,7 @@ class OpenGLDiagnostic(Diagnostic):
         self.parent = parent
 
         if self.widget is None:
-            self.widget = GLDiagnosticWidget(self.width, self.height)
+            self.widget = GLDiagnosticWidget(self.width, self.height, scaleFactor = self.scaleFactor)
 
     def cleanup(self):
         pass
