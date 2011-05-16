@@ -123,7 +123,8 @@ def initialization(experiment):
     #Get Modules actual class values
     modules = [mod.result(convert_nbody) for mod in experiment.modules]
     #Temporary add to check something interesting
-    particles.scale_to_standard(convert_nbody)
+    if experiment.scaleToStandard:
+        particles.scale_to_standard(convert_nbody)
 
     #Add Particles to Module
     for module in modules:
