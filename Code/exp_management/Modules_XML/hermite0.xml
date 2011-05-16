@@ -1,4 +1,4 @@
-<Module name="hermite0">
+<Module name="Gravity (hermite0)">
    <description>
       Time-symmetric N-body integration module with shared but variable time step,
       using the Hermite integration scheme
