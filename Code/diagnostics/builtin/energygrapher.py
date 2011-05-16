@@ -152,7 +152,12 @@ class EnergyGrapher(Diagnostic):
         self.p1max =  1
         self.p2min = -1
         self.p2max =  1
-
+    def preRunInitialize(self):
+        self.time = []
+        self.KE = []
+        self.PE = []
+        self.TE = []
+        self.VR = []
     def __reduce__(self):
         newDict = self.__dict__.copy()
         del newDict['figure']
@@ -163,4 +168,5 @@ class EnergyGrapher(Diagnostic):
         del newDict['p1']
         del newDict['p2']
         del newDict['parent']
+
         return (EnergyGrapher, (self.name, ), newDict)

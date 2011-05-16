@@ -150,6 +150,7 @@ def run_experiment(experiment):
 
     for diagnostic in experiment.diagnostics:
         diagnostic.convert_nbody = convert_nbody
+        diagnostic.preRunInitialize()
 
     
     while time <= tmax:

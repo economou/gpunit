@@ -37,7 +37,7 @@ class Diagnostic(QListWidgetItem):
             return (OpenGLDiagnostic, (self.name, self.parent), newDict)"""
         return (self.__class__, (self.name,), {"name":self.name, "conditions":self.conditions})
 
-    def update(self, time, modules):
+    def update(self, time, particles, modules):
         """Updates the status of the diagnostic based on the current timestep
         and particle state."""
 
@@ -76,7 +76,7 @@ class Diagnostic(QListWidgetItem):
         return False
 
     def setupFile(self, filename):
-        if self.needsGUI():
+        if self.needsFile():
             raise NotImplementedError("Diagnostics that require file output must implement setupFile().")
         else:
             pass
@@ -85,4 +85,6 @@ class Diagnostic(QListWidgetItem):
         pass
 
     def showSettingsDialog(self):
+        pass
+    def preRunInitialize(self):
         pass
