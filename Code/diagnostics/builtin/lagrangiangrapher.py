@@ -9,17 +9,22 @@
 #
 
 import sys
-from amuse.support.units import nbody_system
-from diagnostics.diagnostic import Diagnostic
+from time import sleep
+from time import time as gettime
+
 import numpy as np
 import matplotlib
+
 if "matplotlib.backends" not in sys.modules:
     matplotlib.use("Qt4Agg")
 
 import pylab
+
+from amuse.support.units import nbody_system
+
+from diagnostics.diagnostic import Diagnostic
 from exp_design.settings import SettingsDialog
 
-#from time import gettime
 class LRGraph(Diagnostic):
     '''Abstract Diagnostic class. Objects of subclasses are added to the an
     Experiment object where it is updated.'''
@@ -32,6 +37,7 @@ class LRGraph(Diagnostic):
             UpdateInterval=30., 
             PlotOption="KE PE TE"
             ):
+
         Diagnostic.__init__(self, name)
         self.setName(name)
         self.convert_nbody = None
@@ -39,7 +45,9 @@ class LRGraph(Diagnostic):
         self.YLABEL = YLABEL
         self.TITLE  = TITLE
         self.UpdateInterval = UpdateInterval
+        self.lasttime  = -1
         self.PlotOption = PlotOption
+        self.graphVisible = False
 
         self.datadict = {
             "t":  [],
@@ -65,7 +73,6 @@ class LRGraph(Diagnostic):
             "Update Interval":self.UpdateInterval,
             "What to Plot? (KE, PE, TE, LR, HalfMass)":self.PlotOption
             }
-        
         )
 
     def __reduce__(self):
@@ -84,58 +91,50 @@ class LRGraph(Diagnostic):
         
         return (self.__class__, (self.name, self.XLABEL, self.YLABEL, self.TITLE, self.UpdateInterval, self.PlotOption), newDict)
 
-
     def needsGUI(self):
         return True
 
     def setupGUI(self, parent):
         self.parent = parent
         self.initialize_graphs()
+
     def initialize_graphs(self):
-        self.datadict = {
-            "t":  [],
-            "KE": [],
-            "PE": [],
-            "TE": [],
-            "LR": [],
-            "HalfMass": []
-            }
         self.figure = pylab.figure(1)
         self.p1   = pylab.subplot(211)
         self.pKE, = pylab.plot(self.datadict["t"],self.datadict["KE"])
         self.pPE, = pylab.plot(self.datadict["t"],self.datadict["PE"])
         self.p2   = pylab.subplot(212)
         self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
-        pylab.show()
+
     def redraw(self):
-#        self.figure = pylab.figure(1)
-#        self.p1   = pylab.subplot(211)
+        if not self.graphVisible:
+            self.graphVisible = True
+            pylab.show()
+
         self.pKE.set_xdata(self.datadict["t"])
         self.pKE.set_ydata(self.datadict["KE"])
         self.pTE.set_xdata(self.datadict["t"])
         self.pTE.set_ydata(self.datadict["TE"])
         self.pPE.set_xdata(self.datadict["t"])
         self.pPE.set_ydata(self.datadict["PE"])
-        pylab.draw()
-#        self.pKE, = pylab.plot(self.datadict["t"],self.datadict["KE"])
-#        self.pPE, = pylab.plot(self.datadict["t"],self.datadict["PE"])
-#        self.p2   = pylab.subplot(212)
-#        self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
 
+        curt = gettime()
+        if(curt > self.lasttime+self.UpdateInterval):
+            pylab.draw()
+            self.lasttime = curt
 
     def cleanup(self):
         self.particle_sets = []
 
     def showSettingsDialog(self):
         results = self.settings.getValues()
-        self.XLABEL = results["LABEL X"]
-        self.YLABEL = results["LABEL Y"]
-        self.TITLE  = results["LABEL TITLE"]
+        if len(results) > 0:
+            self.XLABEL = results["LABEL X"]
+            self.YLABEL = results["LABEL Y"]
+            self.TITLE  = results["LABEL TITLE"]
         
-        self.UpdateInterval = results["Update Interval"]
-        self.PlotOption = results["What to Plot? (KE, PE, TE, LR, HalfMass)"]
-#        if len(results) > 0:
-#            self.widget.scaleFactor = results["Scale Factor:"]
+            self.UpdateInterval = results["Update Interval"]
+            self.PlotOption = results["What to Plot? (KE, PE, TE, LR, HalfMass)"]
 
     def preRunInitialize(self):
         self.datadict = {
@@ -149,6 +148,7 @@ class LRGraph(Diagnostic):
         self.particle_sets = []
         acceptable = ["KE", "PE", "TE", "LR", "HalfMass"]
         self.toplot = filter(lambda x: x in acceptable,self.PlotOption.split())
+        self.graphVisible = False
         
         #@todo: Create subsets using already written code
     
@@ -169,10 +169,14 @@ class LRGraph(Diagnostic):
         self.datadict["KE"].append(self.convert_nbody.to_nbody(modules[-1].kinetic_energy).number)
         self.datadict["PE"].append(self.convert_nbody.to_nbody(modules[-1].potential_energy).number)
         self.datadict["TE"].append(self.datadict["PE"][-1] + self.datadict["KE"][-1])
-        print LR
-        print LR[:,5]
+        #print LR
+        #print LR[:,5]
         
         self.parent.diagnosticUpdated.emit()
+
+        curt = gettime()
+        if(curt > self.lasttime+self.UpdateInterval):
+            self.parent.diagnosticUpdated.emit()
         
 def getKeyMasses(mass_list):
     '''
@@ -186,13 +190,14 @@ def getKeyMasses(mass_list):
     
     for p in mlist:
         cur_mass += p.number
-        if( (cur_mass/total_mass) > cur_list	):
+
+        if((cur_mass/total_mass) > cur_list):
           r_val.append(p)
           cur_list += .1
+
     return r_val        
         
 def get_mcom(particles,	CoMguess = None, cutoff = .9, n_iter = 2 ):
-
     '''
      Compute the modified center of mass of the system.  Code stolen
      from Starlab and modified to use STL vectors.
@@ -216,7 +221,7 @@ def get_mcom(particles,	CoMguess = None, cutoff = .9, n_iter = 2 ):
 
         # Set up an array of radii relative to the current center. 
         #Index, Radius
-        #	print    np.column_stack([range(len(particles)),np.sum(((particles.position - cmpos).number)**2,1)])
+        #    print    np.column_stack([range(len(particles)),np.sum(((particles.position - cmpos).number)**2,1)])
         
         mrlist = np.column_stack([range(len(particles)),np.sum(((particles.position - cmpos).number)**2,1)])
 
@@ -236,12 +241,13 @@ def get_mcom(particles,	CoMguess = None, cutoff = .9, n_iter = 2 ):
         new_pos = np.sum(weights.reshape(j_max,1)*psub.position.number,0)
         new_vel = np.sum(weights.reshape(j_max,1)*particles[map(int,mrlist[:j_max,0])].velocity.number,0)
         if weighted_mass > 0:
+            cmpos = list(new_pos/weighted_mass) | particles[0].position.unit
+            cmvel = list(new_vel/weighted_mass) | particles[0].position.unit
 
-		    cmpos = list(new_pos/weighted_mass) | particles[0].position.unit
-		    cmvel = list(new_vel/weighted_mass) | particles[0].position.unit
-		    count -= 1
-		    if count >= 0:
-			    loop = True
+            count -= 1
+            if count >= 0:
+                loop = True
+
     return cmpos 
     
 def get_lagrangians(particle_sets, percent_modifier):
@@ -276,17 +282,12 @@ def get_lagrangians(particle_sets, percent_modifier):
         #Set Current Percent Hunting for to Percent Iterator
         cur_percent = pm
 
-    	#Loops across particles in list and prints out the values for when current mass is some percentage.
-    	#    Lagrangian Radii
+        #Loops across particles in list and prints out the values for when current mass is some percentage.
+        #    Lagrangian Radii
         for p in s_list:#cur_mass <= total_mass):
             cur_mass += p.mass.number
             while( cur_mass >= cur_percent * total_mass ):
                 r_val[-1].append(getRnoM(p))
                 cur_percent += pm
-                
-        
-        
-        
 
     return r_val
-
