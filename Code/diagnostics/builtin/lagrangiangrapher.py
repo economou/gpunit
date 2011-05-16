@@ -92,13 +92,14 @@ class LRGraph(Diagnostic):
         self.parent = parent
         self.initialize_graphs()
     def initialize_graphs(self):
-            self.figure = pylab.figure(1)
-            self.p1   = pylab.subplot(211)
-            self.pKE, = pylab.plot(self.datadict["t"],self.datadict["KE"])
-            self.pPE, = pylab.plot(self.datadict["t"],self.datadict["PE"])
-            self.p2   = pylab.subplot(212)
-            self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
-    def redraw(self):
+        self.datadict = {
+            "t":  [],
+            "KE": [],
+            "PE": [],
+            "TE": [],
+            "LR": [],
+            "HalfMass": []
+            }
         self.figure = pylab.figure(1)
         self.p1   = pylab.subplot(211)
         self.pKE, = pylab.plot(self.datadict["t"],self.datadict["KE"])
@@ -106,6 +107,20 @@ class LRGraph(Diagnostic):
         self.p2   = pylab.subplot(212)
         self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
         pylab.show()
+    def redraw(self):
+#        self.figure = pylab.figure(1)
+#        self.p1   = pylab.subplot(211)
+        self.pKE.set_xdata(self.datadict["t"])
+        self.pKE.set_ydata(self.datadict["KE"])
+        self.pTE.set_xdata(self.datadict["t"])
+        self.pTE.set_ydata(self.datadict["TE"])
+        self.pPE.set_xdata(self.datadict["t"])
+        self.pPE.set_ydata(self.datadict["PE"])
+        pylab.draw()
+#        self.pKE, = pylab.plot(self.datadict["t"],self.datadict["KE"])
+#        self.pPE, = pylab.plot(self.datadict["t"],self.datadict["PE"])
+#        self.p2   = pylab.subplot(212)
+#        self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
 
 
     def cleanup(self):
@@ -150,6 +165,10 @@ class LRGraph(Diagnostic):
         LR = np.asarray(get_lagrangians(self.particle_sets, 10))
         self.datadict["LR"].append(LR[-1,:])
         self.datadict["HalfMass"].append(LR[:,5])
+        self.datadict["t"].append(time)
+        self.datadict["KE"].append(self.convert_nbody.to_nbody(modules[-1].kinetic_energy).number)
+        self.datadict["PE"].append(self.convert_nbody.to_nbody(modules[-1].potential_energy).number)
+        self.datadict["TE"].append(self.datadict["PE"][-1] + self.datadict["KE"][-1])
         print LR
         print LR[:,5]
         
