@@ -147,37 +147,22 @@ Every star pulls on all of the others.
 
 \begin_deeper
 \begin_layout Itemize
-The simplest approach is to actually calculate the force of each star on
- every other star.
-\end_layout
-
-\begin_layout Itemize
-If you have 
-\begin_inset Formula $n$
+\begin_inset Formula $O\left(n^{2}\right)$
 \end_inset
 
- stars, this will take roughly 
-\begin_inset Formula $n^{2}$
-\end_inset
 
- calculations to finish.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Software exists to perform these computations.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-AMUSE combines many implementations.
+Complex software exists to perform these computations efficiently.
 \end_layout
 
 \begin_layout Itemize
-AMUSE is very complex.
+Our project exists to make running experiments with these tools feasible
+ for a wider audience.
 \end_layout
 
-\end_deeper
 \begin_layout Column
 5cm
 \end_layout
@@ -193,10 +178,6 @@ AMUSE is very complex.
 \end_layout
 
 \end_deeper
-\begin_layout EndFrame
-
-\end_layout
-
 \begin_layout EndFrame
 
 \end_layout
@@ -606,7 +587,7 @@ Project Plan
 
 \begin_deeper
 \begin_layout Column
-5cm
+6cm
 \end_layout
 
 \begin_layout Itemize
@@ -618,9 +599,31 @@ Initial phases were spent learning the domain (Physics/AMUSE).
 \end_layout
 
 \begin_layout Itemize
-Needed more knowledge before making a plan.
+Roles
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Tim: Physics reference, test subject
+\end_layout
+
+\begin_layout Itemize
+Andrew/Jason: Experiment and Module design.
+\end_layout
+
+\begin_layout Itemize
+Dan: Diagnostics
+\end_layout
+
+\begin_layout Itemize
+Raj: Logging
+\end_layout
+
+\begin_layout Itemize
+Gabe: Network, GUI.
+\end_layout
+
+\end_deeper
 \begin_layout Column
 7cm
 \end_layout
@@ -704,9 +707,61 @@ Impact
 \end_layout
 
 \begin_layout BeginFrame
-Potential Benefits
+Project Impact
 \end_layout
 
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+8cm
+\end_layout
+
+\begin_layout Itemize
+Gives students and physicists easy access to state-of-the-art tools.
+\end_layout
+
+\begin_layout Itemize
+Simple experiment creation 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ faster turnaround on experiments.
+\end_layout
+
+\begin_layout Itemize
+Faster experiments 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ more time to study them.
+\end_layout
+
+\begin_layout Itemize
+Current state:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Software is usable to create simple experiments.
+\end_layout
+
+\begin_layout Itemize
+Comes with useful diagnostics, from real experimental setups.
+\end_layout
+
+\begin_layout Itemize
+Needs refinement before it will be useful to professional astrophysicists.
+\end_layout
+
+\end_deeper
+\begin_layout Column
+4cm
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
