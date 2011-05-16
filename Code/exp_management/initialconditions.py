@@ -241,7 +241,7 @@ class SalpeterModel(MassDistribution):
 
         self.settings = SettingsDialog(
                 inputs = {"Particles:" : "int:1:"},
-                defaults = {"Particles:" : 1})
+                defaults = {"Particles:" : self.numParticles})
 
     def getMassList(self):
         return SalpeterIMF(self.mass_min, self.mass_max, self.alpha).next_set(self.numParticles)
@@ -289,7 +289,7 @@ class PlummerModel(ParticleDistribution):
 
         self.settings = SettingsDialog(
                 inputs = {"Particles:" : "int:1:"},
-                defaults = {"Particles:" : 1})
+                defaults = {"Particles:" : self.numParticles})
 
     def getParticleList(self):
         '''Creates a particle list by making a new Plummer model. Note this will be
@@ -324,7 +324,7 @@ class KingModel(ParticleDistribution):
 
         self.settings = SettingsDialog(
                 inputs = {"Particles:" : "int:1:"},
-                defaults = {"Particles:" : 1})
+                defaults = {"Particles:" : self.numParticles})
 
     def getParticleList(self):
         '''Creates a particle list by making a new Plummer model. Note this will be

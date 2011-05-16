@@ -38,7 +38,7 @@ class OpenGLDiagnostic(Diagnostic):
         del newDict["parent"]
         del newDict["settings"]
 
-        return (OpenGLDiagnostic, (self.name, self.width, self.height), newDict)
+        return (OpenGLDiagnostic, (self.name, self.width, self.height, self.scaleFactor), newDict)
 
     def update(self, time, particles, modules):
         if self.parent is None or self.widget is None:
@@ -75,6 +75,7 @@ class OpenGLDiagnostic(Diagnostic):
         results = self.settings.getValues()
         if len(results) > 0:
             self.widget.scaleFactor = results["Scale Factor:"]
+            self.scaleFactor = results["Scale Factor:"]
 
 class GLDiagnosticWidget(QGLWidget):
     def __init__(self, width, height, distanceUnits = AU, scaleFactor = 1.0, parent = None):
