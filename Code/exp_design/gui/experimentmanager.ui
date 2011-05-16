@@ -36,20 +36,20 @@
     <item>
      <widget class="ModulesToolbox" name="modulesToolbox" native="true">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>200</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
+        <width>300</width>
         <height>16777215</height>
        </size>
       </property>
@@ -70,7 +70,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>463</width>
+           <width>413</width>
            <height>435</height>
           </rect>
          </property>
