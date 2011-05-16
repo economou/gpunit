@@ -1,4 +1,4 @@
-<Module name="ph4">
+<Module name="Gravity (ph4)">
    <description>
       Parallel, GPU-accelerated, N-body integration module with block
       time steps, using a 4th-order Hermite integration scheme.
