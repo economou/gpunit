@@ -64,6 +64,7 @@ class CustomParticles(ParticleDistribution):
         self.dialog.connect(self.ui.addParticleButton, SIGNAL("clicked()"), self.treeAddParticle)
         self.dialog.connect(self.ui.removeParticleButton, SIGNAL("clicked()"), self.treeRemoveParticle)
 
+
         if storageFilename is None:
             self.particles = Particles(0)
         else:
@@ -87,7 +88,7 @@ class CustomParticles(ParticleDistribution):
         del pickleDict["dialog"]
         del pickleDict["ui"]
 
-        return (CustomParticles, (self.numParticles,), pickleDict)
+        return (CustomParticles, (self.numParticles, self.particlesPath, self.storageFilename), pickleDict)
 
     def getParticleList(self):
         return self.particles.copy()
@@ -116,7 +117,7 @@ class CustomParticles(ParticleDistribution):
             self.particles[i].velocity = particles[i].velocity.as_quantity_in(velUnit)
             self.particles[i].radius = particles[i].radius.as_quantity_in(radiusUnit)
 
-        self.ui.pathText.setText(self.particlesPath)
+        self.ui.pathText.setText(self.storageFilename)
 
     @pyqtSlot()
     def treeAddParticle(self):
@@ -232,7 +233,7 @@ class CustomParticles(ParticleDistribution):
 
 class SalpeterModel(MassDistribution):
     def __init__(self, numParticles, mass_min = 0.1 | MSun, mass_max = 125 | MSun, alpha = -2.35):
-        MassDistribution.__init__(self, "SaltpeterModel")
+        MassDistribution.__init__(self, "Mass Distribution (Saltpeter Model)")
 
         self.numParticles = numParticles
         self.mass_min = mass_min
@@ -278,7 +279,7 @@ class SalpeterModel(MassDistribution):
 class PlummerModel(ParticleDistribution):
     def __init__(self, numParticles, convert_nbody = None, radius_cutoff = 1.0,
             mass_cutoff = 1.0, do_scale = False, random_state = None):
-        ParticleDistribution.__init__(self, "PlummerModel")
+        ParticleDistribution.__init__(self, "Particle Distribution (Plummer Model)")
 
         self.numParticles = numParticles
         self.convert_nbody = convert_nbody
@@ -312,7 +313,7 @@ class PlummerModel(ParticleDistribution):
 class KingModel(ParticleDistribution):
     def __init__(self, numParticles, W0 = 0.0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
-        ParticleDistribution.__init__(self, "KingModel")
+        ParticleDistribution.__init__(self, "Particle Distribution (King Model)")
 
         self.numParticles = numParticles
         self.W0 = W0
