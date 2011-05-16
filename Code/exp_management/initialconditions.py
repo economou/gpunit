@@ -348,4 +348,4 @@ class KingModel(ParticleDistribution):
         pickleDict = self.__dict__.copy()
         del pickleDict["settings"]
 
-        return (KingModel, (self.numParticles,self.w0, self.convert_nbody, self.do_scale), pickleDict)
+        return (KingModel, (self.numParticles,self.W0, self.convert_nbody, self.do_scale), pickleDict)
