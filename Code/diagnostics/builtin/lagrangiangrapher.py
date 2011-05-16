@@ -8,11 +8,14 @@
 # Team GPUnit - Senior Design 2011
 #
 
+import sys
 from amuse.support.units import nbody_system
 from diagnostics.diagnostic import Diagnostic
 import numpy as np
 import matplotlib
-matplotlib.use("Qt4Agg")
+if "matplotlib.backends" not in sys.modules:
+    matplotlib.use("Qt4Agg")
+
 import pylab
 from exp_design.settings import SettingsDialog
 

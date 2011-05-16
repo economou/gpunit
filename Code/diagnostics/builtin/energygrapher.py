@@ -8,13 +8,15 @@
 #
 # Team GPUnit - Senior Design 2011
 #
+import sys
 from diagnostics.diagnostic import Diagnostic
 from PyQt4 import QtCore
 import numpy as np
 from math import sqrt
 
 import matplotlib
-matplotlib.use("Qt4Agg")
+if "matplotlib.backends" not in sys.modules:
+    matplotlib.use("Qt4Agg")
 import pylab
 from time import sleep
 from time import time as gettime
