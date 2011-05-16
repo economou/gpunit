@@ -1,0 +1,743 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{beamerthemesplit}
+\setbeamertemplate{footline}[page number]
+\end_preamble
+\options blue
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Title
+GPUnit
+\end_layout
+
+\begin_layout Author
+Daniel Bagnell
+\begin_inset Newline newline
+\end_inset
+
+Jason Economou
+\begin_inset Newline newline
+\end_inset
+
+Rajkumar Jayachandran
+\begin_inset Newline newline
+\end_inset
+
+Tim McJilton
+\begin_inset Newline newline
+\end_inset
+
+Gabriel Schwartz
+\begin_inset Newline newline
+\end_inset
+
+Andrew Sherman
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace medskip
+\end_inset
+
+Advisor: Prof.
+ Jeremy Johnson
+\begin_inset Newline newline
+\end_inset
+
+Stakeholders: Prof.
+ Steve McMillan
+\begin_inset Newline newline
+\end_inset
+
+Alfred Whitehead
+\begin_inset Newline newline
+\end_inset
+
+The Leiden Observatory
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Motivation
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Itemize
+Astrophysics researchers need to simulate movement and evolution of star
+ clusters and galaxies.
+\end_layout
+
+\begin_layout Itemize
+Every star pulls on all of the others.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The simplest approach is to actually calculate the force of each star on
+ every other star.
+\end_layout
+
+\begin_layout Itemize
+If you have 
+\begin_inset Formula $n$
+\end_inset
+
+ stars, this will take roughly 
+\begin_inset Formula $n^{2}$
+\end_inset
+
+ calculations to finish.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Software exists to perform these computations.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+AMUSE combines many implementations.
+\end_layout
+
+\begin_layout Itemize
+AMUSE is very complex.
+\end_layout
+
+\end_deeper
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename nbody1k.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Astrophysical Multipurpose Software Environment (AMUSE)
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+4cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename amuse-overview.png
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Column
+8cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /home/hape/gpunit/Documents/design-doc/arch-diagram.eps
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+http://www.amusecode.org
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+State of AMUSE
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Itemize
+Currently used by researchers to run large-scale simulations.
+\end_layout
+
+\begin_layout Itemize
+Scripts, diagnostics, logging are all written by hand.
+\end_layout
+
+\begin_layout Itemize
+AMUSE API/programming knowledge is required to create experiments.
+\end_layout
+
+\begin_layout Itemize
+Still better than separated and opaque FORTRAN codes.
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename amuse-exp.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Purpose
+\end_layout
+
+\begin_layout Subsection
+Purpose of GPUnit
+\end_layout
+
+\begin_layout BeginFrame
+Purpose of GPUnit
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Itemize
+Ease the use of AMUSE
+\end_layout
+
+\begin_layout Itemize
+Create/Design/Modify experiments
+\end_layout
+
+\begin_layout Itemize
+Select, configure, swap out modules and initial conditions
+\end_layout
+
+\begin_layout Itemize
+Store and restore progress of running experiments.
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename exp-control.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Target Audiences
+\end_layout
+
+\begin_layout BeginFrame
+Target Audiences
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Itemize
+Physics Students
+\end_layout
+
+\begin_layout Itemize
+Observational Astrophysicists
+\end_layout
+
+\begin_layout Itemize
+Theoretical Astrophysicists
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename telescope.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename lagrange.gif
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Features and Design
+\end_layout
+
+\begin_layout BeginFrame
+Features
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Itemize
+Configurable experiments that can be saved and shared.
+\end_layout
+
+\begin_layout Itemize
+Diagnostic tools that compute useful metrics.
+\end_layout
+
+\begin_layout Itemize
+Storage of experiment state in case of crashes.
+\end_layout
+
+\begin_layout Itemize
+Custom diagnostics and code generation.
+\end_layout
+
+\begin_layout Itemize
+Provides a display of cluster usage to aid in scheduling.
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename tesla.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Design
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+9cm
+\end_layout
+
+\begin_layout Itemize
+Written in Python using the PyQt4 GUI toolkit.
+\end_layout
+
+\begin_layout Itemize
+AMUSE is written in Python, streamlines interaction.
+\end_layout
+
+\begin_layout Itemize
+C++ was considered as it supports Qt as well.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Communication w/AMUSE would be cumbersome.
+\end_layout
+
+\begin_layout Itemize
+AMUSE would be in a separate process.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Designed APIs for diagnostics, logging and experiment persistence.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Users can create new diagnostics easily.
+\end_layout
+
+\begin_layout Itemize
+Experiments can be stored in a file structure, a remote DB etc...
+\end_layout
+
+\end_deeper
+\begin_layout Column
+3cm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename qt-logo.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename open-mpi-logo.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Software Engineering
+\end_layout
+
+\begin_layout BeginFrame
+Tests
+\end_layout
+
+\begin_layout Itemize
+Table of tests that pass.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+User Testing
+\end_layout
+
+\begin_layout Itemize
+Tested with customers (Steve/Tim)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Project Plan
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+5cm
+\end_layout
+
+\begin_layout Itemize
+Mostly waterfall design process.
+\end_layout
+
+\begin_layout Itemize
+Initial phases were spent learning the domain (Physics/AMUSE).
+\end_layout
+
+\begin_layout Itemize
+Needed more knowledge before making a plan.
+\end_layout
+
+\begin_layout Column
+7cm
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename gantt.png
+	lyxscale 10
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Team Management
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+6cm
+\end_layout
+
+\begin_layout Itemize
+Used Mercurial as our version control system.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Distributed, allows off-line commits.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Team met weekly.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Once to plan work, once to code.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Bi-weekly advisor meetings.
+\end_layout
+
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename ../../activity.png
+	lyxscale 50
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Impact
+\end_layout
+
+\begin_layout BeginFrame
+Potential Benefits
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Demo
+\end_layout
+
+\begin_layout BeginFrame
+Demo
+\end_layout
+
+\begin_layout Itemize
+Demonstration of a simulation.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Questions
+\end_layout
+
+\begin_layout Itemize
+Questions?
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document
