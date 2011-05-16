@@ -124,23 +124,6 @@ The Leiden Observatory
 \end_layout
 
 \begin_layout BeginFrame
-Overview
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset toc
-LatexCommand tableofcontents
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout BeginFrame
 Motivation
 \end_layout
 
@@ -159,17 +142,42 @@ Astrophysics researchers need to simulate movement and evolution of star
 \end_layout
 
 \begin_layout Itemize
-Every star pulls on all of the others: 
-\begin_inset Formula $O\left(n^{2}\right)$
-\end_inset
+Every star pulls on all of the others.
+\end_layout
 
- for the simplest algorithm.
+\begin_deeper
+\begin_layout Itemize
+The simplest approach is to actually calculate the force of each star on
+ every other star.
 \end_layout
 
 \begin_layout Itemize
-Stars evolve over time, mass and size changes.
+If you have 
+\begin_inset Formula $n$
+\end_inset
+
+ stars, this will take roughly 
+\begin_inset Formula $n^{2}$
+\end_inset
+
+ calculations to finish.
 \end_layout
 
+\end_deeper
+\begin_layout Itemize
+Software exists to perform these computations.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+AMUSE combines many implementations.
+\end_layout
+
+\begin_layout Itemize
+AMUSE is very complex.
+\end_layout
+
+\end_deeper
 \begin_layout Column
 5cm
 \end_layout
@@ -185,6 +193,27 @@ Stars evolve over time, mass and size changes.
 \end_layout
 
 \end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
