@@ -17,7 +17,6 @@ class Diagnostic(QListWidgetItem):
     def __init__(self, name = "BaseDiagnostic"):
         QListWidgetItem.__init__(self)
 
-        self.conditions = []
         self.setName(name)
         self.convert_nbody = None
 
@@ -35,7 +34,7 @@ class Diagnostic(QListWidgetItem):
             del newDict["guiwindowname"]
 
             return (OpenGLDiagnostic, (self.name, self.parent), newDict)"""
-        return (self.__class__, (self.name,), {"name":self.name, "conditions":self.conditions})
+        return (self.__class__, (self.name,), {"name":self.name})
 
     def update(self, time, particles, modules):
         """Updates the status of the diagnostic based on the current timestep
@@ -45,12 +44,9 @@ class Diagnostic(QListWidgetItem):
 
     def shouldUpdate(self, time, modules) :
         '''Returns a boolean indicating whether this diagnostic should
-        be updated given the current experiment state.'''
-
-        bUpdate = True
-        for condition in self.conditions :
-            bUpdate = bUpdate and condition.shouldUpdate(time, modules)
-        return bUpdate
+        be updated given the current experiment state. Defaults to true. should be overridden
+        in subclasses.'''
+        return True
 
     def setName(self, name):
         """Sets the name and text for display in GUI lists."""

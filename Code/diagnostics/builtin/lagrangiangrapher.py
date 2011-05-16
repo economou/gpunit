@@ -82,12 +82,24 @@ class LRGraph(Diagnostic):
             del newDict["particle_sets"]
         if newDict.has_key("parent"):
             del newDict["parent"]
-        del newDict["pKE"]
-        del newDict["pTE"]
-        del newDict["pPE"]
-        del newDict["p1"]
-        del newDict["p2"]
-        del newDict["figure"]
+        newDict["datadict"] = {
+            "t":  [],
+            "KE": [],
+            "PE": [],
+            "TE": [],
+            "LR": [],
+            "HalfMass": []
+            }
+        for s in ["pKE", "pTE", "pPE", "p1", "p2","figure","lrlines","hmlines","AXES"]:
+            if newDict.has_key(s):
+                del newDict[s]
+        print newDict
+#        del newDict["pKE"]
+#        del newDict["pTE"]
+#        del newDict["pPE"]
+#        del newDict["p1"]
+#        del newDict["p2"]
+#        del newDict["figure"]
         
         return (self.__class__, (self.name, self.XLABEL, self.YLABEL, self.TITLE, self.UpdateInterval, self.PlotOption), newDict)
 
@@ -99,27 +111,58 @@ class LRGraph(Diagnostic):
         self.initialize_graphs()
 
     def initialize_graphs(self):
+#        self.AXES = pylab.subplot(111).set_autoscale_on(True)
         self.figure = pylab.figure(1)
-        self.p1   = pylab.subplot(211)
-        self.pKE, = pylab.plot(self.datadict["t"],self.datadict["KE"])
-        self.pPE, = pylab.plot(self.datadict["t"],self.datadict["PE"])
-        self.p2   = pylab.subplot(212)
-        self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
+#        self.p1   = pylab.subplot(211)
+#        self.pKE, = pylab.plot([],[])
+#        self.pPE, = pylab.plot([],[])#self.datadict["t"],self.datadict["PE"])
+#        self.p2   = pylab.subplot(212)
+#        self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
+        pylab.subplot(211)
+        self.lrlines=[]
+        for i in xrange(10):
+            x, = pylab.plot([],[])
+            self.lrlines.append(x)
+#        pylab.subplot(212)
+        self.hmlines = []
+#        for i in xrange(10):
+#            self.hmlines.append(pylab.plot([],[]))
 
     def redraw(self):
         if not self.graphVisible:
             self.graphVisible = True
             pylab.show()
 
-        self.pKE.set_xdata(self.datadict["t"])
-        self.pKE.set_ydata(self.datadict["KE"])
-        self.pTE.set_xdata(self.datadict["t"])
-        self.pTE.set_ydata(self.datadict["TE"])
-        self.pPE.set_xdata(self.datadict["t"])
-        self.pPE.set_ydata(self.datadict["PE"])
+#        self.pKE.set_xdata(self.datadict["t"])
+#        self.pKE.set_ydata(self.datadict["KE"])
+#        self.pTE.set_xdata(self.datadict["t"])
+#        self.pTE.set_ydata(self.datadict["TE"])
+#        self.pPE.set_xdata(self.datadict["t"])
+#        self.pPE.set_ydata(self.datadict["PE"])
+    #    pylab.subplot(211)
 
         curt = gettime()
         if(curt > self.lasttime+self.UpdateInterval):
+            nplr = np.asarray(self.datadict["LR"])
+            nphm = np.asarray(self.datadict["HalfMass"])
+            pylab.clf()
+            for i in xrange(10):
+#                self.lrlines[i].set_xdata(self.datadict["t"])
+#                self.lrlines[i].set_ydata(nplr[:,i]) 
+#                print dir(self.lrlines[i])
+#                print self.lrlines[i]._y
+#                pylab.subplot(211)
+                 pylab.plot(self.datadict["t"], nplr[:,i])
+#                pylab.subplot(212)
+#                print nplr[i,5]
+#                print nphm.shape
+ #               pylab.plot(self.datadict["t"], nphm[:,i])
+#            print dir(self.AXES)
+#            import sys
+#            sys.exit()
+#                self.lrlines[i].autoscale()
+#                pylab.margins()
+            
             pylab.draw()
             self.lasttime = curt
 
@@ -165,14 +208,14 @@ class LRGraph(Diagnostic):
         LR = np.asarray(get_lagrangians(self.particle_sets, 10))
         self.datadict["LR"].append(LR[-1,:])
         self.datadict["HalfMass"].append(LR[:,5])
-        self.datadict["t"].append(time)
+        self.datadict["t"].append(self.convert_nbody.to_nbody(time).number)
         self.datadict["KE"].append(self.convert_nbody.to_nbody(modules[-1].kinetic_energy).number)
         self.datadict["PE"].append(self.convert_nbody.to_nbody(modules[-1].potential_energy).number)
         self.datadict["TE"].append(self.datadict["PE"][-1] + self.datadict["KE"][-1])
         #print LR
         #print LR[:,5]
         
-        self.parent.diagnosticUpdated.emit()
+#        self.parent.diagnosticUpdated.emit()
 
         curt = gettime()
         if(curt > self.lasttime+self.UpdateInterval):
