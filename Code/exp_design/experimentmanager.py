@@ -181,10 +181,12 @@ class ExperimentManager(QMainWindow):
     def enableUI(self):
         self.ui.centralWidget.setEnabled(True)
         self.ui.menuRun.setEnabled(True)
+        self.ui.menuSettings.setEnabled(True)
 
     def disableUI(self):
         self.ui.centralWidget.setEnabled(False)
         self.ui.menuRun.setEnabled(False)
+        self.ui.menuSettings.setEnabled(False)
 
     def resetUI(self):
         self.ui.initCondList.clear()
@@ -201,6 +203,7 @@ class ExperimentManager(QMainWindow):
         self.ui.modulesToolbox.resetUI()
         self.clusterView.resetUI()
         self.moduleEditor.resetUI()
+        self.ui.actionScale_to_Standard.setChecked(False)
 
         self.dirty = False
 
@@ -242,6 +245,9 @@ class ExperimentManager(QMainWindow):
         unitString = str(self.experiment.timeUnit.unit)
 
         self.ui.unitsText.setText(str(self.experiment.timeUnit))
+
+        if self.experiment.scaleToStandard:
+            self.ui.actionScale_to_Standard.setChecked(True)
 
     #
     # GUI Change Handler Slots
@@ -375,6 +381,11 @@ class ExperimentManager(QMainWindow):
             self.touch()
         except (RuntimeError, NameError, AttributeError, SyntaxError):
             self.ui.unitsText.setText(str(self.experiment.timeUnit))
+
+    @pyqtSlot(bool)
+    def setScaleToStandard(self, sts):
+        self.experiment.scaleToStandard = sts
+        self.touch()
 
     #
     # Experiment Running Methods and Classes

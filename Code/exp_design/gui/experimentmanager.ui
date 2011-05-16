@@ -973,6 +973,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionScale_to_Standard</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>setScaleToStandard(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>406</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openExperiment()</slot>
@@ -999,5 +1015,6 @@
   <slot>removeDiagnostic()</slot>
   <slot>removeLogger()</slot>
   <slot>diagnosticSettings()</slot>
+  <slot>setScaleToStandard(bool)</slot>
  </slots>
 </ui>

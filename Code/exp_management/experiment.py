@@ -51,6 +51,7 @@ class Experiment:
         self.name = name
         self.stopIsEnabled = True
         self.modules = []
+        self.scaleToStandard = False
 
         self.particles = Particles(0)
         self.particlesPath = ""
@@ -74,6 +75,7 @@ class Experiment:
 
         ret.stopIsEnabled = self.stopIsEnabled
         ret.modules = self.modules[:]
+        ret.scaleToStandard = self.scaleToStandard
 
         ret.particles = self.particles.copy()
         ret.particlesPath = self.particlesPath
@@ -107,6 +109,9 @@ class Experiment:
                 "end"   : str(self.stopTime.number)
             }
         )
+
+        sts = etree.SubElement(experiment, "scaleToStandard")
+        sts.text = str(self.scaleToStandard)
         
         for module in self.modules :
             modAttr = etree.SubElement(experiment, "module", attrib = {"name" : module.name})
@@ -169,6 +174,12 @@ class Experiment:
         # Extract Experiment's properties from XML attributes and sub-elements
         ret.name = expElement.get("name").strip()
         ret.stopIsEnabled = eval(expElement.get("stopEnabled").strip().title())
+
+        sts = expElement.find("scaleToStandard")
+        if sts is not None:
+            ret.scaleToStandard = eval(sts.text.strip().title())
+        else:
+            ret.scaleToStandard = False
         
         timeElement = expElement.find("time")
         ret.timeUnit = eval(timeElement.get("units").strip())
