@@ -233,7 +233,7 @@ class CustomParticles(ParticleDistribution):
 
 class SalpeterModel(MassDistribution):
     def __init__(self, numParticles, mass_min = 0.1 | MSun, mass_max = 125 | MSun, alpha = -2.35):
-        MassDistribution.__init__(self, "Mass Distribution (Saltpeter Model)")
+        MassDistribution.__init__(self, "Mass Distribution (Salpeter Model)")
 
         self.numParticles = numParticles
         self.mass_min = mass_min
