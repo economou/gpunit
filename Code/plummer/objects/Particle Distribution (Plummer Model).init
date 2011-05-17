@@ -1,0 +1,27 @@
+cexp_management.initialconditions
+PlummerModel
+p1
+(I64
+tRp2
+(dp3
+S'mass_cutoff'
+p4
+F1
+sS'name'
+p5
+S'Particle Distribution (Plummer Model)'
+p6
+sS'convert_nbody'
+p7
+NsS'do_scale'
+p8
+I00
+sS'random_state'
+p9
+NsS'radius_cutoff'
+p10
+F1
+sS'numParticles'
+p11
+I64
+sb.

@@ -1,0 +1,481 @@
+#LyX 2.0.0rc3 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{beamerthemesplit}
+\end_preamble
+\options blue
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Motivation
+\end_layout
+
+\begin_layout Itemize
+The simplest approach is to actually calculate the force of each star on
+ every other star.
+\end_layout
+
+\begin_layout Itemize
+If you have 
+\begin_inset Formula $n$
+\end_inset
+
+ stars, this will take roughly 
+\begin_inset Formula $n^{2}$
+\end_inset
+
+ calculations to finish.
+\end_layout
+
+\begin_layout Itemize
+existing software:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+AMUSE combines many implementations.
+\end_layout
+
+\begin_layout Itemize
+AMUSE is very complex.
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Astrophysical Multipurpose Software Environment (AMUSE)
+\end_layout
+
+\begin_layout Itemize
+Here is our architecture diagram alongside AMUSE's architecture.
+\end_layout
+
+\begin_layout Itemize
+AMUSE uses a library called MPI to gather physics code written in many languages
+ under one python interface.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Codes include gravity and stellar evolution to name a few.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Our software provides a framework that builds on AMUSE to generate and run
+ experiments.
+\end_layout
+
+\begin_layout Itemize
+The interface lets the user put the experiment together.
+\end_layout
+
+\begin_layout Itemize
+The experiment generator lets advanced users customize details.
+\end_layout
+
+\begin_layout Itemize
+The network layer gives the user a view of how the cluster is being used.
+\end_layout
+
+\begin_layout Itemize
+We provide a storage API to share experiments.
+\end_layout
+
+\begin_layout Itemize
+All of this is built on top of AMUSE's features such as unit conversion
+ and modules.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+State of AMUSE
+\end_layout
+
+\begin_layout Itemize
+Partnership between Drexel and the Leiden Observatory in the Netherlands,
+ sponsored by NOVA.
+\end_layout
+
+\begin_layout Itemize
+NOVA = Netherlands Research School for Astronomy
+\end_layout
+
+\begin_layout Itemize
+Mention large scale again
+\end_layout
+
+\begin_layout Itemize
+Written by hand = hard to share
+\end_layout
+
+\begin_layout Itemize
+Waste of work to replicate someone else's diagnostics to fit your exact
+ circumstances.
+ 
+\end_layout
+
+\begin_layout Itemize
+Code to the right is FORTRAN from AMUSE's community codebase.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Purpose
+\end_layout
+
+\begin_layout Subsection
+Purpose of GPUnit
+\end_layout
+
+\begin_layout BeginFrame
+Purpose of GPUnit
+\end_layout
+
+\begin_layout Itemize
+Ease the creation, execution, and analysis of experiments with AMUSE
+\end_layout
+
+\begin_layout Itemize
+Create experiments with minimal to no programming
+\end_layout
+
+\begin_layout Itemize
+Repeatability
+\end_layout
+
+\begin_layout Itemize
+Sharing Experiments
+\end_layout
+
+\begin_layout Itemize
+API for results / diagnostics 
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Target Audiences
+\end_layout
+
+\begin_layout BeginFrame
+Target Audiences
+\end_layout
+
+\begin_layout Itemize
+Physics Student
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Minimal to no programming experience and minimal knowledge of astronomy
+\end_layout
+
+\begin_layout Itemize
+Has an interest in learning and performing experiments
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Observational Astrophysicists
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Not much programming experience
+\end_layout
+
+\begin_layout Itemize
+Good understanding of astronomy
+\end_layout
+
+\begin_layout Itemize
+Interested in reproducing and analyzing observed phenomena
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Theoretical Astrophysicists
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Significant programming experience
+\end_layout
+
+\begin_layout Itemize
+Good understanding of astronomy
+\end_layout
+
+\begin_layout Itemize
+Interested in creating their own experiments with custom analysis code
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Features and Design
+\end_layout
+
+\begin_layout BeginFrame
+Features
+\end_layout
+
+\begin_layout Itemize
+Explain how features satisfy requirements.
+\end_layout
+
+\begin_layout Itemize
+Configurable experiments -> less programming.
+\end_layout
+
+\begin_layout Itemize
+Diagnostics -> common API for metrics
+\end_layout
+
+\begin_layout Itemize
+Code is generated to run actual experiment -> advanced users can tweak it
+\end_layout
+
+\begin_layout Itemize
+Storage of state -> repeat experiment if it crashes
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Design
+\end_layout
+
+\begin_layout Itemize
+We settled on Python because AMUSE is a Python library, interaction is streamlin
+ed.
+\end_layout
+
+\begin_layout Itemize
+If we had used C++, AMUSE would run in a separate process, introduces unnecessar
+y disconnect between our code and AMUSE.
+\end_layout
+
+\begin_layout Itemize
+Challenges:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Figuring out how AMUSE works.
+\end_layout
+
+\begin_layout Itemize
+Making a useful tool that simplified experiment creation without taking
+ away any of AMUSE's power/features.
+\end_layout
+
+\begin_layout Itemize
+Allow future developers to expand on this work:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Modular diagnostics w/API to do the work
+\end_layout
+
+\begin_layout Itemize
+Experiment storage abstraction: allows for remote backup, sharing of results
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Software Engineering
+\end_layout
+
+\begin_layout BeginFrame
+Tests
+\end_layout
+
+\begin_layout Itemize
+Table of tests that pass.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+User Testing
+\end_layout
+
+\begin_layout Itemize
+Tested with customers (Steve/Tim)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Project Plan
+\end_layout
+
+\begin_layout Itemize
+AMUSE codebase is large and complex (as we have mentioned)
+\end_layout
+
+\begin_layout Itemize
+Before we could plan our project we needed to figure out how AMUSE worked.
+\end_layout
+
+\begin_layout Itemize
+Learning continued throughout the project.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Team Management
+\end_layout
+
+\begin_layout Itemize
+Bi-weekly team meetings helped get a lot of work done
+\end_layout
+
+\begin_layout Itemize
+Able to code and discuss at the same time in person (useful)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Impact
+\end_layout
+
+\begin_layout BeginFrame
+Project Impact
+\end_layout
+
+\begin_layout Itemize
+Researchers can discover important things much faster when they don't have
+ to fuss with experiment boilerplate.
+\end_layout
+
+\begin_layout Itemize
+Students can learn about what astrophysicists really do first-hand without
+ going too deep into complicated issues.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Demo
+\end_layout
+
+\begin_layout BeginFrame
+Demo
+\end_layout
+
+\begin_layout Itemize
+Demonstration of a simulation.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Questions
+\end_layout
+
+\begin_layout Itemize
+Questions?
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document
