@@ -1,12 +1,13 @@
 from time import sleep
 
+import math
 import numpy as np
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
 from PyQt4.QtOpenGL import QGL, QGLFormat, QGLWidget
-from PyQt4.QtCore import QSize, SIGNAL, SLOT
+from PyQt4.QtCore import QSize, SIGNAL, SLOT, Qt
 from PyQt4.QtGui import QInputDialog
 
 from amuse.support.units.units import *
@@ -77,6 +78,29 @@ class OpenGLDiagnostic(Diagnostic):
             self.widget.scaleFactor = results["Scale Factor:"]
             self.scaleFactor = results["Scale Factor:"]
 
+class Quaternion:
+    def __init__(self, w, x, y, z):
+        self.w = w
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def inverse(self):
+        d = self.w*self.w + self.x*self.x + self.y*self.y + self.z*self.z
+        return Quaternion(self.w/d, -self.x/d, -self.y/d, -self.z/d)
+
+def qmult(lhs, rhs):
+    q = np.array((lhs.x, lhs.y, lhs.z))
+    r = np.array((rhs.x, rhs.y, rhs.z))
+
+    w = (lhs.w * rhs.w) - np.dot(q, r)
+    v = (r * lhs.w) + (q * rhs.w) + np.cross(q, r)
+
+    return Quaternion(w, v[0], v[1], v[2])
+
+def normalize(v):
+    return v / np.linalg.norm(v)
+
 class GLDiagnosticWidget(QGLWidget):
     def __init__(self, width, height, distanceUnits = AU, scaleFactor = 1.0, parent = None):
         QGLWidget.__init__(self, QGLFormat(QGL.DepthBuffer | QGL.DoubleBuffer), parent)
@@ -86,20 +110,28 @@ class GLDiagnosticWidget(QGLWidget):
         self.distanceUnits = distanceUnits
         self.scaleFactor = scaleFactor
 
+        self.lastPos = np.array((0.0, 0.0))
+        self.viewRotX = 2.0/3.0
+        self.viewRotY = 5.5
+        self.fovy = 45.0
+        self.camPos = np.array((5.0,5.0,5.0))
+        self.camLook = np.array((4.0,4.0,4.0))
+        self.camForward = -normalize(self.camPos - self.camLook)
+
         self.particles = Particles(0)
 
     def initializeGL(self):
         glClearColor(0,0,0,1)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glPointSize(2.0)
+        glEnable(GL_POINT_SMOOTH)
 
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        gluPerspective(45.0, 1.0, 0.5, 200);
-        glMatrixMode(GL_MODELVIEW)
-        gluLookAt(5, 5, 5,
-                0, 0, 0,
-                0, 0, 1);
+        glEnable(GL_CULL_FACE)
+        glCullFace(GL_BACK)
+        glShadeModel(GL_SMOOTH)
+
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
 
     def resizeGL(self, width, height):
         self.resize(self.width_, self.height_)
@@ -113,10 +145,99 @@ class GLDiagnosticWidget(QGLWidget):
     def sizeHint(self):
         return QSize(self.width_, self.height_);
 
+    def mousePressEvent(self, event):
+        self.lastPos = np.array((event.pos().x(), event.pos().y()))
+        QGLWidget.mousePressEvent(self, event)
+
+    def mouseMoveEvent(self, event):
+        dx = -0.5 * float(event.x() - self.lastPos[0])
+        dy = -0.5 * float(event.y() - self.lastPos[1])
+
+        if dx != 0 or dy != 0:
+            self.viewRotY += np.sin(2.0 * math.pi * (dx / self.width_))
+            self.viewRotX += np.sin(2.0 * math.pi * (dy / self.height_))
+
+            if self.viewRotY >= 2.0 * math.pi:
+                self.viewRotY = 0.0
+            elif self.viewRotY < 0:
+                self.viewRotY = 2.0 * math.pi
+
+            if self.viewRotX >= math.pi / 2.0:
+                self.viewRotX = math.pi / 2.0 - 1e-5
+            elif self.viewRotX <= -math.pi / 2.0:
+                self.viewRotX = -math.pi / 2.0 + 1e-5
+
+            self.lastPos = np.array((event.pos().x(), event.pos().y()))
+            self.update()
+
+    def keyPressEvent(self, event):
+        right = -normalize(np.cross(self.camForward, (0.0, 1.0, 0.0)))
+        up = -normalize(np.cross(right, self.camForward))
+
+        keycode = event.key()
+
+        if keycode == Qt.Key_W:
+            self.camPos += self.camForward / 20.0
+        elif keycode == Qt.Key_A:
+            self.camPos -= right / 20.0
+        elif keycode == Qt.Key_S:
+            self.camPos -= self.camForward / 20.0
+        elif keycode == Qt.Key_D:
+            self.camPos += right / 20.0
+        elif keycode == Qt.Key_Space:
+            self.camPos += up / 20.0
+        elif keycode == Qt.Key_Z:
+            self.camPos -= up / 20.0
+        elif keycode == Qt.Key_Plus or keycode == Qt.Key_Equal:
+            self.fovy += 2.0
+        elif keycode == Qt.Key_Minus or keycode == Qt.Key_Underscore:
+            self.fovy -= 2.0
+
+        self.update()
+
+    def positionCamera(self):
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective(self.fovy, float(self.width_) / self.height_, 0.001, 100)
+
+        q = Quaternion(np.cos(-self.viewRotY/2.0), 0.0, np.sin(-self.viewRotY/2.0), 0.0)
+        r = Quaternion(np.cos(-self.viewRotX/2.0), np.sin(-self.viewRotX/2.0), 0.0, 0.0)
+
+        p = Quaternion(0.0, 0.0, 0.0, -1.0)
+
+        pr = qmult(qmult(qmult(q, r), p), qmult(q, r).inverse())
+        self.camForward = normalize(np.array((pr.x, pr.y, pr.z)))
+
+        self.camLook = self.camPos + self.camForward
+
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+
+        gluLookAt(self.camPos[0], self.camPos[2], self.camPos[1],
+                self.camLook[0], self.camLook[2], self.camLook[1],
+                0.0, 0.0, 1.0)
+
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+
+        glLightfv(GL_LIGHT0, GL_POSITION, np.array((5,5,5)));
+        glMaterialfv(GL_FRONT, GL_AMBIENT, np.array((0.1,0.1,0.1)))
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, np.array((1,1,1)))
+        glMaterialfv(GL_FRONT, GL_SPECULAR, np.array((1,1,1)))
+        glMaterialf(GL_FRONT, GL_SHININESS, 50.0);
+
+        self.positionCamera()
+
         # Draw some axes.
+        glDisable(GL_LIGHTING)
+        glDisable(GL_LIGHT0)
+
         glBegin(GL_LINES)
         glColor3f(1,0,0)
         glVertex3f(0,0,0)
@@ -131,6 +252,9 @@ class GLDiagnosticWidget(QGLWidget):
         glVertex3f(0,0,1)
         glEnd()
 
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+
         if self.particles is None:
             return
 
@@ -138,8 +262,18 @@ class GLDiagnosticWidget(QGLWidget):
         # TOOD: THIS IS SLOW! Use A VBO or vertex array.
         glColor3f(1,1,1)
 
-        glBegin(GL_POINTS)
+        glMatrixMode(GL_MODELVIEW)
+        maxRad = self.particles.radius.number.max()
+
         for particle in self.particles:
+            quad = gluNewQuadric()
+
             pos = np.array(particle.position.value_in(self.distanceUnits)) * self.scaleFactor
-            glVertex3f(pos[0], pos[1], pos[2])
-        glEnd()
+            rad = max((particle.radius.number / maxRad) * 0.1, 0.025)
+
+            glPushMatrix()
+            glTranslatef(pos[0], pos[1], pos[2])
+            gluSphere(quad, rad, 30, 30)
+            glPopMatrix()
+
+            gluDeleteQuadric(quad)
