@@ -563,9 +563,45 @@ Tests
 \end_layout
 
 \begin_layout Itemize
-Table of tests that pass.
+GUI / Integration tests were performed manually.
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Created and ran a simple experiment from scratch to ensure functionality.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Unit testing performed using Python's unittest module (PyUnit).
+\end_layout
+
+\begin_layout Itemize
+Tests:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+networking
+\end_layout
+
+\begin_layout Itemize
+built-in diagnostics
+\end_layout
+
+\begin_layout Itemize
+object serialization
+\end_layout
+
+\begin_layout Itemize
+experiment storage
+\end_layout
+
+\begin_layout Itemize
+experiment running
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
