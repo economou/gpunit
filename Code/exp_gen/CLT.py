@@ -154,7 +154,7 @@ def run_experiment(experiment):
         diagnostic.preRunInitialize()
 
     
-    while time <= tmax:
+    while time < tmax:
         #Evolve Modules
         for module in modules:
             module.evolve_model(time)
@@ -193,6 +193,7 @@ def run_experiment(experiment):
     #Stop Modules
     for module in modules:
         module.stop()
+    return time, dt, tmax, modules, experiment.loggers, experiment.diagnostics, particles
 
 if __name__ == "__main__":
     my_experiment = parse_flags()
