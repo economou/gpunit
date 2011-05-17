@@ -1,8 +1,6 @@
 import os
-os.chdir("..")
-#os.sys.path.append(os.getcwd()+"/..")
+os.sys.path.append(os.getcwd()+"/..")
 
-import mock
 import unittest
 import exp_management.experiment
 from exp_management.experiment import Experiment
