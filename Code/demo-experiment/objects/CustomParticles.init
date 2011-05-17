@@ -320,11 +320,11 @@ p92
 g2
 sS'radiusUnit'
 p93
-S'km'
+S'RSun'
 p94
 sS'velUnit'
 p95
-S'km/s'
+S'km / s'
 p96
 sS'positionUnit'
 p97
