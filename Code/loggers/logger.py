@@ -6,20 +6,20 @@
 #
 # Team GPUnit - Senior Design 2011
 
-class Logger :
+class Logger:
     def __init__(self, name = "LoggerBase"):
-       self.name = name
-       self.outputmode = []
+        self.name = name
+        self.outputmode = []
 
-    def name() :
+    def name():
         '''Gets the name of the logger.'''
         return self.name
 
     def selectoutput(self,outputmode) :
         '''select output mode for logger '''
         self.outputmode.extend(outputmode)
-  
-   def needsGUI(self):
+
+    def needsGUI(self):
         return False
 
     def setupGUI(self, parent):
