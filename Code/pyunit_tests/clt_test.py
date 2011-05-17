@@ -45,6 +45,9 @@ class CLTTestCase(unittest.TestCase):
         my_experiment.diagnostics.append(EnergyDiagnostic())#'energylogger'
 #        my_experiment.diagnostics.append()#]='visual python viewer'
         my_experiment.modules.append(Module.fromFile("../exp_management/Modules_XML/hermite0.xml"))
+        my_experiment.startTime = 0   | units.day
+        my_experiment.timeStep  = 1   | units.day
+        my_experiment.stopTime  = 365 | units.day
 
         self.my_experiment = my_experiment #cPickle.load(open("test/test.exp",'r'))
     def test_initialization_modules(self):
@@ -67,6 +70,30 @@ class CLTTestCase(unittest.TestCase):
         self.assertTrue(abs(convert_nbody.to_si(1|nbody_system.mass).value_in(units.MSun) - 1000.0) < 1e-7,
             "Testing that the conversion Converts mass correct")
     def test_run_experiment(self):
+        self.setup()
+        self.my_experiment.diagnostics[-1].fout=open("Testfile",'w')
+        time, dt, tmax, modules, loggers, diagnostics, particles = run_experiment(self.my_experiment)
+        self.my_experiment.diagnostics[-1].fout.close()
+        print time, dt, tmax, modules, loggers, diagnostics, particles
+        
+        self.assertTrue(isinstance(particles,Particles),"Particles are suppose to be Particles type class")
+        self.assertTrue(len(particles) == 2,"Their is a wrong number of Particles")
+
+        self.assertTrue(sum(((particles[1].position - ([1,0,0]|units.AU)).value_in(units.AU))**2 ) < 1e-2,
+            "Earth returns back to initial location")
+        self.assertTrue(sum(((particles[0].position - ([0,0,0]|units.AU)).value_in(units.AU))**2 ) < 1e-2,
+            "Sun Remains in initial location")
+        self.assertTrue( 0 |time.unit <= time-tmax < dt, "End time is in correct range")
+
+        self.assertTrue(len(modules) > 0, "Module list is too small")
+        self.assertTrue(isinstance(modules[0],Hermite),"Module is suppose to be Hermite type Module")
+        
+        checkfile=open("Testfile",'r').readlines()
+        os.remove("Testfile")
+        self.assertTrue(len(checkfile)/2 - tmax/dt == 1., "Data file read in not right length from Energy Diagnostic")
+        
+        
+        
         pass
 if __name__=="__main__":
     unittest.main()
