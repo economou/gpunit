@@ -264,6 +264,8 @@ class GLDiagnosticWidget(QGLWidget):
 
         glMatrixMode(GL_MODELVIEW)
         maxRad = self.particles.radius.number.max()
+        if maxRad == 0.0:
+            maxRad = 1.0
 
         for particle in self.particles:
             quad = gluNewQuadric()
