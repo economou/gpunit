@@ -6,9 +6,6 @@ os.sys.path.append(os.getcwd()+"/..")
 from network.packet import *
 
 class TestPackets(unittest.TestCase):
-    def setUp(self):
-        pass
-
     def testFactoryStatusQuery(self):
         p = PacketFactory.packetFromString("0|5|localhost|localhost|FLAGS")
         self.assertTrue(isinstance(p, StatusQueryPacket))

@@ -13,7 +13,6 @@ class CustomDiagnostic(Diagnostic):
     def needsGUI(self):
         return True
 
-
 class TestCustomDiagnostic(unittest.TestCase):
     def setUp(self):
         self.d = CustomDiagnostic()
@@ -44,4 +43,6 @@ class TestCustomDiagnostic(unittest.TestCase):
     
     def test_needsFile(self):
         self.assertTrue(self.d.needsFile())
-        
+
+    def tearDown(self):
+        del self.d

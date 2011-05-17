@@ -29,6 +29,10 @@ class TestExperiment(unittest.TestCase):
         self.assertEquals(self.ex.stopTime,newExp.stopTime)
         self.assertEquals(self.ex.timeStep,newExp.timeStep)
 
+    def tearDown(self):
+        del self.ex
+        del self.logg
+        del self.diag
+
 if __name__=="__main__":
     unittest.main()
-        

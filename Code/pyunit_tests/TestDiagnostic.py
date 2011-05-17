@@ -25,4 +25,6 @@ class TestDiagnostic(unittest.TestCase):
     
     def test_needsFile(self):
         self.assertFalse(self.d.needsFile())
-        
+
+    def tearDown(self):
+        del self.d
