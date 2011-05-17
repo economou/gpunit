@@ -1,7 +1,7 @@
 cexp_management.initialconditions
 SalpeterModel
 p1
-(I64
+(I32
 tRp2
 (dp3
 S'mass_max'
@@ -75,5 +75,5 @@ NtRp30
 F0.10000000000000001
 tbsS'numParticles'
 p31
-I64
+I32
 sb.

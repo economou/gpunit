@@ -1,7 +1,7 @@
 cexp_management.initialconditions
 PlummerModel
 p1
-(I64
+(I32
 tRp2
 (dp3
 S'mass_cutoff'
@@ -23,5 +23,5 @@ p10
 F1
 sS'numParticles'
 p11
-I64
+I32
 sb.
