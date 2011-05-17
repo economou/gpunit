@@ -18,15 +18,16 @@ class TestExperiment(unittest.TestCase):
     def test_copy(self):
         self.assertEquals(self.ex.name, "TestExperiment")
         newExp = self.ex.copy()
+
         self.assertEquals(self.ex.name, newExp.name)
         self.assertEquals(self.ex.stopIsEnabled,newExp.stopIsEnabled)
         self.assertEquals(self.ex.scaleToStandard,newExp.scaleToStandard)
         self.assertEquals(self.ex.loggers[0],newExp.loggers[0])
         self.assertEquals(self.ex.diagnostics[0],newExp.diagnostics[0])
-        self.assertEquals(self.timeUnit,newExp.timeUnit)
-        self.assertEquals(self.startTime,newExp.startTime)
-        self.assertEquals(self.stopTime,newExp.stopTime)
-        self.assertEquals(self.timeStep,newExp.timeStep)
+        self.assertEquals(self.ex.timeUnit,newExp.timeUnit)
+        self.assertEquals(self.ex.startTime,newExp.startTime)
+        self.assertEquals(self.ex.stopTime,newExp.stopTime)
+        self.assertEquals(self.ex.timeStep,newExp.timeStep)
 
 if __name__=="__main__":
     unittest.main()
