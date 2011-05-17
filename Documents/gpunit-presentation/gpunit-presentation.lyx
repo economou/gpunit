@@ -137,32 +137,41 @@ Motivation
 \end_layout
 
 \begin_layout Itemize
-Astrophysics researchers need to simulate movement and evolution of star
- clusters and galaxies.
+Makes physics simulations accessible.
 \end_layout
 
 \begin_layout Itemize
-Every star pulls on all of the others.
+Targeted at astrophysicists and students.
+\end_layout
+
+\begin_layout Itemize
+Simulations are large and complex.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $O\left(n^{2}\right)$
-\end_inset
+1K - 1M particles
+\end_layout
 
-
+\begin_layout Itemize
+Simulation must be run for many steps.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Complex software exists to perform these computations efficiently.
+Complex software (AMUSE) exists to perform these computations efficiently.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Hardware-specific algorithms
 \end_layout
 
 \begin_layout Itemize
-Our project exists to make running experiments with these tools feasible
- for a wider audience.
+More/less accurate algorithms
 \end_layout
 
+\end_deeper
 \begin_layout Column
 5cm
 \end_layout
@@ -171,6 +180,66 @@ Our project exists to make running experiments with these tools feasible
 \begin_inset Graphics
 	filename nbody1k.png
 	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Target Audiences
+\end_layout
+
+\begin_layout BeginFrame
+Target Audiences
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Itemize
+Physics Students
+\end_layout
+
+\begin_layout Itemize
+Observational Astrophysicists
+\end_layout
+
+\begin_layout Itemize
+Theoretical Astrophysicists
+\end_layout
+
+\begin_layout Column
+5cm
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset Graphics
+	filename telescope.jpg
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename lagrange.gif
+	width 45col%
 
 \end_inset
 
@@ -203,42 +272,18 @@ LatexCommand tableofcontents
 Astrophysical Multipurpose Software Environment (AMUSE)
 \end_layout
 
-\begin_layout Columns
-
-\end_layout
-
-\begin_deeper
-\begin_layout Column
-4cm
-\end_layout
-
 \begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename amuse-overview.png
 	lyxscale 30
-	width 100col%
+	width 50col%
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Column
-8cm
-\end_layout
-
-\begin_layout Standard
-\begin_inset Graphics
-	filename /home/hape/gpunit/Documents/design-doc/arch-diagram.eps
-	lyxscale 30
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
 \begin_layout Standard
 http://www.amusecode.org
 \end_layout
@@ -355,66 +400,6 @@ Store and restore progress of running experiments.
 
 \end_layout
 
-\begin_layout Subsection
-Target Audiences
-\end_layout
-
-\begin_layout BeginFrame
-Target Audiences
-\end_layout
-
-\begin_layout Columns
-
-\end_layout
-
-\begin_deeper
-\begin_layout Column
-7cm
-\end_layout
-
-\begin_layout Itemize
-Physics Students
-\end_layout
-
-\begin_layout Itemize
-Observational Astrophysicists
-\end_layout
-
-\begin_layout Itemize
-Theoretical Astrophysicists
-\end_layout
-
-\begin_layout Column
-5cm
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset Graphics
-	filename telescope.jpg
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Graphics
-	filename lagrange.gif
-	width 45col%
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout EndFrame
-
-\end_layout
-
 \begin_layout Section
 Features and Design
 \end_layout
@@ -437,7 +422,7 @@ Configurable experiments that can be saved and shared.
 \end_layout
 
 \begin_layout Itemize
-Diagnostic tools that compute useful metrics.
+Diagnostic tools that compute and display useful measurements.
 \end_layout
 
 \begin_layout Itemize
@@ -472,6 +457,26 @@ Provides a display of cluster usage to aid in scheduling.
 \end_layout
 
 \begin_layout BeginFrame
+Architecture
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename /home/hape/gpunit/Documents/design-doc/arch-diagram.eps
+	lyxscale 30
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
 Design
 \end_layout
 
@@ -485,7 +490,7 @@ Design
 \end_layout
 
 \begin_layout Itemize
-Written in Python using the PyQt4 GUI toolkit.
+AMUSE is the only integrated simulation environment available.
 \end_layout
 
 \begin_layout Itemize
@@ -741,14 +746,14 @@ Comes with useful diagnostics, from real experimental setups.
 \end_layout
 
 \begin_layout Itemize
-Needs refinement before it will be useful to professional astrophysicists.
+Ready to get feedback from more advanced users.
+\end_layout
+
+\begin_layout Itemize
+Capability/APIs already exist to provide more advanced features.
 \end_layout
 
 \end_deeper
-\begin_layout Column
-4cm
-\end_layout
-
 \end_deeper
 \begin_layout EndFrame
 
