@@ -86,7 +86,7 @@ class CapabilityQueryPacket(Packet):
         return Packet.__str__(self) + SEP + self.additionalFlags
 
 class CapabilityResponsePacket(Packet):
-    def __init__(self, fields = None):
+    def __init__(self, data = None):
         if data is None:
             return
 
