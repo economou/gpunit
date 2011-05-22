@@ -57,7 +57,7 @@ class LRDiagnostic(Diagnostic):
         return True
     def setupFile(self, filename = "Lagrangian.log"):
         folder=os.sep.join(filename.split(os.sep)[:-1])
-        self.fout = open(os.sep.join([folder,self.filename]),'w')
+        self.fout = open(self.filename,'w')#os.sep.join([folder,self.filename]),'w')
         self.fout.write("""#Time=>t\n#Potential Energy=>U\n#Kinetic Energy=>T\n#Seperator=": "\n""")
     def cleanup(self):
         self.particle_sets = []
@@ -93,21 +93,20 @@ class LRDiagnostic(Diagnostic):
                     )
                 )
             self.particle_sets.append(particles)
-        print self.particle_sets
-        print self.fout
-        self.fout.write("Not this line\n")
         LR = np.asarray(get_lagrangians(self.particle_sets, 10))
-        print self.fout.write("Time: %f %s\n"%(time.number,time.unit))
+        self.fout.write("Time: %f %s\n"%(time.number,time.unit))
         self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\tTotal Energy: %f\n"%(
             self.convert_nbody.to_nbody(modules[-1].kinetic_energy).number,
             self.convert_nbody.to_nbody(modules[-1].potential_energy).number,
             self.convert_nbody.to_nbody(modules[-1].kinetic_energy+modules[-1].potential_energy).number 
             )
         )
+        lr_str = "%f "*10
         
         for i,v in enumerate(LR):
-            self.fout.write("%%LR%%%d "%i)#+" ".join(["%f"]*len(v))%tuple(v)+"\n")
-        self.fout.flush()
+            print lr_str%tuple(v)
+            self.fout.write("%%LR%%%d "%i+lr_str%tuple(map(float,v))+"\n")
+        #self.fout.flush()
         #self.datadict["LR"].append(LR[-1,:])
 
         
