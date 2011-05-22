@@ -9,183 +9,68 @@
 #
 
 import sys
-from time import sleep
-from time import time as gettime
+import os
 
 import numpy as np
-import matplotlib
-
-if "matplotlib.backends" not in sys.modules:
-    matplotlib.use("Qt4Agg")
-
-import pylab
 
 from amuse.support.units import nbody_system
 
 from diagnostics.diagnostic import Diagnostic
 from exp_design.settings import SettingsDialog
 
-class LRGraph(Diagnostic):
+class LRDiagnostic(Diagnostic):
     '''Abstract Diagnostic class. Objects of subclasses are added to the an
     Experiment object where it is updated.'''
 
     def __init__(self, 
             name = "Lagrangian Diagnostic",
-            XLABEL="", 
-            YLABEL ="", 
-            TITLE = "", 
-            UpdateInterval=30., 
-            PlotOption="KE PE TE"
+            OutputFileName="LagrangianData.log"
             ):
 
         Diagnostic.__init__(self, name)
         self.setName(name)
+        self.filename = OutputFileName
         self.convert_nbody = None
-        self.XLABEL = XLABEL
-        self.YLABEL = YLABEL
-        self.TITLE  = TITLE
-        self.UpdateInterval = UpdateInterval
-        self.lasttime  = -1
-        self.PlotOption = PlotOption
-        self.graphVisible = False
-
-        self.datadict = {
-            "t":  [],
-            "KE": [],
-            "PE": [],
-            "TE": [],
-            "LR": [],
-            "HalfMass": []
-            }
+        self.particle_sets = []
 
         self.settings=SettingsDialog(
             inputs = {
-            "LABEL X":"str",
-            "LABEL Y":"str",
-            "LABEL TITLE" :"str",
-            "Update Interval":"float:0:",
-            "What to Plot? (KE, PE, TE, LR, HalfMass)":"str"
+            "Output File Name":"str"
             },
             defaults = {
-            "LABEL Y":self.YLABEL,
-            "LABEL X":self.XLABEL,
-            "LABEL TITLE" :self.TITLE,
-            "Update Interval":self.UpdateInterval,
-            "What to Plot? (KE, PE, TE, LR, HalfMass)":self.PlotOption
+            "Output File Name":"LagrangianData.log"
             }
         )
+        self.fout = None
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
         del newDict["settings"]
         if newDict.has_key("particle_sets"):
             del newDict["particle_sets"]
-        if newDict.has_key("parent"):
-            del newDict["parent"]
-        newDict["datadict"] = {
-            "t":  [],
-            "KE": [],
-            "PE": [],
-            "TE": [],
-            "LR": [],
-            "HalfMass": []
-            }
-        for s in ["pKE", "pTE", "pPE", "p1", "p2","figure","lrlines","hmlines","AXES"]:
-            if newDict.has_key(s):
-                del newDict[s]
-        print newDict
+        if newDict.has_key("fout"):
+            del newDict["fout"]
+
         
-        return (self.__class__, (self.name, self.XLABEL, self.YLABEL, self.TITLE, self.UpdateInterval, self.PlotOption), newDict)
-
-    def needsGUI(self):
-        return False
-
-    def setupGUI(self, parent):
-        self.parent = parent
-        self.initialize_graphs()
-
-    def initialize_graphs(self):
-#        self.AXES = pylab.subplot(111).set_autoscale_on(True)
-        self.figure = pylab.figure(1)
-#        self.p1   = pylab.subplot(211)
-#        self.pKE, = pylab.plot([],[])
-#        self.pPE, = pylab.plot([],[])#self.datadict["t"],self.datadict["PE"])
-#        self.p2   = pylab.subplot(212)
-#        self.pTE, = pylab.plot(self.datadict["t"],self.datadict["TE"])
-        pylab.subplot(211)
-        self.lrlines=[]
-        for i in xrange(10):
-            x, = pylab.plot([],[])
-            self.lrlines.append(x)
-#        pylab.subplot(212)
-        self.hmlines = []
-#        for i in xrange(10):
-#            self.hmlines.append(pylab.plot([],[]))
-
-    def redraw(self):
-        if not self.graphVisible:
-            self.graphVisible = True
-            pylab.show()
-
-#        self.pKE.set_xdata(self.datadict["t"])
-#        self.pKE.set_ydata(self.datadict["KE"])
-#        self.pTE.set_xdata(self.datadict["t"])
-#        self.pTE.set_ydata(self.datadict["TE"])
-#        self.pPE.set_xdata(self.datadict["t"])
-#        self.pPE.set_ydata(self.datadict["PE"])
-    #    pylab.subplot(211)
-
-        curt = gettime()
-        if(curt > self.lasttime+self.UpdateInterval):
-            nplr = np.asarray(self.datadict["LR"])
-            nphm = np.asarray(self.datadict["HalfMass"])
-            pylab.clf()
-            for i in xrange(10):
-#                self.lrlines[i].set_xdata(self.datadict["t"])
-#                self.lrlines[i].set_ydata(nplr[:,i]) 
-#                print dir(self.lrlines[i])
-#                print self.lrlines[i]._y
-#                pylab.subplot(211)
-                 pylab.plot(self.datadict["t"], nplr[:,i])
-#                pylab.subplot(212)
-#                print nplr[i,5]
-#                print nphm.shape
- #               pylab.plot(self.datadict["t"], nphm[:,i])
-#            print dir(self.AXES)
-#            import sys
-#            sys.exit()
-#                self.lrlines[i].autoscale()
-#                pylab.margins()
-            
-            pylab.draw()
-            self.lasttime = curt
-
+        return (self.__class__, (self.name, self.filename), newDict)
+    def needsFile(self):
+        return True
+    def setupFile(self, filename = "Lagrangian.log"):
+        folder=os.sep.join(filename.split(os.sep)[:-1])
+        self.fout = open(os.sep.join([folder,self.filename]),'w')
+        self.fout.write("""#Time=>t\n#Potential Energy=>U\n#Kinetic Energy=>T\n#Seperator=": "\n""")
     def cleanup(self):
         self.particle_sets = []
+        self.fout.close()
 
     def showSettingsDialog(self):
         results = self.settings.getValues()
         if len(results) > 0:
-            self.XLABEL = results["LABEL X"]
-            self.YLABEL = results["LABEL Y"]
-            self.TITLE  = results["LABEL TITLE"]
+            self.filename = results["Output File Name"]
         
-            self.UpdateInterval = results["Update Interval"]
-            self.PlotOption = results["What to Plot? (KE, PE, TE, LR, HalfMass)"]
 
     def preRunInitialize(self):
-        self.datadict = {
-            "t":  [],
-            "KE": [],
-            "PE": [],
-            "TE": [],
-            "LR": [],
-            "HalfMass": []
-            }
         self.particle_sets = []
-        acceptable = ["KE", "PE", "TE", "LR", "HalfMass"]
-        self.toplot = filter(lambda x: x in acceptable,self.PlotOption.split())
-        self.graphVisible = False
         
         #@todo: Create subsets using already written code
     
@@ -194,26 +79,37 @@ class LRGraph(Diagnostic):
             massgroups = getKeyMasses(particles.mass)
             self.particle_sets = [particles.select(lambda x:  x <= massgroups[0], ["mass"])]
             for i in range(1,len(massgroups)):
-                self.particle_sets .append(particles.select(
+                self.particle_sets.append(particles.select(
                     lambda x: x > massgroups[i-1] and x <= massgroups[i], 
                     ["mass"]
                     ))
+                mass_set = self.convert_nbody.to_nbody(self.particle_sets[-1].mass).number
+                self.fout.write("Mass Set: %d\tMin: %f\tMax: %f\tNum: %d\tTotal Mass: %f\n"%(
+                    i,
+                    mass_set.min(),
+                    mass_set.max(),
+                    mass_set.size,
+                    mass_set.sum()  
+                    )
+                )
             self.particle_sets.append(particles)
+        print self.particle_sets
+        print self.fout
+        self.fout.write("Not this line\n")
         LR = np.asarray(get_lagrangians(self.particle_sets, 10))
-        self.datadict["LR"].append(LR[-1,:])
-        self.datadict["HalfMass"].append(LR[:,5])
-        self.datadict["t"].append(self.convert_nbody.to_nbody(time).number)
-        self.datadict["KE"].append(self.convert_nbody.to_nbody(modules[-1].kinetic_energy).number)
-        self.datadict["PE"].append(self.convert_nbody.to_nbody(modules[-1].potential_energy).number)
-        self.datadict["TE"].append(self.datadict["PE"][-1] + self.datadict["KE"][-1])
-        #print LR
-        #print LR[:,5]
+        print self.fout.write("Time: %f %s\n"%(time.number,time.unit))
+        self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\tTotal Energy: %f\n"%(
+            self.convert_nbody.to_nbody(modules[-1].kinetic_energy).number,
+            self.convert_nbody.to_nbody(modules[-1].potential_energy).number,
+            self.convert_nbody.to_nbody(modules[-1].kinetic_energy+modules[-1].potential_energy).number 
+            )
+        )
         
-#        self.parent.diagnosticUpdated.emit()
+        for i,v in enumerate(LR):
+            self.fout.write("%%LR%%%d "%i)#+" ".join(["%f"]*len(v))%tuple(v)+"\n")
+        self.fout.flush()
+        #self.datadict["LR"].append(LR[-1,:])
 
-        curt = gettime()
-        if(curt > self.lasttime+self.UpdateInterval):
-            self.parent.diagnosticUpdated.emit()
         
 def getKeyMasses(mass_list):
     '''
