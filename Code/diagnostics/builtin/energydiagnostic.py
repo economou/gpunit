@@ -44,8 +44,8 @@ class EnergyDiagnostic(Diagnostic):
         self.fout.close()
 
     def update(self, time, particles, modules) :
-        KE = get_kinetic(particles)
-        PE = get_potential(particles)
+        KE = modules[-1].kinetic_energy.number #get_kinetic(particles)
+        PE = modules[-1].potential_energy.number #get_potential(particles)
 
         self.fout.write("Time: %f\n"%time.number)
         self.fout.write("Kinetic Energy: %f\tPotential Energy: %f\t"%(KE,PE))
