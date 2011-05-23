@@ -1,6 +1,7 @@
 from PyQt4.QtCore import pyqtSlot, SIGNAL
 from PyQt4.QtGui import QWidget
 
+import exp_management
 from exp_management.module import Module, ModulePaths
 from exp_management.initialconditions import *
 
@@ -18,8 +19,9 @@ class ModulesToolbox(QWidget):
         self.ui.initCondList.clear()
         self.ui.moduleList.clear()
 
-        for initCond in models:
-            self.ui.initCondList.addItem(initCond())
+        for name, cls in models.items():
+            if isinstance(cls(), ParticleDistribution):
+                self.ui.initCondList.addItem(name)
 
         for path in ModulePaths.values():
             xml = ""
@@ -36,4 +38,4 @@ class ModulesToolbox(QWidget):
     @pyqtSlot()
     def addInitCond(self):
         initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
-        self.emit(SIGNAL("initCondAdded(PyQt_PyObject)"), initCond)
+        self.emit(SIGNAL("initCondAdded(PyQt_PyObject)"), str(initCond.text()))

@@ -77,6 +77,9 @@ class FileStorage(ExperimentStorage):
         self.basePath = basePath
 
     def setPaths(self, experiment):
+        if self.runs == 0:
+            return
+
         outputDir = self.basePath + os.sep + str(self.runs)
 
         diagnosticsDir = outputDir + os.sep + "diagnostics"

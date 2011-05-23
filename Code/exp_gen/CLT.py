@@ -68,9 +68,7 @@ def initialization(experiment):
             convert_nbody: Used for converting between nbody units and regular units
     '''
     r = 1 | units.parsec #Placeholder till we do this right.
-
-
-    total_mass = 1000 | units.MSun
+    total_mass = 1.0 | units.MSun
 
     #Create Conversion Object
     convert_nbody = nbody_system.nbody_to_si(total_mass,r)

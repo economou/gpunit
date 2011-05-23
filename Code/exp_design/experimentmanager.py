@@ -15,6 +15,7 @@ from amuse.support.units.units import *
 from PyQt4.QtGui import QMainWindow, QFileDialog, QInputDialog, QMessageBox, QLineEdit
 from PyQt4.QtCore import Qt, pyqtSlot, pyqtSignal, QThread
 
+from exp_management.initialconditions import models, names
 from exp_management.experiment import Experiment
 from exp_management.persistence import FileStorage
 from exp_gen.CLT import run_experiment
@@ -229,8 +230,10 @@ class ExperimentManager(QMainWindow):
 
         initCondList = self.ui.modulesToolbox.ui.initCondList
         for initCond in self.experiment.initialConditions:
-            self.ui.initCondList.addItem(initCond)
-            matches = initCondList.findItems(initCond.name, Qt.MatchExactly)
+            text = names[initCond.__class__]
+            self.ui.initCondList.addItem(text)
+
+            matches = initCondList.findItems(text, Qt.MatchExactly)
             if len(matches) > 0:
                 initCondList.setCurrentItem(matches[0])
                 initCondList.takeItem(initCondList.currentRow())
@@ -259,17 +262,20 @@ class ExperimentManager(QMainWindow):
     #
 
     @pyqtSlot()
-    def addInitCondition(self, initCond):
+    def addInitCondition(self, nameString):
+        initCond = models[nameString]()
         self.experiment.addInitialCondition(initCond)
-        self.ui.initCondList.addItem(initCond)
+
+        self.ui.initCondList.addItem(nameString)
         self.touch()
 
     @pyqtSlot()
     def removeInitCondition(self):
-        initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
+        index = self.ui.initCondList.currentIndex().row()
+        self.experiment.removeInitialCondition(self.experiment.initialConditions[index])
 
-        self.experiment.removeInitialCondition(initCond)
-        self.ui.modulesToolbox.ui.initCondList.addItem(initCond)
+        initCond = self.ui.initCondList.takeItem(self.ui.initCondList.currentRow())
+        self.ui.modulesToolbox.ui.initCondList.addItem(str(initCond.text()))
         self.touch()
 
     @pyqtSlot()
@@ -330,10 +336,11 @@ class ExperimentManager(QMainWindow):
     @pyqtSlot()
     def initCondSettings(self, index = None):
         if index is not None:
-            initCond = self.ui.initCondList.item(index.row())
-            initCond.showSettingsDialog()
+            initCond = self.experiment.initialConditions[index.row()]
         else:
-            self.ui.initCondList.currentItem().showSettingsDialog()
+            initCond = self.experiment.initialConditions[self.ui.initCondList.currentIndex().row()]
+
+        initCond.showSettingsDialog()
 
     @pyqtSlot()
     def moduleSettings(self, index = None):

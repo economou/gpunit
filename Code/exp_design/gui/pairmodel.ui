@@ -127,8 +127,4 @@
    </hints>
   </connection>
  </connections>
- <slots>
-  <slot>showMassSettings()</slot>
-  <slot>showPositionSettings()</slot>
- </slots>
 </ui>
