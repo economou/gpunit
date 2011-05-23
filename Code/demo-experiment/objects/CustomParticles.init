@@ -2,7 +2,7 @@ cexp_management.initialconditions
 CustomParticles
 p1
 (I3
-S'/home/hape/gpunit/Code/demo-experiment/objects/'
+S'./demo-experiment/objects/'
 p2
 S'sunEarth.hdf5'
 p3
