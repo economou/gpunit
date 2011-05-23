@@ -1,0 +1,18 @@
+cdiagnostics.builtin.lagrangiandiagnostic
+LRDiagnostic
+p1
+(S'Lagrangian Diagnostic'
+p2
+S'LagrangianData.log'
+p3
+tRp4
+(dp5
+S'convert_nbody'
+p6
+NsS'name'
+p7
+g2
+sS'filename'
+p8
+g3
+sb.
