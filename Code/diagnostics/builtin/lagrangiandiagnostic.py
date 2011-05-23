@@ -32,7 +32,6 @@ class LRDiagnostic(Diagnostic):
         self.filename = OutputFileName
         self.convert_nbody = None
         self.particle_sets = []
-        self.directory     = ""
 
         self.settings=SettingsDialog(
             inputs = {
@@ -54,11 +53,13 @@ class LRDiagnostic(Diagnostic):
 
         
         return (self.__class__, (self.name, self.filename), newDict)
+
     def needsFile(self):
         return True
+
     def setupFile(self, filename = "Lagrangian.log"):
-        self.fout = open(os.sep.join([self.directory,self.filename]),'w')#os.sep.join([folder,self.filename]),'w')
-        self.fout.write("""#Time=>t\n#Potential Energy=>U\n#Kinetic Energy=>T\n#Seperator=": "\n""")
+        self.filename = filename
+
     def cleanup(self):
         self.particle_sets = []
         self.fout.close()
@@ -67,11 +68,12 @@ class LRDiagnostic(Diagnostic):
         results = self.settings.getValues()
         if len(results) > 0:
             self.filename = results["Output File Name"]
-        
 
     def preRunInitialize(self):
         self.particle_sets = []
-        self.setupFile()
+
+        self.fout = open(self.filename, 'w')
+        self.fout.write("""#Time=>t\n#Potential Energy=>U\n#Kinetic Energy=>T\n#Seperator=": "\n""")
         #@todo: Create subsets using already written code
     
     def update(self, time, particles, modules) :
