@@ -71,7 +71,7 @@ class FileStorage(ExperimentStorage):
         cPickle.dump(self, outFile)
         outFile.close()
 
-    def __init__(self, name, basePath = os.getcwd()):
+    def __init__(self, name, basePath = "."):
         ExperimentStorage.__init__(self, name)
 
         self.basePath = basePath
@@ -89,8 +89,7 @@ class FileStorage(ExperimentStorage):
         # particles etc...)
         for diag in experiment.diagnostics:
             if diag.needsFile():
-                diag.directory=diagnosticsDir
-#                diag.setupFile( + os.sep + diag.name + ".out")
+                diag.setupFile(diagnosticsDir + os.sep + diag.name + ".out")
 
         for logger in experiment.loggers:
             experiment.diagnosticPaths[logger] = logger.name + ".logger"
