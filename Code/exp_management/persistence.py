@@ -89,7 +89,8 @@ class FileStorage(ExperimentStorage):
         # particles etc...)
         for diag in experiment.diagnostics:
             if diag.needsFile():
-                diag.setupFile(diagnosticsDir + os.sep + diag.name + ".out")
+                diag.directory=diagnosticsDir
+#                diag.setupFile( + os.sep + diag.name + ".out")
 
         for logger in experiment.loggers:
             experiment.diagnosticPaths[logger] = logger.name + ".logger"
