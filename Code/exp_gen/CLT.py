@@ -26,6 +26,7 @@ def parse_flags():
     #Check for Help Flag
     if(sys.argv.count("--help")):
         sys.exit(0)
+
     #Make sure there is a filename passed in using a flag
     if(not sys.argv.count("-f")):
         sys.stderr.write("Must pass in filename using -f <filename>\n")
@@ -39,6 +40,7 @@ def parse_flags():
         sys.exit(1)
 
     experiment.loadXMLFile( filter(lambda x:x[0] == '-f',opts)[-1][1] )
+
     for (flag,value) in filter(lambda x:x[0] <> '-f',opts):
         print flag,value
         if flag == '-n':
@@ -56,11 +58,6 @@ def parse_flags():
     print experiment.getTimeStep()
 
     return experiment
-#class ModuleRunner:
-#    def __init__(self, p_experiment):
-#        self.experiment = p_experiment
-#        self.dt   = self.experiment.getTimeStep()
-#        self.time = 0 | self.experiment.timeUnit
 
 def initialization(experiment):
     '''
