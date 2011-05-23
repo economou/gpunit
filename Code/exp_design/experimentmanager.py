@@ -219,27 +219,24 @@ class ExperimentManager(QMainWindow):
         self.resetUI()
         self.ui.nameText.setText(self.experiment.name)
 
+        moduleList = self.ui.modulesToolbox.ui.moduleList
         for module in self.experiment.modules:
-            moduleList = self.ui.modulesToolbox.ui.moduleList
-
             self.ui.moduleList.addItem(module)
             matches = moduleList.findItems(module.name, Qt.MatchExactly)
             if len(matches) > 0:
                 moduleList.setCurrentItem(matches[0])
                 moduleList.takeItem(moduleList.currentRow())
 
+        initCondList = self.ui.modulesToolbox.ui.initCondList
         for initCond in self.experiment.initialConditions:
-            initCondList = self.ui.modulesToolbox.ui.initCondList
-
             self.ui.initCondList.addItem(initCond)
             matches = initCondList.findItems(initCond.name, Qt.MatchExactly)
             if len(matches) > 0:
                 initCondList.setCurrentItem(matches[0])
                 initCondList.takeItem(initCondList.currentRow())
 
+        diagnosticList = self.ui.diagnosticsToolbox.ui.diagnosticList
         for diagnostic in self.experiment.diagnostics:
-            diagnosticList = self.ui.diagnosticsToolbox.ui.diagnosticList
-
             self.ui.diagnosticList.addItem(diagnostic)
             matches = diagnosticList.findItems(diagnostic.name, Qt.MatchExactly)
             if len(matches) > 0:

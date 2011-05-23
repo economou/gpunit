@@ -13,6 +13,7 @@
 
 from amuse.support.units import nbody_system
 from amuse.support.units import units 
+from amuse.support.data.particles import Particles
 
 from exp_management.experiment import Experiment
 from exp_management.initialconditions import MassDistribution, ParticleDistribution
@@ -69,66 +70,33 @@ def initialization(experiment):
             particles:     AMUSE Particles class of all particles
             convert_nbody: Used for converting between nbody units and regular units
     '''
-    r    = 1 | units.parsec #Placeholder till we do this right.
+    r = 1 | units.parsec #Placeholder till we do this right.
 
-    particle_sets = []
-    last_set = None
 
     total_mass = 1000 | units.MSun
 
     #Create Conversion Object
     convert_nbody = nbody_system.nbody_to_si(total_mass,r)
-    particle_sets = []
-    #Loop through all particle distributions
-    for pd in filter(lambda x: isinstance(x, ParticleDistribution),experiment.initialConditions):
-        pd.convert_nbody=convert_nbody
-        particle_sets.append(pd.getParticleList())
-        
-    if len(particle_sets)-1:
-        for p in particle_sets[1:]:
-            particle_sets[0].add_particles(p)
-    particles = particle_sets[0] 
 
-    masses = []
-    for md in filter(lambda x: isinstance(x, MassDistribution),experiment.initialConditions):
-        masses.append(md.getMassList()[1])
+    particles = Particles()
 
-    for i in masses[1:]:
-        masses[0].extend(i)
+    for pd in filter(lambda x: isinstance(x, ParticleDistribution), experiment.initialConditions):
+        pd.convert_nbody = convert_nbody
+        particles.add_particles(pd.getParticleList())
 
-    if len(masses) > 0:
-        particles.mass = masses[0]
-
-    
-
-    '''
-    for ic in experiment.initialConditions:
-        print ic,particle_sets
-        #If Initial Conditionis Mass Distribution set last set to have this mass
-        if isinstance(ic, MassDistribution):
-            last_set = MassDistribution
-            particle_sets[-1].mass = ic.getMassList()
-        #If Inititial Conditions is Particle Distribution append the new Particles object
-    else:
-        ic.convert_nbody = convert_nbody
-
-        last_set = ParticleDistribution
-        particle_sets.append(ic.getParticleList())
-    '''
-
-#    #Total mass used for conversion object
-#    total_mass = reduce(lambda x,y:x+y, particles.mass)
-
+    #Total mass used for conversion object
+    #total_mass = reduce(lambda x,y:x+y, particles.mass)
 
     #Get Modules actual class values
     modules = [mod.result(convert_nbody) for mod in experiment.modules]
-    #Temporary add to check something interesting
+
     if experiment.scaleToStandard:
         particles.scale_to_standard(convert_nbody)
 
     #Add Particles to Module
     for module in modules:
         module.particles.add_particles(particles)
+
     return modules, particles, convert_nbody
 
 def run_experiment(experiment):
@@ -153,7 +121,6 @@ def run_experiment(experiment):
         diagnostic.convert_nbody = convert_nbody
         diagnostic.preRunInitialize()
 
-    
     while time < tmax:
         #Evolve Modules
         for module in modules:

@@ -1,18 +1,10 @@
 from PyQt4.QtCore import pyqtSlot, SIGNAL
 from PyQt4.QtGui import QWidget
 
-from exp_management.module import Module
-from exp_management.experiment import ModulePaths
+from exp_management.module import Module, ModulePaths
 from exp_management.initialconditions import *
 
 from gui.modulestoolbox_ui import Ui_ModulesToolBox
-
-initialConditions = (
-        CustomParticles,
-        PlummerModel,
-        KingModel,
-        SalpeterModel,
-        )
 
 class ModulesToolbox(QWidget):
     def __init__(self, parent = None):
@@ -26,8 +18,8 @@ class ModulesToolbox(QWidget):
         self.ui.initCondList.clear()
         self.ui.moduleList.clear()
 
-        for initCond in initialConditions:
-            self.ui.initCondList.addItem(initCond(20))
+        for initCond in models:
+            self.ui.initCondList.addItem(initCond())
 
         for path in ModulePaths.values():
             xml = ""
