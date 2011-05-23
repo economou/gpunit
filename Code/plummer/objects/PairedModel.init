@@ -81,7 +81,7 @@ F1.9889199999999999e+30
 sbI125
 tbsS'numParticles'
 p34
-I70
+I32
 sS'alpha'
 p35
 F-2.3500000000000001
@@ -480,5 +480,5 @@ sg34
 I70
 sbsS'numParticles'
 p139
-I70
+I32
 sb.
