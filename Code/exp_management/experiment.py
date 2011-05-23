@@ -25,7 +25,7 @@ from amuse.support.units import units
 from amuse.support.units.si import *
 from amuse.support.units.units import *
 
-from module import Module
+from module import Module, ModulePaths
 
 defaultTimeStep = .1
 defaultStartTime = 0
@@ -35,12 +35,6 @@ XML_ENCODING = "UTF-8"
 
 #Modified code to allow Use AMUSE units
 defaultTimeUnit = units.yr #UnitType.yr
-
-ModulePaths = {
-    "Gravity (hermite0)" : "exp_management/Modules_XML/hermite0.xml",
-    "Gravity (ph4)" : "exp_management/Modules_XML/ph4.xml",
-}
-'''File paths for Module XML file definitions'''
 
 class Experiment:
     '''Experiment class holds all relevant experiment data

@@ -22,6 +22,12 @@ import sys
 
 XML_ENCODING = "UTF-8"
 
+ModulePaths = {
+    "Gravity (hermite0)" : "exp_management/Modules_XML/hermite0.xml",
+    "Gravity (ph4)" : "exp_management/Modules_XML/ph4.xml",
+}
+'''File paths for Module XML file definitions'''
+
 class Module(QListWidgetItem):
     '''A particular AMUSE module, providing an interface between GPUnit and
     the AMUSE code. The members of the Module class are used by GPUnit to
