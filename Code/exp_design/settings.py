@@ -1,6 +1,6 @@
 from PyQt4.QtGui import QDialog, QApplication, QFormLayout, QLabel, QPushButton
 from PyQt4.QtGui import QVBoxLayout, QHBoxLayout
-from PyQt4.QtGui import QDoubleSpinBox, QSpinBox, QLineEdit, QComboBox
+from PyQt4.QtGui import QDoubleSpinBox, QSpinBox, QLineEdit, QComboBox, QCheckBox
 
 from PyQt4.QtCore import SIGNAL
 
@@ -38,8 +38,10 @@ class SettingsDialog(QDialog):
         self.setLayout(self.vbox)
 
     def getValues(self):
+        # Populate initial inputs with default values.
         for label, default in self.defaults.items():
             widget = self.outputs[label]
+
             if isinstance(widget, QSpinBox):
                 widget.setValue(int(default))
             elif isinstance(widget, QDoubleSpinBox):
@@ -49,10 +51,15 @@ class SettingsDialog(QDialog):
                 widget.setCurrentIndex(index)
             elif isinstance(widget, QLineEdit):
                 widget.setText(str(default))
+            elif isinstance(widget, QCheckBox):
+                widget.setChecked(default)
 
         ret = self.exec_()
 
         results = {}
+
+        # If the user accepted their input, pull out the values from the UI and
+        # return them as a dictionary.
         if ret == QDialog.Accepted:
             for label, widget in self.outputs.items():
                 if isinstance(widget, QSpinBox):
@@ -72,6 +79,11 @@ class SettingsDialog(QDialog):
                     self.defaults[label] = value
                 elif isinstance(widget, QLineEdit):
                     value = str(widget.text())
+
+                    results[label] = value
+                    self.defaults[label] = value
+                elif isinstance(widget, QCheckBox):
+                    value = widget.isChecked()
 
                     results[label] = value
                     self.defaults[label] = value
@@ -121,7 +133,8 @@ class SettingsDialog(QDialog):
                 return box
             elif typeStr == "str":
                 return QLineEdit(self)
-
+            elif typeStr == "bool":
+                return QCheckBox(self)
         elif isinstance(valueType, list):
             box = QComboBox(self)
             for item in valueType:
