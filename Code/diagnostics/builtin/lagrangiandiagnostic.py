@@ -32,6 +32,7 @@ class LRDiagnostic(Diagnostic):
         self.filename = OutputFileName
         self.convert_nbody = None
         self.particle_sets = []
+        self.directory     = ""
 
         self.settings=SettingsDialog(
             inputs = {
@@ -56,8 +57,7 @@ class LRDiagnostic(Diagnostic):
     def needsFile(self):
         return True
     def setupFile(self, filename = "Lagrangian.log"):
-        folder=os.sep.join(filename.split(os.sep)[:-1])
-        self.fout = open(self.filename,'w')#os.sep.join([folder,self.filename]),'w')
+        self.fout = open(os.sep.join([self.directory,self.filename]),'w')#os.sep.join([folder,self.filename]),'w')
         self.fout.write("""#Time=>t\n#Potential Energy=>U\n#Kinetic Energy=>T\n#Seperator=": "\n""")
     def cleanup(self):
         self.particle_sets = []
@@ -71,7 +71,7 @@ class LRDiagnostic(Diagnostic):
 
     def preRunInitialize(self):
         self.particle_sets = []
-        
+        self.setupFile()
         #@todo: Create subsets using already written code
     
     def update(self, time, particles, modules) :
@@ -104,8 +104,8 @@ class LRDiagnostic(Diagnostic):
         lr_str = "%f "*10
         
         for i,v in enumerate(LR):
-            print lr_str%tuple(v)
-            self.fout.write("%%LR%%%d "%i+lr_str%tuple(map(float,v))+"\n")
+            a = lr_str%tuple(v)
+            self.fout.write("%%LR%%%d %s\n"%(i,a))
         #self.fout.flush()
         #self.datadict["LR"].append(LR[-1,:])
 
@@ -153,8 +153,6 @@ def get_mcom(particles,	CoMguess = None, cutoff = .9, n_iter = 2 ):
 
         # Set up an array of radii relative to the current center. 
         #Index, Radius
-        #    print    np.column_stack([range(len(particles)),np.sum(((particles.position - cmpos).number)**2,1)])
-        
         mrlist = np.column_stack([range(len(particles)),np.sum(((particles.position - cmpos).number)**2,1)])
 
         # Sort the array by radius.
