@@ -123,15 +123,10 @@ class GLDiagnosticWidget(QGLWidget):
     def initializeGL(self):
         glClearColor(0,0,0,1)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        glPointSize(2.0)
+        glPointSize(3.0)
         glEnable(GL_POINT_SMOOTH)
 
-        glEnable(GL_CULL_FACE)
-        glCullFace(GL_BACK)
         glShadeModel(GL_SMOOTH)
-
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
 
     def resizeGL(self, width, height):
         self.resize(self.width_, self.height_)
@@ -150,8 +145,8 @@ class GLDiagnosticWidget(QGLWidget):
         QGLWidget.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, event):
-        dx = -0.5 * float(event.x() - self.lastPos[0])
-        dy = -0.5 * float(event.y() - self.lastPos[1])
+        dx = float(event.x() - self.lastPos[0])
+        dy = float(event.y() - self.lastPos[1])
 
         if dx != 0 or dy != 0:
             self.viewRotY += np.sin(2.0 * math.pi * (dx / self.width_))
@@ -171,8 +166,8 @@ class GLDiagnosticWidget(QGLWidget):
             self.update()
 
     def keyPressEvent(self, event):
-        right = -normalize(np.cross(self.camForward, (0.0, 1.0, 0.0)))
-        up = -normalize(np.cross(right, self.camForward))
+        right = normalize(np.cross(self.camForward, (0.0, 1.0, 0.0)))
+        up = normalize(np.cross(right, self.camForward))
 
         keycode = event.key()
 
@@ -213,31 +208,15 @@ class GLDiagnosticWidget(QGLWidget):
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
-        gluLookAt(self.camPos[0], self.camPos[2], self.camPos[1],
-                self.camLook[0], self.camLook[2], self.camLook[1],
-                0.0, 0.0, 1.0)
+        gluLookAt(self.camPos[0], self.camPos[1], self.camPos[2],
+                self.camLook[0], self.camLook[1], self.camLook[2],
+                0.0, 1.0, 0.0)
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
-        glMatrixMode(GL_MODELVIEW)
-        glLoadIdentity()
-
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-
-        glLightfv(GL_LIGHT0, GL_POSITION, np.array((5,5,5)));
-        glMaterialfv(GL_FRONT, GL_AMBIENT, np.array((0.1,0.1,0.1)))
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, np.array((1,1,1)))
-        glMaterialfv(GL_FRONT, GL_SPECULAR, np.array((1,1,1)))
-        glMaterialf(GL_FRONT, GL_SHININESS, 50.0);
-
         self.positionCamera()
 
         # Draw some axes.
-        glDisable(GL_LIGHTING)
-        glDisable(GL_LIGHT0)
-
         glBegin(GL_LINES)
         glColor3f(1,0,0)
         glVertex3f(0,0,0)
@@ -252,9 +231,6 @@ class GLDiagnosticWidget(QGLWidget):
         glVertex3f(0,0,1)
         glEnd()
 
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
-
         if self.particles is None:
             return
 
@@ -263,19 +239,8 @@ class GLDiagnosticWidget(QGLWidget):
         glColor3f(1,1,1)
 
         glMatrixMode(GL_MODELVIEW)
-        maxRad = self.particles.radius.number.max()
-        if maxRad == 0.0:
-            maxRad = 1.0
-
+        glBegin(GL_POINTS)
         for particle in self.particles:
-            quad = gluNewQuadric()
-
             pos = np.array(particle.position.value_in(self.distanceUnits)) * self.scaleFactor
-            rad = max((particle.radius.number / maxRad) * 0.1, 0.025)
-
-            glPushMatrix()
-            glTranslatef(pos[0], pos[1], pos[2])
-            gluSphere(quad, rad, 30, 30)
-            glPopMatrix()
-
-            gluDeleteQuadric(quad)
+            glVertex3f(pos[0], pos[2], pos[1])
+        glEnd()
