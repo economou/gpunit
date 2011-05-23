@@ -16,7 +16,6 @@ import numpy as np
 from amuse.support.units import nbody_system
 
 from diagnostics.diagnostic import Diagnostic
-from exp_design.settings import SettingsDialog
 
 class LRDiagnostic(Diagnostic):
     '''Abstract Diagnostic class. Objects of subclasses are added to the an
@@ -33,19 +32,10 @@ class LRDiagnostic(Diagnostic):
         self.convert_nbody = None
         self.particle_sets = []
 
-        self.settings=SettingsDialog(
-            inputs = {
-            "Output File Name":"str"
-            },
-            defaults = {
-            "Output File Name":"LagrangianData.log"
-            }
-        )
         self.fout = None
 
     def __reduce__(self):
         newDict = self.__dict__.copy()
-        del newDict["settings"]
         if newDict.has_key("particle_sets"):
             del newDict["particle_sets"]
         if newDict.has_key("fout"):
@@ -63,11 +53,6 @@ class LRDiagnostic(Diagnostic):
     def cleanup(self):
         self.particle_sets = []
         self.fout.close()
-
-    def showSettingsDialog(self):
-        results = self.settings.getValues()
-        if len(results) > 0:
-            self.filename = results["Output File Name"]
 
     def preRunInitialize(self):
         self.particle_sets = []
