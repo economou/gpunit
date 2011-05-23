@@ -2,7 +2,7 @@
 # experimentmanager.py
 #
 # Gabriel Schwartz
-# 2/11
+# 5/23/2011
 #
 # Team GPUnit - Senior Design 2011
 #
@@ -47,7 +47,13 @@ class ExperimentManager(QMainWindow):
         for i in range(30):
             self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
-        if filename is not None:
+        if filename is not None and os.path.isdir(filename):
+            for entry in os.listdir(filename):
+                if entry.endswith(".exp"):
+                    filename = os.path.join(filename, entry)
+                    break
+
+        if filename is not None and filename.endswith(".exp"):
             self.enableUI()
             self.storage = FileStorage.load(filename)
             self.experiment = self.storage.base
@@ -101,6 +107,8 @@ class ExperimentManager(QMainWindow):
         basePath = str(QFileDialog.getExistingDirectory(self, "New experiment storage path:"))
         if basePath == "":
             return
+
+        basePath = basePath.replace(os.getcwd() + "/", "")
 
         name, accepted = QInputDialog.getText( self, "Experiment Name", "New experiment name:")
         if not accepted:
