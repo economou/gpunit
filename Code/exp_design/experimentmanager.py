@@ -21,6 +21,8 @@ from exp_management.persistence import FileStorage
 from exp_gen.CLT import run_experiment
 from gui.experimentmanager_ui import Ui_ExperimentManager
 
+from exp_design.splash import SPLASH_NEW, SPLASH_OPEN
+
 from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
@@ -33,7 +35,7 @@ class ExperimentManager(QMainWindow):
     diagnosticUpdated = pyqtSignal()
     runComplete = pyqtSignal()
 
-    def __init__(self, filename = None, parent = None):
+    def __init__(self, filename = None, initialAction = None, parent = None):
         QMainWindow.__init__(self, parent)
 
         self.ui = Ui_ExperimentManager()
@@ -44,10 +46,17 @@ class ExperimentManager(QMainWindow):
         self.moduleEditor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
 
+        self.dirty = False
+        self.isRunning = False
+
+        self.diagnosticUpdated.connect(self.redrawDiagnosticWindows)
+        self.runComplete.connect(self.runCompleted)
+
         # TODO: replace with real networking.
         for i in range(30):
             self.clusterView.addNode(Node(self.clusterView, "Node "+ str(i)))
 
+        # Handle initial inputs from splash or command line.
         if filename is not None and os.path.isdir(filename):
             for entry in os.listdir(filename):
                 if entry.endswith(".exp"):
@@ -63,15 +72,15 @@ class ExperimentManager(QMainWindow):
             for diagnostic in self.experiment.diagnostics:
                 if diagnostic.needsGUI():
                     diagnostic.setupGUI(self)
-        else:
-            self.experiment = Experiment()
-            self.disableUI()
+        elif initialAction == SPLASH_NEW:
+            if self.newExperiment():
+                return
+        elif initialAction == SPLASH_OPEN:
+            if self.openExperiment():
+                return
 
-        self.dirty = False
-        self.isRunning = False
-
-        self.diagnosticUpdated.connect(self.redrawDiagnosticWindows)
-        self.runComplete.connect(self.runCompleted)
+        self.experiment = Experiment()
+        self.disableUI()
 
     @pyqtSlot()
     def touch(self):
@@ -103,17 +112,17 @@ class ExperimentManager(QMainWindow):
         if self.dirty:
             success = self.showDirtySaveBox()
             if not success:
-                return
+                return False
 
         basePath = str(QFileDialog.getExistingDirectory(self, "New experiment storage path:"))
         if basePath == "":
-            return
+            return False
 
         basePath = basePath.replace(os.getcwd() + "/", "")
 
         name, accepted = QInputDialog.getText( self, "Experiment Name", "New experiment name:")
         if not accepted:
-            return
+            return False
 
         name = str(name)
 
@@ -124,13 +133,14 @@ class ExperimentManager(QMainWindow):
         self.experiment = self.storage.base
 
         self.ui.nameText.setText(name)
+        return True
 
     @pyqtSlot()
     def openExperiment(self):
         if self.dirty:
             success = self.showDirtySaveBox()
             if not success:
-                return
+                return False
 
         filename = str(QFileDialog.getOpenFileName(self, "Open experiment..."))
 
