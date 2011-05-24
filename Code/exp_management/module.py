@@ -320,29 +320,19 @@ class Module(QListWidgetItem):
           parameters -- A list of module parameters.'''
 
         self.parameters = parameters
-    @property
-    def result(self):
-        '''Returns an instance of the value. Treats result as a value rather
-        than a function.
 
-        Working EXAMPLE:
-        Use this for finding absolute path os.path.expanduser("~/amuse-svn/src/amuse/community/")
-        example filename
-        sys.path.append("/home/cassini/tmcjilton/amuse-svn/src/amuse/community/")
-        from hermite0.interface import Hermite
-        '''
+    def instantiate(self, *args, **kwargs):
+        """Returns an instance of the amuse module."""
+
         filename = re.search("(?<=/)[\da-zA-Z]*\.py$", self.codeLocation).group(0)
-        print self.codeLocation
         if self.codeLocation[:5] == 'amuse':
             path = ".".join(self.codeLocation.split("/"))[:-3]
-            print path, self.className
             exec("from "+path+" import "+self.className)
-            print 
         else:
             sys.path.append(self.codeLocation.rstrip(filename))
             exec("from " + filename.rstrip(".py") + " import " + self.className)
 
-        exec("r_val = %s" % str(self.className))
+        exec("r_val = %s(*args, **kwargs)" % str(self.className))
 
         return r_val
 
