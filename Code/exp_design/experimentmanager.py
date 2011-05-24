@@ -72,6 +72,12 @@ class ExperimentManager(QMainWindow):
             for diagnostic in self.experiment.diagnostics:
                 if diagnostic.needsGUI():
                     diagnostic.setupGUI(self)
+
+            self.dirty = False
+            self.isRunning = False
+            self.enableUI()
+            return
+
         elif initialAction == SPLASH_NEW:
             if self.newExperiment():
                 return
@@ -148,8 +154,6 @@ class ExperimentManager(QMainWindow):
             return False
 
         try:
-            self.enableUI()
-
             self.storage = FileStorage.load(filename)
             self.experiment = self.storage.base
             self.updateUiFromExperiment()
@@ -159,6 +163,7 @@ class ExperimentManager(QMainWindow):
                     diagnostic.setupGUI(self)
 
             self.dirty = False
+            self.enableUI()
             return True
         except (AttributeError, IOError) as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
@@ -383,6 +388,7 @@ class ExperimentManager(QMainWindow):
             self.experiment.stopTime = (self.ui.stopBox.value() |
                     self.experiment.timeUnit)
             self.touch()
+
         except ValueError:
             self.ui.stopBox.setValue(self.experiment.stopTime.number)
 
@@ -392,6 +398,7 @@ class ExperimentManager(QMainWindow):
             self.experiment.timeStep = (self.ui.stepBox.value() |
                     self.experiment.timeUnit)
             self.touch()
+
         except ValueError:
             self.ui.stepBox.setValue(self.experiment.timeStep.number)
 
@@ -400,6 +407,10 @@ class ExperimentManager(QMainWindow):
         try:
             unit = eval(str(self.ui.unitsText.text()))
             self.experiment.timeUnit = unit
+            self.experiment.timeStep = (self.ui.stepBox.value() |
+                    self.experiment.timeUnit)
+            self.experiment.stopTime = (self.ui.stopBox.value() |
+                    self.experiment.timeUnit)
             self.touch()
         except (RuntimeError, NameError, AttributeError, SyntaxError):
             self.ui.unitsText.setText(str(self.experiment.timeUnit))
