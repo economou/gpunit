@@ -11,6 +11,7 @@ PY_UI_FILES = $(GUI_PATH)/modulestoolbox_ui.py \
 		  $(GUI_PATH)/moduleeditor_ui.py \
 		  $(GUI_PATH)/nodeinfodialog_ui.py \
 		  $(GUI_PATH)/pairmodel_ui.py \
+		  $(GUI_PATH)/splash_ui.py \
 		  $(GUI_PATH)/particlesettings_ui.py \
 		  $(GUI_PATH)/node_ui.py
 
