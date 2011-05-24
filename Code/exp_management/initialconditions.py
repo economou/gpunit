@@ -249,20 +249,6 @@ class SalpeterModel(MassDistribution):
         self.mass_max = mass_max
         self.alpha = alpha
 
-        self.settings = SettingsDialog(
-                inputs = {
-                    "Particles" : "int:1:",
-                    "Minimum Mass (MSun)" : "float:0:",
-                    "Maximum Mass (MSun)" : "float:0:",
-                    "Alpha" : "float:0:"},
-
-                defaults = {
-                    "Particles" : self.numParticles,
-                    "Minimum Mass (MSun)" : self.mass_min.number,
-                    "Maximum Mass (MSun)" : self.mass_max.number,
-                    "Alpha" : self.alpha}
-                )
-
     def copy(self):
         return SalpeterModel(self.numParticles, self.mass_min, self.mass_max, self.alpha)
 
@@ -270,24 +256,7 @@ class SalpeterModel(MassDistribution):
         return SalpeterIMF(self.mass_min, self.mass_max, self.alpha).next_set(self.numParticles)
         
     def showSettingsDialog(self):
-        results = self.settings.getValues()
-
-        if len(results) > 0:
-            self.numParticles= results["Particles"]
-            self.mass_min.number = results["Minimum Mass (MSun)"]
-            self.mass_max.number = results["Maximum Mass (MSun)"]
-            self.alpha = results["Alpha"]
-
-    def __getstate__(self):
-        pickleDict = self.__dict__.copy()
-        del pickleDict["settings"]
-
-        return pickleDict
-
-    def __setstate__(self, state):
-        self.__dict__ = dict(self.__dict__, **state)
-
-        self.settings = SettingsDialog(
+        settings = SettingsDialog(
                 inputs = {
                     "Particles" : "int:1:",
                     "Minimum Mass (MSun)" : "float:0:",
@@ -300,6 +269,14 @@ class SalpeterModel(MassDistribution):
                     "Maximum Mass (MSun)" : self.mass_max.number,
                     "Alpha" : self.alpha}
                 )
+
+        results = settings.getValues()
+
+        if len(results) > 0:
+            self.numParticles= results["Particles"]
+            self.mass_min.number = results["Minimum Mass (MSun)"]
+            self.mass_max.number = results["Maximum Mass (MSun)"]
+            self.alpha = results["Alpha"]
 
 class PlummerModel(PositionDistribution):
     def __init__(self, numParticles = 10, convert_nbody = None, radius_cutoff = 1.0,
@@ -313,20 +290,6 @@ class PlummerModel(PositionDistribution):
         self.do_scale = do_scale
         self.random_state = random_state
 
-        self.settings = SettingsDialog(
-                inputs = {
-                    "Particles" : "int:1:",
-                    "Radius Cutoff" : "float:0:",
-                    "Mass Cutoff" : "float:0:",
-                    "Scale" : "bool"},
-
-                defaults = {
-                    "Particles" : self.numParticles,
-                    "Radius Cutoff" : self.radius_cutoff,
-                    "Mass Cutoff" : self.mass_cutoff,
-                    "Scale" : self.do_scale},
-                )
-
     def getPositionList(self):
         '''Creates a particle list by making a new Plummer model. Note this will be
         different every time this function is called in case any members have changed'''
@@ -335,24 +298,7 @@ class PlummerModel(PositionDistribution):
             self.radius_cutoff,self.mass_cutoff,self.do_scale,self.random_state).result
 
     def showSettingsDialog(self):
-        results = self.settings.getValues()
-
-        if len(results) > 0:
-            self.numParticles= results["Particles"]
-            self.radius_cutoff = results["Radius Cutoff"]
-            self.mass_cutoff = results["Mass Cutoff"]
-            self.do_scale = results["Scale"]
-
-    def __getstate__(self):
-        pickleDict = self.__dict__.copy()
-        del pickleDict["settings"]
-
-        return pickleDict
-
-    def __setstate__(self, state):
-        self.__dict__ = dict(self.__dict__, **state)
-
-        self.settings = SettingsDialog(
+        settings = SettingsDialog(
                 inputs = {
                     "Particles" : "int:1:",
                     "Radius Cutoff" : "float:0:",
@@ -365,6 +311,13 @@ class PlummerModel(PositionDistribution):
                     "Mass Cutoff" : self.mass_cutoff,
                     "Scale" : self.do_scale},
                 )
+        results = settings.getValues()
+
+        if len(results) > 0:
+            self.numParticles= results["Particles"]
+            self.radius_cutoff = results["Radius Cutoff"]
+            self.mass_cutoff = results["Mass Cutoff"]
+            self.do_scale = results["Scale"]
 
     def copy(self):
         return PlummerModel(self.numParticles, self.convert_nbody, self.radius_cutoff, self.mass_cutoff, self.do_scale, self.random_state)
@@ -382,7 +335,17 @@ class KingModel(PositionDistribution):
         self.seed = seed
         self.verbose = verbose
 
-        self.settings = SettingsDialog(
+    def copy(self):
+        return KingModel(self.numParticles, self.W0, self.convert_nbody, self.do_scale, self.beta, self.seed, self.verbose)
+
+    def getPositionList(self):
+        '''Creates a particle list by making a new Plummer model. Note this will be
+        different every time this function is called in case any members have changed'''
+        return MakeKingModel(self.numParticles,self.W0,self.convert_nbody,
+            self.do_scale,self.beta,self.seed,self.verbose).result
+
+    def showSettingsDialog(self):
+        settings = SettingsDialog(
                 inputs = {
                     "Particles"     : "int:1:",
                     "W0:"           : "float:0:",
@@ -398,29 +361,12 @@ class KingModel(PositionDistribution):
                     "Scale"         : self.do_scale,
                     "Verbose"       : self.verbose}
                 )
-
-    def copy(self):
-        return KingModel(self.numParticles, self.W0, self.convert_nbody, self.do_scale, self.beta, self.seed, self.verbose)
-
-    def getPositionList(self):
-        '''Creates a particle list by making a new Plummer model. Note this will be
-        different every time this function is called in case any members have changed'''
-        return MakeKingModel(self.numParticles,self.W0,self.convert_nbody,
-            self.do_scale,self.beta,self.seed,self.verbose).result
-
-    def showSettingsDialog(self):
-        results = self.settings.getValues()
+        results = settings.getValues()
 
         if len(results) > 0:
             self.numParticles = results["Particles"]
             self.W0 = results["W0:"]
             self.beta = results["beta"]
-
-    def __getstate__(self):
-        pickleDict = self.__dict__.copy()
-        del pickleDict["settings"]
-
-        return pickleDict
 
 class PairedModel(ParticleDistribution):
     def __init__(self, numParticles = 10, massModel = None, positionModel = None):
@@ -441,29 +387,8 @@ class PairedModel(ParticleDistribution):
         self.ui = Ui_PairedSettingsDialog()
         self.ui.setupUi(self.dialog)
 
-        for name, model in models.items():
-            if model == self.__class__:
-                continue
-
-            instance = model()
-            if isinstance(instance, MassDistribution):
-                self.ui.massCombo.addItem(name)
-            elif isinstance(instance, PositionDistribution):
-                self.ui.posCombo.addItem(name)
-
-    def __getstate__(self):
-        pickleDict = self.__dict__.copy()
-        del pickleDict["dialog"]
-        del pickleDict["ui"]
-
-        return pickleDict
-
-    def __setstate__(self, state):
-        self.__dict__ = dict(self.__dict__, **state)
-
-        self.dialog = QDialog()
-        self.ui = Ui_PairedSettingsDialog()
-        self.ui.setupUi(self.dialog)
+        self.ui.posSettings.clicked.connect(self.massSettings)
+        self.ui.massSettings.clicked.connect(self.positionSettings)
 
         for name, model in models.items():
             if model == self.__class__:
@@ -477,6 +402,24 @@ class PairedModel(ParticleDistribution):
 
         self.massModel.numParticles = self.numParticles
         self.positionModel.numParticles = self.numParticles
+
+    def massSettings(self):
+        self.massModel.showSettingsDialog()
+        self.massModel.numParticles = self.numParticles
+
+    def positionSettings(self):
+        self.positionModel.showSettingsDialog()
+        self.positionModel.numParticles = self.numParticles
+
+    def __getstate__(self):
+        pickleDict = self.__dict__.copy()
+        del pickleDict["dialog"]
+        del pickleDict["ui"]
+
+        return pickleDict
+
+    def __setstate__(self, state):
+        self.__init__(state["numParticles"], state["massModel"], state["positionModel"])
 
     def setupDialog(self):
         self.ui.numParticles.setValue(self.numParticles)
