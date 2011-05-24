@@ -129,6 +129,10 @@ The Leiden Observatory
 
 \end_layout
 
+\begin_layout Subsection
+Motivation
+\end_layout
+
 \begin_layout BeginFrame
 Motivation
 \end_layout
@@ -143,11 +147,11 @@ Motivation
 \end_layout
 
 \begin_layout Itemize
-Makes physics simulations accessible.
+Why simulate astrophysics?
 \end_layout
 
 \begin_layout Itemize
-Targeted at astrophysicists and students.
+Why make tools to help run simulations?
 \end_layout
 
 \begin_layout Itemize
@@ -160,7 +164,7 @@ Simulations are large and complex.
 \end_layout
 
 \begin_layout Itemize
-Simulation must be run for many steps.
+Many steps.
 \end_layout
 
 \end_deeper
@@ -257,6 +261,10 @@ Theoretical Astrophysicists
 
 \end_layout
 
+\begin_layout Section
+Overview
+\end_layout
+
 \begin_layout BeginFrame
 Overview
 \end_layout
@@ -272,6 +280,10 @@ LatexCommand tableofcontents
 
 \begin_layout EndFrame
 
+\end_layout
+
+\begin_layout Subsection
+AMUSE
 \end_layout
 
 \begin_layout BeginFrame
@@ -346,10 +358,6 @@ Still better than separated and opaque FORTRAN codes.
 
 \end_layout
 
-\begin_layout Section
-Purpose
-\end_layout
-
 \begin_layout Subsection
 Purpose of GPUnit
 \end_layout
@@ -410,6 +418,10 @@ Store and restore progress of running experiments.
 Features and Design
 \end_layout
 
+\begin_layout Subsection
+Features
+\end_layout
+
 \begin_layout BeginFrame
 Features
 \end_layout
@@ -462,6 +474,10 @@ Provides a display of cluster usage to aid in scheduling.
 
 \end_layout
 
+\begin_layout Subsection
+Architecture
+\end_layout
+
 \begin_layout BeginFrame
 Architecture
 \end_layout
@@ -480,6 +496,10 @@ Architecture
 
 \begin_layout EndFrame
 
+\end_layout
+
+\begin_layout Subsection
+Design
 \end_layout
 
 \begin_layout BeginFrame
@@ -564,6 +584,10 @@ Experiments can be stored in a file structure, a remote DB etc...
 Software Engineering
 \end_layout
 
+\begin_layout Subsection
+Testing
+\end_layout
+
 \begin_layout BeginFrame
 Tests
 \end_layout
@@ -610,6 +634,10 @@ experiment running
 \end_deeper
 \begin_layout EndFrame
 
+\end_layout
+
+\begin_layout Subsection
+Planning
 \end_layout
 
 \begin_layout BeginFrame

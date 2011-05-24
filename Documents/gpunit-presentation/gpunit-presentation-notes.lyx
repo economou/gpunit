@@ -73,36 +73,76 @@ Motivation
 \end_layout
 
 \begin_layout Itemize
-Our project makes physics simulations accessible.
+
+\size scriptsize
+Astrophysics researchers need to simulate movement and evolution of stars
+ and galaxies.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size scriptsize
+Because they can't go out and play with real stars and galaxies.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size scriptsize
+We need tools to make these simulations because coding a simulation is complex
+ requiring extensive physics and programming knowledge to produce efficient
+ code.
 \end_layout
 
 \begin_layout Itemize
-Astrophysics researchers need to simulate movement and evolution of star
- clusters and galaxies.
+
+\size scriptsize
+Our project makes state-of-the-art astrophysics simulations accessible.
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
+
+\size scriptsize
+The end goal of the physicist is not to write simulations, it's to use them.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size scriptsize
 In these simulations, every star can affect all of the others.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-From thousands to millions of bodies (stars, gas clouds among others)
+
+\size scriptsize
+With as many as a few million bodies (galaxies, gas clouds etc...), computation
+ times grow quickly.
 \end_layout
 
 \begin_layout Itemize
-Simulation runs for thousands of iterations
+
+\size scriptsize
+Real research requires code that runs on powerful hardware to get results
+ in reasonable time (on the order of a week sometimes).
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
+
+\size scriptsize
 Complex software (AMUSE) exists to perform these computations efficiently.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Combines hardware-specific solutions to a problem with a variety of physical
- problem domains, with varying degrees of speed/accuracy.
+
+\size scriptsize
+Combines hardware-specific solutions to problems with a variety of physical
+ problem domains, at varying degrees of speed/accuracy.
 \end_layout
 
 \end_deeper
@@ -343,23 +383,83 @@ Architecture
 \end_layout
 
 \begin_layout Itemize
+
+\size footnotesize
 The interface lets the user put the experiment together.
 \end_layout
 
 \begin_layout Itemize
+
+\size footnotesize
 The experiment generator lets advanced users customize details.
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
+
+\size footnotesize
+They can make small changes to how the experiment runs.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+They can also add completely new code that does something our framework
+ wouldn't normally do.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size footnotesize
 The network layer gives the user a view of how the cluster is being used.
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
-We provide a storage API to share experiments.
+
+\size footnotesize
+Uses multicast messages to discover nodes, tracks each node individually.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size footnotesize
+We provide a storage API to save and share experiments.
 \end_layout
 
 \begin_layout Itemize
-All of this is built on top of AMUSE's existing features.
+
+\size footnotesize
+Each run of the experiment is saved separately, including
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+star positions and masses
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+diagnostic and logging output
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+settings for the components of that run of the experiment.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size small
+All of this is built on top of AMUSE's features such as units and simulation
+ modules.
 \end_layout
 
 \begin_layout EndFrame
@@ -371,50 +471,65 @@ Design
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 Previous physics simulations were one-off scripts written for a specific
  problem, on specific hardware.
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 AMUSE is the only package to provide a uniform interface to a variety of
  tools on a variety of hardware.
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 We settled on Python because AMUSE is a Python library, interaction is streamlin
 ed.
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 If we had used C++, AMUSE would run in a separate process, introduces unnecessar
 y disconnect between our code and AMUSE.
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 Challenges:
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
+
+\size small
 Figuring out how AMUSE works.
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 Making a useful tool that simplified experiment creation without taking
  away any of AMUSE's power/features.
 \end_layout
 
 \begin_layout Itemize
+
+\size small
 Allow future developers to expand on this work:
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Modular diagnostics w/API to do the work
-\end_layout
 
-\begin_layout Itemize
-Experiment storage abstraction: allows for remote backup, sharing of results
+\size small
+Modular diagnostics w/API to do the work, experiment storage abstraction:
+ allows for remote backup.
 \end_layout
 
 \end_deeper
@@ -433,18 +548,6 @@ Tests
 
 \begin_layout Itemize
 Table of tests that pass.
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout BeginFrame
-User Testing
-\end_layout
-
-\begin_layout Itemize
-Tested with customers (Steve/Tim)
 \end_layout
 
 \begin_layout EndFrame
