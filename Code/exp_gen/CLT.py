@@ -11,6 +11,9 @@
 #
 #
 
+from time import sleep
+from time import time as gettime
+
 from amuse.support.units import nbody_system
 from amuse.support.units import units 
 from amuse.support.data.particles import Particles
@@ -82,8 +85,12 @@ def initialization(experiment):
     #Total mass used for conversion object
     #total_mass = reduce(lambda x,y:x+y, particles.mass)
 
-    #Get Modules actual class values
-    modules = [mod.result(convert_nbody) for mod in experiment.modules]
+    # Build a set of arguments for the module constructors.
+    args = [convert_nbody,]
+    kwargs = {}
+
+    #Get instances of actual AMUSE module classes from our wrappers.
+    modules = [mod.instantiate(*args, **kwargs) for mod in experiment.modules]
 
     if experiment.scaleToStandard:
         particles.scale_to_standard(convert_nbody)
@@ -103,30 +110,24 @@ def run_experiment(experiment):
 
     modules, particles, convert_nbody = initialization(experiment)
 
-    #Create channels Between Particles and Modules
-    channels_to_module   = []
-    channels_from_module = []
-
     for module in modules:
-        #channels_from_module.append(module.particles.new_channel_to(particles))
-        #channels_to_module.append(particles.new_channel_to(module.particles))
         module.particles.copy_values_of_state_attributes_to(particles)
 
     for diagnostic in experiment.diagnostics:
         diagnostic.convert_nbody = convert_nbody
         diagnostic.preRunInitialize()
 
+    # TODO: this is kinda a hack, need to add custom initialization code for
+    # certain modules. In this case, PH4 needs its own internal timestep
+    # parameter to be set explicitly (I think? This makes it not crash).
+    from amuse.community.ph4.interface import ph4
+    if isinstance(modules[0], ph4):
+        modules[0].set_eta(experiment.timeStep.number)
+
     while time < tmax:
         #Evolve Modules
         for module in modules:
             module.evolve_model(time)
-
-        if len(channels_to_module)-1: #Currently disabled
-            #Synchronize Particles Across Channels
-                for channel in channels_from_module:
-                    channel.copy()
-                for channel in channels_to_module:
-                    channel.copy()
 
         for module in modules:
             module.particles.copy_values_of_state_attributes_to(particles)
