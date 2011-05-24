@@ -7,7 +7,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 from PyQt4.QtOpenGL import QGL, QGLFormat, QGLWidget
-from PyQt4.QtCore import QSize, SIGNAL, SLOT, Qt
+from PyQt4.QtCore import QSize, SIGNAL, SLOT, Qt, QCoreApplication
 from PyQt4.QtGui import QInputDialog
 
 from amuse.support.units.units import *
@@ -26,10 +26,6 @@ class OpenGLDiagnostic(Diagnostic):
 
         self.scaleFactor = scaleFactor
 
-        self.settings = SettingsDialog(
-                inputs = {"Scale Factor:" : "float"},
-                defaults = {"Scale Factor:" : self.scaleFactor})
-
     def __reduce__(self):
         newDict = self.__dict__.copy()
 
@@ -37,7 +33,6 @@ class OpenGLDiagnostic(Diagnostic):
         # (GUI objects usually).
         del newDict["widget"]
         del newDict["parent"]
-        del newDict["settings"]
 
         return (OpenGLDiagnostic, (self.name, self.width, self.height, self.scaleFactor), newDict)
 
@@ -48,7 +43,7 @@ class OpenGLDiagnostic(Diagnostic):
         self.widget.particles = particles
         self.parent.diagnosticUpdated.emit()
 
-        sleep(15.0/1000.0)
+        sleep(16.66/1000.0)
 
         return True
 
@@ -73,7 +68,11 @@ class OpenGLDiagnostic(Diagnostic):
            #self.widget.setVisible(False)
 
     def showSettingsDialog(self):
-        results = self.settings.getValues()
+        settings = SettingsDialog(
+                inputs = {"Scale Factor:" : "float"},
+                defaults = {"Scale Factor:" : self.scaleFactor})
+
+        results = settings.getValues()
         if len(results) > 0:
             self.widget.scaleFactor = results["Scale Factor:"]
             self.scaleFactor = results["Scale Factor:"]
