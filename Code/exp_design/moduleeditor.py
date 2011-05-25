@@ -1,4 +1,4 @@
-from PyQt4.QtCore import pyqtSlot, SIGNAL, SLOT
+from PyQt4.QtCore import pyqtSlot, SIGNAL, SLOT, QString
 from PyQt4.QtGui import QMainWindow, QFileDialog, QMessageBox, QCheckBox
 from gui.moduleeditor_ui import Ui_ModuleEditor
 
@@ -14,8 +14,15 @@ class ModuleEditor(QMainWindow):
         self.ui = Ui_ModuleEditor()
         self.ui.setupUi(self)
 
-        for domain in sorted(module.AstrophysicalDomain, key=lambda k: module.AstrophysicalDomain[k]):
-            self.ui.domainCombo.addItem(domain, module.AstrophysicalDomain[domain])
+        self.curFilename = ""
+
+        self.untouch()
+        self.module = None
+
+        self.ignoreUIChange = True
+
+        for domain in module.AstrophysicalDomains:
+            self.ui.domainCombo.addItem(domain)
 
         numConds = 0
         self.checkboxMap = {}
@@ -30,18 +37,25 @@ class ModuleEditor(QMainWindow):
             self.checkboxMap[condition] = condBox
             self.connect(condBox, SIGNAL("stateChanged(int)"), self.stopCondChanged)
 
-        self.dirty = False
-        self.ignoreUIChange = False
-
-        self.module = None
         self.resetUI()
         self.disableUI()
+        self.ignoreUIChange = False
 
     @pyqtSlot()
     def touch(self):
         """Sets the dirty flag to true, used whenever a piece of data is
         modified."""
+
         self.dirty = True
+        self.ui.actionSave.setEnabled(True)
+        self.ui.actionSave_As.setEnabled(True)
+
+    @pyqtSlot()
+    def untouch(self):
+        """Sets the dirty flag to false, used whenever a file is saved."""
+        self.dirty = False
+        self.ui.actionSave.setEnabled(False)
+        self.ui.actionSave_As.setEnabled(False)
 
     def closeEvent(self, event):
         if self.dirty:
@@ -54,12 +68,6 @@ class ModuleEditor(QMainWindow):
         self.disableUI()
         self.module = None
         event.accept()
-
-    @pyqtSlot()
-    def setDirty(self):
-        """Sets the dirty flag to true, used whenever a piece of data is
-        modified."""
-        self.dirty = True
 
     def showDirtySaveBox(self):
         box = QMessageBox()
@@ -81,9 +89,29 @@ class ModuleEditor(QMainWindow):
         return True
 
     @pyqtSlot()
+    def newModule(self):
+        if self.dirty:
+            success = self.showDirtySaveBox()
+            if not success:
+                return False
+
+        filename = QFileDialog.getOpenFileName(self, "Open module...")
+        if filename == "":
+            return False
+
+        self.curFilename = filename
+        self.module = module.Module()
+        self.untouch()
+
+        self.enableUI()
+        self.updateUiFromModule()
+
+        return True
+
+    @pyqtSlot()
     def openModule(self):
         if self.dirty:
-            success = showDirtySaveBox()
+            success = self.showDirtySaveBox()
             if not success:
                 return
 
@@ -93,9 +121,12 @@ class ModuleEditor(QMainWindow):
 
         try:
             self.module = module.Module.fromFile(filename)
+
             self.enableUI()
             self.updateUiFromModule()
-            self.dirty = False
+            self.untouch()
+
+            self.curFilename = filename
             return True
         except (AttributeError, IOError) as err:
             QMessageBox.critical(self, "Error Opening", "There was an error opening\n\n" + filename + "\n\nError:\n\n" + str(err),
@@ -104,6 +135,23 @@ class ModuleEditor(QMainWindow):
 
     @pyqtSlot()
     def saveModule(self):
+        if self.curFilename == "":
+            return False
+
+        try:
+            xml = self.module.toXML()
+            modFile = open(self.curFilename, "w")
+            modFile.write(xml)
+            modFile.close()
+            self.untouch()
+            return True
+        except IOError as err:
+            QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
+                    )
+            return False
+
+    @pyqtSlot()
+    def saveModuleAs(self):
         filename = QFileDialog.getSaveFileName(self, "Save module as...")
         if filename == "":
             return False
@@ -113,7 +161,9 @@ class ModuleEditor(QMainWindow):
             modFile = open(filename, "w")
             modFile.write(xml)
             modFile.close()
-            self.dirty = False
+
+            self.untouch()
+            self.curFilename = filename
             return True
         except IOError as err:
             QMessageBox.critical(self, "Error Saving", "There was an error writing to\n\n" + filename + "\n\nError:\n\n" + str(err),
@@ -137,7 +187,7 @@ class ModuleEditor(QMainWindow):
         self.ui.parallelCheck.setChecked(self.module.isParallel)
 
         for cond in module.StoppingConditions:
-            if self.module.stoppingConditions & module.StoppingConditions[cond]:
+            if cond in self.module.stoppingConditions:
                 self.checkboxMap[cond].setChecked(True)
 
         self.ignoreUIChange = False
@@ -163,17 +213,16 @@ class ModuleEditor(QMainWindow):
         self.ui.codeLocationText.setText("")
 
         for box in self.checkboxMap.values():
-            continue
-            #box.setChecked(False)
+            box.setChecked(False)
 
         self.ignoreUIChange = False
 
-    @pyqtSlot()
-    def nameChanged(self):
+    @pyqtSlot(QString)
+    def nameChanged(self, name):
         if self.ignoreUIChange:
             return
 
-        self.module.name = str(self.ui.moduleNameText.text())
+        self.module.name = str(name)
         self.touch()
 
     @pyqtSlot()
@@ -181,23 +230,23 @@ class ModuleEditor(QMainWindow):
         if self.ignoreUIChange:
             return
 
-        self.module.description = str(self.ui.descriptionText.document().toPlainText())
+        self.module.description = str(self.ui.descriptionText.toPlainText())
         self.touch()
 
-    @pyqtSlot()
-    def classNameChanged(self):
+    @pyqtSlot(QString)
+    def classNameChanged(self, classname):
         if self.ignoreUIChange:
             return
 
-        self.module.className = str(self.ui.classNameText.text())
+        self.module.className = str(classname)
         self.touch()
 
-    @pyqtSlot()
-    def codeLocationChanged(self):
+    @pyqtSlot(QString)
+    def codeLocationChanged(self, cloc):
         if self.ignoreUIChange:
             return
 
-        self.module.codeLocation = str(self.ui.codeLocationText.text())
+        self.module.codeLocation = str(cloc)
         self.touch()
 
     @pyqtSlot()
@@ -205,18 +254,27 @@ class ModuleEditor(QMainWindow):
         if self.ignoreUIChange:
             return
 
-        newCond = 0
+        newConds = []
         for name in self.checkboxMap:
             if self.checkboxMap[name].isChecked():
-                newCond = (newCond | module.StoppingConditions[name])
+                newConds.append(name)
 
-        self.module.stoppingConditions = newCond
+        self.module.stoppingConditions = newConds
         self.touch()
 
-    @pyqtSlot()
-    def isParallelChanged(self):
+    @pyqtSlot(QString)
+    def domainChanged(self, domain):
         if self.ignoreUIChange:
             return
 
-        self.module.isParallel = str(self.ui.parallelCheck.isChecked())
+        domain = str(domain)
+        self.module.domain = domain
+        self.touch()
+
+    @pyqtSlot(bool)
+    def isParallelChanged(self, isParallel):
+        if self.ignoreUIChange:
+            return
+
+        self.module.isParallel = isParallel
         self.touch()
