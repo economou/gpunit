@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module name="Gravity (phiGRAPE)">
+	<description>
+		Direct N-body code optimized for running on a parallel GRAPE cluster. The Amusean version is capable of working on other platforms as well by using interfaces that mimic GRAPE hardware.
+	</description>
+	<domain>
+		Stellar Dynamics
+	</domain>
+	<className>
+		PhiGRAPE
+	</className>
+	<codeLocation>
+		amuse/community/phiGRAPE/interface.py
+	</codeLocation>
+	<isParallel>
+		True
+	</isParallel>
+	<stoppingConditions>
+		27
+	</stoppingConditions>
+    <!--
+    <parameters>
+        <parameter name = "" type = "enum">
+            <enum>MODE_G6LIB</enum>
+            <enum>MODE_GPU</enum>
+            <enum>MODE_GRAPE</enum>
+            <enum>MODE_PG</enum>
+        </parameter>
+
+        <parameter name = "number_of_workers" type = "int" default = 1 />
+    </parameters>
+    <requires>
+        <import from = "amuse.community.phiGRAPE.interface.PhiGRAPEInterface", import = "*" />
+    </requires>
+    -->
+</Module>
