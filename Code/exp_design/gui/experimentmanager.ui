@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>814</width>
-    <height>514</height>
+    <width>833</width>
+    <height>536</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,8 +70,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>413</width>
-           <height>435</height>
+           <width>448</width>
+           <height>451</height>
           </rect>
          </property>
          <layout class="QFormLayout" name="formLayout_2">
@@ -425,8 +425,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>814</width>
-     <height>25</height>
+     <width>833</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -434,11 +434,11 @@
      <string>&amp;File</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionNew_Experiment"/>
-    <addaction name="actionOpen_Experiment"/>
-    <addaction name="actionSave_Experiment"/>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
     <addaction name="separator"/>
-    <addaction name="actionExport_experiment"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionExport"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
@@ -447,7 +447,7 @@
      <string>&amp;Run</string>
     </property>
     <addaction name="actionView_Cluster"/>
-    <addaction name="actionRun_Experiment"/>
+    <addaction name="actionRun"/>
    </widget>
    <widget class="QMenu" name="menuModules">
     <property name="title">
@@ -468,9 +468,9 @@
    <addaction name="menuRun"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionOpen_Experiment">
+  <action name="actionOpen">
    <property name="text">
-    <string>&amp;Open Experiment...</string>
+    <string>&amp;Open...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -479,17 +479,17 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionNew_Experiment">
+  <action name="actionNew">
    <property name="text">
-    <string>&amp;New Experiment...</string>
+    <string>&amp;New...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionSave_Experiment">
+  <action name="actionSave">
    <property name="text">
-    <string>&amp;Save Experiment</string>
+    <string>&amp;Save</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -506,7 +506,7 @@
     <enum>Qt::ApplicationShortcut</enum>
    </property>
   </action>
-  <action name="actionRun_Experiment">
+  <action name="actionRun">
    <property name="text">
     <string>&amp;Run Experiment</string>
    </property>
@@ -514,9 +514,9 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionExport_experiment">
+  <action name="actionExport">
    <property name="text">
-    <string>E&amp;xport Experiment...</string>
+    <string>E&amp;xport...</string>
    </property>
   </action>
   <action name="actionImport_Module">
@@ -569,6 +569,23 @@
    </slots>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>nameText</tabstop>
+  <tabstop>initCondList</tabstop>
+  <tabstop>removeInitButton</tabstop>
+  <tabstop>initSettingsButton</tabstop>
+  <tabstop>moduleList</tabstop>
+  <tabstop>removeModuleButton</tabstop>
+  <tabstop>moduleSettingsButton</tabstop>
+  <tabstop>diagnosticList</tabstop>
+  <tabstop>removeDiagnosticButton</tabstop>
+  <tabstop>diagnosticSettingsButton</tabstop>
+  <tabstop>startBox</tabstop>
+  <tabstop>stopBox</tabstop>
+  <tabstop>stepBox</tabstop>
+  <tabstop>unitsText</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
  <resources>
   <include location="imgres.qrc"/>
  </resources>
@@ -586,22 +603,6 @@
     <hint type="destinationlabel">
      <x>289</x>
      <y>183</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionOpen_Experiment</sender>
-   <signal>triggered()</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>openExperiment()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
     </hint>
    </hints>
   </connection>
@@ -626,38 +627,6 @@
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
    <slot>showModuleEditor()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionSave_Experiment</sender>
-   <signal>triggered()</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>saveExperiment()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>344</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionNew_Experiment</sender>
-   <signal>triggered()</signal>
-   <receiver>ExperimentManager</receiver>
-   <slot>newExperiment()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -798,7 +767,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionRun_Experiment</sender>
+   <sender>actionRun</sender>
    <signal>triggered()</signal>
    <receiver>ExperimentManager</receiver>
    <slot>runExperiment()</slot>
@@ -986,6 +955,54 @@
     <hint type="destinationlabel">
      <x>406</x>
      <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNew</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>newExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>openExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>ExperimentManager</receiver>
+   <slot>saveExperiment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>206</y>
     </hint>
    </hints>
   </connection>
