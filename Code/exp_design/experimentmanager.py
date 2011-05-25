@@ -46,7 +46,7 @@ class ExperimentManager(QMainWindow):
         self.moduleEditor = ModuleEditor(self)
         self.clusterView = ClusterView(self)
 
-        self.dirty = False
+        self.untouch()
         self.isRunning = False
 
         self.diagnosticUpdated.connect(self.redrawDiagnosticWindows)
@@ -73,7 +73,7 @@ class ExperimentManager(QMainWindow):
                 if diagnostic.needsGUI():
                     diagnostic.setupGUI(self)
 
-            self.dirty = False
+            self.untouch()
             self.isRunning = False
             self.enableUI()
             return
@@ -93,6 +93,13 @@ class ExperimentManager(QMainWindow):
         """Sets the dirty flag to true, used whenever a piece of data is
         modified."""
         self.dirty = True
+        self.ui.actionSave.setEnabled(True)
+
+    @pyqtSlot()
+    def untouch(self):
+        """Sets the dirty flag to false, used whenever a file is saved."""
+        self.dirty = False
+        self.ui.actionSave.setEnabled(False)
 
     def showDirtySaveBox(self):
         box = QMessageBox()
@@ -162,7 +169,7 @@ class ExperimentManager(QMainWindow):
                 if diagnostic.needsGUI():
                     diagnostic.setupGUI(self)
 
-            self.dirty = False
+            self.untouch()
             self.enableUI()
             return True
         except (AttributeError, IOError) as err:
@@ -176,7 +183,7 @@ class ExperimentManager(QMainWindow):
     def saveExperiment(self):
         try:
             self.storage.save()
-            self.dirty = False
+            self.untouch()
             return True
         except (AttributeError, IOError) as err:
             QMessageBox.critical(self, "Error Saving", "There was an error saving the experiment.\nError:\n\n" + str(err),
@@ -229,7 +236,7 @@ class ExperimentManager(QMainWindow):
         self.moduleEditor.resetUI()
         self.ui.actionScale_to_Standard.setChecked(False)
 
-        self.dirty = False
+        self.untouch()
 
     def updateUiFromExperiment(self):
         self.resetUI()
