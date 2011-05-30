@@ -3,7 +3,7 @@ import sys
 
 from PyQt4.QtGui import QApplication, QDialog
 from exp_design.experimentmanager import ExperimentManager
-from exp_design.splash import SplashScreen, SPLASH_NEW, SPLASH_OPEN, SPLASH_QUIT
+from exp_design.splash import *
 
 if __name__ == "__main__":
     expFilename = None
@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 
+    choice = SPLASH_MAIN
     if expFilename is None:
         splash = SplashScreen()
         choice = splash.getChoice()
@@ -20,10 +21,10 @@ if __name__ == "__main__":
             app.quit()
             exit(0)
         else:
-            manager = ExperimentManager(initialAction = choice)
+            manager = ExperimentManager()
     else:
         manager = ExperimentManager(filename = expFilename)
 
-    manager.show()
+    manager.show(choice)
 
     exit(app.exec_())
