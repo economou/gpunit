@@ -3,9 +3,10 @@ from PyQt4.QtCore import pyqtSlot
 
 from gui.splash_ui import Ui_SplashScreen
 
-SPLASH_NEW = 0
-SPLASH_OPEN = 1
-SPLASH_QUIT = 2
+SPLASH_MAIN = 0
+SPLASH_NEW = 1
+SPLASH_OPEN = 2
+SPLASH_QUIT = 3
 
 class SplashScreen(QDialog):
     def __init__(self, parent = None):
@@ -25,6 +26,12 @@ class SplashScreen(QDialog):
         self.choice = SPLASH_OPEN
         self.accept()
 
+    @pyqtSlot()
+    def main(self):
+        self.choice = SPLASH_MAIN
+        self.accept()
+
     def getChoice(self):
         self.exec_()
+        self.close()
         return self.choice

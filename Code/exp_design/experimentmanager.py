@@ -35,7 +35,7 @@ class ExperimentManager(QMainWindow):
     diagnosticUpdated = pyqtSignal()
     runComplete = pyqtSignal()
 
-    def __init__(self, filename = None, initialAction = None, parent = None):
+    def __init__(self, filename = None, parent = None):
         QMainWindow.__init__(self, parent)
 
         self.ui = Ui_ExperimentManager()
@@ -78,15 +78,16 @@ class ExperimentManager(QMainWindow):
             self.enableUI()
             return
 
-        elif initialAction == SPLASH_NEW:
-            if self.newExperiment():
-                return
-        elif initialAction == SPLASH_OPEN:
-            if self.openExperiment():
-                return
-
         self.experiment = Experiment()
         self.disableUI()
+
+    def show(self, action):
+        QMainWindow.show(self)
+
+        if action == SPLASH_NEW:
+            self.newExperiment()
+        elif action == SPLASH_OPEN:
+            self.openExperiment()
 
     @pyqtSlot()
     def touch(self):
