@@ -85,12 +85,8 @@ def initialization(experiment):
     #Total mass used for conversion object
     #total_mass = reduce(lambda x,y:x+y, particles.mass)
 
-    # Build a set of arguments for the module constructors.
-    args = [convert_nbody,]
-    kwargs = {}
-
     #Get instances of actual AMUSE module classes from our wrappers.
-    modules = [mod.instantiate(*args, **kwargs) for mod in experiment.modules]
+    modules = [mod.instantiate(convert_nbody) for mod in experiment.modules]
 
     if experiment.scaleToStandard:
         particles.scale_to_standard(convert_nbody)

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module name="Test Module">
+    <description>Module XML used for unit testing.</description>
+
+    <domain>Hydrodynamics</domain>
+
+    <className>test</className>
+    <codeLocation>amuse/test/test/interface.py</codeLocation>
+
+    <isParallel>True</isParallel>
+    <stoppingConditions>0</stoppingConditions>
+
+    <parameters>
+        <parameter name = "enumparam" type = "enum">
+            <enum>enum1</enum>
+            <enum>enum2</enum>
+            <enum>"stringEnum"</enum>
+        </parameter>
+
+        <parameter name = "intParam" type = "int" default = "1" min = "1" max = "2"/>
+        <parameter name = "intParamNodefault" type = "int" min = "-30" max = "-4"/>
+
+        <parameter name = "floatParam" type = "float" default = "2.0" min = "0.0" max = "50.0"/>
+        <parameter name = "floatParamNodefault" type = "float" min = "-2.0" max = "43.0"/>
+
+        <parameter name = "boolParam" type = "bool" default = "True"/>
+        <parameter name = "boolParamNodefault" type = "bool" />
+    </parameters>
+</Module>

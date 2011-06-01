@@ -107,10 +107,10 @@ class Experiment:
         sts = etree.SubElement(experiment, "scaleToStandard")
         sts.text = str(self.scaleToStandard)
         
-        for module in self.modules :
+        # TODO: need to save distribution-specified modules differently here
+        # (only save parameter values?).
+        for module in self.modules:
             modAttr = etree.SubElement(experiment, "module", attrib = {"name" : module.name})
-            for parameter in module.parameters:
-                modAttr.append(etree.fromstring(parameter.toXML())) 
 
         for init in self.initialConditions:
             path = self.initialConditionPaths[init]
@@ -182,14 +182,13 @@ class Experiment:
         ret.stopTime = float(timeElement.get("end").strip()) | ret.timeUnit
 
         for moduleElement in expElement.findall("module"):
-            moduleName = moduleElement.get("name").strip()
-            #look up file and parse it
-            modFile = open(ModulePaths[moduleName], "r")
-            xml = ""
-            for line in modFile:
-                xml += line
-            modFile.close()
-            module = Module.fromXML(xml)
+            if "name" in moduleElement.attrib:
+                # Look up the module in our distribution's table and parse the base XML.
+                moduleName = moduleElement.attrib["name"].strip()
+                module = Module.fromFile(ModulePaths[moduleName])
+            else:
+                module = Module.fromXML(moduleElement.text)
+
             ret.modules.append(module)
         
         for initialConditionElement in expElement.findall("initialCondition"):

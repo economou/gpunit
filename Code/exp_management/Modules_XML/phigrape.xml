@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module name="Gravity (phiGRAPE)">
-	<description>
-		Direct N-body code optimized for running on a parallel GRAPE cluster. The Amusean version is capable of working on other platforms as well by using interfaces that mimic GRAPE hardware.
-	</description>
-	<domain>
-		Stellar Dynamics
-	</domain>
-	<className>
-		PhiGRAPE
-	</className>
-	<codeLocation>
-		amuse/community/phiGRAPE/interface.py
-	</codeLocation>
-	<isParallel>
-		True
-	</isParallel>
-	<stoppingConditions>
-		27
-	</stoppingConditions>
-    <!--
+    <description>
+        Direct N-body code optimized for running on a parallel GRAPE cluster.
+        The Amusean version is capable of working on other platforms as well by
+        using interfaces that mimic GRAPE hardware.
+    </description>
+    <domain>Stellar Dynamics</domain>
+    <className>PhiGRAPE</className>
+    <interfaceName>PhiGRAPEInterface</interfaceName>
+    <codeLocation>amuse/community/phiGRAPE/interface.py</codeLocation>
+    <isParallel>True</isParallel>
+    <stoppingConditions>27</stoppingConditions>
     <parameters>
-        <parameter name = "" type = "enum">
-            <enum>MODE_G6LIB</enum>
-            <enum>MODE_GPU</enum>
-            <enum>MODE_GRAPE</enum>
-            <enum>MODE_PG</enum>
+        <parameter name = "mode" type = "enum">
+            <enum>PhiGRAPEInterface.MODE_G6LIB</enum>
+            <enum>PhiGRAPEInterface.MODE_GPU</enum>
+            <enum>PhiGRAPEInterface.MODE_GRAPE</enum>
         </parameter>
+        <parameter name = "initialize_gpu_once" type = "bool" default = "False" />
 
-        <parameter name = "number_of_workers" type = "int" default = 1 />
+        <parameter name = "initial_timestep_parameter" type = "float" default = "0.0" min = "0.0"/>
+        <parameter name = "timestep_parameter" type = "float" default = "0.0" min = "0.0"/>
+
+        <parameter name = "epsilon_squared" type = "float" default = "0.0" min = "0.0"/>
+
+        <parameter name = "stopping_conditions_number_of_steps" type = "int" default = "1" />
+        <parameter name = "stopping_conditions_timeout" type = "float" default = "4.0" min = "1.0"/>
+        <parameter name = "stopping_conditions_out_of_box_size" type = "float" default = "0.0" min = "0.0" />
     </parameters>
-    <requires>
-        <import from = "amuse.community.phiGRAPE.interface.PhiGRAPEInterface", import = "*" />
-    </requires>
-    -->
 </Module>
