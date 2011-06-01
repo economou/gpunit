@@ -182,14 +182,19 @@ class ExperimentManager(QMainWindow):
 
     @pyqtSlot()
     def saveExperiment(self):
+        global DEBUG_GUI
+
         try:
             self.storage.save()
             self.untouch()
             return True
         except (AttributeError, IOError) as err:
-            QMessageBox.critical(self, "Error Saving", "There was an error saving the experiment.\nError:\n\n" + str(err),
-                    )
-            return False
+            if DEBUG_GUI:
+                raise err
+            else:
+                QMessageBox.critical(self, "Error Saving", "There was an error saving the experiment.\nError:\n\n" + str(err),
+                        )
+                return False
 
     def closeEvent(self, event):
         if self.dirty:

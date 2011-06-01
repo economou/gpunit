@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module name="Gravity (ph4)">
-	<description>
-		Parallel, GPU-accelerated, N-body integration module with block time steps, using a 4th-order Hermite integration scheme.
-	</description>
-	<domain>
-		Stellar Dynamics
-	</domain>
-	<className>
-		ph4
-	</className>
-	<codeLocation>
-		amuse/community/ph4/interface.py
-	</codeLocation>
-	<isParallel>
-		True
-	</isParallel>
-	<stoppingConditions>
-		0
-	</stoppingConditions>
-    <!--
+    <description>
+        Parallel, GPU-accelerated, N-body integration module with block time
+        steps, using a 4th-order Hermite integration scheme.
+    </description>
+    <domain>Stellar Dynamics</domain>
+    <className>ph4</className>
+    <interfaceName>ph4Interface</interfaceName>
+    <codeLocation>amuse/community/ph4/interface.py</codeLocation>
+    <isParallel>True</isParallel>
+    <stoppingConditions>0</stoppingConditions>
     <parameters>
-        <parameter name = "mode" type = "enum">
-            <enum>cpu</enum>
-            <enum>gpu</enum>
+        <parameter type = "enum" name = "mode">
+            <enum>ph4Interface.MODE_CPU</enum>
+            <enum>ph4Interface.MODE_GPU</enum>
         </parameter>
-
-        <parameter name = "number_of_workers" type = "int" default = 1 />
+        <parameter type = "int" name = "number_of_workers" default = "1" min = "1"/>
     </parameters>
-    -->
 </Module>

@@ -5,6 +5,8 @@ from PyQt4.QtGui import QApplication, QDialog
 from exp_design.experimentmanager import ExperimentManager
 from exp_design.splash import *
 
+DEBUG_GUI = True
+
 if __name__ == "__main__":
     expFilename = None
     if len(sys.argv) > 1:
