@@ -91,9 +91,10 @@ def initialization(experiment):
     if experiment.scaleToStandard:
         particles.scale_to_standard(convert_nbody)
 
-    #Add Particles to Module
+    # Add Particles to Module
     for module in modules:
         module.particles.add_particles(particles)
+        module.commit_particles()
 
     return modules, particles, convert_nbody
 
@@ -116,9 +117,10 @@ def run_experiment(experiment):
     # TODO: this is kinda a hack, need to add custom initialization code for
     # certain modules. In this case, PH4 needs its own internal timestep
     # parameter to be set explicitly (I think? This makes it not crash).
-    from amuse.community.ph4.interface import ph4
-    if isinstance(modules[0], ph4):
-        modules[0].set_eta(experiment.timeStep.number)
+    # M Conway: Replaced with module init in Module.instantiate().
+    #from amuse.community.ph4.interface import ph4
+    #if isinstance(modules[0], ph4):
+    #    modules[0].set_eta(experiment.timeStep.number)
 
     while time < tmax:
         #Evolve Modules
@@ -127,7 +129,7 @@ def run_experiment(experiment):
 
         for module in modules:
             module.particles.copy_values_of_state_attributes_to(particles)
-
+        
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
             if diagnostic.shouldUpdate(time, modules):

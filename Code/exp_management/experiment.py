@@ -106,7 +106,7 @@ class Experiment:
 
         sts = etree.SubElement(experiment, "scaleToStandard")
         sts.text = str(self.scaleToStandard)
-        
+
         # TODO: need to save distribution-specified modules differently here
         # (only save parameter values?).
         for module in self.modules:
@@ -142,7 +142,7 @@ class Experiment:
             loggerFile.close()
 
             etree.SubElement(experiment, "logger", attrib = {"file" : path})
-        
+
         return xml.dom.minidom.parseString(etree.tostring(experiment, encoding = XML_ENCODING)).toprettyxml(encoding = XML_ENCODING)
 
     def writeXMLFile(self, filename):

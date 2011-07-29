@@ -234,7 +234,7 @@ class GLDiagnosticWidget(QGLWidget):
             return
 
         # Draw the points.
-        # TOOD: THIS IS SLOW! Use A VBO or vertex array.
+        # TODO: THIS IS SLOW! Use A VBO or vertex array.
         glColor3f(1,1,1)
 
         glMatrixMode(GL_MODELVIEW)

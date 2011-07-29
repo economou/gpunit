@@ -1,0 +1,112 @@
+7/13/2011
+
+GPUnit:
+
+Task: Fix "hack" for ph4:
+        ~/gpunit/Code/exp_gen/CLT.py:117 run_experiment()
+Res: Proper init of modules in initialization:
+        ~/gpunit/Code/exp_gen/CLT.py:97 initialization()
+
+7/14/2011
+
+GPUnit:
+
+Issue: Fails when not connected to network.
+Trace: Problem (?) with OpenMPI.
+
+Issue: Prints init cond standard units (?) on save.
+Res: Change to AMUSE code:
+        ~/amuse/amuse-4.0/src/amuse/support/io/store.py:197
+            comment out (print statement)
+
+Issue: ph4 simulation runs, but is inaccurate.
+        GPUnit and amuse_sandbox Hermite0 used as controls.
+Trace: ph4 depends on converter length unit.
+        Units like AU and km work fine, but parsec fails.
+            -Precision problems with large base units?
+
+Issue: Pressing any Settings... button without a corresponding selection
+        causes an AttributeError (NoneType object)
+
+Issue: Parameters from module xml file not properly passed to modules
+Res: Addition to Module.instantiate():
+        ~/gpunit/Code/exp_management/module.py:270-274 Module.instantiate()
+     Modified CLT.initialization(), removing steps now in Module:
+         ~/gpunit/Code/exp_gen/CLT.py:97
+     Should review this later.
+
+Issue: Loading the module settings dialog shows the default values,
+        not the current values.
+
+7/25/2011
+
+GPUnit:
+
+Tried to run exp a second time with Energy Grapher diagnostic.
+Failed with following error, and GUI remained disabled.
+0.0 Myr 2.13908733108e+33 m**2 * s**-2 * kg
+Traceback (most recent call last):
+  File "/home/michael/gpunit/Code/exp_design/experimentmanager.py", line 486, in run
+    self.parent().storage.run()
+  File "/home/michael/gpunit/Code/exp_management/persistence.py", line 107, in run
+    run_experiment(experiment)
+  File "/home/michael/gpunit/Code/exp_gen/CLT.py", line 136, in run_experiment
+    diagnostic.update(time,particles,modules)
+  File "/home/michael/gpunit/Code/diagnostics/builtin/energygrapher.py", line 104, in update
+    self.pKE.set_xdata(self.time)
+AttributeError: 'NoneType' object has no attribute 'set_xdata'
+
+7/27/2011
+
+GPUnit:
+
+Added units to parameters in module XML definitions.
+Was able to add BHTree, Octgrav modules via XML. It was necessary to modify modules.py to include them,
+since Modules->Import module specification... still does nothing.
+Still need to consider separating code options (i.e. kwargs passed to constructor, such as number_of_workers)
+from parameters (which are specified after construction) in XML specification.
+Also must check that Modules->Edit Modules... works properly with changes.
+
+TODO: (partial)
+Implement module import (!)
+Make module settings save with experiment (!)
+Fix parameters for ph4, phiGRAPE modules
+Add units to module settings dialog
+Limit modules to one from each domain
+Provide better explanations for modules
+Fix experiment file path issues to allow more appropriate placement
+
+7/28/2011
+
+GPUnit:
+
+Saving module settings and fixing exp file path issues are related goals.
+Saving/loading works like this:
+1. The persistence.FileStorage object's save() is called
+	a. Paths in the experiment objects are set
+	b. The FileStorage is cPickled; the experiment object (self.base) is cPickled as a result;
+			base.__getstate__() calls base.toXML()
+		i. Initial cond, logger and diag objects are cPickled
+		ii. XML representing exp is generated; contains rel paths from .. to pickled files
+2. persistence.FileStorage.load() is called; object is cUnpickled and returned
+Issues with this:
+1. Experiment directories must be in the current directory to work.
+2. Worse, during unpickling, some reference to the built-in module XML files is (often?) made,
+so the current directory must be gpunit/Code. With (1), this means that experiments must be in
+Code to work.
+3. Module parameters are not saved--I think the built-in modules are just loaded by name.
+4. The code for saving experiment's sub-objects is in its toXML method. That doesn't seem right--
+such things should be handled in FileStorage.
+5. There is very little information in the FileStorage object itself (I only see the run counter),
+so it's a shame that it has to be pickled when the bulk of the useful information in the resulting
+file is the XML description of the experiment.
+6. (minor) The run files clutter the experiment directory.
+Proposed changes:
+1. Make the .exp file just the necessary XML--much more legible than pickled Python. Perhaps the run counter can go in there too.
+2. Save module XML files in objects. The only question is how (if at all) they interact with the builtins. But it would make
+a nice framework for importing modules.
+3. (minor) Create a subdirectory for run results. Consider saving these only if there is actually diagnostic
+output to report. Perhaps add metadata (datetime/optional name) at some point.
+
+Other stuff:
+Loggers seem to have been absorbed by diagnostics. Can probably be removed (also from experiment code, etc.)

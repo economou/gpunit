@@ -11,16 +11,13 @@
     <isParallel>True</isParallel>
     <stoppingConditions>59</stoppingConditions>
     <parameters>
-        <parameter type = "int" name = "number_of_workers" default = "1" min = "1"/>
-        <parameter name = "pair_factor" type = "float" default = "1.0" min = "1.0"/>
-
-        <parameter name = "dt_param" type = "float" default = "0.03" min = "0.0"/>
-        <parameter name = "time" type = "float" default = "0.0" min = "0.0"/>
-
-        <parameter name = "epsilon_squared" type = "float" default = "0.0" min = "0.0"/>
-
-        <parameter name = "stopping_conditions_number_of_steps" type = "int" default = "1" />
-        <parameter name = "stopping_conditions_timeout" type = "float" default = "4.0" min = "1.0"/>
-        <parameter name = "stopping_conditions_out_of_box_size" type = "float" default = "0.0" min = "0.0" />
+        <parameter name="number_of_workers" type="int" default="1" min="1"/>
+        <parameter name="pair_factor" type="float" unit="none" default="1.0" min="1.0"/>
+        <parameter name="dt_param" type="float" unit="none" default="0.03" min="0.0"/>
+        <parameter name="epsilon_squared" type="float" unit="length*length" default="0.0" value='1.0' min="0.0"/>
+        <parameter name="stopping_conditions_number_of_steps" type="int" unit="none" default="1" />
+        <parameter name="stopping_conditions_timeout" type="float" unit="s" default="4.0" min="1.0"/>
+        <parameter name="stopping_conditions_out_of_box_size" type="float" unit="length" default="0.0" min="0.0" />
+        <parameter name="time" type="float" unit="time" default="0.0" min="0.0"/>
     </parameters>
 </Module>
