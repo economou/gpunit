@@ -98,7 +98,7 @@ class LRGraph(Diagnostic):
         return (self.__class__, (self.name, self.XLABEL, self.YLABEL, self.TITLE, self.UpdateInterval, self.PlotOption), newDict)
 
     def needsGUI(self):
-        return False
+        return True
 
     def setupGUI(self, parent):
         self.parent = parent

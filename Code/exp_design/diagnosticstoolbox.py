@@ -5,6 +5,7 @@ from diagnostics.builtin.gldiagnostic import *
 from diagnostics.builtin.energydiagnostic import *
 from diagnostics.builtin.energygrapher import EnergyGrapher
 from diagnostics.builtin.lagrangiandiagnostic import LRDiagnostic
+from diagnostics.builtin.lagrangiangrapher import LRGraph
 
 from gui.diagnosticstoolbox_ui import Ui_DiagnosticsToolBox
 
@@ -12,7 +13,8 @@ diagnostics = (
         OpenGLDiagnostic,
         EnergyDiagnostic,
         EnergyGrapher, 
-        LRDiagnostic
+        LRDiagnostic,
+        LRGraph
         )
 
 class DiagnosticsToolbox(QWidget):

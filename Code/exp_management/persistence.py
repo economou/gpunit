@@ -41,7 +41,6 @@ class ExperimentStorage:
     def reset(self):
         pass
 
-import os
 
 class FileStorage(ExperimentStorage):
 
@@ -51,6 +50,16 @@ class FileStorage(ExperimentStorage):
         storage = cPickle.load(storageFile)
         storageFile.close()
         return storage
+        # First step towards ability to open exp from anywhere...
+        #basePath = os.path.dirname(filename)
+        #mainWD = os.getcwd()
+        #os.chdir(basePath)
+        #storageFile = open(os.path.basename(filename), 'r')
+        #storage = cPickle.load(storageFile)
+        #storageFile.close()
+        #storage.basePath = basePath
+        #os.chdir(mainWD)
+        #return storage
 
     def save(self):
         outFile = open(self.basePath + os.sep + self.base.name + ".exp", 'w')
@@ -58,16 +67,16 @@ class FileStorage(ExperimentStorage):
 
         objectsDir = self.basePath + os.sep + "objects"
         tryMkdirs(objectsDir)
-
+        
         for init in self.base.initialConditions:
             self.base.initialConditionPaths[init] = objectsDir + os.sep + init.name + ".init"
             init.setStoragePath(objectsDir + os.sep)
 
         for diag in self.base.diagnostics:
             self.base.diagnosticPaths[diag] = objectsDir + os.sep + diag.name + ".diag"
-
+        
         self.base.particlesPath = objectsDir + os.sep + self.base.name + ".particles"
-
+        
         cPickle.dump(self, outFile)
         outFile.close()
 
@@ -75,6 +84,7 @@ class FileStorage(ExperimentStorage):
         ExperimentStorage.__init__(self, name)
 
         self.basePath = basePath
+        #self.basePath = os.path.abspath(basePath)
 
     def setPaths(self, experiment):
         if self.runs == 0:

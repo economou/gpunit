@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module name="Gravity (octgrav)">
+  <description>
+        Tree-code which runs on GPUs with NVIDIA CUDA architecture.
+    </description>
+  <domain>Stellar Dynamics</domain>
+  <className>Octgrav</className>
+  <codeLocation>amuse/community/octgrav/interface.py</codeLocation>
+  <interfaceName>OctgravInterface</interfaceName>
+  <isParallel>False</isParallel>
+  <stoppingConditions>56</stoppingConditions>
+  <parameters>
+    <parameter name="opening_angle" type="float" unit="none" default="0.8" min="0.0" max="1.0"/>
+    <parameter name="timestep" type="float" unit="time" default="0.01"/>
+    <parameter name="epsilon_squared" type="float" unit="length*length" default="0.01"/>
+    <parameter name="stopping_conditions_number_of_steps" type="int" unit="none" default="1" min="1"/>
+    <parameter name="stopping_conditions_timeout" type="float" unit="s" default="4.0"/>
+    <parameter name="stopping_conditions_out_of_box_size" type="float" unit="length" default="1.0" min="0.0"/>
+  </parameters>
+</Module>

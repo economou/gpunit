@@ -28,6 +28,8 @@ ModulePaths = {
     "Gravity (hermite0)" : "exp_management/Modules_XML/hermite0.xml",
     "Gravity (ph4)" : "exp_management/Modules_XML/ph4.xml",
     "Gravity (phiGRAPE)" : "exp_management/Modules_XML/phigrape.xml",
+    "Gravity (octgrav)" : "exp_management/Modules_XML/octgrav.xml",
+    "Gravity (BHTree)" : "exp_management/Modules_XML/bhtree.xml",
 }
 """File paths for Module definition XML files distributed with GPUnit."""
 
@@ -257,11 +259,23 @@ class Module(QListWidgetItem):
 
         paramNames = [param.name for param in self.parameters]
         paramValues = [eval(str(param.value)) for param in self.parameters]
+        paramUnits = [param.unit for param in self.parameters]
 
         kwargs = dict(zip(paramNames, paramValues))
-
+        
         exec("r_val = %s(*args, **kwargs)" % str(self.className))
-
+        
+        # M Conway 7/14/2011:
+        # Added the following to actually set parameters.
+        # TODO Consider placement. Clean?
+        # Using hasattr b/c an amuse.support.exceptions.CoreException
+        # is raised for nonexistent parameter.
+        r_val.initialize_code()
+        r_val.parameters.set_defaults()
+        for name,value,unit in zip(paramNames,paramValues,paramUnits):
+            if hasattr(r_val.parameters,name):
+                setattr(r_val.parameters,name,value | unit)
+        
         return r_val
 
     def parameterByName(self, name):
