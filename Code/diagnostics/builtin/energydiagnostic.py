@@ -9,6 +9,7 @@
 # Team GPUnit - Senior Design 2011
 #
 
+import os
 from diagnostics.diagnostic import Diagnostic
 import numpy as np
 from math import sqrt
@@ -37,8 +38,8 @@ class EnergyDiagnostic(Diagnostic):
     def needsFile(self):
         return True
 
-    def setupFile(self, filename = "Energy.log"):
-        self.fout = open(filename,'w')
+    def setupFile(self, dirPath, filename = "Energy.log"):
+        self.fout = open(os.path.join(dirPath,filename),'w')
 
     def cleanup(self):
         self.fout.close()

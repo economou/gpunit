@@ -6,6 +6,9 @@ including several ancillary types utilized by the module implementation.
 Author: Jason Economou, Gabriel Schwartz
 Last Modified: 5/31/11"""
 
+from amuse.support.exceptions import AmuseException
+from amuse.support.units.core import IncompatibleUnitsException
+
 from PyQt4.QtGui import QListWidgetItem
 
 try:
@@ -19,17 +22,25 @@ import re
 import os
 import sys
 
-from parameters import Parameter
+# OrderedDict is new to 2.7
+try:
+	from collections import OrderedDict
+except ImportError:
+	class OrderedDict(dict):
+		pass
+
+from parameters import Parameter, BoolParameter
 from exp_design.settings import SettingsDialog
 
 XML_ENCODING = "UTF-8"
 
+ModuleDir = os.path.abspath("exp_management/Modules_XML/")
 ModulePaths = {
-    "Gravity (hermite0)" : "exp_management/Modules_XML/hermite0.xml",
-    "Gravity (ph4)" : "exp_management/Modules_XML/ph4.xml",
-    "Gravity (phiGRAPE)" : "exp_management/Modules_XML/phigrape.xml",
-    "Gravity (octgrav)" : "exp_management/Modules_XML/octgrav.xml",
-    "Gravity (BHTree)" : "exp_management/Modules_XML/bhtree.xml",
+    "hermite0" : os.path.join(ModuleDir,"hermite0.xml"),
+    "ph4" : os.path.join(ModuleDir,"ph4.xml"),
+    "phiGRAPE" : os.path.join(ModuleDir,"phigrape.xml"),
+    "octgrav" : os.path.join(ModuleDir,"octgrav.xml"),
+    "BHTree" : os.path.join(ModuleDir,"bhtree.xml"),
 }
 """File paths for Module definition XML files distributed with GPUnit."""
 
@@ -42,7 +53,7 @@ AstrophysicalDomains = (
 """Types of codes supported by AMUSE."""
 
 StoppingConditions = {
-    "None"              : 0,
+#    "None"              : 0,
     "Collision"         : 1,
     "Pair"              : 2,
     "Escaper"           : 4,
@@ -74,6 +85,7 @@ class Module(QListWidgetItem):
             codeLocation = "amuse/path/to/code/location",
             isParallel = False,
             stoppingConditions = [],
+            stoppingConditionsEnabled = [],
             parameters = []):
 
         """Initializes a new Module with the given instance data.
@@ -98,6 +110,7 @@ class Module(QListWidgetItem):
         self.codeLocation = codeLocation
         self.isParallel = isParallel
         self.stoppingConditions = stoppingConditions
+        self.stoppingConditionsEnabled = stoppingConditionsEnabled
         self.parameters = parameters
         self.className  = className
         self.interfaceName = None
@@ -112,8 +125,8 @@ class Module(QListWidgetItem):
 
         Output:
           A string containing an XML representation of the Module."""
-
-        module = etree.Element("Module", attrib = {"name" : self.name})
+        
+        module = etree.Element("Module", attrib={"name" : self.name})
 
         description = etree.SubElement(module, "description")
         description.text = self.description
@@ -137,11 +150,9 @@ class Module(QListWidgetItem):
         isParallel.text = str(self.isParallel)
 
         stoppingConditions = etree.SubElement(module, "stoppingConditions")
-
         stopcond = 0
         for cond in self.stoppingConditions:
             stopcond = stopcond | StoppingConditions[cond]
-
         stoppingConditions.text = str(stopcond)
 
         parameters = etree.SubElement(module, "parameters")
@@ -153,14 +164,34 @@ class Module(QListWidgetItem):
         else:
             return etree.tostring(module, encoding = XML_ENCODING)
 
+    def toXMLPatch(self):
+        module = etree.Element("ModulePatch", attrib={"name" : self.name})
+        
+        stoppingConditions = etree.SubElement(module, "stoppingConditionsEnabled")
+        stopcond = 0
+        for cond in self.stoppingConditionsEnabled:
+            stopcond = stopcond | StoppingConditions[cond]
+        stoppingConditions.text = str(stopcond)
+        
+        parameters = etree.SubElement(module, "parameters")
+        for parameter in self.parameters:
+            parameter.appendValueToXMLElement(parameters)
+        
+        if usingLXML:
+            return etree.tostring(module, encoding = XML_ENCODING, pretty_print = True)
+        else:
+            return etree.tostring(module, encoding = XML_ENCODING)
+
     @staticmethod
     def fromFile(filename):
         xml = ""
         modFile = open(filename, "r")
         for line in modFile:
             xml += line
-
-        return Module.fromXML(xml)
+        if "ModulePatch" in xml:
+            return Module.fromXMLPatch(xml)
+        else:
+            return Module.fromXML(xml)
 
     @staticmethod
     def fromXML(text):
@@ -197,7 +228,9 @@ class Module(QListWidgetItem):
 
             textValues[childTag] = str(element.text)
 
-        description         = textValues["description"]
+        #description         = textValues["description"]
+        # Eliminate extra whitespace
+        description         = re.sub(r'\s+',r' ',textValues["description"].strip())
         domain              = textValues["domain"]
         className           = textValues["className"]
         codeLocation        = textValues["codeLocation"]
@@ -232,11 +265,39 @@ class Module(QListWidgetItem):
                 codeLocation,
                 isParallel,
                 stoppingConditions,
+                [],
                 parameters)
 
         module.interfaceName = interfaceName
 
         return module
+    
+    @staticmethod
+    def fromXMLPatch(text):
+        module_elem = etree.fromstring(text)
+        name = module_elem.attrib["name"]
+        
+        if name in ModulePaths:
+            module = Module.fromFile(ModulePaths[name])
+        else:
+            module = Module()
+        
+        stoppingConditionsElement = module_elem.find("stoppingConditionsEnabled")
+        stopcond = int(stoppingConditionsElement.text or 0) #TODO consider exception handling
+        for cond in StoppingConditions:
+            if cond in module.stoppingConditions and StoppingConditions[cond] & stopcond:
+                module.stoppingConditionsEnabled.append(cond)
+        
+        paramsElement = module_elem.find("parameters")
+        if paramsElement is not None:
+            for param in paramsElement.findall("parameter"):
+                if "value" in param.attrib:
+                    module_param = module.parameterByName(param.attrib["name"])
+                    if module_param is not None:
+                        module_param.value = param.attrib["value"]
+        
+        return module
+        
 
     def instantiate(self, convert_nbody):
         """Returns an instance of the amuse module."""
@@ -265,16 +326,20 @@ class Module(QListWidgetItem):
         
         exec("r_val = %s(*args, **kwargs)" % str(self.className))
         
-        # M Conway 7/14/2011:
-        # Added the following to actually set parameters.
-        # TODO Consider placement. Clean?
-        # Using hasattr b/c an amuse.support.exceptions.CoreException
-        # is raised for nonexistent parameter.
         r_val.initialize_code()
         r_val.parameters.set_defaults()
         for name,value,unit in zip(paramNames,paramValues,paramUnits):
-            if hasattr(r_val.parameters,name):
-                setattr(r_val.parameters,name,value | unit)
+            try:
+                r_val.parameters.get_parameter(name).set_value(value | unit)
+            except IncompatibleUnitsException:
+                print "warning: invalid units for",self.name,"module's",name,"parameter--ignoring parameter"
+            except AmuseException:
+                print "warning: unrecognized parameter",name,"for",self.name,"module--ignoring parameter"
+        r_val.commit_parameters()
+        
+        for cond in self.stoppingConditionsEnabled:
+            text = cond.lower().replace(' ','_')
+            exec("r_val.stopping_conditions.%s_detection.enable()" % text)
         
         return r_val
 
@@ -289,18 +354,34 @@ class Module(QListWidgetItem):
         if len(self.parameters) < 1:
             return
 
-        inputs = {}
-        defaults = {}
+        inputs = OrderedDict()
+        defaults = OrderedDict()
 
         for param in self.parameters:
             name, default, value = param.getSettingsEntry()
-
+            inputs[name] = value
+            defaults[name] = default
+        
+        # Pseudo-parameters for stopping conditions
+        scFormat = "Enable %s detection"
+        for cond in self.stoppingConditions:
+            param = BoolParameter(scFormat % cond,False,cond in self.stoppingConditionsEnabled)
+            name, default, value = param.getSettingsEntry()
             inputs[name] = value
             defaults[name] = default
 
         settings = SettingsDialog(inputs, defaults)
         results = settings.getValues()
 
+        # Disable all stopping conditions; will re-enable those that were checked
+        self.stoppingConditionsEnabled = []
+
         if len(results) > 0:
             for name, value in results.items():
-                self.parameterByName(name).value = value 
+                param = self.parameterByName(name)
+                if param is not None:
+                    param.value = value
+                elif value: # must be stopping condition
+                    namepos = scFormat.find('%s')
+                    namelen = len(name) - (len(scFormat) - 2)
+                    self.stoppingConditionsEnabled.append(name[namepos:namepos+namelen])

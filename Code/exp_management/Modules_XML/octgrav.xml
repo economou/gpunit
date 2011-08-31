@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="Gravity (octgrav)">
+<Module name="octgrav">
   <description>
         Tree-code which runs on GPUs with NVIDIA CUDA architecture.
     </description>

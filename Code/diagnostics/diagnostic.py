@@ -71,7 +71,7 @@ class Diagnostic(QListWidgetItem):
     def needsFile(self):
         return False
 
-    def setupFile(self, filename):
+    def setupFile(self, dirPath, filename):
         if self.needsFile():
             raise NotImplementedError("Diagnostics that require file output must implement setupFile().")
         else:

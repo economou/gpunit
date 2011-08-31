@@ -70,7 +70,7 @@ def initialization(experiment):
             particles:     AMUSE Particles class of all particles
             convert_nbody: Used for converting between nbody units and regular units
     '''
-    r = 1 | units.parsec #Placeholder till we do this right.
+    r = 1.0 | units.parsec #Placeholder till we do this right.
     total_mass = 1.0 | units.MSun
 
     #Create Conversion Object
@@ -106,9 +106,12 @@ def run_experiment(experiment):
     tmax = experiment.stopTime
 
     modules, particles, convert_nbody = initialization(experiment)
+    channels = {}
 
     for module in modules:
-        module.particles.copy_values_of_state_attributes_to(particles)
+        channels[module] = module.particles.new_channel_to(particles)
+        #channels[module].copy()
+        #module.particles.copy_values_of_state_attributes_to(particles)
 
     for diagnostic in experiment.diagnostics:
         diagnostic.convert_nbody = convert_nbody
@@ -121,14 +124,19 @@ def run_experiment(experiment):
     #from amuse.community.ph4.interface import ph4
     #if isinstance(modules[0], ph4):
     #    modules[0].set_eta(experiment.timeStep.number)
-
-    while time < tmax:
+    
+    stoppingConditionsMet = []
+    while time < tmax and len(stoppingConditionsMet) == 0:
         #Evolve Modules
         for module in modules:
             module.evolve_model(time)
 
         for module in modules:
-            module.particles.copy_values_of_state_attributes_to(particles)
+        	channels[module].copy()
+        	if module.get_number_of_stopping_conditions_set() > 0:
+        	    for cond in module.stopping_conditions.supported_conditions():
+        	        if eval('module.stopping_conditions.%s.is_set()' % cond):
+        	            stoppingConditionsMet.append(cond) # TODO consider module name as well
         
         #Run Diagnostic Scripts
         for diagnostic in experiment.diagnostics:
@@ -136,8 +144,8 @@ def run_experiment(experiment):
                 diagnostic.update(time,particles,modules)
 
         #Run Logging Scripts
-        for logger in experiment.loggers:
-            logger.logData(particles)
+        #for logger in experiment.loggers:
+        #    logger.logData(particles)
 
         #Increment Time
         time += dt
@@ -148,13 +156,13 @@ def run_experiment(experiment):
             diagnostic.update(time,particles,modules)
 
     #Run Closing Logging Scripts
-    for logger in experiment.loggers:
-        logger.logData(experiment.particles)
+    #for logger in experiment.loggers:
+    #    logger.logData(experiment.particles)
 
     #Stop Modules
     for module in modules:
         module.stop()
-    return time, dt, tmax, modules, experiment.loggers, experiment.diagnostics, particles
+    return time, dt, tmax, modules, experiment.loggers, experiment.diagnostics, particles, stoppingConditionsMet
 
 if __name__ == "__main__":
     my_experiment = parse_flags()

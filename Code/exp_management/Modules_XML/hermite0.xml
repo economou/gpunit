@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="Gravity (hermite0)">
-	<description>
+<Module name="hermite0">
+    <description>
         Time-symmetric N-body integration module with shared but variable time
         step, using the Hermite integration scheme.
-	</description>
+    </description>
     <domain>Stellar Dynamics</domain>
     <className>Hermite</className>
     <interfaceName>HermiteInterface</interfaceName>

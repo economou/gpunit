@@ -27,13 +27,16 @@ from moduleeditor import ModuleEditor
 from clusterview import ClusterView
 from node import Node
 
+# TODO Find a better home for this. Maybe fix it too.
+EXPERIMENT_DIR = "../Experiments"
+
 class ExperimentManager(QMainWindow):
     """The experiment manager implements the logic that handles actions
     performed by the user in the GUI."""
 
     # These must be declared here in the class body and not in __init__.
     diagnosticUpdated = pyqtSignal()
-    runComplete = pyqtSignal()
+    runComplete = pyqtSignal(tuple)
 
     def __init__(self, filename = None, parent = None):
         QMainWindow.__init__(self, parent)
@@ -128,7 +131,7 @@ class ExperimentManager(QMainWindow):
             if not success:
                 return False
 
-        basePath = str(QFileDialog.getExistingDirectory(self, "New experiment storage path:"))
+        basePath = str(QFileDialog.getExistingDirectory(self, "New experiment storage path:", EXPERIMENT_DIR))
         if basePath == "":
             return False
 
@@ -156,7 +159,7 @@ class ExperimentManager(QMainWindow):
             if not success:
                 return False
 
-        filename = str(QFileDialog.getOpenFileName(self, "Open experiment..."))
+        filename = str(QFileDialog.getOpenFileName(self, "Open experiment...", EXPERIMENT_DIR))
 
         if filename == "":
             return False
@@ -443,11 +446,20 @@ class ExperimentManager(QMainWindow):
             if diagnostic.needsGUI():
                 diagnostic.redraw()
 
-    @pyqtSlot()
-    def runCompleted(self):
+    @pyqtSlot(tuple)
+    def runCompleted(self,result):
         for diagnostic in self.experiment.diagnostics:
             if diagnostic.needsGUI():
                 diagnostic.cleanup()
+        
+        message = False
+        if len(result[7]) > 1:
+            message = "The run halted on the following stopping conditions:\n" + "\n".join(result[7])
+        elif len(result[7]) > 0:
+            message = "The run halted on the following stopping condition:\n" + result[7][0]
+        
+        if message:
+            QMessageBox.information(self.parent(), "Run stopped", message)
 
         self.isRunning = False
         self.enableUI()
@@ -483,9 +495,9 @@ class ExperimentRunner(QThread):
         finished."""
 
         #try:
-        self.parent().storage.run()
+        result = self.parent().storage.run()
 
         #except:
         #    # TODO: use GUI signals here to show a box.
         #    print "ERROR RUNNING EXPERIMENT. TODO: SIGNAL GUI HERE."
-        self.parent().runComplete.emit()
+        self.parent().runComplete.emit(result)

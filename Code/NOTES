@@ -1,15 +1,11 @@
 7/13/2011
 
-GPUnit:
-
 Task: Fix "hack" for ph4:
         ~/gpunit/Code/exp_gen/CLT.py:117 run_experiment()
 Res: Proper init of modules in initialization:
         ~/gpunit/Code/exp_gen/CLT.py:97 initialization()
 
 7/14/2011
-
-GPUnit:
 
 Issue: Fails when not connected to network.
 Trace: Problem (?) with OpenMPI.
@@ -40,8 +36,6 @@ Issue: Loading the module settings dialog shows the default values,
 
 7/25/2011
 
-GPUnit:
-
 Tried to run exp a second time with Energy Grapher diagnostic.
 Failed with following error, and GUI remained disabled.
 0.0 Myr 2.13908733108e+33 m**2 * s**-2 * kg
@@ -57,8 +51,6 @@ Traceback (most recent call last):
 AttributeError: 'NoneType' object has no attribute 'set_xdata'
 
 7/27/2011
-
-GPUnit:
 
 Added units to parameters in module XML definitions.
 Was able to add BHTree, Octgrav modules via XML. It was necessary to modify modules.py to include them,
@@ -78,35 +70,286 @@ Fix experiment file path issues to allow more appropriate placement
 
 7/28/2011
 
-GPUnit:
-
 Saving module settings and fixing exp file path issues are related goals.
 Saving/loading works like this:
-1. The persistence.FileStorage object's save() is called
-	a. Paths in the experiment objects are set
-	b. The FileStorage is cPickled; the experiment object (self.base) is cPickled as a result;
-			base.__getstate__() calls base.toXML()
-		i. Initial cond, logger and diag objects are cPickled
-		ii. XML representing exp is generated; contains rel paths from .. to pickled files
-2. persistence.FileStorage.load() is called; object is cUnpickled and returned
+	1. The persistence.FileStorage object's save() is called
+		a. Paths in the experiment objects are set
+		b. The FileStorage is cPickled; the experiment object (self.base) is cPickled as a result;
+				base.__getstate__() calls base.toXML()
+			i. Initial cond, logger and diag objects are cPickled
+			ii. XML representing exp is generated; contains rel paths from .. to pickled files
+	2. persistence.FileStorage.load() is called; object is cUnpickled and returned
 Issues with this:
-1. Experiment directories must be in the current directory to work.
-2. Worse, during unpickling, some reference to the built-in module XML files is (often?) made,
-so the current directory must be gpunit/Code. With (1), this means that experiments must be in
-Code to work.
-3. Module parameters are not saved--I think the built-in modules are just loaded by name.
-4. The code for saving experiment's sub-objects is in its toXML method. That doesn't seem right--
-such things should be handled in FileStorage.
-5. There is very little information in the FileStorage object itself (I only see the run counter),
-so it's a shame that it has to be pickled when the bulk of the useful information in the resulting
-file is the XML description of the experiment.
-6. (minor) The run files clutter the experiment directory.
+	1. Experiment directories must be in the current directory to work.
+	2. Worse, during unpickling, some reference to the built-in module XML files is (often?) made,
+		so the current directory must be gpunit/Code. With (1), this means that experiments must be in
+		Code to work.
+	3. Module parameters are not saved--I think the built-in modules are just loaded by name.
+	4. The code for saving experiment's sub-objects is in its toXML method. That doesn't seem right--
+		such things should be handled in FileStorage.
+	5. There is very little information in the FileStorage object itself (I only see the run counter),
+		so it's a shame that it has to be pickled when the bulk of the useful information in the resulting
+		file is the XML description of the experiment.
+	6. (minor) The run files clutter the experiment directory.
 Proposed changes:
-1. Make the .exp file just the necessary XML--much more legible than pickled Python. Perhaps the run counter can go in there too.
-2. Save module XML files in objects. The only question is how (if at all) they interact with the builtins. But it would make
-a nice framework for importing modules.
-3. (minor) Create a subdirectory for run results. Consider saving these only if there is actually diagnostic
-output to report. Perhaps add metadata (datetime/optional name) at some point.
+	1. Make the .exp file just the necessary XML--much more legible than pickled Python. Perhaps the run counter can go in there too.
+	2. Save module XML files in objects. The only question is how (if at all) they interact with the builtins. But it would make
+		a nice framework for importing modules.
+	3. (minor) Create a subdirectory for run results. Consider saving these only if there is actually diagnostic
+		output to report. Perhaps add metadata (datetime/optional name) at some point.
 
 Other stuff:
 Loggers seem to have been absorbed by diagnostics. Can probably be removed (also from experiment code, etc.)
+
+8/1/2011
+
+Stopping conditions must be enabled to work. This is fairly simple: module.stopping_conditions.name_of_stopping_condition.enable()
+Modules Option 1:
+	Primary module specification XML files in exp_management/Modules_XML.
+	Supplementary XML files in experiment_directory/objects to specify parameters and stopping conditions.
+	Issues: Will custom modules need to be imported into primary directory? Would that be a bad thing?
+Modules Option 2:
+	Full XML module specification in a single file. Modifications cause a copy to be saved in objects.
+	Issues: Duplication with main copies--how to determine overlap? Or not?
+
+Started with Option 2. Still need to iron out bugs. Duplication seems not to be an issue--matching by name?
+
+8/2/2011
+
+MAJOR GOALS:
+
+Initial conditions:
+Import models/initial conditions
+--snapshot output -> UPDATE: Works so far
+--CSV/other common?
+
+Modules:
+Implement module import
+Add parameter units to module settings dialog
+--may be a bit of an issue, especially with n-body units
+Multi-module support
+--limit 1 from each domain
+--process results from different modules
+Provide better explanations for modules (framework in place)
+Possible restructuring of module XML
+--Stopping conditions
+--Separate "instance()" params from "instance.parameters" params
+
+Run:
+Fix n-body unit system (specify in experiment?)
+Stopping conditions
+Saving system
+--directory changes?
+--metadata?
+NETWORKING
+
+Diagnostics:
+Add/improve diagnostics
+--snapshot tool -> UPDATE: Preliminary done
+Utility for viewing diagnostic results?
+Module built-in dt_dia????? -> UPDATE: Seems not useful
+
+General:
+Test/refine saving mechanism (XML?)
+Refactor to remove GUI code from non-GUI elements
+General cleanup
+--Block invalid runs (no timestep/end time...!)
+Allow forking experiments? -> UPDATE: Sort of possible with snapshot tool
+Remove traces of logging
+
+---------------------
+
+Added snapshot diagnostic:
+Saves .hdf5 files containing snapshots of particles. Interval variable by steps (default 5).
+If the resulting .hdf5 file is used as "input" for CustomParticles, it seems to take the most
+recent snapshot (a good thing). However, the output would not contain any but this last
+configuration.
+--Not sure how units are stored (if at all) -> UPDATE: stored in metadata (although "clunkily")
+--Time does not seem to be stored -> UPDATE: yes it is (in metadata)
+Possible improvements:
+--CSV output
+--Take snapshots by time, instead of steps? Would require additional info to diagnostic
+
+dt_dia (for hermite0, at least) doesn't seem useful--just sends PE to cout, if I'm reading the code right, and we
+can't see that anyway.
+
+8/3/2011
+
+Switched to using channels for particle update in preparation for multi-module support.
+
+Issues: 
+1.Can't find a good way to determine which particle state variables a given module updates.
+(Can barely find a way to determine which ones it uses--seems like you need to instantiate it, commit parameters
+and add a particle(s), then query the particle set.)
+2. Must find a way to pass this information to CLT.run_experiment loop. Unfortunately, must specify for
+each copy operation (maybe make a lambda or something).
+
+a. Specify used/modified state variables in XML module specification?
+Pro:
+Elegant way to check for allowable overlap in the case that two mods in same domain happen to be compatible
+May be possible to treat in same way as stopping conditions eventually (i.e. basic setting in built-in file,
+modified setting in experiment file)
+Con:
+Requires manual (?) examination of new modules
+b. Per-domain specification in code
+Pro:
+Simple/one-time
+Con:
+In code (?)
+Inflexible
+
+-----
+
+Started investigation into remote node possibilities--there is a mechanism in AMUSE itself, apparently.
+
+8/4/2011
+
+Tried to get remote node working.
+
+1. Doesn't seem to work with OpenMPI ver <1.5:
+http://www.open-mpi.org/community/lists/users/2009/09/10659.php
+Only up to "1.4.3-1ubuntu3" in apt-get. Plus mpich2 is installed by default using AMUSE installer.
+(Later found out that openmpi is a commented-out option in installer--only version 1.3.3)
+(Hm... maybe it would work... seem to need to set up hosts beforehand anyway... ???)
+
+2. Later versions of mpich2 (1.3+?) don't use mpd (mpi daemon) by default--you have to specify that when installing
+(AMUSE's installer does; can't find a way to do so with apt-get). mpd is apparently deprecated in favor of something
+called Hydra, but AMUSE still requires it (blocks if using mpich2 and mpd not running--mpi4py seems to need it).
+
+3. You need to start mpd processes on all nodes in a "ring"--start one, and then point the others at it.
+mpiboot doesn't work if the necessary files aren't in the same place on each system (like in the user's
+home directory when the user has more than one username), so
+On first: mpd &
+On other: mpd -h first -p port
+(port assigned randomly? Can determine with mpitrace -l)
+
+4. Trying to run in AMUSE: It picks the "connection" up, but then tries to run the worker using the local absolute
+path on the remote node, which doesn't work. So option 1 is simply to have AMUSE installed in the same place on each
+machine, which may be difficult/impossible for some users (no Windows/Linux cross-compatibility, no admin access).
+Option 2 is to hack around it somehow, as modifying AMUSE itself isn't really an option.
+
+8/5/2011
+
+By 19th:
+--Use cases
+--Remote?
+
+8/8/2011
+
+Still trying to get remote working.
+Swap out channel manually?
+--Seems as if "main" mpd in ring must be on local (or machine with same path as local), so that initial channel can be set up without error
+
+8/9/2011
+
+Switched back to openmpi (local and sloth).
+
+Version issues now???
+
+(May be important to have no-password/silent (?) ssh both ways) [UPDATE--silence not necessary]
+
+8/10/2011
+
+OpenMPI must be the same version on both machines (at least major number?).
+In order for AMUSE (mpi4py) to have any shot at working, there must be a default hosts file with all hosts the user may want to use.
+The path to the worker needs to be specifed as well.
+
+Trying to run from here to sloth (after specifying the worker in the AMUSE code...) DOES manage to start the worker on sloth,
+but then runs into some kind of buffer problem and hangs. (Killing the python script locally does stop the worker on sloth, so the
+connection is apparently maintained.)
+
+Running between sloth and float works. I think it may have to do with some kind of mca "automatically use prefix" option that is set by the
+AMUSE installation, but not by the Debian one. Reinstalling (again) on local.
+
+Got AMUSE (sandbox) to work remotely.
+0. Password-less ssh between nodes. (Might be possible otherwise, but not sure and would be tedious.)
+1. OpenMPI, same version on each (1.4.3).
+    a. --prefix=[self.prefix] --enable-orterun-prefix-by-default [in standard config for AMUSE... perhaps an issue]
+    b. --enable-heterogeneous (if heterogeneous environment; not standard for AMUSE)
+2. Default hostfile for OpenMPI (so that mpi4py will pick it up)
+    a. ~/.openmpi/mca-params.conf: [also a global version: /etc/openmpi/openmpi-mca-params.conf]
+        orte_default_hostfile = ~/.openmpi/default-hostfile [or whatever]
+    b. ~/.openmpi/default-hostfile [or whatever]:
+        host0 slots=numcpus
+        host1 slots=numcpus
+        etc... (possibly more options?)
+3. Needed to change path to executable manually in AMUSE--it tries to use the same global path, and simply exits Python on failure.
+
+Possible workaround: Start module locally; extract name of worker. Stop and del channel. Manually create new channel with relative path to worker.
+
+Began stopping condition implementation.
+
+8/11/2011
+
+Finished basic stopping condition implementation. Stopping conditions are selected in module settings (parameters) dialog.
+
+Wrote a hack/workaround for dealing with worker code location differences between machines. Seems to work.
+
+Trying to investigate Code/network. Multicast IP???
+
+8/12/2011
+
+Got stuff in network to work. Still needs to be incorporated into GPUnit...
+
+8/18/2011
+
+King model in Paired Mass + Position does not work--W0 needs to be nonzero, and there is not yet a mechanism for that.
+
+8/31/2011
+
+MAJOR GOALS:
+
+Initial conditions:
+Import models/initial conditions
+--Choose frame in snapshot diagnostic output?
+--CSV/other common?
+Fix parameters for "Paired Mass + Position Model"
+--Model to update parameters for doesn't change until dialog is accepted
+----(Switch from Plummer to King model, then click "...", and it shows settings
+     dialog for Plummer model, not King model as desired)
+
+Modules:
+Implement module import
+Add parameter units to module settings dialog
+--may be a bit of an issue, especially with n-body units
+Multi-module support
+--limit 1 from each domain
+--process results from different modules
+Provide better explanations for modules (framework in place)
+Possible restructuring of module XML
+--Separate "instance()" params from "instance.parameters" params
+
+Run:
+Fix n-body unit system (specify in experiment?)
+Saving system
+--directory changes?
+--metadata?
+NETWORKING
+
+Diagnostics:
+Add/improve diagnostics
+Utility for viewing diagnostic results?
+
+General:
+Test/refine saving mechanism (XML?)
+Refactor to remove GUI code from non-GUI elements
+General cleanup
+--Block invalid runs (no timestep/end time...!)
+Allow forking experiments? (Sort of possible with snapshot tool)
+Remove traces of logging
+
+----
+
+dt-dia may, in fact, be useful. Sample message from hermite0:
+    internal diagnostics at time t = 17.0035 after 2096 steps
+        total mass = 2  initial energy E_init = -0.499672
+        E_kin = 3.21225e-07  E_pot = -0.530765  E_tot = -0.530764
+        absolute energy error  E_tot - E_init = -0.031092
+        relative energy error  (E_tot - E_init) / E_init = 0.0622249
+Perhaps have a diagnostic for this. But need to figure out how to capture.
+
+King model W0: "dimensionless depth"
+0.0 < W0 <= 16.0
+Tests use 6.0 as "default" value--making this the default value for now.
+
+Now trying to use King (with hermite0, at least) fails b/c radius is not specified.

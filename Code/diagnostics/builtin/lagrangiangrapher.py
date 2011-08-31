@@ -30,7 +30,7 @@ class LRGraph(Diagnostic):
     Experiment object where it is updated.'''
 
     def __init__(self, 
-            name = "Lagrangian Diagnostic",
+            name = "Lagrangian Grapher",
             XLABEL="", 
             YLABEL ="", 
             TITLE = "", 
