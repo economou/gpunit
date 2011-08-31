@@ -323,7 +323,7 @@ class PlummerModel(PositionDistribution):
         return PlummerModel(self.numParticles, self.convert_nbody, self.radius_cutoff, self.mass_cutoff, self.do_scale, self.random_state)
 
 class KingModel(PositionDistribution):
-    def __init__(self, numParticles = 10, W0 = 0.0, convert_nbody = None, do_scale = False, 
+    def __init__(self, numParticles = 10, W0 = 6.0, convert_nbody = None, do_scale = False, 
             beta = 0.0, seed = None, verbose = False):
         PositionDistribution.__init__(self, "KingModel")
 
@@ -348,7 +348,7 @@ class KingModel(PositionDistribution):
         settings = SettingsDialog(
                 inputs = {
                     "Particles"     : "int:1:",
-                    "W0:"           : "float:0:",
+                    "W0"            : "float:0:16",
                     "beta"          : "float:0:",
                     "Scale"         : "bool",
                     "Verbose"       : "bool",
@@ -387,8 +387,8 @@ class PairedModel(ParticleDistribution):
         self.ui = Ui_PairedSettingsDialog()
         self.ui.setupUi(self.dialog)
 
-        self.ui.posSettings.clicked.connect(self.massSettings)
-        self.ui.massSettings.clicked.connect(self.positionSettings)
+        self.ui.massSettings.clicked.connect(self.massSettings)
+        self.ui.posSettings.clicked.connect(self.positionSettings)
 
         for name, model in models.items():
             if model == self.__class__:

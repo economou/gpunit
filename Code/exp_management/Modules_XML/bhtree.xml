@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="Gravity (BHTree)">
+<Module name="bhtree">
   <description>
-        N-body integration module. An implementation of the Barnes &amp; Hut tree code by Jun Makino
-    </description>
+    N-body integration module. An implementation of the Barnes &amp; Hut tree code by Jun Makino.
+  </description>
   <domain>Stellar Dynamics</domain>
   <className>BHTree</className>
   <codeLocation>amuse/community/bhtree/interface.py</codeLocation>
@@ -10,8 +10,8 @@
   <isParallel>False</isParallel>
   <stoppingConditions>56</stoppingConditions>
   <parameters>
-  	<parameter name="use_self_gravity" type="int" unit="none" default="1" min="0" max="1"/>
-  	<parameter name="timestep" type="float" unit="time" default="0.015625" min="0.0"/>
+    <parameter name="use_self_gravity" type="int" unit="none" default="1" min="0" max="1"/>
+    <parameter name="timestep" type="float" unit="time" default="0.015625" min="0.0"/>
     <parameter name="epsilon_squared" type="float" unit="length*length" default="0.125" min="0.0"/>
     <parameter name="ncrit_for_tree" type="int" unit="none" default="1024" min="1"/>
     <parameter name="opening_angle" type="float" unit="none" default="0.75" min="0.0" max="1.0"/>

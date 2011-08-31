@@ -1,4 +1,4 @@
-#/usr/bin/python
+#!/usr/bin/python
 
 import sys
 import struct
@@ -11,9 +11,12 @@ import psutil
 
 import network
 import threads
-import packet
-from packet import PacketFactory
+import packets
+from packets import PacketFactory
 
+# These shouldn't change, so just set them here.
+numCPUs = psutil.NUM_CPUS
+totalMem = psutil.TOTAL_PHYMEM
 try:
     import pycuda.autoinit
 except ImportError:
@@ -26,27 +29,23 @@ class NodeInstance(Thread):
         
         @type groupIP: string
         @param groupIP: multicast group IP to use for communication with
-        control instances.
+        control instances
 
         @type name: string
-        @param name: the name of this node."""
+        @param name: the name of this node"""
 
         Thread.__init__(self)
 
         self.groupIP = groupIP
-        """Multicast group IP to use for communication with control
-        instances."""
-
         self.name = name
-        """The name of this node."""
 
         self.transmissionThread = threads.TransmissionThread()
-        self.receivingThread = threads.ReceivingThread(mcast = True, groupIP)
+        self.receivingThread = threads.ReceivingThread(True, groupIP)
         self.receivingThread.packetHandlers = {
-                packet.STATUS_QUERY : self.handleStatusQuery,
-                packet.STATUS_RESPONSE : self.handleStatusResponse,
-                packet.CAPABILITY_QUERY : self.handleCapabilityQuery,
-                packet.CAPABILITY_RESPONSE : self.handleCapabilityResponse,
+                packets.STATUS_QUERY : self.handleStatusQuery,
+                packets.STATUS_RESPONSE : self.handleStatusResponse,
+                packets.CAPABILITY_QUERY : self.handleCapabilityQuery,
+                packets.CAPABILITY_RESPONSE : self.handleCapabilityResponse,
                 }
 
         self.receivingThread.start()
@@ -58,32 +57,52 @@ class NodeInstance(Thread):
             try:
                 sleep(1.0)
             except:
-                print "Shutting down..."
-                self.receivingThread.shutdown()
-                self.transmissionThread.shutdown()
-
-                self.receivingThread.join()
-                self.transmissionThread.join()
                 break
+        self.shutdown()
+    
+    def stop(self):
+        self.done = True
+        self.join()
+    
+    def shutdown(self):
+        print "Shutting down..."
+        self.receivingThread.shutdown()
+        self.transmissionThread.shutdown()
+
+        self.receivingThread.join()
+        self.transmissionThread.join()
 
     def handleStatusQuery(self, packet):
         cpuUsage = psutil.cpu_percent()
         usedMem = psutil.used_phymem()
         simsRunning = 0
+        
+        fields = [str(f) for f in [self.name,cpuUsage,usedMem,simsRunning]]
+        response = PacketFactory.packetFromFields(
+                packets.STATUS_RESPONSE,
+                packet.header.sourceIP,
+                fields
+        )
+        self.transmissionThread.queueData(response)
 
     def handleStatusResponse(self, packet):
         pass
 
     def handleCapabilityQuery(self, packet):
-        numCPUs = psutil.NUM_CPUS
-        totalMem = psutil.TOTAL_PHYMEM
+        fields = [str(f) for f in [self.name,numCPUs,totalMem,numGPUs]]
+        response = PacketFactory.packetFromFields(
+                packets.CAPABILITY_RESPONSE,
+                packet.header.sourceIP,
+                fields
+        )
+        self.transmissionThread.queueData(response)
 
     def handleCapabilityResponse(self, packet):
         pass
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print "Usage: nodeinstance MULTICAST_GROUP NODE_NAME"
+        print "Usage: nodeinstance.py MULTICAST_GROUP NODE_NAME"
         sys.exit(1)
     
     ip = sys.argv[1]
@@ -91,4 +110,8 @@ if __name__ == "__main__":
 
     instance = NodeInstance(ip, name)
     instance.start()
-    instance.join()
+    try:
+        while True:
+            sleep(1.0)
+    except KeyboardInterrupt:
+        instance.stop()

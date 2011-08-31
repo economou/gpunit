@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="Gravity (phiGRAPE)">
+<Module name="phigrape">
     <description>
         Direct N-body code optimized for running on a parallel GRAPE cluster.
         The Amusean version is capable of working on other platforms as well by

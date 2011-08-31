@@ -45,6 +45,7 @@ class Experiment:
         self.name = name
         self.stopIsEnabled = True
         self.modules = []
+        self.modulePaths = {}
         self.scaleToStandard = False
 
         self.particles = Particles(0)
@@ -69,6 +70,7 @@ class Experiment:
 
         ret.stopIsEnabled = self.stopIsEnabled
         ret.modules = self.modules[:]
+        ret.modulePaths = self.modulePaths.copy()
         ret.scaleToStandard = self.scaleToStandard
 
         ret.particles = self.particles.copy()
@@ -110,7 +112,14 @@ class Experiment:
         # TODO: need to save distribution-specified modules differently here
         # (only save parameter values?).
         for module in self.modules:
-            modAttr = etree.SubElement(experiment, "module", attrib = {"name" : module.name})
+            path = self.modulePaths[module]
+            
+            modFile = open(path, "w")
+            modFile.write(module.toXMLPatch())
+            modFile.close()
+            
+            modAttr = etree.SubElement(experiment, "module", attrib = {"file" : path})
+            #modAttr = etree.SubElement(experiment, "module", attrib = {"name" : module.name})
 
         for init in self.initialConditions:
             path = self.initialConditionPaths[init]
@@ -186,6 +195,8 @@ class Experiment:
                 # Look up the module in our distribution's table and parse the base XML.
                 moduleName = moduleElement.attrib["name"].strip()
                 module = Module.fromFile(ModulePaths[moduleName])
+            elif "file" in moduleElement.attrib:
+                module = Module.fromFile(moduleElement.attrib["file"])
             else:
                 module = Module.fromXML(moduleElement.text)
 

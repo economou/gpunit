@@ -27,6 +27,12 @@ class Parameter:
             paramElement.attrib["value"] = str(self.value)
 
         return paramElement
+    
+    def appendValueToXMLElement(self, parametersElement):
+        paramElement = etree.SubElement(parametersElement, "parameter")
+        paramElement.attrib["name"] = str(self.name)
+        if self.value is not None:
+            paramElement.attrib["value"] = str(self.value)
 
     def getSettingsEntry(self):
         raise NotImplementedError("Parameters must provide a getSettingsEntry method.")
@@ -54,8 +60,8 @@ class Parameter:
         param = None
 
         if typeString == "int":
-            rngMin = int(attrib["min"]) if "min" in attrib else ""
-            rngMax = int(attrib["max"]) if "max" in attrib else ""
+            rngMin = int(attrib["min"]) if "min" in attrib else None
+            rngMax = int(attrib["max"]) if "max" in attrib else None
 
 
             default = int(default) if default is not None else rngMin
@@ -64,8 +70,8 @@ class Parameter:
             param = IntParameter(name, default, value, unit, rngMin, rngMax)
 
         elif typeString == "float":
-            rngMin = float(attrib["min"]) if "min" in attrib else ""
-            rngMax = float(attrib["max"]) if "max" in attrib else ""
+            rngMin = float(attrib["min"]) if "min" in attrib else None
+            rngMax = float(attrib["max"]) if "max" in attrib else None
 
             default = float(default) if default is not None else rngMin
             value = float(value) if value is not None else default
@@ -94,38 +100,48 @@ class Parameter:
         return param
 
 class IntParameter(Parameter):
-    def __init__(self, name, default = 0, value = 0, unit = none, min = -2**31+1, max = 2**31-1):
+    def __init__(self, name, default = 0, value = 0, unit = none, min = None, max = None):
         Parameter.__init__(self, name, "int", default, value, unit, min, max)
 
     def appendToXMLElement(self, parametersElement):
         paramElement = Parameter.appendToXMLElement(self, parametersElement)
-        paramElement.attrib["min"] = str(self.min)
-        paramElement.attrib["max"] = str(self.max)
+        if self.min is not None:
+            paramElement.attrib["min"] = str(self.min)
+        if self.max is not None:
+            paramElement.attrib["max"] = str(self.max)
 
         return paramElement
 
     def getSettingsEntry(self):
-        settingValue = "%s:%s:%s" % (self.type, self.min, self.max)
+        settingValue = "%s:%s:%s" % (self.type, self.min if self.min is not None else "", self.max if self.max is not None else "")
 
         #return self.name, self.default, settingValue
         return self.name, self.value, settingValue
+    
+    def setValue(self,value):
+        self.value = int(value)
 
 class FloatParameter(Parameter):
-    def __init__(self, name, default = 0.0, value = 0.0, unit = none, min = -2**31+1, max = 2**31-1):
+    def __init__(self, name, default = 0.0, value = 0.0, unit = none, min = None, max = None):
         Parameter.__init__(self, name, "float", default, value, unit, min, max)
 
     def appendToXMLElement(self, parametersElement):
         paramElement = Parameter.appendToXMLElement(self, parametersElement)
-        paramElement.attrib["min"] = str(self.min)
-        paramElement.attrib["max"] = str(self.max)
+        if self.min is not None:
+            paramElement.attrib["min"] = str(self.min)
+        if self.max is not None:
+            paramElement.attrib["max"] = str(self.max)
 
         return paramElement
 
     def getSettingsEntry(self):
-        settingValue = "%s:%s:%s" % (self.type, self.min, self.max)
+        settingValue = "%s:%s:%s" % (self.type, self.min if self.min is not None else "", self.max if self.max is not None else "")
 
         #return self.name, self.default, settingValue
         return self.name, self.value, settingValue
+    
+    def setValue(self,value):
+        self.value = float(value)
 
 class BoolParameter(Parameter):
     def __init__(self, name, default = False, value = False):
