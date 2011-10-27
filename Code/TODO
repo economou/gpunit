@@ -1,0 +1,39 @@
+Initial conditions:
+Import models/initial conditions
+--Choose frame in snapshot diagnostic output?
+--CSV/other common?
+Fix parameters for "Paired Mass + Position Model"
+--Model to update parameters for doesn't change until dialog is accepted
+----(Switch from Plummer to King model, then click "...", and it shows settings
+     dialog for Plummer model, not King model as desired)
+
+Modules:
+Implement module import
+Add parameter units to module settings dialog
+--may be a bit of an issue, especially with n-body units
+Multi-module support
+--limit 1 from each domain
+--process results from different modules
+Provide better explanations for modules (framework in place)
+Possible restructuring of module XML
+--Separate "instance()" params from "instance.parameters" params
+
+Run:
+Fix n-body unit system (specify in experiment?)
+Saving system
+--directory changes?
+--metadata?
+NETWORKING
+
+Diagnostics:
+Add/improve diagnostics
+Utility for viewing diagnostic results?
+
+General:
+Test/refine saving mechanism (XML?)
+Refactor to remove GUI code from non-GUI elements
+General cleanup
+--Block invalid runs (no timestep/end time...!)
+Allow forking experiments? (Sort of possible with snapshot tool)
+Remove traces of logging
+
