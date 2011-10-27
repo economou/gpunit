@@ -1,0 +1,118 @@
+==============
+ INTRODUCTION
+==============
+
+GPUnit is a program designed to provide a user-friendly interface for
+running simulations in the Astrophysical Multipurpose Software Environment
+(AMUSE) with support for high-performance computing environments.
+
+AMUSE home page: http://www.amusecode.org/
+
+GPUnit is still in development, and many features have yet to be
+implemented. Outstanding tasks are summarized in TODO.
+
+================
+ BRIEF CONTENTS
+================
+
+diagnostics
+	Diagnostics, including abstract class and builtins.
+
+exp_design
+	GUI elements.
+
+exp_gen
+	CLT (command-line tool), which still handles the "core" run operation.
+
+exp_management
+	Experiment framework classes.
+
+loggers
+	No longer used; will be removed.
+
+network
+	Monitoring of remote nodes; not yet used.
+
+psutil, psutil-src
+	"A module providing an interface for retrieving information on running
+	processes in a portable way by using Python" (psutil-src/README).
+	Used in network.
+
+pyunit_tests
+	Unit tests.
+
+gpunit-gui.py
+	Executable script for starting the GUI.
+
+Makefile, NOTES, README, TODO
+
+=========================
+ IMPLEMENTATION OVERVIEW
+=========================
+
+The primary object is the experiment, which can be run and has elements
+corresponding to each stage of a run:
+
+1. Initial conditions, which specify an initial system configuration, either
+explicitly or randomly according to a defined model.
+
+2. Modules, which correspond to the AMUSE codes that evolve the system over
+time.
+
+3. Diagnostics, which collect data from the system during and after the run.
+
+Each experiment contains a selection of the members of each category; at
+least one of each is necessary to a meaningful run. There are several
+general-purpose members of each category built in, and it is possible for
+an advanced user to add more specific elements.
+
+===========================
+ MISCELLANEOUS INFORMATION
+===========================
+
+AMUSE
+
+Tutorials for the things common to most/all codes (particles, convert_nbody)
+are available in the documentation section of the website:
+http://www.amusecode.org/doc/
+
+Unfortunately, there's a lot that has yet to be documented, especially
+for individual codes. Check amuse-4.0/test for examples of things that
+aren't clear.
+
+hermite0 is a good example gravitational code.
+
+When you use a code, you usually do things in the following order:
+
+0. Create nbody-unit converter.
+1. Construct code object [with converter].
+2. Set parameters (several ways of doing this)
+3. Commit parameters (skippable?)
+4. Add particles
+5. Commit particles
+6. (Set up channels, etc.)
+7. Evolve (evolve_model() takes an end time, not a duration)
+8. Stop (stops worker code)
+9. Clean up (skippable?)
+
+Stopping conditions
+	Must be enabled first; see code for examples, use Python's dir()
+	"Pair factor": [pf]*[radius] = radius of sphere around particle to check
+
+Some codes, if used, will show literature references on exit. To disable
+these, do this:
+from amuse.support.codes.lit import TracLiteratureReferences as TracLitRefs
+TracLitRefs.default().must_show_literature_references_atexit = False
+
+There is a diagnostics output option built into some codes. The interval
+for diagnostic output is controlled by dt_dia. Example from hermite0:
+	internal diagnostics at time t = 17.0035 after 2096 steps
+		total mass = 2  initial energy E_init = -0.499672
+		E_kin = 3.21225e-07  E_pot = -0.530765  E_tot = -0.530764
+		absolute energy error  E_tot - E_init = -0.031092
+		relative energy error  (E_tot - E_init) / E_init = 0.0622249
+I'm not sure how standard this is. I also don't know for sure how to direct
+it--normally it does not show ( > /dev/null?), but it did show during one of
+the tests. May be able to be changed using a code's redirection_filenames.
+
+
