@@ -353,3 +353,8 @@ King model W0: "dimensionless depth"
 Tests use 6.0 as "default" value--making this the default value for now.
 
 Now trying to use King (with hermite0, at least) fails b/c radius is not specified.
+
+Pair factor (at least hermite0): Look for bound particles in a sphere with radius (particle radius * pair factor).
+This means that radius must be nonzero for it to possibly work (except for perfect collision, which probably fails anyway).
+
+The CLT, if restored to working order, could help with implementing the full remote run.
